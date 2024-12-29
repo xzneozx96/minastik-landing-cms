@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -7,6 +7,7 @@ export default {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
   prefix: '',
   safelist: [
@@ -93,6 +94,7 @@ export default {
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
         sans: ['var(--font-geist-sans)'],
+        grotesk: ['var(--font-grotesk)', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {
@@ -103,6 +105,41 @@ export default {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        shine: {
+          '0%': { top: '0', transform: 'scaleY(5)', opacity: '0' },
+          '10%': { opacity: '.8' },
+          '20%': { top: '100%', transform: 'scaleY(10)', opacity: '0' },
+          '100%': { top: '100%', transform: 'scaleY(1)', opacity: '0' },
+        },
+        gradient: {
+          to: { 'background-position': '200% center' },
+        },
+        'shiny-text': {
+          '0%, 90%, 100%': {
+            'background-position': 'calc(-100% - 100px) 0',
+          },
+          '30%, 60%': {
+            'background-position': 'calc(100% + 100px) 0',
+          },
+        },
+        rainbow: {
+          to: {
+            backgroundPosition: '300% 0',
+          },
+        },
+        'border-beam': {
+          '100%': {
+            'offset-distance': '100%',
+          },
+        },
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+        },
       },
       typography: ({ theme }) => ({
         DEFAULT: {
@@ -111,33 +148,35 @@ export default {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': 'var(--text)',
               h1: {
-                fontWeight: 'normal',
-                marginBottom: '0.25em',
-              },
-            },
-          ],
-        },
-        base: {
-          css: [
-            {
-              h1: {
-                fontSize: '2.5rem',
-              },
-              h2: {
-                fontSize: '1.25rem',
                 fontWeight: 600,
-              },
-            },
-          ],
-        },
-        md: {
-          css: [
-            {
-              h1: {
-                fontSize: '3.5rem',
+                marginBottom: 0,
+                lineHeight: 1.25,
+                fontSize: '2rem', // Default font size
+                '@screen md': {
+                  fontSize: '3rem', // md breakpoint
+                },
+                '@screen lg': {
+                  fontSize: '4.5rem', // lg breakpoint
+                },
               },
               h2: {
-                fontSize: '1.5rem',
+                fontWeight: 600,
+                marginBottom: 0,
+                lineHeight: 1.25,
+                fontSize: '1.25rem', // Default font size
+                '@screen md': {
+                  fontSize: '1.5rem', // md breakpoint
+                },
+                '@screen lg': {
+                  fontSize: '2rem', // lg breakpoint
+                },
+              },
+              p: {
+                color: 'rgba(191, 219, 254, 0.65)',
+                fontSize: '1rem', // Default font size
+                '@screen lg': {
+                  fontSize: '1.25rem', // lg breakpoint
+                },
               },
             },
           ],

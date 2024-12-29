@@ -9,8 +9,17 @@
   h4,
   h5,
   h6 {
-    font-size: auto;
-    font-weight: auto;
+    /* font-size: auto;
+    font-weight: auto; */
+    margin-bottom: 0;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-7xl;
+  }
+
+  p {
+    @apply md:text-xl text-blue-200/65;
   }
 
   :root {
@@ -50,7 +59,7 @@
   }
 
   [data-theme='dark'] {
-    --background: 0 0% 0%;
+    --background: 233 29% 6%;
     --foreground: 210 40% 98%;
 
     --card: 0 0% 4%;
@@ -89,7 +98,24 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col font-grotesk;
+  }
+
+  .gradient-heading h1 {
+    @apply animate-[gradient_6s_linear_infinite] bg-[linear-gradient(to_right,theme(colors.gray.200),theme(colors.blue.200),theme(colors.gray.50),theme(colors.blue.300),theme(colors.gray.200))] bg-[length:200%_auto] bg-clip-text font-semibold text-transparent;
+  }
+
+  .bg-homepage-hero {
+    background-image: url('/images/hero-spotlight-mobile.jpg');
+    background-size: cover;
+    background-position: center top -20px;
+    background-repeat: no-repeat;
+  }
+
+  @media (min-width: 765px) {
+    .bg-homepage-hero {
+      background-image: url('/images/hero-spotlight.jpg');
+    }
   }
 }
 

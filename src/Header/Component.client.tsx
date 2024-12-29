@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
 
 interface HeaderClientProps {
   data: Header
@@ -18,6 +17,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+
+  const navItems = data?.navItems || []
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prevState) => !prevState)
+  }
+
+  const closeMenuOnNav = () => {
+    setIsMenuOpen(() => false)
+  }
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -30,12 +41,60 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+    <header
+      className="fixed top-0 lg:top-5 w-full flex lg:px-10 min-h-[70px] z-50"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="relative mx-auto lg:max-w-4xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-5 w-full lg:rounded-full backdrop-blur-[10px] bg-[#0a0d1fcc] border border-[#232d6b]">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          <Logo />
         </Link>
-        <HeaderNav data={data} />
+
+        <div
+          id="collapseMenu"
+          className={`bg-[#0a0d1fcc] lg:bg-transparent h-[calc(100vh-70px)] duration-500 absolute lg:static lg:w-auto w-full lg:h-auto flex lg:items-center gap-[1.5vw] top-[100%] ${
+            isMenuOpen ? 'left-[0%]' : 'left-[-100%]'
+          } px-5 md:py-0 py-5`}
+        >
+          <ul className="lg:flex gap-x-10 w-full">
+            {navItems.map(({ link }, i) => {
+              return (
+                <li className="max-lg:py-3 px-3" key={i}>
+                  <Link
+                    href={link.url || '/'}
+                    className="hover:text-[#60a5fa] text-blue-200 block font-semibold text-[15px]"
+                    onClick={closeMenuOnNav}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              )
+              // <CMSLink key={i} {...link} appearance="link" />
+            })}
+          </ul>
+        </div>
+
+        <div className="flex max-lg:ml-auto space-x-4">
+          <button className="px-4 py-2 rounded-lg md:rounded-full text-sm bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
+            Contact Us
+          </button>
+
+          <button id="toggleOpen" className="lg:hidden" onClick={handleMenuToggle}>
+            <svg
+              className="w-7 h-7"
+              fill="#fff"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        {/* <HeaderNav data={data} /> */}
       </div>
     </header>
   )
