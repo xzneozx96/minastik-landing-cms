@@ -14,14 +14,6 @@
     margin-bottom: 0;
   }
 
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-7xl;
-  }
-
-  p {
-    @apply md:text-xl text-blue-200/65;
-  }
-
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -51,7 +43,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.2rem;
+    --radius: 0.5rem;
 
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
@@ -68,7 +60,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 221 83% 53%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -116,6 +108,18 @@
     .bg-homepage-hero {
       background-image: url('/images/hero-spotlight.jpg');
     }
+  }
+
+  .gradient-blur {
+    background: conic-gradient(
+      from 230.29deg at 51.63% 52.16%,
+      #2400ff 0deg,
+      #0087ff 67.5deg,
+      #221ba4 198.75deg,
+      #1826a3 251.25deg,
+      #3667c4 301.88deg,
+      #1e35ff
+    );
   }
 }
 

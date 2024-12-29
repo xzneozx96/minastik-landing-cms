@@ -6,6 +6,9 @@ import type { Page } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { CMSLink } from '@/components/Link'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -23,17 +26,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
         <div className="md:text-center gradient-heading">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
           {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex md:justify-center gap-4">
+            <ul className="flex md:justify-center gap-4 mt-10">
               {links.map(({ link }, i) => {
                 return (
                   <li key={i}>
-                    {/* <CMSLink {...link} /> */}
-                    <a
-                      className="btn group mb-4 w-full bg-gradient-to-t from-blue-600 to-blue-400 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%] sm:mb-0 sm:w-auto pointer-events-auto"
-                      href="#0"
-                    >
-                      <span className="relative inline-flex items-center">{link.label}</span>
-                    </a>
+                    <CMSLink key={i} size="lg" {...link} />
                   </li>
                 )
               })}

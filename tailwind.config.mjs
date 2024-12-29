@@ -149,7 +149,7 @@ module.exports = {
               '--tw-prose-headings': 'var(--text)',
               h1: {
                 fontWeight: 600,
-                marginBottom: 0,
+                marginBottom: '1.25rem',
                 lineHeight: 1.25,
                 fontSize: '2rem', // Default font size
                 '@screen md': {
@@ -161,14 +161,11 @@ module.exports = {
               },
               h2: {
                 fontWeight: 600,
-                marginBottom: 0,
+                marginBottom: '1.25rem',
                 lineHeight: 1.25,
-                fontSize: '1.25rem', // Default font size
+                fontSize: '1.75rem', // Default font size
                 '@screen md': {
-                  fontSize: '1.5rem', // md breakpoint
-                },
-                '@screen lg': {
-                  fontSize: '2rem', // lg breakpoint
+                  fontSize: '3.5rem', // md breakpoint
                 },
               },
               p: {
