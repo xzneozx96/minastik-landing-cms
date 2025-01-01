@@ -6,6 +6,7 @@ import React from 'react'
 import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import Link from 'next/link'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
@@ -53,10 +54,33 @@ export const ArchiveBlock: React.FC<
   }
 
   return (
-    <div className="my-16" id={`block-${id}`}>
+    <div className="my-48" id={`block-${id}`}>
       {introContent && (
-        <div className="container mb-16">
-          <RichText className="ml-0 max-w-[48rem]" data={introContent} enableGutter={false} />
+        <div className="container mb-16 archive-block">
+          <div className="gradient-heading flex justify-between items-center">
+            <div className="max-w-2xl">
+              <RichText data={introContent} enableGutter={false} />
+            </div>
+
+            <button className="w-20 h-20 rounded-full">
+              <Link href="/posts">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="size-16 -rotate-45 text-blue-200"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </Link>
+            </button>
+          </div>
         </div>
       )}
       <CollectionArchive posts={posts} />

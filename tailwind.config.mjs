@@ -47,6 +47,12 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        shine: 'shine 5s ease-in-out 500ms infinite',
+        'shiny-text': 'shiny-text 5s infinite',
+        rainbow: 'rainbow 5s linear infinite',
+        'border-beam': 'border-beam 8s infinite linear',
+        marquee: 'marquee var(--duration) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -168,11 +174,20 @@ module.exports = {
                   fontSize: '3.5rem', // md breakpoint
                 },
               },
+              h3: {
+                fontWeight: 400,
+                marginBottom: '1.25rem',
+                lineHeight: 1.25,
+                fontSize: '1.25rem', // Default font size
+                '@screen md': {
+                  fontSize: '1.75rem', // md breakpoint
+                },
+              },
               p: {
                 color: 'rgba(191, 219, 254, 0.65)',
                 fontSize: '1rem', // Default font size
                 '@screen lg': {
-                  fontSize: '1.25rem', // lg breakpoint
+                  fontSize: '1.125rem', // lg breakpoint
                 },
               },
             },

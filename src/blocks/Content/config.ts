@@ -16,22 +16,34 @@ const columnFields: Field[] = [
     defaultValue: 'oneThird',
     options: [
       {
-        label: 'One Third',
+        label: '1/3',
         value: 'oneThird',
       },
       {
-        label: 'Half',
+        label: '2/5',
+        value: 'twoFifth',
+      },
+      {
+        label: '1/2',
         value: 'half',
       },
       {
-        label: 'Two Thirds',
+        label: '3/5',
+        value: 'threeFifth',
+      },
+      {
+        label: '2/3',
         value: 'twoThirds',
       },
       {
-        label: 'Full',
+        label: '100%',
         value: 'full',
       },
     ],
+  },
+  {
+    name: 'featureCategory',
+    type: 'text',
   },
   {
     name: 'richText',
@@ -51,6 +63,19 @@ const columnFields: Field[] = [
   {
     name: 'enableLink',
     type: 'checkbox',
+  },
+  {
+    name: 'blockHeading',
+    type: 'checkbox',
+  },
+  {
+    name: 'reverseOrder',
+    type: 'checkbox',
+  },
+  {
+    name: 'blockMedia',
+    type: 'upload',
+    relationTo: 'media',
   },
   link({
     overrides: {

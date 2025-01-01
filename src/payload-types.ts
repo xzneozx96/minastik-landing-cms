@@ -362,7 +362,8 @@ export interface CallToActionBlock {
 export interface ContentBlock {
   columns?:
     | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        size?: ('oneThird' | 'twoFifth' | 'half' | 'threeFifth' | 'twoThirds' | 'full') | null;
+        featureCategory?: string | null;
         richText?: {
           root: {
             type: string;
@@ -379,6 +380,9 @@ export interface ContentBlock {
           [k: string]: unknown;
         } | null;
         enableLink?: boolean | null;
+        blockHeading?: boolean | null;
+        reverseOrder?: boolean | null;
+        blockMedia?: (string | null) | Media;
         link?: {
           type?: ('reference' | 'custom') | null;
           newTab?: boolean | null;
@@ -873,8 +877,12 @@ export interface ContentBlockSelect<T extends boolean = true> {
     | T
     | {
         size?: T;
+        featureCategory?: T;
         richText?: T;
         enableLink?: T;
+        blockHeading?: T;
+        reverseOrder?: T;
+        blockMedia?: T;
         link?:
           | T
           | {
