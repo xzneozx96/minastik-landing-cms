@@ -35,6 +35,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-three/fiber": "^9.0.0-alpha.8",
+    "@splinetool/react-spline": "^4.0.0",
     "@tsparticles/engine": "^3.7.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.7.1",
