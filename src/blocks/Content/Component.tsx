@@ -26,14 +26,12 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <div className="container my-40">
+    <div className="container">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-8 spotlight-background">
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
             const { blockHeading, blockMedia, reverseOrder, featureCategory, richText, size } = col
-
-            console.log('blockMedia', blockMedia)
 
             return (
               <div

@@ -54,7 +54,7 @@ export const ArchiveBlock: React.FC<
   }
 
   return (
-    <div className="my-48" id={`block-${id}`}>
+    <div id={`block-${id}`}>
       {introContent && (
         <div className="container mb-16 archive-block">
           <div className="gradient-heading flex justify-between items-center">

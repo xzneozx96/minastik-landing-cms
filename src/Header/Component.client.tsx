@@ -76,7 +76,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         <div className="flex max-lg:ml-auto space-x-4">
           <button className="px-4 py-2 rounded-lg md:rounded-full text-sm bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
-            Contact Us
+            <Link href="/contact">Contact Us</Link>
           </button>
 
           <button id="toggleOpen" className="lg:hidden" onClick={handleMenuToggle}>

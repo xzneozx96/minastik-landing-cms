@@ -15,6 +15,7 @@ import { draftMode } from 'next/headers'
 import { getServerSideURL } from '@/utilities/getURL'
 import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
+import Script from 'next/script'
 
 const grotek = Space_Grotesk({
   subsets: ['latin'],
@@ -36,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body>
+      <body className="spotlight-background">
         <Providers>
           {/* <AdminBar
             adminBarProps={{
@@ -48,6 +49,28 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
+
+        <Script
+          id="voiceflow-chat-widget"
+          type="text/javascript"
+          strategy="lazyOnload" // Ensures the script loads after the page content
+        >
+          {`
+          (function(d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function() {
+              window.voiceflow.chat.load({
+                verify: { projectID: '66207aa2befcd3484056d86a' },
+                url: 'https://general-runtime.voiceflow.com',
+                versionID: 'production'
+              });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; 
+            v.type = "text/javascript"; 
+            s.parentNode.insertBefore(v, s);
+          })(document, 'script');
+        `}
+        </Script>
       </body>
     </html>
   )
