@@ -69,6 +69,10 @@ const columnFields: Field[] = [
     type: 'checkbox',
   },
   {
+    name: 'headingDecorator',
+    type: 'checkbox',
+  },
+  {
     name: 'reverseOrder',
     type: 'checkbox',
   },

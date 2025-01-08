@@ -26,12 +26,20 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <div className="container">
-      <div className="grid grid-cols-4 lg:grid-cols-12 gap-8 spotlight-background">
+    <div className="container mt-32 relative">
+      <div className="grid grid-cols-4 lg:grid-cols-12 gap-8">
         {columns &&
           columns.length > 0 &&
           columns.map((col, index) => {
-            const { blockHeading, blockMedia, reverseOrder, featureCategory, richText, size } = col
+            const {
+              blockHeading,
+              headingDecorator,
+              blockMedia,
+              reverseOrder,
+              featureCategory,
+              richText,
+              size,
+            } = col
 
             return (
               <div
@@ -45,6 +53,15 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                 key={index}
               >
                 {blockHeading && richText && <RichText data={richText} enableGutter={false} />}
+
+                {headingDecorator && (
+                  <div className="cool-animation hidden md:block mix-blend-luminosity">
+                    <video autoPlay muted loop>
+                      <source src="videos//cool-animation.webm" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                )}
 
                 {!blockHeading && (
                   <div className="group/card relative h-full overflow-hidden rounded-2xl p-px before:pointer-events-none before:absolute before:-left-40 before:-top-40 before:z-10 before:h-80 before:w-80 before:translate-x-[var(--mouse-x)] before:translate-y-[var(--mouse-y)] before:rounded-full before:bg-indigo-500/20 before:opacity-0 before:blur-3xl before:transition-opacity before:duration-500 after:pointer-events-none after:absolute after:-left-48 after:-top-48 after:z-30 after:h-64 after:w-64 after:translate-x-[var(--mouse-x)] after:translate-y-[var(--mouse-y)] after:rounded-full after:bg-indigo-500 after:opacity-0 after:blur-3xl after:transition-opacity after:duration-500 after:hover:opacity-20 before:group-hover:opacity-100">
@@ -83,10 +100,6 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                     </div>
                   </div>
                 )}
-
-                {/* {richText && <RichText data={richText} enableGutter={false} />}
-
-                {enableLink && <CMSLink {...link} />} */}
               </div>
             )
           })}

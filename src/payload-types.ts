@@ -17,6 +17,7 @@ export interface Config {
     categories: Category;
     users: User;
     partners: Partner;
+    projects: Project;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -33,6 +34,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -126,7 +128,7 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | PartnerBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | PartnerBlock | ProjectBlock)[];
   meta?: {
     title?: string | null;
     image?: (string | null) | Media;
@@ -383,6 +385,7 @@ export interface ContentBlock {
         } | null;
         enableLink?: boolean | null;
         blockHeading?: boolean | null;
+        headingDecorator?: boolean | null;
         reverseOrder?: boolean | null;
         blockMedia?: (string | null) | Media;
         link?: {
@@ -670,12 +673,50 @@ export interface PartnerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectBlock".
+ */
+export interface ProjectBlock {
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: 'collection' | null;
+  relationTo?: 'projects' | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'project';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "partners".
  */
 export interface Partner {
   id: string;
   title: string;
   logo?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  websiteUrl: string;
+  preview?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -779,6 +820,10 @@ export interface PayloadLockedDocument {
         value: string | Partner;
       } | null)
     | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -873,6 +918,7 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         partner?: T | PartnerBlockSelect<T>;
+        project?: T | ProjectBlockSelect<T>;
       };
   meta?:
     | T
@@ -925,6 +971,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
         richText?: T;
         enableLink?: T;
         blockHeading?: T;
+        headingDecorator?: T;
         reverseOrder?: T;
         blockMedia?: T;
         link?:
@@ -981,6 +1028,17 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "PartnerBlock_select".
  */
 export interface PartnerBlockSelect<T extends boolean = true> {
+  richText?: T;
+  populateBy?: T;
+  relationTo?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectBlock_select".
+ */
+export interface ProjectBlockSelect<T extends boolean = true> {
   richText?: T;
   populateBy?: T;
   relationTo?: T;
@@ -1152,6 +1210,17 @@ export interface UsersSelect<T extends boolean = true> {
 export interface PartnersSelect<T extends boolean = true> {
   title?: T;
   logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  websiteUrl?: T;
+  preview?: T;
   updatedAt?: T;
   createdAt?: T;
 }

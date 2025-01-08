@@ -5,8 +5,10 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
+import React, { Fragment } from 'react'
 import PageClient from './page.client'
+import { Media } from '@/components/Media'
+import Image from 'next/image'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -28,11 +30,30 @@ export default async function Page() {
   })
 
   return (
-    <div className="pt-24 pb-24">
-      <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+    <Fragment>
+      <div className="relative flex items-center">
+        <div className="max-w-3xl mx-auto pt-10 z-10 relative text-center">
+          <h2 className="text-6xl font-bold">Technology News</h2>
+          <p className="mt-5 text-blue-200 text-lg">
+            Discover the power of AI-driven insights with our blog
+            <br />
+            where every post is crafted by advanced AI to bring you the latest in technology
+          </p>
+        </div>
+
+        <div className="min-h-[640px] select-none">
+          <picture>
+            <Image
+              src="/images/hero-spotlight.jpg"
+              alt="blogs-banner"
+              width={1920}
+              height={1080}
+              className="object-cover absolute w-full h-full top-0 left-0"
+            />
+          </picture>
+
+          {/* add a little overlay at the bottom of the banner */}
+          {/* <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" /> */}
         </div>
       </div>
 
@@ -52,7 +73,7 @@ export default async function Page() {
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
       </div>
-    </div>
+    </Fragment>
   )
 }
 

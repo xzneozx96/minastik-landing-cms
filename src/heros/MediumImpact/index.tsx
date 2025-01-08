@@ -2,44 +2,26 @@ import React from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
 export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   return (
-    <div className="">
-      <div className="container mb-8">
+    <div className="relative flex items-center">
+      <div className="max-w-3xl mx-auto z-10 relative text-center">
         {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
-
-        {Array.isArray(links) && links.length > 0 && (
-          <ul className="flex gap-4">
-            {links.map(({ link }, i) => {
-              return (
-                <li key={i}>
-                  <CMSLink {...link} />
-                </li>
-              )
-            })}
-          </ul>
-        )}
       </div>
-      <div className="container ">
+
+      <div className="min-h-[640px] select-none">
+        {/* {heroImage && typeof heroImage !== 'string' && (
+          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+        )} */}
         {media && typeof media === 'object' && (
-          <div>
-            <Media
-              className="-mx-4 md:-mx-8 2xl:-mx-16"
-              imgClassName=""
-              priority
-              resource={media}
-            />
-            {media?.caption && (
-              <div className="mt-3">
-                <RichText data={media.caption} enableGutter={false} />
-              </div>
-            )}
-          </div>
+          <Media fill priority imgClassName="-z-10 object-cover" resource={media} />
         )}
+
+        {/* add a little overlay at the bottom of the banner */}
+        {/* <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" /> */}
       </div>
     </div>
   )

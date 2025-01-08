@@ -561,3 +561,28 @@ html[data-theme='light'] {
   pointer-events: none;
 }
 /* end of styles for logo-ripple-animation component */
+
+.cool-animation {
+  width: 1440px;
+  height: 810px;
+  margin: 0 auto;
+  z-index: -1;
+  position: absolute;
+  top: -620px;
+  transform: translate(-50%);
+  left: 50%;
+  -webkit-mask-image: radial-gradient(
+    50% 50% at 50% 50%,
+    #fff 0%,
+    #fff 80.73%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mask-image: radial-gradient(
+    50% 50% at 50% 50%,
+    #fff 0%,
+    #fff 80.73%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
