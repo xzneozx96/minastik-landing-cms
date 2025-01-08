@@ -2,7 +2,7 @@
 import React from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect'
+import { CanvasRevealEffect } from '@/ui/canvas-reveal-effect'
 import Image from 'next/image'
 import { Media, Partner } from '@/payload-types'
 
