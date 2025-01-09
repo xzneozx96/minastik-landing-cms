@@ -15,18 +15,24 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) 
 
   return (
     <div className="container">
-      <div className="relative mt-32 isolate px-6 py-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 md:pb-0 lg:flex lg:gap-x-10 lg:px-24 lg:pt-0 rounded-2xl">
+      <div className="relative mt-16 lg:mt-32 isolate px-6 py-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 md:pb-0 lg:flex lg:gap-x-10 lg:px-24 lg:pt-0 rounded-2xl">
         <div className="mx-auto max-w-lg text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left z-10">
           <div className="max-w-[48rem] flex items-center">
             {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
           </div>
 
-          <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-            <Button onClick={openVoiceFlow} variant="default" size="lg" id="trigger-ai-agent">
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 lg:justify-start">
+            <Button
+              onClick={openVoiceFlow}
+              variant="default"
+              size="lg"
+              id="trigger-ai-agent"
+              className="w-full sm:w-auto"
+            >
               Talk with Zober
             </Button>
             {(links || []).map(({ link }, i) => {
-              return <CMSLink key={i} size="lg" {...link} />
+              return <CMSLink key={i} size="lg" className="w-full sm:w-auto" {...link} />
             })}
           </div>
         </div>

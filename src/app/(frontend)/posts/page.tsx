@@ -32,8 +32,8 @@ export default async function Page() {
   return (
     <Fragment>
       <div className="relative flex items-center">
-        <div className="max-w-3xl mx-auto pt-10 z-10 relative text-center">
-          <h2 className="text-6xl font-bold">Technology News</h2>
+        <div className="container max-w-3xl mx-auto pt-10 z-10 relative md:text-center">
+          <h2 className="text-2xl md:text-6xl font-bold">Technology News</h2>
           <p className="mt-5 text-blue-200 text-lg">
             Discover the power of AI-driven insights with our blog
             <br />
@@ -41,7 +41,7 @@ export default async function Page() {
           </p>
         </div>
 
-        <div className="min-h-[640px] select-none">
+        <div className="min-h-[500px] md:min-h-[640px] select-none">
           <picture>
             <Image
               src="/images/hero-spotlight.jpg"

@@ -24,7 +24,7 @@ export const PartnerBlock: React.FC<PartnerBlockProps> = async ({ richText, popu
   }
 
   return (
-    <div className="container relative">
+    <div className="container relative overflow-hidden">
       <LogoRippleAnimation />
 
       <div className="pt-80">
@@ -32,7 +32,7 @@ export const PartnerBlock: React.FC<PartnerBlockProps> = async ({ richText, popu
           {richText && <RichText data={richText} enableGutter={false} />}
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20">
+        <div className="relative mx-auto max-w-6xl sm:px-6 py- sm:py-20">
           <CanvasRevealEffectLogos partners={partners} />
         </div>
       </div>

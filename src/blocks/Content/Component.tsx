@@ -26,7 +26,7 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   }
 
   return (
-    <div className="container mt-32 relative">
+    <div className="container mt-16 md:mt-32 relative">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-8">
         {columns &&
           columns.length > 0 &&

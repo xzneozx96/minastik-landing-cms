@@ -24,7 +24,7 @@ export const CanvasRevealEffectLogos: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-4">
         {rows.flat().map((logo, index) => (
           <Card logo={logo} key={index}>
             <CanvasRevealEffect
