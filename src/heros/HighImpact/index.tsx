@@ -48,7 +48,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
       </div>
 
       {/* hero video */}
-      <div className="glass-container mx-6 md:mx-auto -mt-[10.4rem] w-fit max-w-6xl">
+      <div className="glass-container mx-6 md:mx-auto -mt-[6.4rem] md:-mt-[10.4rem] w-fit max-w-6xl">
         <div className="absolute top-1/2 left-1/2 gradient-blur w-[85%] -translate-x-1/2 h-[85%] -translate-y-1/2 inset-0 blur-[10rem]"></div>
         <video autoPlay playsInline muted loop className="lg:rounded-lg z-10 relative">
           <source src={'videos//ai-chatbot-dribble.mp4'} type="video/mp4" />

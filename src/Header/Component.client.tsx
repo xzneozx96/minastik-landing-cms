@@ -69,8 +69,57 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   </Link>
                 </li>
               )
-              // <CMSLink key={i} {...link} appearance="link" />
             })}
+
+            <li className="group max-lg:py-3 px-3 relative">
+              <a
+                href="javascript:void(0)"
+                className="hover:text-[#60a5fa] text-blue-200 block font-semibold text-[15px]"
+              >
+                Profile
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16px"
+                  height="16px"
+                  className="ml-1 inline-block"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 16a1 1 0 0 1-.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1-.7.29z"
+                    fill="#bfdbfe"
+                  />
+                </svg>
+              </a>
+              <ul className="absolute top-10 rounded-md max-lg:top-8 left-0 z-50 block shadow-lg bg-[#0a0d1fcc] max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-[400ms]">
+                <li className="pb-3">
+                  <a
+                    target="_blank"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/MINASTIK-COMPANY-PROFILE-2024-hCgFLNOb.pdf"
+                    className="hover:text-[#60a5fa] text-blue-200 block font-semibold text-[15px]"
+                  >
+                    Company Profile
+                  </a>
+                </li>
+                <li className="py-3">
+                  <a
+                    target="_blank"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/Core-Team_PORTFOLIOS_MINASTIK_2024-0TkfLXHV.pdf"
+                    className="hover:text-[#60a5fa] text-blue-200 block font-semibold text-[15px]"
+                  >
+                    Core Team
+                  </a>
+                </li>
+                <li className="py-3">
+                  <a
+                    target="_blank"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/AI_PORTFOLIOS-tgbqbWbQ.pdf"
+                    className="hover:text-[#60a5fa] text-blue-200 block font-semibold text-[15px]"
+                  >
+                    AI Team
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
 

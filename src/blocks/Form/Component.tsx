@@ -130,7 +130,7 @@ export const FormBlock: React.FC<
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
 
-      <div className="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 -mt-[10.4rem]">
+      <div className="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 -mt-[6.4rem] md:-mt-[10.4rem]">
         <div>
           <h1 className="hidden md:block text-4xl font-bold text-white">Contact Info</h1>
           <p className="hidden md:block text-blue-200 mt-4">

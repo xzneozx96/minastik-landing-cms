@@ -63,7 +63,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     <picture>
       <NextImage
         alt={alt || ''}
-        className={cn(imgClassName)}
+        className={cn(imgClassName, 'aspect-[3/2] object-cover')}
         fill={fill}
         height={!fill ? height : undefined}
         placeholder="blur"
