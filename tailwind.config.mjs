@@ -184,7 +184,7 @@ module.exports = {
                 },
               },
               p: {
-                color: '#dbeafe',
+                color: 'rgba(191, 219, 254, 0.7)',
                 fontSize: '1rem', // Default font size
                 '@screen lg': {
                   fontSize: '1.125rem', // lg breakpoint

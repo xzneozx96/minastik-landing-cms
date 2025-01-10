@@ -120,10 +120,13 @@ export const ProductCard = ({
           alt={project.title}
         />
       </Link>
+
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-60 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 text-2xl opacity-0 group-hover/product:opacity-100 text-white">
-        {project.title}
-      </h2>
+
+      <div className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
+        <h2 className="text-2xl">{project.title}</h2>
+        {project.description && <p>{project.description}</p>}
+      </div>
     </motion.div>
   )
 }

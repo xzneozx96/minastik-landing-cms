@@ -21,6 +21,19 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: 'description',
+      type: 'text',
+    },
+    {
+      name: 'categories',
+      type: 'relationship',
+      admin: {
+        position: 'sidebar',
+      },
+      hasMany: true,
+      relationTo: 'project-categories',
+    },
+    {
       name: 'websiteUrl',
       type: 'text',
       required: true,

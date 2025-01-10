@@ -130,7 +130,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 position: 'sidebar',
               },
               hasMany: true,
-              relationTo: 'categories',
+              relationTo: 'blog-categories',
             },
           ],
           label: 'Meta',

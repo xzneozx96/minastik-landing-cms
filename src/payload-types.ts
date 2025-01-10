@@ -14,7 +14,8 @@ export interface Config {
     pages: Page;
     posts: Post;
     media: Media;
-    categories: Category;
+    'blog-categories': BlogCategory;
+    'project-categories': ProjectCategory;
     users: User;
     partners: Partner;
     projects: Project;
@@ -31,7 +32,8 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
+    'project-categories': ProjectCategoriesSelect<false> | ProjectCategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -165,7 +167,7 @@ export interface Post {
     [k: string]: unknown;
   };
   relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  categories?: (string | BlogCategory)[] | null;
   meta?: {
     title?: string | null;
     image?: (string | null) | Media;
@@ -279,20 +281,11 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "blog-categories".
  */
-export interface Category {
+export interface BlogCategory {
   id: string;
   title: string;
-  parent?: (string | null) | Category;
-  breadcrumbs?:
-    | {
-        doc?: (string | null) | Category;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -443,7 +436,7 @@ export interface ArchiveBlock {
   } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
-  categories?: (string | Category)[] | null;
+  categories?: (string | BlogCategory)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
@@ -693,9 +686,20 @@ export interface ProjectBlock {
   } | null;
   populateBy?: 'collection' | null;
   relationTo?: 'projects' | null;
+  layout: 'list' | 'parallax';
   id?: string | null;
   blockName?: string | null;
   blockType: 'project';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-categories".
+ */
+export interface ProjectCategory {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -715,6 +719,8 @@ export interface Partner {
 export interface Project {
   id: string;
   title: string;
+  description?: string | null;
+  categories?: (string | ProjectCategory)[] | null;
   websiteUrl: string;
   preview?: (string | null) | Media;
   updatedAt: string;
@@ -808,8 +814,12 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'categories';
-        value: string | Category;
+        relationTo: 'blog-categories';
+        value: string | BlogCategory;
+      } | null)
+    | ({
+        relationTo: 'project-categories';
+        value: string | ProjectCategory;
       } | null)
     | ({
         relationTo: 'users';
@@ -1042,6 +1052,7 @@ export interface ProjectBlockSelect<T extends boolean = true> {
   richText?: T;
   populateBy?: T;
   relationTo?: T;
+  layout?: T;
   id?: T;
   blockName?: T;
 }
@@ -1171,19 +1182,19 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
+ * via the `definition` "blog-categories_select".
  */
-export interface CategoriesSelect<T extends boolean = true> {
+export interface BlogCategoriesSelect<T extends boolean = true> {
   title?: T;
-  parent?: T;
-  breadcrumbs?:
-    | T
-    | {
-        doc?: T;
-        url?: T;
-        label?: T;
-        id?: T;
-      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-categories_select".
+ */
+export interface ProjectCategoriesSelect<T extends boolean = true> {
+  title?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1219,6 +1230,8 @@ export interface PartnersSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  categories?: T;
   websiteUrl?: T;
   preview?: T;
   updatedAt?: T;

@@ -51,6 +51,23 @@ export const ProjectBlock: Block = {
         },
       ],
     },
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'parallax',
+      label: 'Layout',
+      options: [
+        {
+          label: 'List',
+          value: 'list',
+        },
+        {
+          label: 'Parallax',
+          value: 'parallax',
+        },
+      ],
+      required: true,
+    },
   ],
   labels: {
     plural: 'Projects',
