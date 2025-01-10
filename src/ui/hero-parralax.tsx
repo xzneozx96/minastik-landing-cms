@@ -32,7 +32,7 @@ export const HeroParallax = ({ projects, richText }: { projects: Project[]; rich
   return (
     <div
       ref={ref}
-      className="lg:h-[2800px] h-[2100px] py-80 antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] will-change-transform overflow-hidden"
+      className="lg:h-[2800px] h-[2200px] py-80 antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] will-change-transform overflow-hidden"
     >
       <Header richText={richText} />
       <motion.div
