@@ -36,7 +36,7 @@ export default function ProjectList({
       <div>
         <div>
           {/* Buttons */}
-          <div className="flex justify-center gap-4 pb-12 max-md:hidden md:pb-16">
+          <div className="flex justify-center gap-4 pb-12 md:pb-16">
             <div className="relative inline-flex flex-wrap justify-center rounded-[1.25rem] bg-gray-800/40">
               <button
                 className={`flex flex-1 items-center gap-2.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-200 ${
