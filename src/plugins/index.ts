@@ -49,7 +49,7 @@ export const plugins: Plugin[] = [
     },
   }),
   nestedDocsPlugin({
-    collections: ['categories'],
+    collections: ['blog-categories'],
   }),
   seoPlugin({
     generateTitle,
