@@ -1,7 +1,6 @@
 'use client'
 
 import { Media, Project, ProjectCategory } from '@/payload-types'
-import useMasonry from '@/utilities/useMasonry'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -14,7 +13,6 @@ export default function ProjectList({
   projects: Project[]
   projectCategories: ProjectCategory[]
 }) {
-  const masonryContainer = useMasonry()
   const [category, setCategory] = useState<number>(0)
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects) // State for filtered projects
 

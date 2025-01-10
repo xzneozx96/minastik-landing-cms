@@ -286,6 +286,15 @@ export interface Media {
 export interface BlogCategory {
   id: string;
   title: string;
+  parent?: (string | null) | BlogCategory;
+  breadcrumbs?:
+    | {
+        doc?: (string | null) | BlogCategory;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1186,6 +1195,15 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface BlogCategoriesSelect<T extends boolean = true> {
   title?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
