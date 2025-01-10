@@ -45,7 +45,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       className="fixed top-0 lg:top-5 w-full flex lg:px-10 min-h-[70px] z-50"
       {...(theme ? { 'data-theme': theme } : {})}
     >
-      <div className="relative mx-auto lg:max-w-4xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-5 w-full lg:rounded-full backdrop-blur-[10px] bg-[#0a0d1fcc] border border-[#232d6b]">
+      <div className="relative mx-auto lg:max-w-4xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-5 w-full lg:rounded-2xl backdrop-blur-[10px] bg-[#0a0d1fcc] border border-[#232d6b]">
         <Link href="/">
           <Logo />
         </Link>
@@ -124,7 +124,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </div>
 
         <div className="flex max-lg:ml-auto space-x-4">
-          <button className="px-4 py-2 rounded-lg md:rounded-full text-sm bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
+          <button className="px-4 py-2 rounded-lg md:rounded-lg text-sm bg-gradient-to-t from-blue-600 to-blue-500 bg-[length:100%_100%] bg-[bottom] text-white shadow-[inset_0px_1px_0px_0px_theme(colors.white/.16)] hover:bg-[length:100%_150%]">
             <Link href="/contact">Contact Us</Link>
           </button>
 

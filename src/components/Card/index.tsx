@@ -2,13 +2,19 @@
 import { cn } from '@/utilities/cn'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import Image from 'next/image'
+import { formatDateTime } from '@/utilities/formatDateTime'
+import { formatAuthors } from '@/utilities/formatAuthors'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
+export type CardPostData = Pick<
+  Post,
+  'slug' | 'categories' | 'meta' | 'title' | 'populatedAuthors' | 'publishedAt'
+>
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -21,12 +27,18 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title } = doc || {}
+  const { slug, categories, meta, title, populatedAuthors, publishedAt } = doc || {}
   const { description, image: metaImage } = meta || {}
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
+
+  const hasAuthors =
+    populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
+
   const titleToUse = titleFromProps || title
+
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
+
   const href = `/${relationTo}/${slug}`
 
   return (
@@ -36,9 +48,7 @@ export const Card: React.FC<{
           {/* Thumbnail */}
           <div className="relative w-full">
             {!metaImage && <div className="">No image</div>}
-            {metaImage && typeof metaImage !== 'string' && (
-              <Media resource={metaImage} size="33vw" />
-            )}
+            {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} />}
           </div>
 
           {/* Content */}
@@ -73,20 +83,50 @@ export const Card: React.FC<{
                 )}
               </div>
             )}
+
             {titleToUse && (
               <div className="prose">
-                <h3>
+                <h3 className="line-clamp-2">
                   <Link className="not-prose" href={href} ref={link.ref}>
                     {titleToUse}
                   </Link>
                 </h3>
               </div>
             )}
+
             {description && (
               <div className="mt-2">
-                {description && <p className="text-blue-100">{sanitizedDescription}</p>}
+                {description && (
+                  <p className="text-blue-100 line-clamp-3">{sanitizedDescription}</p>
+                )}
               </div>
             )}
+
+            <div className="flex items-center gap-3 mt-10">
+              <Image
+                className="inline-flex shrink-0 rounded-full"
+                src="/images/testimonial-07.jpg"
+                width={36}
+                height={36}
+                alt={titleToUse || 'Post'}
+              />
+              <div className="text-sm flex flex-col font-medium text-gray-200">
+                {hasAuthors && <span>{formatAuthors(populatedAuthors)}</span>}
+
+                {!hasAuthors && <span>Admin</span>}
+
+                {publishedAt && (
+                  <time className="text-indigo-200/70" dateTime={publishedAt}>
+                    {formatDateTime(publishedAt)}
+                  </time>
+                )}
+              </div>
+
+              <div className="text-sm ml-auto text-indigo-200/70 flex items-center">
+                <span className="mx-2 text-gray-300">•</span>
+                <span>5 minutes</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -66,7 +66,7 @@ export const HeroParallax = ({ projects, richText }: { projects: Project[]; rich
 
 export const Header = ({ richText }: { richText: any }) => {
   return (
-    <div className="max-w-3xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0 text-center spotlight-background section-heading">
+    <div className="max-w-3xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0 text-center spotlight-background section-heading z-10">
       {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
 
       <div className="absolute top-0 bottom-0 z-[-1] pointer-events-none select-none">

@@ -5,6 +5,8 @@ import { cn } from 'src/utilities/cn'
 import type { ContentBlock as ContentBlockProps, Media } from '@/payload-types'
 
 import { BorderBeam } from '@/ui/border-beam'
+import { Media as MediaComponent } from '@/components/Media'
+import { VideoMedia } from '@/components/Media/VideoMedia'
 
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
@@ -84,18 +86,18 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                       </div>
 
                       <div className={cn('z-10 flex-1', reverseOrder ? 'pb-6' : 'pt-6')}>
-                        <video
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          className="rounded-lg md:h-full w-full object-cover"
-                        >
-                          {blockMedia && (
+                        {blockMedia && (
+                          <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="rounded-lg md:h-full w-full object-cover"
+                          >
                             <source src={(blockMedia as Media).url || ''} type="video/mp4" />
-                          )}
-                          Your browser does not support the video tag.
-                        </video>
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
                       </div>
                     </div>
                   </div>
