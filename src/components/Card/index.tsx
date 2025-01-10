@@ -84,7 +84,7 @@ export const Card: React.FC<{
             )}
             {description && (
               <div className="mt-2">
-                {description && <p className="text-blue-200">{sanitizedDescription}</p>}
+                {description && <p className="text-blue-100">{sanitizedDescription}</p>}
               </div>
             )}
           </div>
