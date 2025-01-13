@@ -34,7 +34,7 @@ export default async function Page() {
       <div className="relative flex items-center">
         <div className="max-w-3xl mx-auto pt-10 z-10 relative text-center px-6">
           <h2 className="text-6xl font-bold">Technology News</h2>
-          <p className="mt-5 text-blue-100 md:text-lg">
+          <p className="mt-5 text-indigo-200 md:text-lg">
             Discover the power of AI-driven insights with our blog
             <br />
             where every post is crafted by advanced AI to bring you the latest in technology

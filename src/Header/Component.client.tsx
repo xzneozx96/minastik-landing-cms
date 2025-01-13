@@ -62,7 +62,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <li className="max-lg:py-3 px-3" key={i}>
                   <Link
                     href={link.url || '/'}
-                    className="hover:text-[#60a5fa] text-blue-100 block font-semibold text-[15px]"
+                    className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                     onClick={closeMenuOnNav}
                   >
                     {link.label}
@@ -74,7 +74,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <li className="group max-lg:py-3 px-3 relative">
               <a
                 href="javascript:void(0)"
-                className="hover:text-[#60a5fa] text-blue-100 block font-semibold text-[15px]"
+                className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
               >
                 Profile
                 <svg
@@ -95,7 +95,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <a
                     target="_blank"
                     href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/MINASTIK-COMPANY-PROFILE-2024-hCgFLNOb.pdf"
-                    className="hover:text-[#60a5fa] text-blue-100 block font-semibold text-[15px]"
+                    className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Company Profile
                   </a>
@@ -104,7 +104,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <a
                     target="_blank"
                     href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/Core-Team_PORTFOLIOS_MINASTIK_2024-0TkfLXHV.pdf"
-                    className="hover:text-[#60a5fa] text-blue-100 block font-semibold text-[15px]"
+                    className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Core Team
                   </a>
@@ -113,7 +113,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   <a
                     target="_blank"
                     href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/AI_PORTFOLIOS-tgbqbWbQ.pdf"
-                    className="hover:text-[#60a5fa] text-blue-100 block font-semibold text-[15px]"
+                    className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     AI Team
                   </a>

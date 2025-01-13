@@ -133,7 +133,7 @@ export const FormBlock: React.FC<
       <div className="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 -mt-[6.4rem] md:-mt-[10.4rem]">
         <div>
           <h1 className="hidden md:block text-4xl font-bold text-white">Contact Info</h1>
-          <p className="hidden md:block text-blue-100 mt-4">
+          <p className="hidden md:block text-indigo-200 mt-4">
             Below is our contact information. Don’t hesitate to contact us using the method that is
             most convenient for you
           </p>

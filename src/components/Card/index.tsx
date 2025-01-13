@@ -97,7 +97,7 @@ export const Card: React.FC<{
             {description && (
               <div className="mt-2">
                 {description && (
-                  <p className="text-blue-100 line-clamp-3">{sanitizedDescription}</p>
+                  <p className="text-indigo-200 line-clamp-3">{sanitizedDescription}</p>
                 )}
               </div>
             )}

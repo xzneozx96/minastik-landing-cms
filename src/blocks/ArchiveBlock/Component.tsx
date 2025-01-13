@@ -70,7 +70,7 @@ export const ArchiveBlock: React.FC<
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="size-16 -rotate-45 text-blue-100"
+                  className="size-16 -rotate-45 text-indigo-200"
                 >
                   <path
                     strokeLinecap="round"
