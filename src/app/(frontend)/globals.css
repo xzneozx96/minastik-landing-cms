@@ -46,6 +46,8 @@
     --success: 196 100% 14%;
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
+
+    --radius: 0.5rem;
   }
 
   [data-theme='dark'] {
@@ -80,6 +82,8 @@
     --success: 196 100% 14%;
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
+
+    --radius: 0.5rem;
   }
 }
 
