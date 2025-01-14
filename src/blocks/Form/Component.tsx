@@ -143,8 +143,8 @@ export const FormBlock: React.FC<
             <li className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16px"
-                height="16px"
+                width="20px"
+                height="20px"
                 fill="#fff"
                 viewBox="0 0 479.058 479.058"
               >
@@ -161,8 +161,8 @@ export const FormBlock: React.FC<
             <li className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16px"
-                height="16px"
+                width="20px"
+                height="20px"
                 fill="#fff"
                 viewBox="0 0 482.6 482.6"
               >
@@ -183,6 +183,8 @@ export const FormBlock: React.FC<
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
+                width="20px"
+                height="20px"
               >
                 <path
                   stroke-linecap="round"
@@ -202,6 +204,8 @@ export const FormBlock: React.FC<
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
+                width="20px"
+                height="20px"
               >
                 <path
                   stroke-linecap="round"
@@ -218,8 +222,8 @@ export const FormBlock: React.FC<
             <li className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16px"
-                height="16px"
+                width="20px"
+                height="20px"
                 fill="#fff"
                 viewBox="0 0 368.16 368.16"
               >
