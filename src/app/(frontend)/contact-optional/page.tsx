@@ -4,11 +4,9 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import React, { Fragment } from 'react'
-import PageClient from './page.client'
-import { Media } from '@/components/Media'
 import Image from 'next/image'
+import { getPayload } from 'payload'
+import { Fragment } from 'react'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
