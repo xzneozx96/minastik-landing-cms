@@ -157,7 +157,7 @@ module.exports = {
                 fontWeight: 600,
                 marginBottom: '1.25rem',
                 lineHeight: 1.25,
-                fontSize: '2rem', // Default font size
+                fontSize: '2.25rem', // Default font size
                 '@screen md': {
                   fontSize: '3rem', // md breakpoint
                 },
@@ -171,7 +171,10 @@ module.exports = {
                 lineHeight: 1.25,
                 fontSize: '1.75rem', // Default font size
                 '@screen md': {
-                  fontSize: '3.5rem', // md breakpoint
+                  fontSize: '2.25rem', // md breakpoint
+                },
+                '@screen lg': {
+                  fontSize: '2.75rem', // md breakpoint
                 },
               },
               h3: {
@@ -180,8 +183,17 @@ module.exports = {
                 lineHeight: 1.25,
                 fontSize: '1.25rem', // Default font size
                 '@screen md': {
+                  fontSize: '1.5rem', // md breakpoint
+                },
+                '@screen lg': {
                   fontSize: '1.75rem', // md breakpoint
                 },
+              },
+              h4: {
+                fontWeight: 400,
+                marginBottom: '1.25rem',
+                lineHeight: 1.25,
+                fontSize: '1.125rem', // Default font size
               },
               p: {
                 color: '#c7d2fe',
