@@ -71,6 +71,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           })(document, 'script');
         `}
         </Script>
+
+        <Script
+          strategy="afterInteractive" // Load the script after the page becomes interactive
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7955614502454674"
+          crossOrigin="anonymous"
+        />
       </body>
     </html>
   )
