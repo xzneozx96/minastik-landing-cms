@@ -90,7 +90,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   />
                 </svg>
               </a>
-              <ul className="absolute top-10 rounded-md max-lg:top-8 left-0 z-50 block shadow-lg bg-[#0a0d1fcc] max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-[400ms]">
+              <ul className="absolute top-10 rounded-md max-lg:top-8 left-0 z-50 block shadow-lg bg-[#0a0d1fcc] max-h-0 overflow-hidden min-w-[230px] group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all">
                 <li className="pb-3">
                   <a
                     target="_blank"
