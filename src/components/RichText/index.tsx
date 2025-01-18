@@ -16,6 +16,8 @@ import type {
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/cn'
+import { Fragment } from 'react'
+import { generateIdForRichTextHeading } from '@/utilities/generateIdForRichTextHeading'
 
 type NodeTypes =
   | DefaultNodeTypes
@@ -23,6 +25,17 @@ type NodeTypes =
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
+  heading: (param) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const node = param.node as any
+
+    // Generate id from heading text
+    const id = generateIdForRichTextHeading(node.children[0].text || '')
+
+    // Use appropriate h1-h6 tag based on node.tag
+    const Tag = node.tag
+    return <Tag id={id}>{node.children[0].text}</Tag>
+  },
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
     mediaBlock: ({ node }) => (
