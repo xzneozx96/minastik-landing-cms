@@ -178,7 +178,7 @@ module.exports = {
                 },
               },
               h3: {
-                fontWeight: 400,
+                fontWeight: 600,
                 marginBottom: '1.25rem',
                 lineHeight: 1.25,
                 fontSize: '1.25rem', // Default font size
@@ -190,10 +190,13 @@ module.exports = {
                 },
               },
               h4: {
-                fontWeight: 400,
+                fontWeight: 600,
                 marginBottom: '1.25rem',
                 lineHeight: 1.25,
                 fontSize: '1.125rem', // Default font size
+                '@screen md': {
+                  fontSize: '1.25rem', // md breakpoint
+                },
               },
               p: {
                 color: '#c7d2fe',

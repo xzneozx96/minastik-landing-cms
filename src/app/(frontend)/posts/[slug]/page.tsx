@@ -99,7 +99,7 @@ export default async function Post({ params: paramsPromise }: Args) {
           </aside>
 
           {/* main content */}
-          <div className="lg:col-span-8 lg:max-w-[46rem] pb-12 xl:pl-11 xl:pr-16 order-2">
+          <div className="lg:col-span-8 pb-12 xl:pl-11 xl:pr-16 order-2">
             {/* post title & metadata */}
             <div className="pb-10">
               <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
@@ -149,7 +149,7 @@ export default async function Post({ params: paramsPromise }: Args) {
             </div>
 
             {/* post content */}
-            <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
+            <RichText className="text-justify" data={post.content} enableGutter={false} />
           </div>
         </div>
 
