@@ -21,7 +21,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
       <div className="relative flex items-center justify-center text-white" data-theme="dark">
         {/* hero content */}
         <div className="container mb-8 z-10 relative flex items-center justify-center">
-          <div className="text-center gradient-heading">
+          <div className="text-center gradient-heading max-w-4xl">
             <AnimatedShinyTextWithBorder text="✨ Grow with Minastik" />
 
             {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
