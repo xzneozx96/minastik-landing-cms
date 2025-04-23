@@ -94,13 +94,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <li className="pb-3">
                   <a
                     target="_blank"
-                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/MINASTIK-COMPANY-PROFILE-2024-hCgFLNOb.pdf"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%5BVN%5D%20PORTFOLIO%20MINASTIK%202025-gtDVz6xU.pdf"
                     className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Company Profile
                   </a>
                 </li>
-                <li className="py-3">
+                {/* <li className="py-3">
                   <a
                     target="_blank"
                     href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/Core-Team_PORTFOLIOS_MINASTIK_2024-0TkfLXHV.pdf"
@@ -117,7 +117,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   >
                     AI Team
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>
