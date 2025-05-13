@@ -100,16 +100,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     Company Profile
                   </a>
                 </li>
-                {/* <li className="py-3">
+                <li className="py-3">
                   <a
                     target="_blank"
-                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/Core-Team_PORTFOLIOS_MINASTIK_2024-0TkfLXHV.pdf"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%28Core+Team%29+PORTFOLIOS+MINASTIK+2025+-+English-A0jqVC2i.pdf"
                     className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Core Team
                   </a>
                 </li>
-                <li className="py-3">
+                {/* <li className="py-3">
                   <a
                     target="_blank"
                     href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/AI_PORTFOLIOS-tgbqbWbQ.pdf"
