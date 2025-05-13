@@ -22,6 +22,7 @@ export const ProjectBlock: React.FC<ProjectBlockProps> = async ({
       collection: 'projects',
       depth: 1,
       limit,
+      sort: '-updatedAt',
     })
 
     projects = fetchedProjects.docs
