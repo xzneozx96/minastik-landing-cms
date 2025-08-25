@@ -94,7 +94,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <li className="py-3">
                   <a
                     target="_blank"
-                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%28Core+Team%29+PORTFOLIOS+MINASTIK+2025+-+English-A0jqVC2i.pdf"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%5BEN%5D+PORTFOLIOS+MINASTIK+05.2025-lFB5kc2Z.pdf"
                     className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Company Profile (EN)
@@ -104,7 +104,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <li className="pb-3">
                   <a
                     target="_blank"
-                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%5BVN%5D%20PORTFOLIO%20MINASTIK%202025-gtDVz6xU.pdf"
+                    href="https://woztell-files.s3.eu-north-1.amazonaws.com/62679a29a2502ebcb4d38d1f/%5BVN%5D+PORTFOLIOS+MINASTIK+05.2025-SerU93Mj.pdf"
                     className="hover:text-[#60a5fa] text-indigo-200 block font-semibold text-[15px]"
                   >
                     Company Profile (VN)
