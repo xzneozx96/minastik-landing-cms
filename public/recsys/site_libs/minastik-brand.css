@@ -249,6 +249,82 @@
   color: hsl(215, 20%, 55%);
 }
 
+/* ── Search modal (Autocomplete + Quarto search) ─────────────────── */
+[data-bs-theme="dark"] .aa-Panel,
+[data-bs-theme="dark"] .aa-Form,
+[data-bs-theme="dark"] #quarto-search-results {
+  background-color: hsl(233, 29%, 10%) !important;
+  border: 1px solid hsl(233, 29%, 20%) !important;
+  color: hsl(210, 40%, 92%) !important;
+}
+
+[data-bs-theme="dark"] .aa-Panel {
+  box-shadow: 0 8px 32px hsl(233, 29%, 3%, 0.7) !important;
+}
+
+[data-bs-theme="dark"] .aa-Input {
+  background-color: hsl(233, 29%, 12%) !important;
+  color: hsl(210, 40%, 92%) !important;
+  border-color: hsl(233, 29%, 22%) !important;
+}
+
+[data-bs-theme="dark"] .aa-Input::placeholder {
+  color: hsl(215, 20%, 55%) !important;
+}
+
+[data-bs-theme="dark"] .aa-InputWrapperSuffix button,
+[data-bs-theme="dark"] .aa-CopyButton {
+  color: hsl(215, 20%, 60%) !important;
+}
+
+/* Result rows */
+[data-bs-theme="dark"] .search-result-doc,
+[data-bs-theme="dark"] .search-result-section,
+[data-bs-theme="dark"] .aa-Item {
+  background-color: hsl(233, 29%, 10%) !important;
+  color: hsl(210, 40%, 88%) !important;
+  border-bottom: 1px solid hsl(233, 29%, 16%) !important;
+}
+
+[data-bs-theme="dark"] .aa-Item[aria-selected="true"],
+[data-bs-theme="dark"] .aa-Item:hover {
+  background-color: hsl(233, 29%, 15%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-title,
+[data-bs-theme="dark"] .search-result-header {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-text,
+[data-bs-theme="dark"] .search-result-crumbs {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-icon {
+  color: hsl(221, 83%, 60%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-doc-section {
+  color: hsl(221, 83%, 65%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-more {
+  color: hsl(221, 83%, 65%) !important;
+}
+
+/* Highlighted match text */
+[data-bs-theme="dark"] mark,
+[data-bs-theme="dark"] .search-result-text mark,
+[data-bs-theme="dark"] .search-result-title mark {
+  background-color: hsl(221, 83%, 30%) !important;
+  color: hsl(210, 40%, 98%) !important;
+}
+
+[data-bs-theme="dark"] .search-result-header-no-results {
+  color: hsl(215, 20%, 55%) !important;
+}
+
 /* ── Light theme — restore Quarto defaults ────────────────────────── */
 [data-bs-theme="light"] body {
   background-color: #fff;
