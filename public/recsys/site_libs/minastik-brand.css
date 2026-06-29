@@ -1,0 +1,327 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Minastik brand layer for the Recommender Systems book
+   Injected on top of Quarto's Bootstrap CSS.
+   Dark by default; toggled via data-bs-theme on <html>.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Dark theme variables ─────────────────────────────────────────── */
+[data-bs-theme="dark"] {
+  --bs-body-bg:            hsl(233, 29%, 6%);
+  --bs-body-color:         hsl(210, 40%, 98%);
+  --bs-secondary-bg:       hsl(233, 29%, 9%);
+  --bs-tertiary-bg:        hsl(233, 29%, 7%);
+  --bs-border-color:       hsl(233, 29%, 18%);
+  --bs-link-color:         hsl(221, 83%, 67%);
+  --bs-link-hover-color:   hsl(221, 83%, 77%);
+  --bs-code-color:         hsl(210, 40%, 88%);
+  --bs-emphasis-color:     hsl(210, 40%, 98%);
+  --bs-secondary-color:    hsl(215, 20%, 65%);
+  --bs-heading-color:      hsl(210, 40%, 98%);
+
+  /* Quarto-specific */
+  --quarto-hl-ot-color: #93c5fd;
+  --quarto-hl-at-color: #86efac;
+  --quarto-hl-ss-color: #86efac;
+  --quarto-hl-an-color: #94a3b8;
+  --quarto-hl-fu-color: #a5b4fc;
+  --quarto-hl-st-color: #86efac;
+  --quarto-hl-cf-color: #93c5fd;
+  --quarto-hl-op-color: #94a3b8;
+  --quarto-hl-er-color: #fca5a5;
+  --quarto-hl-bn-color: #fca5a5;
+  --quarto-hl-al-color: #fca5a5;
+  --quarto-hl-va-color: #e2e8f0;
+  --quarto-hl-pp-color: #fca5a5;
+  --quarto-hl-in-color: #94a3b8;
+  --quarto-hl-vs-color: #86efac;
+  --quarto-hl-wa-color: #fbbf24;
+  --quarto-hl-do-color: #94a3b8;
+  --quarto-hl-im-color: #7dd3fc;
+  --quarto-hl-ch-color: #86efac;
+  --quarto-hl-dt-color: #fca5a5;
+  --quarto-hl-fl-color: #fca5a5;
+  --quarto-hl-co-color: #64748b;
+  --quarto-hl-cv-color: #94a3b8;
+  --quarto-hl-cn-color: #fbbf24;
+  --quarto-hl-sc-color: #94a3b8;
+  --quarto-hl-dv-color: #fca5a5;
+  --quarto-hl-kw-color: #93c5fd;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] body {
+  background-color: hsl(233, 29%, 6%);
+  color: hsl(210, 40%, 98%);
+}
+
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+  color: hsl(210, 40%, 98%);
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────── */
+.navbar {
+  background-color: hsl(233, 29%, 8%) !important;
+  border-bottom: 1px solid hsl(233, 29%, 16%);
+}
+
+[data-bs-theme="dark"] .navbar-title,
+[data-bs-theme="dark"] .navbar-brand {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] #quarto-sidebar {
+  background-color: hsl(233, 29%, 8%);
+  border-right: 1px solid hsl(233, 29%, 16%);
+}
+
+[data-bs-theme="dark"] .sidebar-item-text,
+[data-bs-theme="dark"] .sidebar-link {
+  color: hsl(215, 20%, 72%) !important;
+}
+
+[data-bs-theme="dark"] .sidebar-item-text:hover,
+[data-bs-theme="dark"] .sidebar-link:hover {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+[data-bs-theme="dark"] .sidebar-item-text.active,
+[data-bs-theme="dark"] .sidebar-link.active,
+[data-bs-theme="dark"] a.sidebar-link.active {
+  color: hsl(221, 83%, 67%) !important;
+  font-weight: 600;
+}
+
+[data-bs-theme="dark"] .sidebar-section .sidebar-section-item {
+  color: hsl(215, 20%, 55%) !important;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-bs-theme="dark"] .sidebar-search input {
+  background-color: hsl(233, 29%, 11%);
+  border-color: hsl(233, 29%, 20%);
+  color: hsl(210, 40%, 88%);
+}
+
+/* ── Secondary nav (breadcrumb bar) ──────────────────────────────── */
+[data-bs-theme="dark"] .quarto-secondary-nav {
+  background-color: hsl(233, 29%, 7%);
+  border-bottom: 1px solid hsl(233, 29%, 16%);
+}
+
+[data-bs-theme="dark"] .quarto-secondary-nav .breadcrumb-item,
+[data-bs-theme="dark"] .quarto-secondary-nav .breadcrumb-item a {
+  color: hsl(215, 20%, 65%);
+}
+
+/* ── Right TOC (margin sidebar) ──────────────────────────────────── */
+[data-bs-theme="dark"] #quarto-margin-sidebar {
+  border-left: 1px solid hsl(233, 29%, 16%);
+}
+
+[data-bs-theme="dark"] #quarto-margin-sidebar .toc-title,
+[data-bs-theme="dark"] nav#TOC .toc-title {
+  color: hsl(215, 20%, 55%);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-bs-theme="dark"] nav#TOC a,
+[data-bs-theme="dark"] #quarto-margin-sidebar a {
+  color: hsl(215, 20%, 72%);
+}
+
+[data-bs-theme="dark"] nav#TOC a:hover,
+[data-bs-theme="dark"] #quarto-margin-sidebar a:hover {
+  color: hsl(210, 40%, 98%);
+}
+
+[data-bs-theme="dark"] nav#TOC li.active > a,
+[data-bs-theme="dark"] nav#TOC a.active {
+  color: hsl(221, 83%, 67%) !important;
+}
+
+/* ── Code blocks ──────────────────────────────────────────────────── */
+[data-bs-theme="dark"] pre,
+[data-bs-theme="dark"] pre.sourceCode,
+[data-bs-theme="dark"] div.sourceCode {
+  background-color: hsl(233, 29%, 10%) !important;
+  border: 1px solid hsl(233, 29%, 18%);
+  color: hsl(210, 40%, 88%);
+}
+
+[data-bs-theme="dark"] pre > code.sourceCode > span,
+[data-bs-theme="dark"] code.sourceCode > span,
+[data-bs-theme="dark"] code span {
+  color: hsl(210, 40%, 88%);
+}
+
+[data-bs-theme="dark"] :not(pre) > code {
+  background-color: hsl(233, 29%, 12%);
+  color: hsl(221, 83%, 75%);
+  border: 1px solid hsl(233, 29%, 20%);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── Callout blocks ───────────────────────────────────────────────── */
+[data-bs-theme="dark"] .callout {
+  background-color: hsl(233, 29%, 10%);
+  border-color: hsl(233, 29%, 22%);
+  color: hsl(210, 40%, 92%);
+}
+
+[data-bs-theme="dark"] .callout.callout-note {
+  border-left-color: hsl(221, 83%, 53%);
+  background-color: hsl(221, 30%, 10%);
+}
+
+[data-bs-theme="dark"] .callout.callout-warning {
+  border-left-color: hsl(38, 92%, 60%);
+  background-color: hsl(38, 30%, 10%);
+}
+
+[data-bs-theme="dark"] .callout.callout-tip {
+  border-left-color: hsl(142, 60%, 50%);
+  background-color: hsl(142, 20%, 9%);
+}
+
+[data-bs-theme="dark"] .callout-title-container {
+  color: hsl(210, 40%, 92%);
+}
+
+/* ── Tables ───────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] table {
+  color: hsl(210, 40%, 90%);
+  border-color: hsl(233, 29%, 20%);
+}
+
+[data-bs-theme="dark"] .table {
+  --bs-table-color: hsl(210, 40%, 90%);
+  --bs-table-bg: transparent;
+  --bs-table-striped-bg: hsl(233, 29%, 9%);
+  --bs-table-border-color: hsl(233, 29%, 18%);
+}
+
+[data-bs-theme="dark"] th {
+  color: hsl(210, 40%, 98%);
+  border-bottom-color: hsl(233, 29%, 22%) !important;
+}
+
+/* ── MathJax ──────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] .math,
+[data-bs-theme="dark"] mjx-container {
+  color: hsl(210, 40%, 92%);
+}
+
+/* ── Horizontal rule ──────────────────────────────────────────────── */
+[data-bs-theme="dark"] hr {
+  border-color: hsl(233, 29%, 18%);
+}
+
+/* ── Blockquote ───────────────────────────────────────────────────── */
+[data-bs-theme="dark"] blockquote {
+  border-left-color: hsl(221, 83%, 40%);
+  color: hsl(215, 20%, 72%);
+}
+
+/* ── Page navigation (prev/next chapter) ─────────────────────────── */
+[data-bs-theme="dark"] .page-navigation a {
+  color: hsl(221, 83%, 67%);
+}
+
+[data-bs-theme="dark"] .page-navigation {
+  border-top-color: hsl(233, 29%, 18%);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] footer {
+  background-color: hsl(233, 29%, 7%);
+  border-top: 1px solid hsl(233, 29%, 16%);
+  color: hsl(215, 20%, 55%);
+}
+
+/* ── Light theme — restore Quarto defaults ────────────────────────── */
+[data-bs-theme="light"] body {
+  background-color: #fff;
+  color: #1a1a2e;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Layout — match reference (narrow sidebar, constrained content)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Sidebar: tighten from Quarto's ~250px default */
+.sidebar.docked {
+  width: 220px !important;
+  min-width: 220px !important;
+}
+
+@media (min-width: 992px) {
+  #quarto-sidebar {
+    width: 220px !important;
+  }
+
+  /* Offset main content to account for narrower sidebar */
+  #quarto-content.quarto-container {
+    margin-left: 220px !important;
+  }
+}
+
+/* Content: constrain reading width */
+#quarto-document-content {
+  max-width: 740px;
+}
+
+/* Right TOC: keep compact */
+#quarto-margin-sidebar {
+  width: 200px;
+  font-size: 0.82rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Theme toggle button
+   ═══════════════════════════════════════════════════════════════════ */
+#mnk-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid hsl(233, 29%, 28%);
+  border-radius: 6px;
+  color: hsl(210, 40%, 80%);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  margin-left: 8px;
+  padding: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  vertical-align: middle;
+}
+
+#mnk-theme-toggle:hover {
+  background: hsl(221, 83%, 53%);
+  border-color: hsl(221, 83%, 53%);
+  color: #fff;
+}
+
+[data-bs-theme="light"] #mnk-theme-toggle {
+  border-color: hsl(215, 20%, 75%);
+  color: hsl(222, 47%, 30%);
+}
+
+[data-bs-theme="light"] #mnk-theme-toggle:hover {
+  background: hsl(221, 83%, 53%);
+  border-color: hsl(221, 83%, 53%);
+  color: #fff;
+}
