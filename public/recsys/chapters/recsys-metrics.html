@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <meta name="description"
+    content="How recommendation quality is measured: Recall@K, Precision, MAP, MRR and NDCG, each defined and computed by hand on a small worked example.">
+
+  <title>Evaluation Metrics – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
+
+
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/sequential-recsys.html" rel="next">
+  <link href="../chapters/traditional-recsys.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/recsys-metrics.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/recsys-metrics.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Evaluation Metrics","name":"Evaluation Metrics","description":"How recommendation quality is measured: Recall@K, Precision, MAP, MRR and NDCG, each defined and computed by hand on a small worked example.","url":"https://minastik.com/recsys/chapters/recsys-metrics.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
+
+  <meta property="og:title" content="Evaluation Metrics – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="How recommendation quality is measured: Recall@K, Precision, MAP, MRR and NDCG, each defined and computed by hand on a small worked example.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title" content="Evaluation Metrics – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="How recommendation quality is measured: Recall@K, Precision, MAP, MRR and NDCG, each defined and computed by hand on a small worked example.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+  <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
+      </div> <!-- /container-fluid -->
+    </nav>
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/traditional-recsys.html">Recommender-System Foundations</a>
+            </li>
+            <li class="breadcrumb-item"><a href="../chapters/recsys-metrics.html"><span class="chapter-title">Evaluation
+                  Metrics</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+          <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
+          <li class="sidebar-item">
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#the-three-questions-a-metric-can-answer" id="toc-the-three-questions-a-metric-can-answer"
+              class="nav-link active" data-scroll-target="#the-three-questions-a-metric-can-answer">1. The three
+              questions a metric can answer</a></li>
+          <li><a href="#rating-error-metrics-mae-mse-rmse" id="toc-rating-error-metrics-mae-mse-rmse" class="nav-link"
+              data-scroll-target="#rating-error-metrics-mae-mse-rmse">2. Rating-error metrics: MAE, MSE, RMSE</a></li>
+          <li><a href="#the-ranking-setup-one-running-example" id="toc-the-ranking-setup-one-running-example"
+              class="nav-link" data-scroll-target="#the-ranking-setup-one-running-example">3. The ranking setup — one
+              running example</a></li>
+          <li><a href="#hit-rate-precisionk-recallk-f1k" id="toc-hit-rate-precisionk-recallk-f1k" class="nav-link"
+              data-scroll-target="#hit-rate-precisionk-recallk-f1k">4. Hit Rate, Precision@K, Recall@K, F1@K</a></li>
+          <li><a href="#mrr-mean-reciprocal-rank" id="toc-mrr-mean-reciprocal-rank" class="nav-link"
+              data-scroll-target="#mrr-mean-reciprocal-rank">5. MRR — Mean Reciprocal Rank</a></li>
+          <li><a href="#map-mean-average-precision" id="toc-map-mean-average-precision" class="nav-link"
+              data-scroll-target="#map-mean-average-precision">6. MAP — Mean Average Precision</a></li>
+          <li><a href="#ndcg-normalized-discounted-cumulative-gain-the-gold-standard"
+              id="toc-ndcg-normalized-discounted-cumulative-gain-the-gold-standard" class="nav-link"
+              data-scroll-target="#ndcg-normalized-discounted-cumulative-gain-the-gold-standard">7. NDCG — Normalized
+              Discounted Cumulative Gain (the gold standard)</a></li>
+          <li><a href="#auc-area-under-the-roc-curve" id="toc-auc-area-under-the-roc-curve" class="nav-link"
+              data-scroll-target="#auc-area-under-the-roc-curve">8. AUC — Area Under the ROC Curve</a></li>
+          <li><a href="#all-ranking-metrics-on-the-same-list" id="toc-all-ranking-metrics-on-the-same-list"
+              class="nav-link" data-scroll-target="#all-ranking-metrics-on-the-same-list">9. All ranking metrics on the
+              <em>same</em> list</a></li>
+          <li><a href="#beyond-accuracy-metrics-because-accuracy-isnt-enough"
+              id="toc-beyond-accuracy-metrics-because-accuracy-isnt-enough" class="nav-link"
+              data-scroll-target="#beyond-accuracy-metrics-because-accuracy-isnt-enough">10. Beyond-accuracy metrics —
+              because accuracy isn’t enough</a></li>
+          <li><a href="#evaluating-honestly-the-protocol-behind-the-number"
+              id="toc-evaluating-honestly-the-protocol-behind-the-number" class="nav-link"
+              data-scroll-target="#evaluating-honestly-the-protocol-behind-the-number">11. Evaluating honestly — the
+              protocol behind the number</a></li>
+          <li><a href="#bias-fairness-and-the-feedback-loop" id="toc-bias-fairness-and-the-feedback-loop"
+              class="nav-link" data-scroll-target="#bias-fairness-and-the-feedback-loop">12. Bias, fairness, and the
+              feedback loop</a></li>
+          <li><a href="#which-metric-when" id="toc-which-metric-when" class="nav-link"
+              data-scroll-target="#which-metric-when">13. Which metric, when?</a></li>
+          <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">14. Exercises</a>
+          </li>
+          <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link"
+              data-scroll-target="#where-this-fits-in-the-book">15. Where this fits in the book</a></li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">16. Glossary</a>
+          </li>
+          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">17.
+              References</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/traditional-recsys.html">Recommender-System Foundations</a>
+            </li>
+            <li class="breadcrumb-item"><a href="../chapters/recsys-metrics.html"><span class="chapter-title">Evaluation
+                  Metrics</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title"><span class="chapter-title">Evaluation Metrics</span></h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="the-three-questions-a-metric-can-answer" class="level2">
+        <h2 class="anchored" data-anchor-id="the-three-questions-a-metric-can-answer">1. The three questions a metric
+          can answer</h2>
+        <p>Recommendation metrics fall into three families, answering three different questions:</p>
+        <ol type="1">
+          <li><strong>“How wrong are the predicted numbers?”</strong> — <em>rating-error</em> metrics (MAE, RMSE), for
+            when the model predicts a rating (★1–5). §2.</li>
+          <li><strong>“Is the ranked list any good?”</strong> — <em>top-<span class="math inline">\(K\)</span>
+              ranking</em> metrics (Precision, Recall, MRR, NDCG, …), for the real task: show a short ordered list and
+            put the good items on top. §4–§9. <strong>This is what modern recsys actually reports.</strong></li>
+          <li><strong>“Is the list <em>healthy</em> beyond being accurate?”</strong> — <em>beyond-accuracy</em> metrics
+            (coverage, diversity, novelty, serendipity), because a recommender that only shows blockbusters can look
+            accurate and still be useless. §10.</li>
+        </ol>
+        <blockquote class="blockquote">
+          <p><strong>Why “metric.”</strong> From Greek <em>metron</em>, “measure.” A metric <em>measures</em> how good
+            the output is — and, crucially, <strong>different metrics measure different goods</strong>, which is why you
+            must pick the one that matches your goal (§13).</p>
+        </blockquote>
+        <p>These three questions map onto recommendation’s <strong>fundamental tasks</strong> — and each task fixes not
+          just a metric but a <strong>train/test split</strong> and a full <strong>evaluation protocol</strong> (which
+          has itself evolved; §11). The whole picture at a glance:</p>
+        <table class="caption-top table">
+          <caption>Recommendation’s <strong>fundamental tasks</strong> and how each is evaluated. Metric
+            <em>definitions</em> are built below (§2–§10); the <strong>split mechanics</strong> (<span
+              class="math inline">\(k\)</span>-core, random vs.&nbsp;temporal, a leak-free worked example) are owned by
+            <em>Datasets &amp; Benchmarks</em> §3; the concrete
+            <em>which-model-on-which-dataset-under-which-protocol</em> map is the <strong>benchmark map</strong> there
+            (§4); and the protocol depth — full-vs-sampled, A/B, significance — is §11. The “protocol shift” column is
+            the old-to-modern change spelled out in §11.
+          </caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Task</th>
+              <th>What it predicts</th>
+              <th>Train/test split</th>
+              <th>Headline metric(s)</th>
+              <th>Protocol shift</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Rating prediction</strong></td>
+              <td>a star value (1–5)</td>
+              <td>random / <span class="math inline">\(k\)</span>-fold over ratings</td>
+              <td><strong>RMSE</strong>, MAE (§2)</td>
+              <td>stable</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Top-<span class="math inline">\(N\)</span> ranking</strong></td>
+              <td>a ranked list of items</td>
+              <td>random / leave-one-out / temporal (varies — §4)</td>
+              <td><strong>Recall@<span class="math inline">\(K\)</span>, NDCG@<span
+                    class="math inline">\(K\)</span></strong> (§4–§9), MRR</td>
+              <td><strong>sampled <span class="math inline">\(\to\)</span> full</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Next-item / sequential</strong></td>
+              <td>the next item in a session</td>
+              <td>leave-one-out, by time</td>
+              <td>HR@10, NDCG@10, MRR</td>
+              <td>sampled <span class="math inline">\(\to\)</span> full</td>
+            </tr>
+            <tr class="even">
+              <td><strong>CTR</strong> (the ranking stage)</td>
+              <td>a click probability</td>
+              <td>random, per-impression</td>
+              <td><strong>AUC, LogLoss</strong> (§8)</td>
+              <td>stable</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="rating-error-metrics-mae-mse-rmse" class="level2">
+        <h2 class="anchored" data-anchor-id="rating-error-metrics-mae-mse-rmse">2. Rating-error metrics: MAE, MSE, RMSE
+        </h2>
+        <p>When the model predicts a <strong>number</strong> (a rating), grade it by how far the prediction is from the
+          truth. Toy: predictions <span class="math inline">\([4,2,5,3]\)</span> vs.&nbsp;actual <span
+            class="math inline">\([5,2,3,3]\)</span> → errors <span class="math inline">\([-1,0,2,0]\)</span>.</p>
+        <ul>
+          <li><strong>MAE — Mean Absolute Error.</strong> Average of the <em>absolute</em> errors. “On average, how many
+            stars off am I?” <span
+              class="math display">\[\text{MAE}=\tfrac{|{-1}|+|0|+|2|+|0|}{4}=\tfrac{3}{4}=0.75.\]</span></li>
+          <li><strong>MSE — Mean Squared Error.</strong> Average of <em>squared</em> errors (the regression loss,
+            <em>Losses &amp; Regularizers</em> §2.1). <span
+              class="math display">\[\text{MSE}=\tfrac{1+0+4+0}{4}=1.25.\]</span>
+          </li>
+          <li><strong>RMSE — Root Mean Squared Error.</strong> Square-root of MSE, to put it back in the original units
+            (stars, not stars²). <span class="math display">\[\text{RMSE}=\sqrt{1.25}=1.118.\]</span></li>
+        </ul>
+        <blockquote class="blockquote">
+          <p><strong>Why the names, and RMSE vs MAE.</strong> The names are literal recipes read inside-out: <em>(Root)
+              (Mean) (Squared) Error</em>. The key difference: <strong>squaring punishes big misses harder</strong>, so
+            <span class="math inline">\(\text{RMSE}\ (1.118) &gt; \text{MAE}\ (0.75)\)</span> here — the single error of
+            <span class="math inline">\(2\)</span> dominates RMSE. Use <strong>RMSE when large mistakes are especially
+              bad</strong>; <strong>MAE when every star of error is equally bad</strong> (and you want robustness to
+            outliers).
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="the-ranking-setup-one-running-example" class="level2">
+        <h2 class="anchored" data-anchor-id="the-ranking-setup-one-running-example">3. The ranking setup — one running
+          example</h2>
+        <p>Real recommenders output a <strong>ranked list</strong>, and we care whether <strong>relevant</strong> items
+          (ones the user actually likes) sit near the <strong>top</strong>. The setup:</p>
+        <ul>
+          <li>A user whose truly-<strong>relevant</strong> items are <span
+              class="math inline">\(\mathcal{R}=\{B,C,E,G\}\)</span> — so <span
+              class="math inline">\(|\mathcal{R}|=4\)</span>.</li>
+          <li>The recommender returns the <strong>top-<span class="math inline">\(K\)</span></strong> list (<span
+              class="math inline">\(K=5\)</span>): <span class="math inline">\(\;[\,A,\,B,\,C,\,D,\,E\,]\)</span>.</li>
+          <li>Mark each position relevant (1) or not (0): <span class="math inline">\(\;[\,0,\,1,\,1,\,0,\,1\,]\)</span>
+            — <strong>hits at ranks 2, 3, 5</strong>; item <span class="math inline">\(G\)</span> is relevant but missed
+            (not in the top-5).</li>
+        </ul>
+        <div id="fig-recsys-metrics-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.1: The running example. The top-5 list <span class="math inline">\([A,B,C,D,E]\)</span> has
+              relevant items (teal) at <strong>ranks 2, 3, 5</strong>; the fourth relevant item <span
+                class="math inline">\(G\)</span> falls outside the top-5 (missed). Every metric below scores
+              <strong>this one list</strong> — they only disagree on how much a hit’s <strong>rank</strong> should
+              matter.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why “<span class="citation" data-cites="K">@K</span>,” “relevant,” “hit.”</strong> “@<span
+              class="math inline">\(K\)</span>” = <em>evaluated at the top <span class="math inline">\(K\)</span>
+              positions</em> (users only see a short list, so only the top matters). A <strong>relevant</strong> item is
+            one the user truly wants (the <em>ground truth</em>). A <strong>hit</strong> is a relevant item that made
+            the list. Every metric in §4–§7 is computed from this one little list — that is the point: same list,
+            different verdicts. (AUC in §8 needs item <em>scores</em> this list doesn’t carry, so it uses a small
+            separate example.)</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="hit-rate-precisionk-recallk-f1k" class="level2">
+        <h2 class="anchored" data-anchor-id="hit-rate-precisionk-recallk-f1k">4. Hit Rate, Precision@K, Recall@K, F1@K
+        </h2>
+        <ul>
+          <li><strong>Hit Rate (HR@K)</strong> — did we get <strong>at least one</strong> relevant item in the top-<span
+              class="math inline">\(K\)</span>? Here yes → <span class="math inline">\(\text{HR@5}=1\)</span>. (Averaged
+            over users it becomes the <em>fraction of users</em> with <span class="math inline">\(\ge 1\)</span> hit.)
+            Blunt but useful when one good item is enough.</li>
+          <li><strong>Precision@K</strong> — of the <span class="math inline">\(K\)</span> items I
+            <strong>served</strong>, what fraction were relevant? <span
+              class="math display">\[\text{Precision@5}=\tfrac{\#\text{hits}}{K}=\tfrac{3}{5}=0.6.\]</span>
+          </li>
+          <li><strong>Recall@K</strong> — of <strong>all</strong> the relevant items, what fraction did I
+            <strong>find</strong> in the top-<span class="math inline">\(K\)</span>? <span
+              class="math display">\[\text{Recall@5}=\tfrac{\#\text{hits}}{|\mathcal{R}|}=\tfrac{3}{4}=0.75.\]</span>
+          </li>
+          <li><strong>F1@K</strong> — the <strong>harmonic mean</strong> of precision and recall, when you want one
+            number balancing both: <span
+              class="math display">\[\text{F1}=\frac{2\,P\,R}{P+R}=\frac{2(0.6)(0.75)}{0.6+0.75}=0.667.\]</span></li>
+        </ul>
+        <div id="fig-recsys-metrics-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-2.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.2: <strong>Precision<span class="math inline">\(@K\)</span> and Recall<span
+                  class="math inline">\(@K\)</span> as <span class="math inline">\(K\)</span> grows from 1 to
+                5</strong>, on the chapter’s running list <span class="math inline">\([A,B,C,D,E]\)</span> with relevant
+              set <span class="math inline">\(\mathcal{R}=\{B,C,E,G\}\)</span>. At <span
+                class="math inline">\(K=1\)</span> (only <span class="math inline">\(A\)</span> shown, a non-hit) both
+              are <span class="math inline">\(0\)</span>. As <span class="math inline">\(K\)</span> grows, each new hit
+              lifts recall monotonically (<span class="math inline">\(\uparrow\)</span>) because the denominator <span
+                class="math inline">\(|\mathcal{R}|=4\)</span> is fixed. Precision oscillates: a hit at rank 2 (<span
+                class="math inline">\(B\)</span>) pushes it up, a miss at rank 4 (<span
+                class="math inline">\(D\)</span>) pulls it down, settling at <span class="math inline">\(0.60\)</span>
+              at <span class="math inline">\(K=5\)</span>. The <em>fundamental trade-off</em>: showing more items (<span
+                class="math inline">\(K\)</span> <span class="math inline">\(\to\)</span> larger) can only keep or
+              increase recall, while precision has no guarantee of rising — it falls whenever the next item is
+              irrelevant. F1 balances both, but ultimately the right <span class="math inline">\(K\)</span> depends on
+              your use-case (§13).
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>The intuition (memorize this).</strong> <strong>Precision = “don’t waste the user’s
+              attention”</strong> (everything I showed should be good); <strong>Recall = “don’t miss the good
+              stuff”</strong> (find all of it). They <strong>trade off</strong>: show more items → recall ↑ but
+            precision usually ↓. <strong>F1</strong> is the peacemaker — <em>harmonic</em> mean, so it stays low unless
+            <strong>both</strong> are decent. (Concretely: if <span class="math inline">\(P=0.1,R=0.9\)</span>, the
+            <em>arithmetic</em> mean flatters them at <span class="math inline">\(0.5\)</span>, but F1 <span
+              class="math inline">\(=\frac{2(0.1)(0.9)}{0.1+0.9}=0.18\)</span> — the harmonic mean refuses to be fooled
+            by one strong half, which is exactly why it is used.)
+          </p>
+          <p><strong>Why the names.</strong> <em>Precision</em> and <em>recall</em> come from <strong>information
+              retrieval</strong>: precision = exactness of what you returned, recall = how much of the relevant set you
+            <em>recalled</em> (retrieved). <em>F1</em> is the <strong>F-measure</strong> with <span
+              class="math inline">\(\beta=1\)</span> (precision and recall weighted equally).
+          </p>
+        </blockquote>
+        <p>Their blind spot: <strong>none of them care about the <em>order</em> within the top-<span
+              class="math inline">\(K\)</span></strong> — a hit at rank 1 counts the same as a hit at rank 5. The next
+          metrics fix that.</p>
+        <hr>
+      </section>
+      <section id="mrr-mean-reciprocal-rank" class="level2">
+        <h2 class="anchored" data-anchor-id="mrr-mean-reciprocal-rank">5. MRR — Mean Reciprocal Rank</h2>
+        <p><strong>MRR</strong> asks one thing: <strong>how high is the <em>first</em> relevant item?</strong> Take the
+          <strong>reciprocal</strong> <span class="math inline">\(1/\text{rank}\)</span> of the first hit, and average
+          over users.
+        </p>
+        <p>In our list the first relevant item (<span class="math inline">\(B\)</span>) is at <strong>rank 2</strong>,
+          so for this user <span class="math display">\[\text{RR}=\frac{1}{\text{rank of first
+            hit}}=\frac{1}{2}=0.5.\]</span> (First hit at rank 1 → <span class="math inline">\(1.0\)</span>; rank 2 →
+          <span class="math inline">\(0.5\)</span>; rank 3 → <span class="math inline">\(0.33\)</span> … it falls off
+          fast.)
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “reciprocal rank,” and when to use it.</strong> <em>Reciprocal</em> = <span
+              class="math inline">\(1/\text{rank}\)</span> — so the <strong>earlier</strong> the first hit, the
+            <strong>bigger</strong> the score. Use MRR when <strong>one good answer is enough and you want it
+              fast</strong>: question-answering, “I’m feeling lucky” search, a single next-track suggestion. It ignores
+            everything after the first hit.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="map-mean-average-precision" class="level2">
+        <h2 class="anchored" data-anchor-id="map-mean-average-precision">6. MAP — Mean Average Precision</h2>
+        <p>MRR’s perfectionist cousin. <strong>Average Precision (AP)</strong> rewards getting <strong>every</strong>
+          relevant item high, not just the first: compute Precision@<span class="math inline">\(k\)</span> <strong>at
+            each rank where a hit occurs</strong>, average them, and (by convention) divide by the number of relevant
+          items. <strong>MAP</strong> is AP averaged over users.</p>
+        <p>Our hits are at ranks 2, 3, 5: <span class="math display">\[
+            P@2=\tfrac{1}{2}=0.5,\quad P@3=\tfrac{2}{3}=0.667,\quad P@5=\tfrac{3}{5}=0.6,
+            \]</span> <span class="math display">\[
+            \text{AP}=\frac{P@2+P@3+P@5}{|\mathcal{R}|}=\frac{0.5+0.667+0.6}{4}=0.442.
+            \]</span></p>
+        <blockquote class="blockquote">
+          <p><strong>Why “average precision,” and its character.</strong> It is literally the <strong>precision averaged
+              over the hit positions</strong>. Because each hit is scored by the precision <em>at that point</em>, a
+            relevant item buried low drags AP down — so MAP rewards pushing <strong>all</strong> relevant items up.
+            (Convention note: dividing by <span class="math inline">\(|\mathcal{R}|=4\)</span> charges you for the
+            missed item <span class="math inline">\(G\)</span>; some implementations divide by the number of hits —
+            always check which.)</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="ndcg-normalized-discounted-cumulative-gain-the-gold-standard" class="level2">
+        <h2 class="anchored" data-anchor-id="ndcg-normalized-discounted-cumulative-gain-the-gold-standard">7. NDCG —
+          Normalized Discounted Cumulative Gain (the gold standard)</h2>
+        <p>The most-reported ranking metric, because it handles everything: <strong>graded</strong> relevance (not just
+          0/1), <strong>position</strong> (high ranks worth more), and <strong>comparability</strong> across users.
+          Build it up one word at a time:</p>
+        <ul>
+          <li><strong>Gain</strong> — each item’s relevance value <span class="math inline">\(\text{rel}_i\)</span>
+            (binary <span class="math inline">\(0/1\)</span> here; could be a ★1–5 grade).</li>
+          <li><strong>Cumulative Gain</strong> — sum the gains down the list.</li>
+          <li><strong>Discounted</strong> — divide each gain by <span class="math inline">\(\log_2(i+1)\)</span> so
+            <strong>lower ranks count less</strong> (a hit at rank 2 is worth more than one at rank 5; the <span
+              class="math inline">\(+1\)</span> makes rank 1’s divisor <span class="math inline">\(\log_2 2 = 1\)</span>
+            — no discount — and a <em>logarithm</em> falls off gently, gentler than <span
+              class="math inline">\(1/i\)</span>, so items deep in the list still differ slightly rather than being
+            crushed): <span class="math display">\[
+              \text{DCG@5}=\sum_{i=1}^{5}\frac{\text{rel}_i}{\log_2(i+1)}
+              =\frac{1}{\log_2 3}+\frac{1}{\log_2 4}+\frac{1}{\log_2 6}
+              =0.631+0.5+0.387=1.518.
+              \]</span>
+          </li>
+          <li><strong>Normalized</strong> — divide by the <strong>Ideal DCG</strong> (the DCG of the best possible
+            ordering: all 4 relevant items at the top), so the score lands in <span class="math inline">\([0,1]\)</span>
+            and is comparable across users with different numbers of relevant items: <span class="math display">\[
+              \text{IDCG@5}=\frac{1}{\log_2 2}+\frac{1}{\log_2 3}+\frac{1}{\log_2 4}+\frac{1}{\log_2 5}
+              =1+0.631+0.5+0.431=2.562,
+              \]</span> <span class="math display">\[
+              \boxed{\text{NDCG@5}=\frac{\text{DCG}}{\text{IDCG}}=\frac{1.518}{2.562}=0.593.}
+              \]</span></li>
+        </ul>
+        <div id="fig-recsys-metrics-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-3.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.3: The NDCG <strong>discount</strong> <span class="math inline">\(1/\log_2(i+1)\)</span> by
+              rank. A relevant item at rank 1 is worth the full <span class="math inline">\(1.0\)</span>; by rank 2 only
+              <span class="math inline">\(0.63\)</span>, by rank 5 only <span class="math inline">\(0.39\)</span> — the
+              curve flattens, so deep in the list position barely matters. The <strong>teal</strong> bars are our
+              running example’s hits (ranks 2, 3, 5); they sum to <span
+                class="math inline">\(0.631+0.500+0.387=**1.518**=\text{DCG@5}\)</span> above. <em>This</em> is why a
+              hit at rank 2 outscores the same hit at rank 5.
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>Graded NDCG — a mini-example.</strong> NDCG is not limited to binary 0/1 relevance; it handles
+          <strong>graded</strong> labels such as ★1–5 user ratings. The standard gain formula is <span
+            class="math inline">\(\text{gain}_i =
+            2^{\text{rel}_i}-1\)</span> (so rel <span class="math inline">\(0\!\to\!0\)</span>, rel <span
+            class="math inline">\(1\!\to\!1\)</span>, rel <span class="math inline">\(3\!\to\!7\)</span>). Suppose a
+          list of five items has relevances <span class="math inline">\(\text{rel}=[3,0,1,0,2]\)</span> (ranks 1–5).
+          Then: <span class="math display">\[
+            \text{DCG}=7(1.000)+0(0.631)+1(0.500)+0(0.431)+3(0.387)
+            =7.000+0.000+0.500+0.000+1.161=8.661.
+            \]</span> The ideal ordering places the highest gains first: <span
+            class="math inline">\([7,3,1,0,0]\)</span>, giving <span class="math display">\[
+            \text{IDCG}=7(1.000)+3(0.631)+1(0.500)+0+0=7.000+1.893+0.500=9.393,
+            \]</span> <span class="math display">\[
+            \text{NDCG}=\frac{8.661}{9.393}=0.922.
+            \]</span> (Each gain is multiplied by its discount <span class="math inline">\(1/\log_2(i+1)\)</span> at
+          rank <span class="math inline">\(i\)</span>; e.g.<br>
+          <span class="math inline">\(1/\log_2(2)=1.000\)</span>, <span
+            class="math inline">\(1/\log_2(3)\approx0.631\)</span>, <span
+            class="math inline">\(1/\log_2(6)\approx0.387\)</span>.)
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why each word earns its place.</strong> <em>Gain</em> (relevance is a reward), <em>Cumulative</em>
+            (sum down the list), <em>Discounted</em> (a log-discount for low ranks — diminishing attention),
+            <em>Normalized</em> (÷ ideal → a <span class="math inline">\(0\)</span>–<span
+              class="math inline">\(1\)</span> score, <span class="math inline">\(1\)</span> = perfect order).
+            <strong>Use NDCG when position and graded relevance matter</strong> — i.e.&nbsp;almost always in modern
+            recsys/IR. It is the book’ default (<em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive
+              Learning</em>, and <em>The Spectral / Graph-Filter View</em> report Recall@K and NDCG@K as their headline
+            numbers).
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="auc-area-under-the-roc-curve" class="level2">
+        <h2 class="anchored" data-anchor-id="auc-area-under-the-roc-curve">8. AUC — Area Under the ROC Curve</h2>
+        <p>A <em>global</em> ranking metric over <strong>all</strong> items: <strong>pick a random relevant item and a
+            random irrelevant item — what’s the probability the model scores the relevant one higher?</strong> That
+          probability <strong>is</strong> the AUC.</p>
+        <p>Toy: relevant scores <span class="math inline">\(\{0.9, 0.6\}\)</span>, irrelevant scores <span
+            class="math inline">\(\{0.7, 0.4, 0.3\}\)</span>. There are <span class="math inline">\(2\times3=6\)</span>
+          (relevant, irrelevant) pairs; the model ranks the relevant one higher in <strong>5</strong> of them (only
+          <span class="math inline">\(0.6&lt;0.7\)</span> fails): <span class="math display">\[
+            \text{AUC}=\frac{\#\text{correctly-ordered pairs}}{\#\text{pairs}}=\frac{5}{6}=0.833.
+            \]</span> <span class="math inline">\(0.5\)</span> = random guessing; <span
+            class="math inline">\(1.0\)</span> = every relevant item above every irrelevant one.
+        </p>
+        <div id="fig-recsys-metrics-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-4.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.4: The <strong>ROC curve</strong> for §8’s toy scores. Sweeping the score threshold from
+              high to low, each <strong>relevant</strong> item found lifts the curve <strong>up</strong> (<span
+                class="math inline">\(+\tfrac12\)</span> to the true-positive rate), each <strong>irrelevant</strong>
+              one pushes it <strong>right</strong> (<span class="math inline">\(+\tfrac13\)</span> to the false-positive
+              rate). The <strong>shaded area under the curve is the AUC</strong> — here exactly <span
+                class="math inline">\(\tfrac56=0.833\)</span>, the same pairwise probability computed above. The dashed
+              diagonal is random guessing (AUC <span class="math inline">\(0.5\)</span>); the more the curve bows toward
+              the top-left, the better the ranking.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why “AUC / ROC” (the fun one).</strong> <strong>AUC</strong> = <strong>A</strong>rea
+            <strong>U</strong>nder the <strong>C</strong>urve; the curve is the <strong>ROC</strong> =
+            <strong>R</strong>eceiver <strong>O</strong>perating <strong>C</strong>haracteristic — a term from
+            <strong>signal-detection theory</strong> (Green &amp; Swets, 1966), with roots in WWII radar-receiver
+            analysis: how well a <em>receiver</em> distinguished signal (real echoes) from noise. The
+            pairwise-probability above equals that area. Closely tied to <strong>BPR</strong> (<em>Losses &amp;
+              Regularizers</em> §9), which directly optimizes correctly-ordered pairs.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="all-ranking-metrics-on-the-same-list" class="level2">
+        <h2 class="anchored" data-anchor-id="all-ranking-metrics-on-the-same-list">9. All ranking metrics on the
+          <em>same</em> list
+        </h2>
+        <p>Every number below comes from the <strong>one</strong> list of §3 (<span
+            class="math inline">\(\mathcal{R}=\{B,C,E,G\}\)</span>, top-5 <span
+            class="math inline">\([A,B,C,D,E]\)</span>, hits at ranks 2,3,5). Seeing them together is the fastest way to
+          feel the differences:</p>
+        <table class="caption-top table">
+          <caption>The running top-5 list <span class="math inline">\([A,B,C,D,E]\)</span> scored by all eight ranking
+            metrics — each rewards a different notion of a good ranking, which is exactly why they disagree on the same
+            list.</caption>
+          <thead>
+            <tr class="header">
+              <th>Metric</th>
+              <th style="text-align: right;">Value</th>
+              <th>What it rewarded</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Hit Rate@5</td>
+              <td style="text-align: right;"><span class="math inline">\(1.0\)</span></td>
+              <td>got <span class="math inline">\(\ge 1\)</span> relevant item</td>
+            </tr>
+            <tr class="even">
+              <td>Precision@5</td>
+              <td style="text-align: right;"><span class="math inline">\(0.60\)</span></td>
+              <td>3 of 5 shown were good</td>
+            </tr>
+            <tr class="odd">
+              <td>Recall@5</td>
+              <td style="text-align: right;"><span class="math inline">\(0.75\)</span></td>
+              <td>found 3 of 4 relevant</td>
+            </tr>
+            <tr class="even">
+              <td>F1@5</td>
+              <td style="text-align: right;"><span class="math inline">\(0.667\)</span></td>
+              <td>balance of the two</td>
+            </tr>
+            <tr class="odd">
+              <td>MRR</td>
+              <td style="text-align: right;"><span class="math inline">\(0.50\)</span></td>
+              <td>first hit was at rank 2</td>
+            </tr>
+            <tr class="even">
+              <td>MAP</td>
+              <td style="text-align: right;"><span class="math inline">\(0.442\)</span></td>
+              <td>all hits’ positions (penalizes missed <span class="math inline">\(G\)</span>)</td>
+            </tr>
+            <tr class="odd">
+              <td>NDCG@5</td>
+              <td style="text-align: right;"><span class="math inline">\(0.593\)</span></td>
+              <td>positions, normalized to the ideal</td>
+            </tr>
+            <tr class="even">
+              <td>AUC</td>
+              <td style="text-align: right;"><span class="math inline">\(0.833\)</span>*</td>
+              <td>global pair-ordering (*from §8’s scores)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Same recommendation, eight different verdicts — because each metric encodes a different definition of “good.”
+          That is why §13 (choosing) matters.</p>
+        <hr>
+      </section>
+      <section id="beyond-accuracy-metrics-because-accuracy-isnt-enough" class="level2">
+        <h2 class="anchored" data-anchor-id="beyond-accuracy-metrics-because-accuracy-isnt-enough">10. Beyond-accuracy
+          metrics — because accuracy isn’t enough</h2>
+        <p>A recommender that only ever suggests the Top-10 blockbusters can score high on Recall/NDCG and still be a
+          <strong>bad product</strong>: boring, repetitive, and blind to the catalog (recall the <strong>popularity bias
+            / long-tail</strong> effect, worked numerically in <strong><em>From Graphs to LightGCN</em> §13</strong>).
+          These metrics guard the <em>health</em> of the list:
+        </p>
+        <ul>
+          <li><strong>Coverage</strong> — what fraction of the <strong>catalog</strong> ever gets recommended? Toy: only
+            4 distinct items recommended across all users out of 10 → <span
+              class="math inline">\(\text{coverage}=4/10=0.4\)</span>. Low coverage = the long tail is invisible.</li>
+          <li><strong>Diversity (intra-list)</strong> — how <strong>dissimilar</strong> are the items <em>within</em>
+            one user’s list? Average pairwise <span class="math inline">\((1-\text{similarity})\)</span>. Toy (3 items,
+            pairwise cosines <span class="math inline">\(0.5,0.0,0.5\)</span>): <span
+              class="math inline">\(\text{diversity}=\tfrac{0.5+1.0+0.5}{3}=0.667\)</span>. Low = “you watched one
+            sci-fi, here are 10 more sci-fi.”</li>
+          <li><strong>Novelty</strong> — how <strong>non-obvious</strong> are the items? Often the
+            <strong>self-information</strong> of an item’s popularity, <span
+              class="math inline">\(-\log_2(\text{popularity})\)</span>. Toy: an item seen by <span
+              class="math inline">\(1\%\)</span> of users → <span class="math inline">\(-\log_2(0.01)=6.64\)</span>
+            <strong>bits</strong> of novelty (a blockbuster seen by 50% → only <span class="math inline">\(1\)</span>
+            bit).
+          </li>
+          <li><strong>Serendipity</strong> — <strong>relevant <em>and</em> surprising</strong>: a good recommendation
+            the user would <em>not</em> have found themselves (relevant <strong>minus</strong> what a popularity
+            baseline would have shown). The “delightful surprise” metric; hardest to measure, most valued by users. Toy:
+            of our top-5 list’s <span class="math inline">\(3\)</span> relevant hits, suppose <span
+              class="math inline">\(2\)</span> are items a popularity baseline would <strong>not</strong> have shown
+            (genuinely surprising) and <span class="math inline">\(1\)</span> is a blockbuster the baseline picks
+            anyway; then <span class="math inline">\(\text{serendipity@5}=\tfrac{2}{5}=0.4\)</span>. (Note
+            <strong>Precision@5 was <span class="math inline">\(0.6\)</span></strong> — it credited all <span
+              class="math inline">\(3\)</span> hits; serendipity discards the obvious one, crediting only the <span
+              class="math inline">\(2\)</span> non-obvious finds.)
+          </li>
+          <li><strong>Gini coefficient / popularity bias</strong> — how <strong>concentrated</strong> recommendations
+            are on a few popular items (Gini <span class="math inline">\(0\)</span> = perfectly even across the catalog,
+            <span class="math inline">\(1\)</span> = all traffic to one item). High Gini = the rich-get-richer
+            blockbuster trap. Toy: a <span class="math inline">\(5\)</span>-item catalog gets recommended with counts
+            <span class="math inline">\([8,2,0,0,0]\)</span> (<span class="math inline">\(10\)</span> recommendations,
+            mean <span class="math inline">\(\mu=2\)</span>). Two equivalent hand-computations: <span
+              class="math display">\[
+              G=\frac{\sum_i\sum_j |x_i-x_j|}{2\,n^2\,\mu}=\frac{72}{2\cdot 25\cdot 2}=\frac{72}{100}=0.72,
+              \]</span> the <strong>average absolute gap</strong> between any two items’ counts, scaled to <span
+              class="math inline">\([0,1)\)</span>; or read it off the <strong>Lorenz curve</strong> below as <span
+              class="math inline">\(G=\tfrac{A}{A+B}=\tfrac{0.36}{0.5}=0.72\)</span> (here <span
+              class="math inline">\(B\)</span>, the area <em>under</em> the Lorenz curve, is two trapezoids <span
+              class="math inline">\(\tfrac12(0{+}0.2)(0.2)+\tfrac12(0.2{+}1)(0.2)=0.14\)</span>, so the gap <span
+              class="math inline">\(A=\tfrac12-0.14=0.36\)</span>). A near-monopoly catalog — and a red flag the
+            cheerful Recall@5 of <span class="math inline">\(0.75\)</span> would never reveal.
+          </li>
+        </ul>
+        <div id="fig-recsys-metrics-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-5.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.5: The <strong>Lorenz curve</strong> for the Gini toy (catalog rec-counts <span
+                class="math inline">\([8,2,0,0,0]\)</span>, sorted fewest-first). Walking left to right, the bottom
+              <span class="math inline">\(3\)</span> items hold <span class="math inline">\(0\%\)</span> of
+              recommendations, so the curve hugs the floor; the last two items (<span class="math inline">\(2\)</span>
+              then <span class="math inline">\(8\)</span>) carry it up to <span class="math inline">\(0.2\)</span> then
+              <span class="math inline">\(1.0\)</span>. The dashed diagonal is <strong>perfect equality</strong> (every
+              item recommended equally, Gini <span class="math inline">\(0\)</span>). <strong>Gini</strong> is the gap
+              area <span class="math inline">\(A\)</span> as a fraction of the whole triangle: <span
+                class="math inline">\(G=A/(A{+}B)=0.36/0.5=**0.72**\)</span> — the further the curve sags below the
+              diagonal, the more concentrated (and unhealthy) the catalog.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why the names.</strong> <em>Coverage</em> = how much of the catalog you <em>cover</em>;
+            <em>diversity</em> = variety; <em>novelty</em> (Latin <em>novus</em>, “new”) = newness/non-obviousness;
+            <em>serendipity</em> (coined by Horace Walpole, 1754, from the fairy tale <em>The Three Princes of
+              Serendip</em> who made happy discoveries by accident) = a fortunate surprise; the <strong>Gini</strong>
+            coefficient is named after statistician <strong>Corrado Gini</strong> (1912), borrowed from economics
+            (income inequality). The <strong>Lorenz curve</strong> it is read from is named after economist <strong>Max
+              Lorenz</strong> (1905).
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="evaluating-honestly-the-protocol-behind-the-number" class="level2">
+        <h2 class="anchored" data-anchor-id="evaluating-honestly-the-protocol-behind-the-number">11. Evaluating honestly
+          — the protocol behind the number</h2>
+        <p>Every number above assumed two things were <em>already</em> in hand: a <strong>test set</strong> and, for
+          AUC, the model’s <strong>scores</strong>. <em>How</em> you produce them decides whether the metric means
+          anything at all — a state-of-the-art NDCG on a sloppy protocol is worth less than a modest one measured
+          cleanly. Five lenses on a trustworthy number, each with a classic trap.</p>
+        <p>Before the lenses, the <strong>big picture</strong>: recommendation’s evaluation protocol changed sharply
+          around 2019–2020, after a reproducibility study (Ferrari Dacrema et al., RecSys 2019) and the sampled-metrics
+          critique (Krichene &amp; Rendle, KDD 2020) showed the <em>old</em> regime could <strong>reverse</strong>
+          published conclusions. The shift, dimension by dimension:</p>
+        <table class="caption-top table">
+          <caption>How the evaluation protocol evolved. The <strong>benchmark map</strong> of <em>Datasets &amp;
+              Benchmarks</em> §4 draws this old-vs-modern fork as a decision tree and pins each research regime to it;
+            lenses (a)–(d) below justify these rows (the baselines row follows the reproducibility critique,
+            <em>Datasets</em> §5).
+          </caption>
+          <colgroup>
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Protocol choice</th>
+              <th>Old / legacy (before ~2020)</th>
+              <th>Modern / SOTA</th>
+              <th>Why (the lens)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Train/test split</td>
+              <td>random hold-out</td>
+              <td><strong>temporal / leave-one-last</strong></td>
+              <td>(a) no future leak</td>
+            </tr>
+            <tr class="even">
+              <td>Ranking candidates</td>
+              <td>item vs.&nbsp;~100 <strong>sampled</strong> negatives</td>
+              <td>the <strong>full</strong> catalog</td>
+              <td>(b) sampling can reverse rankings</td>
+            </tr>
+            <tr class="odd">
+              <td>Reporting</td>
+              <td>one run, a point estimate</td>
+              <td><strong>mean &amp; std over seeds, + significance</strong></td>
+              <td>(d) is the gain real?</td>
+            </tr>
+            <tr class="even">
+              <td>Baselines</td>
+              <td>often under-tuned</td>
+              <td><strong>tuned</strong> classical baselines (kNN / MF)</td>
+              <td>Dacrema; <em>Datasets</em> §5</td>
+            </tr>
+            <tr class="odd">
+              <td>Verdict</td>
+              <td>offline metric alone</td>
+              <td>offline filter <strong>+ online A/B</strong></td>
+              <td>(c) offline is a proxy</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>(a) The train/test split — and the leakage trap.</strong> You hide some interactions as the
+          <strong>test set</strong> and train on the rest. Three common schemes:
+        </p>
+        <ul>
+          <li><strong>Random holdout</strong> — hide a random fraction. Simple, but it can <strong>leak the future into
+              the past</strong>: you might train on a click that happened <em>after</em> a test click — something the
+            live system could never do.</li>
+          <li><strong>Leave-one-out (LOO)</strong> — hide each user’s <strong>last</strong> (or one random) interaction
+            and rank it against the rest. The default in <em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive
+              Learning</em>, and <em>The Spectral / Graph-Filter View</em>.</li>
+          <li><strong>Temporal / global-timeline split</strong> — cut at a <strong>timestamp</strong>: train on
+            everything before, test on everything after. The most honest, because it mirrors deployment (predict the
+            future from the past). Prefer it whenever timestamps exist.</li>
+        </ul>
+        <p>The trap to avoid is <strong>data leakage</strong> — <em>any</em> information from the test period seeping
+          into training inflates every metric above and then evaporates in production.</p>
+        <p><strong>(b) Full vs.&nbsp;sampled ranking — the silent metric-killer.</strong> To compute Recall@K / NDCG@K
+          you must rank the held-out relevant item among <strong>candidates</strong>. Two choices:</p>
+        <ul>
+          <li><strong>Full ranking</strong> — rank it against the <strong>entire</strong> catalog of unseen items (often
+            millions). Expensive but correct.</li>
+          <li><strong>Sampled ranking</strong> — rank it against the true item plus a handful (say <span
+              class="math inline">\(100\)</span>) of <strong>randomly sampled</strong> negatives. Cheap, and long
+            popular.</li>
+        </ul>
+        <p>The catch: <strong>sampled metrics are inconsistent.</strong> Krichene &amp; Rendle (KDD 2020) showed that
+          sampling can <strong>reverse</strong> which model looks better versus full ranking — <span class="citation"
+            data-cites="K">@K</span> over <span class="math inline">\(100\)</span> items measures something genuinely
+          different from <span class="citation" data-cites="K">@K</span> over millions. <strong>Report full-ranking
+            metrics</strong>, or at minimum disclose the sampling protocol; the modern graph notes evaluate full-ranking
+          for exactly this reason. If compute truly forces sampling, <strong>sample the negatives by popularity</strong>
+          (not uniformly) so the distractors resemble the hard, popular items a full ranking would surface; use a
+          <strong>large</strong> sample (<span class="math inline">\(\ge1000\)</span>, not <span
+            class="math inline">\(100\)</span>); and report the sample size — then read the result as a <em>lower-bound
+            proxy</em> for the full-ranking number, not as comparable across papers that sampled differently.
+        </p>
+        <p><strong>(c) Offline metrics are proxies — the real judge is online (A/B).</strong> Everything above is
+          <strong>offline</strong>: computed on logged history. But logged data is itself <strong>biased</strong> — you
+          only ever observe what the <em>old</em> system chose to show. The decisive test is an <strong>online A/B
+            test</strong>: split live users, serve model A to one half and B to the other, and compare a
+          <strong>business</strong> metric (click-through, watch-time, revenue). Offline NDCG and online lift routinely
+          disagree; offline is the cheap <em>filter</em>, online is the <em>verdict</em>. The <strong>online
+            metrics</strong> themselves need defining: <strong>click-through rate (CTR)</strong> <span
+            class="math inline">\(=\text{clicks}/\text{impressions}\)</span>; <strong>dwell / watch-time</strong> (how
+          long the user stayed — its distribution is <strong>heavy-tailed</strong>, so compare medians or a trimmed
+          mean, or use a rank test like Mann–Whitney, not a raw mean); <strong>conversion rate</strong> (the fraction
+          who took the target action — buy, subscribe); and <strong>session length / return rate</strong> for
+          longer-horizon health. No offline number predicts these perfectly — NDCG tracks CTR only loosely — which is
+          precisely why the A/B test, not the offline score, is the verdict.
+        </p>
+        <p><strong>(d) Is the gain real? — statistical significance.</strong> A model that beats the baseline by <span
+            class="math inline">\(0.001\)</span> NDCG may just be lucky noise. Run each model over <strong>several
+            random seeds</strong>, report <strong>mean <span class="math inline">\(\pm\)</span> standard
+            deviation</strong>, and use a <strong>paired <span class="math inline">\(t\)</span>-test</strong> (the same
+          machinery as the Probability primer’s confidence intervals) to ask: <em>is this gap bigger than the run-to-run
+            wobble?</em> Report a <span class="math inline">\(p\)</span>-value (e.g.&nbsp;<span
+            class="math inline">\(p&lt;0.05\)</span>). A headline number with no significance test — or no stated <span
+            class="math inline">\(K\)</span> and ranking protocol — is not yet evidence.</p>
+        <p><strong>Why <em>paired</em>, and what to do when the metric isn’t Gaussian.</strong> The test is
+          <em>paired</em> because both models run on the <strong>same</strong> test users and the <strong>same</strong>
+          seeds, so you compare them case-by-case and cancel the shared variance — far more sensitive than treating the
+          two runs as independent groups. Over <span class="math inline">\(5\)</span> seeds a model might score NDCG
+          <span class="math inline">\(\{0.40,0.41,0.42,0.43,0.44\}\)</span>: mean <span
+            class="math inline">\(0.420\)</span>, sample std <span class="math inline">\(0.016\)</span>, standard error
+          <span class="math inline">\(\text{SE}=0.016/\sqrt5\approx0.0072\)</span>, so the <span
+            class="math inline">\(95\%\)</span> confidence interval (a <strong>Student-<span
+              class="math inline">\(t\)</span></strong> interval — <span class="math inline">\(n{-}1{=}4\)</span> d.f.,
+          <span class="math inline">\(t^{*}=2.776\)</span>, the same machinery as the Probability primer’s §8) is <span
+            class="math inline">\(0.420\pm2.776(0.0072)=0.420\pm0.020=[0.400,\,0.440]\)</span>. But per-user scores are
+          usually <strong>not</strong> Gaussian (most users score <span class="math inline">\(0\)</span>, a few score
+          <span class="math inline">\(1\)</span>), so the cleaner tool is the <strong>bootstrap</strong>: resample the
+          test users <em>with replacement</em> a few thousand times, recompute the metric each time, and read the <span
+            class="math inline">\(2.5\)</span>th/<span class="math inline">\(97.5\)</span>th percentiles as the interval
+          — it assumes no distribution at all. Report the interval, not just the point estimate.
+        </p>
+        <p><strong>The verdict, made concrete — and it is the <em>gain’s</em> interval that decides.</strong> Suppose B
+          beats A by a headline <strong><span class="math inline">\(+0.002\)</span> NDCG@10</strong>. Over the <span
+            class="math inline">\(5\)</span> shared seeds the per-seed gains are <span
+            class="math inline">\(d=[+0.01,-0.01,+0.02,-0.01,0.00]\)</span>: <span class="math inline">\(\bar
+            d=+0.002\)</span>, but they swing in sign, so <span class="math inline">\(\text{SE}=0.006\)</span>, the
+          paired <span class="math inline">\(t=0.34\)</span> (<span class="math inline">\(p=0.75\)</span>), and the
+          <span class="math inline">\(95\%\)</span> CI of the <em>gain</em> is <span
+            class="math inline">\([-0.014,\,+0.018]\)</span> — it <strong>includes <span
+              class="math inline">\(0\)</span></strong>. So the <span class="math inline">\(+0.002\)</span> is within
+          run-to-run noise and <strong>you do not ship B</strong> on this evidence. The headline mean never told you
+          that; its interval did. (Test mechanics and three more cases: <em>Probability &amp; Statistics</em> §8.7.)
+        </p>
+        <div id="fig-recsys-metrics-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-6.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.6: Significance is whether the <em>gain’s</em> interval clears <span
+                class="math inline">\(0\)</span>. Top: the observed B-vs-A gain, <span class="math inline">\(\bar
+                d=+0.002\)</span> with <span class="math inline">\(95\%\)</span> CI <span
+                class="math inline">\([-0.014,+0.018]\)</span>, <em>crosses</em> <span class="math inline">\(0\)</span>
+              — the win is within noise, so <strong>do not ship</strong>. Bottom: a hypothetical gain whose CI <span
+                class="math inline">\([+0.010,+0.015]\)</span> sits entirely above <span
+                class="math inline">\(0\)</span> — <strong>ship</strong>. Two results can share a positive headline mean
+              yet differ here; the interval, not the mean, is the verdict.
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>Bootstrap, with numbers.</strong> For the non-Gaussian per-user case above: say <span
+            class="math inline">\(20\)</span> test users give hit@10 <span class="math inline">\(=1\)</span> for <span
+            class="math inline">\(6\)</span> of them (mean <span class="math inline">\(0.30\)</span>). One
+          resample-with-replacement repeats some users and drops others for <span
+            class="math inline">\(7/20=0.35\)</span>; another gives <span class="math inline">\(5/20=0.25\)</span>. Over
+          a few thousand resamples, the <span class="math inline">\(2.5\)</span>/<span
+            class="math inline">\(97.5\)</span> percentiles land at <span class="math inline">\([0.10,\,0.50]\)</span> —
+          honestly wide for just <span class="math inline">\(20\)</span> users, and assuming no distribution at all.</p>
+        <p><strong>(e) Are the scores themselves meaningful? — calibration.</strong> Ranking metrics only judge
+          <em>order</em>, but many uses need the score to be a <strong>trustworthy probability</strong>: a
+          “watch-probability” shown to the user, a threshold for whether to recommend at all, or blending scores across
+          models. A model is <strong>calibrated</strong> if, among items it scores <span
+            class="math inline">\(0.8\)</span>, about <span class="math inline">\(80\%\)</span> are actually clicked.
+          Check it with a <strong>reliability diagram</strong> — bin the predictions and plot <em>predicted</em> vs
+          <em>observed</em> click rate per bin; on the diagonal means calibrated. The one-number summary is the
+          <strong>Expected Calibration Error (ECE)</strong>, the bin-size-weighted average gap. Worked, two bins of
+          <span class="math inline">\(5\)</span> items: a high-confidence bin predicts <span
+            class="math inline">\(0.80\)</span> but only <span class="math inline">\(3/5=0.60\)</span> click (gap <span
+            class="math inline">\(0.20\)</span>); a low bin predicts <span class="math inline">\(0.20\)</span> and <span
+            class="math inline">\(1/5=0.20\)</span> click (gap <span class="math inline">\(0\)</span>); <span
+            class="math inline">\(\text{ECE}=\tfrac12(0.20)+\tfrac12(0)=\mathbf{0.10}\)</span> — over-confident. The
+          fixes are cheap post-hoc rescalings — <strong>Platt scaling</strong> (fit a logistic on the raw scores) or
+          <strong>isotonic regression</strong> (a monotone step-fit) — that leave the <em>ranking</em> untouched while
+          making the <em>numbers</em> honest.
+        </p>
+        <p><strong>Platt scaling and isotonic regression — built up.</strong> Both methods learn a mapping from raw
+          model scores <span class="math inline">\(s\)</span> to calibrated probabilities on a held-out
+          <em>validation</em> set (never the test set — the same train/val/test discipline as §11a):
+        </p>
+        <ul>
+          <li><strong>Platt scaling</strong> fits a one-parameter logistic: find scalars <span
+              class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> that minimise cross-entropy
+            between the binary click labels and <span class="math display">\[p_{\text{cal}} = \sigma(a\,s + b), \qquad
+              \sigma(z)=\tfrac{1}{1+e^{-z}}.\]</span> With <span class="math inline">\(a&gt;0\)</span> the shape is
+            fixed (a sigmoid); only the <em>position</em> (<span class="math inline">\(b\)</span>) and <em>slope</em>
+            (<span class="math inline">\(a\)</span>) are fitted — cheap even on large validation sets. For
+            over-confident scores the slope <span class="math inline">\(a\)</span> is typically estimated <span
+              class="math inline">\(&lt;1\)</span>, and together with a shifted intercept <span
+              class="math inline">\(b\)</span> the fitted map <span class="math inline">\(\sigma(a\cdot s+b)\)</span>
+            pulls predicted probabilities toward the observed rate — but both parameters act jointly, so it is the
+            combination <span class="math inline">\(\sigma(a\cdot s+b)\)</span>, not <span
+              class="math inline">\(a\)</span> alone, that determines the calibrated output.</li>
+          <li><strong>Isotonic regression</strong> fits a free monotone (non-decreasing) step function — no parametric
+            shape assumed. Given the <span class="math inline">\((s,\text{click})\)</span> pairs, it finds the
+            piecewise-constant function <span class="math inline">\(g(s)\)</span> that minimises squared error subject
+            to <span class="math inline">\(g(s_i)\le g(s_j)\)</span> whenever <span class="math inline">\(s_i\le
+              s_j\)</span>, solved by the <strong>pool-adjacent-violators (PAV) algorithm</strong> in <span
+              class="math inline">\(O(n)\)</span>. More flexible than Platt scaling but needs more validation data to
+            avoid over-fitting the step function.</li>
+        </ul>
+        <p>Both are <em>post-hoc</em>: they are applied to a frozen model’s output scores without any retraining, and
+          both preserve the original <em>ranking</em> (a monotone remap cannot swap ranks). The key reference is
+          Niculescu-Mizil &amp; Caruana (ICML 2005), who benchmarked both methods across classifiers and showed that
+          Platt scaling works best when the raw scores already have a sigmoid-like shape (e.g.&nbsp;SVMs, boosting),
+          while isotonic regression beats Platt when the miscalibration is irregular — but at the cost of needing more
+          data.</p>
+        <div id="fig-recsys-metrics-7" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-recsys-metrics-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/recsys-metrics-7.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-recsys-metrics-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;8.7: <strong>Reliability (calibration) diagram</strong> for the 11e worked example. Each dot
+              is one prediction bin: the <strong>x-coordinate</strong> is the bin’s mean predicted probability; the
+              <strong>y-coordinate</strong> is the fraction of items in that bin that were actually clicked. The dashed
+              diagonal is <strong>perfect calibration</strong> (<span class="math inline">\(\hat{p}=\)</span> observed
+              rate). The (low bin: <span class="math inline">\(\hat{p}=0.20\)</span>, observed <span
+                class="math inline">\(=0.20\)</span>) lies on the diagonal. The (high bin: <span
+                class="math inline">\(\hat{p}=0.80\)</span>, observed <span class="math inline">\(=0.60\)</span>) sits
+              <strong>below</strong> the diagonal by <span class="math inline">\(0.20\)</span> — the model is
+              over-confident. <strong>ECE</strong> is the weighted average of these gaps: <span
+                class="math inline">\(\tfrac{1}{2}(0.20)+\tfrac{1}{2}(0)=0.10\)</span>.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>The one-paragraph protocol checklist.</strong> Before trusting any Recall@K / NDCG@K:
+            <strong>(1)</strong> split by <strong>time</strong> if you can, and never leak; <strong>(2)</strong> rank
+            against the <strong>full</strong> catalog, or disclose the sampling; <strong>(3)</strong> treat offline as a
+            proxy and confirm with an <strong>A/B test</strong>; <strong>(4)</strong> report <strong>mean <span
+                class="math inline">\(\pm\)</span> std over seeds</strong> with a <strong>significance test</strong>,
+            and always state <strong><span class="math inline">\(K\)</span></strong> and binary-vs-graded relevance. The
+            fanciest metric on a leaky, sampled, single-seed protocol is worth less than <strong>Recall@20 measured
+              honestly</strong>.
+          </p>
+        </blockquote>
+        <blockquote class="blockquote">
+          <p><strong>In practice.</strong> Start with the cheap, standard pair: <strong>Recall@<span
+                class="math inline">\(K\)</span></strong> (or <strong>NDCG@<span
+                class="math inline">\(K\)</span></strong>) plus <strong>one</strong> beyond-accuracy number — coverage
+            or Gini is enough. Serendipity is aspirational: it needs a baseline and user labels, so it is rarely
+            computed in published work. Rank against the <strong>full</strong> item catalog, not a sampled handful of
+            negatives — Krichene &amp; Rendle (KDD 2020) showed that sampled top-<span class="math inline">\(K\)</span>
+            metrics can <strong>reverse which model wins</strong> versus full ranking. Finally, guard against
+            <strong>leakage</strong>: if interactions are timestamped, use a <strong>time-based split</strong> so
+            nothing from the test period (or its future) leaks into training — the way <em>From Graphs to LightGCN</em>
+            and <em>The Spectral / Graph-Filter View</em> evaluate.
+          </p>
+        </blockquote>
+        <blockquote class="blockquote">
+          <p><strong>→ Which frameworks enforce this?</strong> The <strong>Implementation Choices</strong> appendix §5
+            lists the toolkits that bake in these protocols (RecBole, Cornac, Elliot) and the papers behind each pitfall
+            here — Krichene &amp; Rendle on sampled metrics, Ferrari Dacrema et al.&nbsp;on under-tuned baselines, Ji et
+            al.&nbsp;on data leakage.</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="bias-fairness-and-the-feedback-loop" class="level2">
+        <h2 class="anchored" data-anchor-id="bias-fairness-and-the-feedback-loop">12. Bias, fairness, and the feedback
+          loop</h2>
+        <p>Every metric so far quietly assumed the test set was a <strong>fair sample</strong> of what the user would
+          have liked. It is not. A recommender’s logged data is <strong>not a random sample</strong> — it is what the
+          <em>system itself chose to show</em> and what the user <em>then chose to click</em>. So an item with no clicks
+          might be genuinely disliked, or it might simply <strong>never have been shown</strong>. This section names the
+          biases that creates, the loop that makes them worse, the standard tool to correct them (<strong>IPS</strong>),
+          and the second question metrics usually skip: not just <em>is the list good?</em> but <em>good <strong>for
+              whom</strong>?</em>
+        </p>
+        <section id="the-core-problem-the-data-is-missing-not-at-random-mnar" class="level3">
+          <h3 class="anchored" data-anchor-id="the-core-problem-the-data-is-missing-not-at-random-mnar">12.1 The core
+            problem — the data is missing-not-at-random (MNAR)</h3>
+          <p>Statisticians call data <strong>MNAR — Missing-Not-At-Random</strong> when <em>whether</em> a value is
+            observed depends on the value itself (and on choices that correlate with it). Recommendation logs are the
+            textbook case: you mostly observe interactions for items the system <em>promoted</em>, so the missing
+            entries are missing <strong>for a reason</strong>, not by coin-flip. Computing a metric naively over this
+            log therefore measures the <strong>old system’s habits</strong> as much as the new model’s quality — the
+            estimate is <strong>biased</strong>.</p>
+          <blockquote class="blockquote">
+            <p><strong>Why “MNAR.”</strong> Read literally: the data that is <strong>M</strong>issing is missing
+              <strong>N</strong>ot <strong>A</strong>t <strong>R</strong>andom. Its opposite,
+              <em>missing-at-random</em>, is the comfortable assumption (the gaps are just coin-flips) that lets you
+              ignore the problem — and that recommender logs almost never satisfy.
+            </p>
+          </blockquote>
+        </section>
+        <section id="the-bias-taxonomy" class="level3">
+          <h3 class="anchored" data-anchor-id="the-bias-taxonomy">12.2 The bias taxonomy</h3>
+          <p>Three biases, defined once each. They are distinct but feed one another (§12.3).</p>
+          <ul>
+            <li><strong>Selection / exposure bias</strong> — users can only interact with items they were
+              <strong>shown</strong>. Un-shown items have <strong>no</strong> feedback, so their absence from the clicks
+              says nothing about whether the user would have liked them. (“Selection” = the system <em>selected</em>
+              what to expose; “exposure” = only exposed items can be judged.)
+            </li>
+            <li><strong>Position bias</strong> — within a shown list, items <strong>higher up</strong> get more clicks
+              <strong>regardless of true relevance</strong>, simply because they are seen first. A rank-1 slot can
+              out-click a more relevant rank-8 item — so a click is partly a vote for <em>position</em>, not only for
+              <em>quality</em>.
+            </li>
+            <li><strong>Popularity bias</strong> — already-popular items dominate <strong>exposure and
+                feedback</strong>, crowding out the long tail. This is the <strong>Gini / long-tail</strong> effect of
+              §10, made dynamic — see <strong><em>From Graphs to LightGCN</em> §13</strong> for the numerical version.
+            </li>
+          </ul>
+        </section>
+        <section id="the-feedback-loop-why-bias-compounds" class="level3">
+          <h3 class="anchored" data-anchor-id="the-feedback-loop-why-bias-compounds">12.3 The feedback loop — why bias
+            compounds</h3>
+          <p>The three biases are tied together by a <strong>dynamic</strong> that makes them grow over time:</p>
+          <blockquote class="blockquote">
+            <p>the model recommends popular / high-position items → users interact with <strong>those</strong> (because
+              those are what they saw) → the new interactions are logged as training data → that data is <strong>even
+                more skewed</strong> toward the popular / high-position items → the <strong>next</strong> model trained
+              on it is <strong>more</strong> biased → it recommends those items even harder …</p>
+          </blockquote>
+          <p>This is the <strong>“rich get richer”</strong> spiral: a small head-start in exposure becomes a
+            self-reinforcing advantage. The crucial lesson is that bias is <strong>not a one-off measurement error you
+              correct once</strong> — left alone, the loop <strong>amplifies</strong> it with every retraining cycle. It
+            must be <strong>designed against</strong> continuously (§12.6), and audited <strong>over time</strong>, not
+            just at a single snapshot.</p>
+          <div id="fig-recsys-metrics-8" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-recsys-metrics-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/recsys-metrics-8.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-recsys-metrics-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;8.8: The recommendation <strong>feedback loop</strong>. What the model recommends shapes
+                what users can click; those biased clicks become the next model’s training data; the next model is more
+                skewed still. Because the skew <em>compounds</em> every cycle (the red centre), bias must be designed
+                against continuously — measuring it once is not enough.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+        <section id="ips-inverse-propensity-scoring-the-standard-fix" class="level3">
+          <h3 class="anchored" data-anchor-id="ips-inverse-propensity-scoring-the-standard-fix">12.4 IPS — inverse
+            propensity scoring (the standard fix)</h3>
+          <p>If the problem is that some items were shown far more than others, the fix is to <strong>re-weight</strong>
+            each observed interaction by <strong>how unlikely it was to be observed in the first place</strong>. That is
+            <strong>IPS — Inverse Propensity Scoring</strong>.
+          </p>
+          <ul>
+            <li><strong>Propensity</strong> = the probability that an item was <strong>shown / observed</strong> (its
+              <em>propensity to be seen</em>). Call it <span class="math inline">\(p\)</span>.
+            </li>
+            <li><strong>Weight</strong> each observed interaction by <span class="math inline">\(\mathbf{1/p}\)</span> —
+              the <strong>inverse</strong> of its propensity. An over-exposed item (high <span
+                class="math inline">\(p\)</span>) gets <strong>down-weighted</strong>; a rarely-shown item (low <span
+                class="math inline">\(p\)</span>) gets <strong>up-weighted</strong>, so its one hard-won click counts
+              for more. The re-weighted average is an <strong>unbiased</strong> estimate of the metric you would have
+              measured under uniform exposure.</li>
+          </ul>
+          <p><strong>Worked example (check by hand).</strong> Item <span class="math inline">\(A\)</span> was shown with
+            propensity <span class="math inline">\(p_A=0.8\)</span>; item <span class="math inline">\(B\)</span> with
+            <span class="math inline">\(p_B=0.2\)</span>. A click on each contributes its inverse propensity: <span
+              class="math display">\[
+              \text{click on }A \;\to\; \frac{1}{p_A}=\frac{1}{0.8}=\mathbf{1.25},
+              \qquad
+              \text{click on }B \;\to\; \frac{1}{p_B}=\frac{1}{0.2}=\mathbf{5}.
+              \]</span> So a click on the <strong>rarely-shown</strong> <span class="math inline">\(B\)</span> is worth
+            <span class="math inline">\(5/1.25=\mathbf{4\times}\)</span> a click on the heavily-shown <span
+              class="math inline">\(A\)</span> in the unbiased estimate. Intuition: <span
+              class="math inline">\(B\)</span> “had to overcome” being shown only a fifth as often, so each <span
+              class="math inline">\(B\)</span>-click is far stronger evidence of genuine preference.
+          </p>
+          <blockquote class="blockquote">
+            <p><strong>Why “inverse propensity.”</strong> You weight by the <strong>inverse</strong> (<span
+                class="math inline">\(1/p\)</span>) of the <strong>propensity</strong> (<span
+                class="math inline">\(p\)</span>, the chance of being shown). This is exactly the <strong><span
+                  class="math inline">\(1/Q\)</span> importance-weighting</strong> behind the <strong>sampled-softmax
+                log-<span class="math inline">\(Q\)</span> correction</strong> in <strong><em>Losses &amp;
+                  Regularizers</em> §10</strong> — there you divide by an item’s <em>sampling</em> probability to undo a
+              biased negative sampler; here you divide by its <em>exposure</em> probability to undo a biased logging
+              policy. <strong>Same idea — un-bias an estimate by dividing out the probability that produced the sample —
+                in a different place.</strong> (Caveat: tiny propensities give huge weights and noisy estimates, so in
+              practice they are <em>clipped</em>.)</p>
+          </blockquote>
+        </section>
+        <section id="fairness-good-for-whom" class="level3">
+          <h3 class="anchored" data-anchor-id="fairness-good-for-whom">12.5 Fairness — “good for whom?”</h3>
+          <p>Accuracy metrics ask <em>is the list good?</em> <strong>Fairness</strong> asks the sharper question:
+            <strong>good for whom?</strong> Recommendation is inherently <strong>multi-stakeholder</strong> — at least
+            <strong>users</strong>, <strong>providers</strong> (item creators / sellers), and the
+            <strong>platform</strong> — and a list that is great on average can be systematically worse for some group.
+            Two sides:
+          </p>
+          <ul>
+            <li><strong>Consumer / user-side fairness</strong> — is recommendation <strong>quality</strong> (Recall,
+              NDCG, …) comparable <strong>across user groups</strong> (e.g.&nbsp;by age, gender, region)? Unfair if one
+              group reliably gets worse lists.</li>
+            <li><strong>Provider / item-side fairness</strong> — is <strong>exposure</strong> comparable <strong>across
+                item creators / groups</strong>? The long tail being starved of exposure (§10) is partly a
+              <strong>provider-fairness</strong> problem: a few providers capture most of the recommendation slots.
+            </li>
+          </ul>
+          <p>Two standard group-fairness definitions, borrowed from classification, one line each:</p>
+          <ul>
+            <li><strong>Demographic parity</strong> — equal <strong>selection / exposure rate</strong> across groups
+              (each group is recommended / shown at the same rate, regardless of base rates).</li>
+            <li><strong>Equal opportunity</strong> — equal <strong>true-positive rate</strong> across groups (among
+              users who <em>would</em> like an item, each group is equally likely to actually have it surfaced).</li>
+          </ul>
+          <p><strong>Both, on tiny numbers.</strong> <em>Demographic parity (provider exposure):</em> a feed has <span
+              class="math inline">\(100\)</span> recommendation slots and two provider groups that each own half the
+            catalogue; group A (popular studios) fills <span class="math inline">\(85\)</span> slots, group B (long-tail
+            creators) fills <span class="math inline">\(15\)</span>. The exposure rates are <span
+              class="math inline">\(0.85\)</span> vs <span class="math inline">\(0.15\)</span> — a parity <strong>gap of
+              <span class="math inline">\(0.70\)</span></strong>, where parity would require <span
+              class="math inline">\(0.50/0.50\)</span>. <em>Equal opportunity (consumer TPR):</em> among the users who
+            genuinely <em>would</em> like a given item, what fraction get it in their top-<span
+              class="math inline">\(K\)</span>? Group 1: <span class="math inline">\(120\)</span> of <span
+              class="math inline">\(200\)</span> → TPR <span class="math inline">\(0.60\)</span>; group 2: <span
+              class="math inline">\(80\)</span> of <span class="math inline">\(200\)</span> → TPR <span
+              class="math inline">\(0.40\)</span> — an equal-opportunity <strong>gap of <span
+                class="math inline">\(0.20\)</span></strong>. The two ask different questions: parity wants equal
+            <em>exposure</em> regardless of preference; equal opportunity wants an equal <em>hit-rate among those who
+              would actually like the item</em> — a model can satisfy one and fail the other.
+          </p>
+          <p>These usually <strong>trade off against accuracy</strong>: forcing equal exposure can lower headline NDCG,
+            because the unconstrained optimum concentrates on the easy, popular head. There is no free lunch — fairness
+            is a <strong>deliberate choice</strong> about which good you are optimising, the same lesson as §1’s
+            “different metrics measure different goods.”</p>
+        </section>
+        <section id="practitioner-takeaways" class="level3">
+          <h3 class="anchored" data-anchor-id="practitioner-takeaways">12.6 Practitioner takeaways</h3>
+          <blockquote class="blockquote">
+            <ul>
+              <li><strong>Report by group, not just on average.</strong> Break out exposure / coverage (§10) <strong>per
+                  user and per provider group</strong> — an aggregate number hides who is being underserved.</li>
+              <li><strong>Prefer IPS-corrected offline metrics</strong> for click data, since raw clicks carry position
+                and exposure bias. Estimate the propensity <span class="math inline">\(Q\)</span> (the chance an item
+                was <em>shown</em>) from exposure logs — an item’s display-count share, a fitted position-bias curve,
+                or, best, a small <strong>randomized-exposure</strong> slice — and <strong>clip extreme
+                  propensities</strong> so one rarely-shown item can’t dominate the estimate.</li>
+              <li><strong>Stratify by popularity, not just the average.</strong> Report NDCG/Recall on <strong>head
+                  vs.&nbsp;tail</strong> items separately: a model can lift top-line NDCG purely by serving the popular
+                head better while the tail rots, and only a per-bucket split reveals it (the same lesson as the Gini
+                coefficient, §10).</li>
+              <li><strong>Audit the feedback loop over time</strong>, not once. The “rich get richer” skew (§12.3) is a
+                <em>trajectory</em>: track concentration (Gini, §10) and group exposure across
+                <strong>successive</strong> retrainings, and confirm real gains with an <strong>A/B test</strong>
+                (§11c), the only judge the loop cannot fool.
+              </li>
+            </ul>
+          </blockquote>
+          <hr>
+        </section>
+      </section>
+      <section id="which-metric-when" class="level2">
+        <h2 class="anchored" data-anchor-id="which-metric-when">13. Which metric, when?</h2>
+        <table class="caption-top table">
+          <caption>Which evaluation metric to reach for, by goal — there is no single “best” metric; the right one
+            encodes what you mean by a good recommendation.</caption>
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Your goal</th>
+              <th>Reach for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Predict a rating accurately (★1–5)</td>
+              <td><strong>RMSE</strong> (punish big misses) or <strong>MAE</strong> (robust)</td>
+            </tr>
+            <tr class="even">
+              <td>Top-<span class="math inline">\(K\)</span> list, “find all the good items”</td>
+              <td><strong>Recall@K</strong></td>
+            </tr>
+            <tr class="odd">
+              <td>Top-<span class="math inline">\(K\)</span> list, “don’t waste slots”</td>
+              <td><strong>Precision@K</strong> (or <strong>F1@K</strong> for balance)</td>
+            </tr>
+            <tr class="even">
+              <td>Just need <strong>one</strong> good item, fast</td>
+              <td><strong>MRR</strong> (or <strong>HR@K</strong>)</td>
+            </tr>
+            <tr class="odd">
+              <td>Position + graded relevance (the default)</td>
+              <td><strong>NDCG@K</strong></td>
+            </tr>
+            <tr class="even">
+              <td>Overall ranking quality (pairwise)</td>
+              <td><strong>AUC</strong> (ties to BPR, <em>Losses &amp; Regularizers</em> §9)</td>
+            </tr>
+            <tr class="odd">
+              <td>Is the catalog used / list varied / fresh?</td>
+              <td><strong>coverage</strong>, <strong>diversity</strong>, <strong>novelty</strong>,
+                <strong>serendipity</strong>, <strong>Gini</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Golden rule:</strong> report <strong>at least one accuracy metric <em>and</em> at least one
+            beyond-accuracy metric</strong> — a single number hides the popularity trap. Always state the <strong><span
+              class="math inline">\(K\)</span></strong> (Recall@10 <span class="math inline">\(\ne\)</span> Recall@50)
+          and whether relevance is <strong>binary or graded</strong>.</p>
+        <hr>
+      </section>
+      <section id="exercises" class="level2">
+        <h2 class="anchored" data-anchor-id="exercises">14. Exercises</h2>
+        <p>Work these by hand — the numbers are kept tiny on purpose, and most reuse the chapter’s running example
+          (relevant set <span class="math inline">\(\mathcal{R}=\{B,C,E,G\}\)</span>, top-5 list <span
+            class="math inline">\([A,B,C,D,E]\)</span> with hits at ranks 2, 3, 5). Full worked solutions are in the
+          <strong>Solutions</strong> appendix at the back of the book.
+        </p>
+        <ol type="1">
+          <li>
+            <p><strong>(compute)</strong> A rating model predicts <span class="math inline">\([3,5,2,4]\)</span> for
+              four movies whose true ratings are <span class="math inline">\([4,5,4,3]\)</span>. Compute the
+              <strong>MAE</strong> and the <strong>RMSE</strong> (§2). Which of the two is larger here, and which single
+              prediction is most responsible for that gap?
+            </p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> For the chapter’s running list (top-5 <span
+                class="math inline">\([A,B,C,D,E]\)</span>, relevant <span
+                class="math inline">\(\mathcal{R}=\{B,C,E,G\}\)</span>, so 3 hits among the 5 shown and 4 relevant in
+              all), compute <strong>Precision@5</strong>, <strong>Recall@5</strong>, and <strong>F1@5</strong> (§4).
+              State in one phrase what each of the three numbers is telling you.</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Using the same running list, compute the <strong>reciprocal rank</strong> (the
+              per-user term behind <strong>MRR</strong>, §5). Then a <em>second</em> user’s list puts their first
+              relevant item at rank 1; compute the <strong>MRR</strong> averaged over the two users.</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> The running list has hits at ranks 2, 3, 5. Compute the <strong>Average
+                Precision</strong> (§6): the precision at each hit position, averaged, then divided by <span
+                class="math inline">\(|\mathcal{R}|=4\)</span>. Show the three Precision@<span
+                class="math inline">\(k\)</span> values you used.</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Rebuild the chapter’s <strong>NDCG@5</strong> (§7) from scratch for the
+              running list. Compute <span class="math inline">\(\text{DCG@5}=\tfrac{1}{\log_2 3}+\tfrac{1}{\log_2
+                4}+\tfrac{1}{\log_2 6}\)</span> and the ideal <span class="math inline">\(\text{IDCG@5}\)</span> (all
+              four relevant items at the top), then divide. You should land on the chapter’s <span
+                class="math inline">\(0.593\)</span>. (Useful: <span class="math inline">\(\log_2
+                3\approx1.585\)</span>, <span class="math inline">\(\log_2 5\approx2.322\)</span>, <span
+                class="math inline">\(\log_2 6\approx2.585\)</span>.)</p>
+          </li>
+          <li>
+            <p><strong>(apply)</strong> <strong>AUC as a pairwise probability</strong> (§8). A model scores two relevant
+              items <span class="math inline">\(\{0.8,\,0.5\}\)</span> and two irrelevant items <span
+                class="math inline">\(\{0.6,\,0.3\}\)</span>. List the <span class="math inline">\(2\times2=4\)</span>
+              (relevant, irrelevant) pairs, count how many the model orders correctly (relevant scored higher), and
+              report the <strong>AUC</strong>. Is it above the <span class="math inline">\(0.5\)</span> of random
+              guessing?</p>
+          </li>
+          <li>
+            <p><strong>(apply)</strong> <strong>IPS debiasing weights</strong> (§12.4). Item <span
+                class="math inline">\(A\)</span> was shown with propensity <span class="math inline">\(p_A=0.8\)</span>
+              and item <span class="math inline">\(B\)</span> with <span class="math inline">\(p_B=0.2\)</span>. (a)
+              Give the inverse-propensity weight <span class="math inline">\(1/p\)</span> for a click on each.</p>
+            <ol start="2" type="a">
+              <li>The log shows <strong>two</strong> clicks on <span class="math inline">\(A\)</span> and
+                <strong>one</strong> on <span class="math inline">\(B\)</span>; compute each item’s IPS-weighted total,
+                and explain why the <em>less-clicked</em> <span class="math inline">\(B\)</span> ends up counting for
+                more than <span class="math inline">\(A\)</span>.
+              </li>
+            </ol>
+          </li>
+          <li>
+            <p><strong>(extend)</strong> <strong>Gini and serendipity</strong> (§10). (a) A 5-item catalog is
+              recommended with counts <span class="math inline">\([6,3,1,0,0]\)</span> (10 recommendations, mean <span
+                class="math inline">\(\mu=2\)</span>); compute the <strong>Gini coefficient</strong> <span
+                class="math inline">\(G=\dfrac{\sum_i\sum_j|x_i-x_j|}{2n^2\mu}\)</span> and say whether this catalog is
+              more or less concentrated than the chapter’s <span class="math inline">\([8,2,0,0,0]\)</span> (<span
+                class="math inline">\(G=0.72\)</span>). (b) Of the running list’s 3 relevant hits, suppose only 2 are
+              items a popularity baseline would <em>not</em> have shown; compute <strong>serendipity@5</strong> and
+              explain why it is below the <strong>Precision@5</strong> you found in E2.</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> For each goal below, name the single metric from §13 you would report, and say
+              in a few words why: (a) a “play one perfect next song” feature where only the <em>first</em> suggestion
+              matters; (b) a homepage rail where you must surface <em>all</em> of a user’s relevant items somewhere in
+              the top-20; (c) a check that the recommender is not collapsing onto a handful of blockbusters.</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> A new model beats the baseline by <span class="math inline">\(0.004\)</span>
+              NDCG@10 (§11). (a) Why is that headline number <strong>not yet</strong> evidence the new model is better —
+              what two protocol facts (§11b, §11d) would you demand before believing it? (b) The two were compared by
+              ranking each held-out item against <span class="math inline">\(100\)</span> sampled negatives; cite the
+              result (§11) that explains why this can flip which model looks better versus full-catalog ranking.</p>
+          </li>
+          <li>
+            <p><strong>(apply) — looks better, but should you ship?</strong> Model B beats A by a headline <span
+                class="math inline">\(+0.003\)</span> NDCG@10. Over <span class="math inline">\(5\)</span> shared seeds
+              the per-seed gains are <span class="math inline">\(d=[+0.012,-0.006,+0.011,-0.004,+0.002]\)</span>. (a)
+              Confirm the mean gain <span class="math inline">\(\bar d\)</span> is positive. (b) Its <span
+                class="math inline">\(95\%\)</span> CI works out to about <span
+                class="math inline">\([-0.007,\,+0.013]\)</span> — does it clear <span class="math inline">\(0\)</span>?
+              (c) Ship B or not, and give the one-sentence reason (§11d).</p>
+          </li>
+        </ol>
+        <hr>
+      </section>
+      <section id="where-this-fits-in-the-book" class="level2">
+        <h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">15. Where this fits in the book</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Metric (here)</th>
+              <th>Where it shows up</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Recall@K, NDCG@K</td>
+              <td>the headline numbers of <strong><em>From Graphs to LightGCN</em></strong>, <strong><em>SSL &amp;
+                    Contrastive Learning</em></strong>, and <strong><em>The Spectral / Graph-Filter View</em></strong>
+                (LightGCN/RLMRec report Recall@K and NDCG@K)</td>
+            </tr>
+            <tr class="even">
+              <td>RMSE/MAE</td>
+              <td>Traditional RecSys §6 (rating prediction; Netflix Prize)</td>
+            </tr>
+            <tr class="odd">
+              <td>AUC ↔︎ BPR</td>
+              <td><em>Losses &amp; Regularizers</em> §9 — BPR optimizes correctly-ordered pairs, i.e.&nbsp;AUC</td>
+            </tr>
+            <tr class="even">
+              <td>Coverage / Gini / long-tail</td>
+              <td><strong><em>From Graphs to LightGCN</em> §13</strong> (popularity bias, worked numerically) and the
+                SSL fixes in <em>SSL &amp; Contrastive Learning</em></td>
+            </tr>
+            <tr class="odd">
+              <td>NDCG selection metric</td>
+              <td>the model-selection choices discussed across <em>From Graphs to LightGCN</em>, <em>SSL &amp;
+                  Contrastive Learning</em>, and <em>The Spectral / Graph-Filter View</em></td>
+            </tr>
+            <tr class="even">
+              <td><strong>Evaluation protocol (§11)</strong></td>
+              <td>full-ranking + LOO/temporal splits + per-seed significance — <em>how</em> <em>From Graphs to
+                  LightGCN</em>, <em>SSL &amp; Contrastive Learning</em>, and <em>The Spectral / Graph-Filter View</em>
+                are actually measured</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Carry this forward:</strong> <em>rating error (RMSE/MAE) grades numbers; ranking metrics
+            (Precision/Recall/F1/HR/MRR/MAP/NDCG/AUC) grade the ordered list — NDCG is the default; beyond-accuracy
+            metrics (coverage/diversity/novelty/serendipity/Gini) grade the list’s health. Pick the metric that matches
+            what you actually want, and never report accuracy alone.</em></p>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">16. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Relevant item</strong></td>
+              <td>A ground-truth item the user actually likes.</td>
+            </tr>
+            <tr class="even">
+              <td><strong><span class="citation" data-cites="K">@K</span></strong></td>
+              <td>Evaluated over the top <span class="math inline">\(K\)</span> recommended positions only.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>MAE / MSE / RMSE</strong></td>
+              <td>Mean Absolute / Mean Squared / Root-Mean-Squared rating error.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Hit Rate (HR@K)</strong></td>
+              <td>Fraction of users with <span class="math inline">\(\ge 1\)</span> relevant item in the top-<span
+                  class="math inline">\(K\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Precision@K</strong></td>
+              <td>Of the <span class="math inline">\(K\)</span> shown, the fraction relevant.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Recall@K</strong></td>
+              <td>Of all relevant items, the fraction in the top-<span class="math inline">\(K\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>F1@K</strong></td>
+              <td>Harmonic mean of precision and recall.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MRR</strong></td>
+              <td>Mean Reciprocal Rank — <span class="math inline">\(1/\)</span>rank of the first relevant item,
+                averaged.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>AP / MAP</strong></td>
+              <td>Average Precision (precision averaged over hit positions) / its mean over users.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>DCG / IDCG / NDCG</strong></td>
+              <td>Discounted Cumulative Gain / its ideal / the normalized ratio in <span
+                  class="math inline">\([0,1]\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>AUC / ROC</strong></td>
+              <td>Area Under the ROC Curve = P(score of a random relevant &gt; random irrelevant).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Coverage</strong></td>
+              <td>Fraction of the catalog ever recommended.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Diversity</strong></td>
+              <td>Average dissimilarity within a recommended list.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Novelty</strong></td>
+              <td>Non-obviousness, often <span class="math inline">\(-\log_2(\text{popularity})\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Serendipity</strong></td>
+              <td>Relevant <strong>and</strong> surprising.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Gini coefficient</strong></td>
+              <td>Concentration of recommendations on few items (<span class="math inline">\(0\)</span> even … <span
+                  class="math inline">\(1\)</span> concentrated).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Train/test split</strong></td>
+              <td>How held-out test data is chosen: random, leave-one-out (LOO), or temporal (by timestamp).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Data leakage</strong></td>
+              <td>Test-period information seeping into training; silently inflates every metric.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Full vs.&nbsp;sampled ranking</strong></td>
+              <td>Rank the true item against the whole catalog vs.&nbsp;a few sampled negatives (the latter is
+                inconsistent).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>A/B test (online eval)</strong></td>
+              <td>Serve two models to live user halves and compare a business metric — the real verdict.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Significance (paired <span class="math inline">\(t\)</span>-test)</strong></td>
+              <td>Is a gain bigger than run-to-run seed noise? Report mean <span class="math inline">\(\pm\)</span> std
+                and a <span class="math inline">\(p\)</span>-value.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MNAR data</strong></td>
+              <td>Missing-Not-At-Random: whether an interaction is observed depends on what the system chose to show —
+                recommender logs are the textbook case.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Selection / exposure bias</strong></td>
+              <td>Only items the system <strong>showed</strong> can get feedback; un-shown items look “disliked” by
+                silence.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Position bias</strong></td>
+              <td>Higher-ranked slots draw more clicks regardless of true relevance.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Feedback loop</strong></td>
+              <td>Recommend → click → log → retrain on skewed data → more skew; the “rich get richer” spiral that
+                compounds bias.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Propensity / IPS</strong></td>
+              <td>Propensity = probability an item was shown; IPS re-weights each interaction by <span
+                  class="math inline">\(1/\)</span>propensity to undo exposure bias.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Demographic parity</strong></td>
+              <td>Equal selection / exposure rate across groups.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Equal opportunity</strong></td>
+              <td>Equal true-positive rate across groups (the truly-relevant are surfaced equally).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Provider vs.&nbsp;consumer fairness</strong></td>
+              <td>Comparable <em>exposure</em> across item creators (provider) vs.&nbsp;comparable <em>quality</em>
+                across user groups (consumer).</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references" class="level2">
+        <h2 class="anchored" data-anchor-id="references">17. References</h2>
+        <ul>
+          <li>
+            <p>Ekstrand, M. D., Das, A., Burke, R., &amp; Diaz, F. (2022). <em>Fairness in information access
+                systems</em>. Foundations and Trends in Information Retrieval, 16(1–2), 1–177.
+              https://doi.org/10.1561/1500000079</p>
+          </li>
+          <li>
+            <p>Fawcett, T. (2006). <em>An introduction to ROC analysis</em>. Pattern Recognition Letters, 27(8),
+              861–874. https://doi.org/10.1016/j.patrec.2005.10.010</p>
+          </li>
+          <li>
+            <p>Herlocker, J. L., Konstan, J. A., Terveen, L. G., &amp; Riedl, J. T. (2004). <em>Evaluating collaborative
+                filtering recommender systems</em>. ACM Transactions on Information Systems, 22(1), 5–53.
+              https://doi.org/10.1145/963770.963772</p>
+          </li>
+          <li>
+            <p>Järvelin, K., &amp; Kekäläinen, J. (2002). <em>Cumulated gain-based evaluation of IR techniques</em>. ACM
+              Transactions on Information Systems, 20(4), 422–446. https://doi.org/10.1145/582415.582418</p>
+          </li>
+          <li>
+            <p>Krichene, W., &amp; Rendle, S. (2020). <em>On sampled metrics for item recommendation</em>. In
+              <em>Proceedings of the 26th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)</em>.
+              https://doi.org/10.1145/3394486.3403226
+            </p>
+          </li>
+          <li>
+            <p>Niculescu-Mizil, A., &amp; Caruana, R. (2005). <em>Predicting good probabilities with supervised
+                learning</em>. In <em>Proceedings of the 22nd International Conference on Machine Learning (ICML)</em>
+              (pp.&nbsp;625–632). https://doi.org/10.1145/1102351.1102430</p>
+          </li>
+          <li>
+            <p>Manning, C. D., Raghavan, P., &amp; Schütze, H. (2008). <em>Introduction to information retrieval</em>.
+              Cambridge University Press. https://nlp.stanford.edu/IR-book/</p>
+          </li>
+          <li>
+            <p>Ricci, F., Rokach, L., &amp; Shapira, B. (Eds.). (2022). <em>Recommender systems handbook</em> (3rd ed.).
+              Springer.</p>
+          </li>
+          <li>
+            <p>Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., &amp; Joachims, T. (2016). <em>Recommendations as
+                treatments: Debiasing learning and evaluation</em>. In <em>Proceedings of the 33rd International
+                Conference on Machine Learning (ICML)</em> (pp.&nbsp;1670–1679).
+              https://proceedings.mlr.press/v48/schnabel16.html</p>
+          </li>
+        </ul>
+        <p><em>Online sources verified June 2026.</em></p>
+
+
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../chapters/traditional-recsys.html" class="pagination-link"
+          aria-label="Traditional Recommender Systems">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Traditional
+              Recommender Systems</span></span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/sequential-recsys.html" class="pagination-link"
+          aria-label="Sequential &amp; Session-Based Recommendation">
+          <span class="nav-page-text"><span class="chapter-title">Sequential &amp; Session-Based
+              Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body>
+
+</html>

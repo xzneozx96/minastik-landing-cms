@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <meta name="description"
+    content="A practitioner’s field guide to the implementation choices — data, negatives, embeddings, evaluation and reproducibility — that decide if a recommender works.">
+
+  <title>Appendix A — Implementation Choices: A Practitioner’s Field Guide – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
+
+
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/datasets-and-benchmarks.html" rel="next">
+  <link href="../chapters/bandits.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/implementation-choices.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/implementation-choices.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix A — Implementation Choices: A Practitioner’s Field Guide","name":"Appendix A — Implementation Choices: A Practitioner’s Field Guide","description":"A practitioner’s field guide to the implementation choices — data, negatives, embeddings, evaluation and reproducibility — that decide if a recommender works.","url":"https://minastik.com/recsys/chapters/implementation-choices.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
+
+  <meta property="og:title"
+    content="Appendix A — Implementation Choices: A Practitioner’s Field Guide – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="A practitioner’s field guide to the implementation choices — data, negatives, embeddings, evaluation and reproducibility — that decide if a recommender works.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title"
+    content="Appendix A — Implementation Choices: A Practitioner’s Field Guide – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="A practitioner’s field guide to the implementation choices — data, negatives, embeddings, evaluation and reproducibility — that decide if a recommender works.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+  <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
+      </div> <!-- /container-fluid -->
+    </nav>
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html"><span
+                  class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+          <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
+          <li class="sidebar-item">
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#how-to-choose-anything-here-five-rules-that-outlast-the-leaderboard"
+              id="toc-how-to-choose-anything-here-five-rules-that-outlast-the-leaderboard" class="nav-link active"
+              data-scroll-target="#how-to-choose-anything-here-five-rules-that-outlast-the-leaderboard">1. How to choose
+              anything here — five rules that outlast the leaderboard</a></li>
+          <li><a href="#text-embedding-models" id="toc-text-embedding-models" class="nav-link"
+              data-scroll-target="#text-embedding-models">2. Text embedding models</a></li>
+          <li><a href="#vector-search-approximate-nearest-neighbour-ann"
+              id="toc-vector-search-approximate-nearest-neighbour-ann" class="nav-link"
+              data-scroll-target="#vector-search-approximate-nearest-neighbour-ann">3. Vector search / approximate
+              nearest neighbour (ANN)</a></li>
+          <li><a href="#open-llms-small-language-models-slms" id="toc-open-llms-small-language-models-slms"
+              class="nav-link" data-scroll-target="#open-llms-small-language-models-slms">4. Open LLMs &amp; small
+              language models (SLMs)</a></li>
+          <li><a href="#recsys-frameworks-libraries" id="toc-recsys-frameworks-libraries" class="nav-link"
+              data-scroll-target="#recsys-frameworks-libraries">5. RecSys frameworks &amp; libraries</a></li>
+          <li><a href="#ner-nlp-libraries-turning-text-into-features"
+              id="toc-ner-nlp-libraries-turning-text-into-features" class="nav-link"
+              data-scroll-target="#ner-nlp-libraries-turning-text-into-features">6. NER &amp; NLP libraries — turning
+              text into features</a></li>
+          <li><a href="#speech-stt-tts-adjacent" id="toc-speech-stt-tts-adjacent" class="nav-link"
+              data-scroll-target="#speech-stt-tts-adjacent">7. Speech — STT &amp; TTS (adjacent)</a></li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">8. Glossary</a></li>
+          <li><a href="#references-resources" id="toc-references-resources" class="nav-link"
+              data-scroll-target="#references-resources">9. References &amp; resources</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html"><span
+                  class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title">Appendix A — Implementation Choices: A Practitioner’s Field Guide</h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="how-to-choose-anything-here-five-rules-that-outlast-the-leaderboard" class="level2">
+        <h2 class="anchored" data-anchor-id="how-to-choose-anything-here-five-rules-that-outlast-the-leaderboard">1. How
+          to choose anything here — five rules that outlast the leaderboard</h2>
+        <p>Before any specific brief, the meta-method. These five rules recur in <em>every</em> category below;
+          internalize them and you can re-evaluate any option, even ones released after this chapter.</p>
+        <ol type="1">
+          <li><strong>The benchmark is a prior, not a verdict — validate on <em>your</em> data.</strong> Every
+            leaderboard here (MTEB, ann-benchmarks, LMArena, CoNLL) is <strong>general-domain and gameable</strong>. A
+            model trained on benchmark-similar data can top the chart yet <strong>generalize worse</strong>
+            out-of-domain than a lower-ranked one. Use the leaderboard to <strong>shortlist 2–3 finalists</strong>, then
+            rank them on a <strong>tiny in-domain eval you build yourself</strong> (even 50–200 examples from your own
+            catalog). Leaderboard rank does not transfer to your domain.</li>
+          <li><strong>License is a hard gate — check it first, and check the <em>version</em>.</strong> “<strong>Open
+              weights</strong>” <span class="math inline">\(\ne\)</span> “<strong>open source</strong>” <span
+              class="math inline">\(\ne\)</span> “<strong>open data</strong>.” <strong>Apache-2.0 / MIT / BSD</strong>
+            are clean for commercial use; <strong>CC-BY-NC</strong> (non-commercial), <strong>AGPL</strong>
+            (network-copyleft), and custom terms (Llama’s community license, Google’s pre-Gemma-4 terms) carry real
+            restrictions. Read the <strong>weights</strong> license (it can differ from the repo’s <em>code</em>
+            license), and re-check <strong>per version</strong> — Gemma switched from a custom license to Apache-2.0 at
+            v4; assuming “Gemma = Apache” for an older version is a compliance bug.</li>
+          <li><strong>Pick the smallest thing that clears your metric.</strong> In a recommender the model is almost
+            always a <strong>feature, not the product</strong> — an embedding, a generated tag, a candidate list. A 560M
+            embedder or a 4B LLM that passes your offline bar beats a 7B one that costs <span
+              class="math inline">\(10\times\)</span> the latency for <span class="math inline">\(+1\)</span> benchmark
+            point. Shrink further with <strong>quantization</strong> (4-/8-bit) and <strong>Matryoshka</strong>
+            (truncatable embeddings). Start small; scale only when a measured bottleneck forces it.</li>
+          <li><strong>Maintenance is a feature.</strong> An abandoned library is a liability — no bug fixes, no security
+            patches, breakage on the next dependency bump. Check the <strong>last real commit on the default
+              branch</strong> (GitHub’s “updated” timestamp lies — it bumps on any tag or branch push), the last
+            release, and open-issue health <em>before</em> adopting. A clever dead project loses to a boring maintained
+            one.</li>
+          <li><strong>This is a snapshot; the rule is the asset.</strong> Re-derive, don’t memorize. When a new model
+            tops the board next quarter, run it through rules 1–4 — <em>your data, its license, its size, its
+              maintenance</em> — and decide for yourself. The brief is perishable; the method is not.</li>
+        </ol>
+        <blockquote class="blockquote">
+          <p><strong>If you must pick <em>today</em> — the default stack.</strong> The rules above outlive any name, but
+            here is where they land for this handbook’s jobs, as of this snapshot: a <strong>small permissive text
+              embedder</strong> (multilingual-e5 / BGE-M3, §2) → <strong>HNSW or pgvector</strong> for vector search
+            (§3) → a <strong>small Apache-2.0/MIT LLM in the 1–9B tier</strong>, served with <strong>vLLM</strong>, for
+            offline feature generation (§4) → <strong>RecBole / Cornac</strong> for honest baselines (§5) →
+            <strong>spaCy or GLiNER</strong> for text-to-feature extraction (§6). Start here; let rules 1–4 (your data,
+            its license, its size, its maintenance) move you off it only when a <em>measured</em> need forces the
+            change.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="text-embedding-models" class="level2">
+        <h2 class="anchored" data-anchor-id="text-embedding-models">2. Text embedding models</h2>
+        <p>The engine of semantic retrieval and of every LLM-recsys feature pipeline: text (item descriptions, user
+          profiles, reviews) <span class="math inline">\(\rightarrow\)</span> a vector you can compare by cosine
+          (Linear-Algebra primer §4) and serve through a vector index (§3). The same object as the
+          <strong>embeddings</strong> the graph notes propagate.
+        </p>
+        <p><strong>How to choose.</strong> Default to a small, permissive workhorse —
+          <strong><code>multilingual-e5-large-instruct</code></strong> (560M, MIT) or
+          <strong><code>BGE-M3</code></strong> (MIT, 8K context, gives dense + sparse + multi-vector from one model).
+          Step up to a <strong>7–8B LLM-based embedder</strong> (<strong><code>Qwen3-Embedding</code></strong>,
+          Apache-2.0) only when retrieval quality is the measured bottleneck and you can pay the latency/VRAM. Treat the
+          proprietary APIs (Google <strong>Gemini-embedding</strong>, <strong>Voyage</strong>, <strong>Cohere</strong>)
+          as a <em>quality ceiling to benchmark against</em>, then self-host if economics or data-governance demand it.
+          Use <strong>Matryoshka</strong> truncation to fit the vector to your index/latency budget, and rank your
+          finalists on your own corpus — there is <strong>no single winner</strong>, only a size/latency/license/domain
+          trade-off.
+        </p>
+        <table class="caption-top table">
+          <caption>Text embedding model comparison (mid-2026 snapshot) — each row gives the key axes that drive the
+            choice: dimensions and Matryoshka support (storage/latency budget), license (commercial gate), and the
+            scenario where that model is the right default; the takeaway is that a small permissive workhorse covers
+            most recsys needs, and scaling to a 7–8B embedder is only justified when retrieval quality is the measured
+            bottleneck.</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Model</th>
+              <th>Maker</th>
+              <th>Dim (Matryoshka?)</th>
+              <th>License</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Qwen3-Embedding</strong> (0.6 / 4 / 8B)</td>
+              <td>Alibaba</td>
+              <td><span class="math inline">\(\le 4096,\)</span> MRL</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td>Best open quality; 100+ langs; 32K context; 0.6B is a strong small option</td>
+            </tr>
+            <tr class="even">
+              <td><strong>multilingual-e5-large-instruct</strong></td>
+              <td>Microsoft</td>
+              <td>1024</td>
+              <td><strong>MIT</strong></td>
+              <td>The default multilingual workhorse — cheap, permissive, short text</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>BGE-M3</strong></td>
+              <td>BAAI</td>
+              <td>1024</td>
+              <td><strong>MIT</strong></td>
+              <td>One model for <strong>dense + sparse + multi-vector</strong> (hybrid); 8K context</td>
+            </tr>
+            <tr class="even">
+              <td><strong>EmbeddingGemma-300M</strong></td>
+              <td>Google</td>
+              <td>768, MRL</td>
+              <td><strong>Gemma terms</strong> (gated)</td>
+              <td>On-device / edge; smallest “good” model — but non-OSI license</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Stella-1.5B (en v5)</strong></td>
+              <td>NovaSearch</td>
+              <td>512–8192, MRL</td>
+              <td><strong>MIT</strong></td>
+              <td>Rich truncation ladder for storage/latency tuning (“1024d <span class="math inline">\(\approx
+                  8192\)</span>d”)</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Nomic-embed-text-v2</strong></td>
+              <td>Nomic</td>
+              <td>768, MRL</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td><strong>Fully open</strong> (weights + code + <em>data</em>); audit/reproducibility priority</td>
+            </tr>
+            <tr class="odd">
+              <td><em>API baselines (not open)</em></td>
+              <td>Google / Voyage / Cohere / OpenAI</td>
+              <td>reducible</td>
+              <td>proprietary</td>
+              <td>Gemini-embedding tops retrieval; Cohere-v4 is 128K + multimodal; OpenAI-3 is now a <em>low bar</em>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Reading the benchmark — MTEB / MMTEB.</strong> The <strong>Massive Text Embedding Benchmark</strong>
+          and its 250+-language successor MMTEB are the standard. <em>A dated snapshot (mid-2026 — re-check, it moves
+            monthly):</em> <strong>Qwen3-Embedding-8B</strong> tops the open <strong>multilingual</strong> board (<span
+            class="math inline">\(\approx 70.6\)</span>), while <strong>Gemini-embedding</strong> leads on
+          <strong>English / retrieval</strong>; so sort by the <em>slice you serve</em>, not the headline average. Three
+          habits keep you honest: <strong>(1) Sort by the <em>Retrieval</em> sub-score, not the headline
+            average</strong> — for recsys/RAG, retrieval is the column that predicts your quality, and a model can top
+          the headline <em>average</em> yet <strong>lose on the retrieval slice</strong> — an overall average hides
+          per-task gaps, so a leaderboard champion can be a mediocre retriever. <strong>(2) Distrust the top by 1–2
+            points</strong> — overfitting to benchmark-like data is documented, and the same model carries different
+          scores across sources. <strong>(3) Prefer models that disclose training data</strong> and look at zero-shot
+          numbers.
+        </p>
+        <p><strong>2026 state of play.</strong></p>
+        <ul>
+          <li><strong>LLM-based embedders won the leaderboard</strong> (Qwen3-Embedding, GTE-Qwen2, EmbeddingGemma) —
+            but bring 7–8B latency/VRAM, a real serving cost in a recommender.</li>
+          <li><strong>Small models are usually the right recsys call.</strong> A 560M <code>e5</code> model captures
+            most of the quality at a fraction of the cost; for an embedding used as a <em>feature</em>, that is the
+            default.</li>
+          <li><strong>Matryoshka (MRL) is now table stakes</strong> — embed once at full dim, <strong>store/index at a
+              shorter prefix</strong> (e.g.&nbsp;<span class="math inline">\(3072 \rightarrow 768\)</span>) to cut ANN
+            memory and latency at near-zero quality loss. Pair with int8/binary quantization for further shrink. The
+            highest-leverage production lever.</li>
+          <li><strong>License traps:</strong> Apache/MIT are clean (Qwen3, e5, BGE-M3, Stella, Nomic).
+            <strong>Gemma-licensed</strong> models (EmbeddingGemma) are gated, non-OSI;
+            <strong>Jina-embeddings-v4</strong> shipped under a non-commercial-flavoured license. Read before you ship.
+          </li>
+          <li><strong>Fine-tune only when your domain is genuinely off-distribution</strong> (specialist catalogs,
+            non-English item text, behaviour-driven similarity that text alone can’t capture) <strong>and</strong> you
+            have labeled / implicit-feedback pairs. In recsys the bigger win is usually <em>combining</em> a decent
+            off-the-shelf text embedding with collaborative signal, not chasing MTEB points.</li>
+        </ul>
+        <section id="multimodal-embeddings-image-text-items" class="level4">
+          <h4 class="anchored" data-anchor-id="multimodal-embeddings-image-text-items">Multimodal embeddings (image +
+            text items)</h4>
+          <p>When items are <strong>images as well as text</strong> (products, films, listings), embed both into
+            <strong>one shared space</strong>, so a text query can retrieve an image and an image can retrieve text. As
+            of <strong>mid-2026</strong>: <strong>SigLIP 2</strong> (ViT-SO400M) is the strongest fully-open image–text
+            model; <strong>JinaCLIP-v2</strong> adds multilingual text and <strong>Matryoshka</strong> dimensions
+            (truncate to 64-dim to shrink storage at little cost); managed options are <strong>Cohere Embed v4</strong>
+            (also self-hostable) and <strong>Voyage-multimodal-3</strong> (API-only). <em>Decision rule:</em> pick
+            <strong>one</strong> model that maps text and images into the <strong>same</strong> space (so a single
+            cosine works across modalities), and use Matryoshka or quantization to cap the storage of a large catalog —
+            don’t bolt a separate image model onto a separate text model, because their spaces won’t align.
+          </p>
+          <hr>
+        </section>
+      </section>
+      <section id="vector-search-approximate-nearest-neighbour-ann" class="level2">
+        <h2 class="anchored" data-anchor-id="vector-search-approximate-nearest-neighbour-ann">3. Vector search /
+          approximate nearest neighbour (ANN)</h2>
+        <p>How you <em>serve</em> embeddings at scale — the <strong>candidate-generation</strong> stage of the
+          recommendation funnel (Traditional RecSys §7): cut millions of items to a few hundred fast, so the expensive
+          ranker scores only those.</p>
+        <p><strong>How to choose.</strong> <strong>Start with the simplest thing that fits in RAM.</strong> If your
+          catalog is <span class="math inline">\(\le 1\)</span>–10 M vectors with light filtering, an embedded
+          <strong>library — <code>hnswlib</code> or FAISS</strong> — is enough; you own one index file and run no extra
+          system. <strong>Graduate to a vector database</strong> the moment you need <em>any</em> of: rich
+          <strong>metadata filtering</strong> fused with ANN (“in-stock AND in-region AND not-already-seen”),
+          <strong>live inserts/updates/deletes</strong>, <strong>sharding/replication</strong>, or <strong>hybrid
+            dense+sparse (BM25)</strong> retrieval. <strong>If you already run Postgres</strong> and are <span
+            class="math inline">\(\le 10\)</span> M items, <strong><code>pgvector</code></strong> is very often the
+          answer — ANN and full-SQL filtering in your system-of-record, no sync pipeline.
+        </p>
+        <table class="caption-top table">
+          <caption>Vector search and ANN tool comparison (mid-2026 snapshot) — the decision boundary is whether you need
+            rich metadata filtering, live updates, or hybrid dense+sparse retrieval (graduate to a vector database) or
+            just an in-RAM index (library suffices); HNSW is the safe default across almost all entries, and filtered
+            ANN capability, not raw QPS, should drive the final choice for recsys workloads.</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Tool</th>
+              <th>Library or DB</th>
+              <th>Core algorithm(s)</th>
+              <th>License</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>FAISS</strong></td>
+              <td>Meta</td>
+              <td>IVF, IVF-PQ, HNSW, +GPU (CAGRA)</td>
+              <td><strong>MIT</strong></td>
+              <td>The Swiss-army library: widest index menu; only one with mature GPU; billion-scale on a big box</td>
+            </tr>
+            <tr class="even">
+              <td><strong>hnswlib</strong></td>
+              <td>nmslib</td>
+              <td>HNSW only</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td>The reference HNSW — one tiny battle-tested dependency when HNSW is all you need</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Qdrant</strong></td>
+              <td>Qdrant</td>
+              <td>HNSW + filterable-HNSW</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td>The recsys sweet spot: superb <strong>filtered ANN</strong> + a native
+                <strong>recommend-by-example</strong> API
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>Milvus</strong></td>
+              <td>Zilliz</td>
+              <td>HNSW/IVF/DiskANN/+GPU</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td>Widest-scaling OSS DB; the one with <strong>GPU ANN</strong>; billions of vectors</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>pgvector</strong></td>
+              <td>open / Postgres</td>
+              <td>HNSW + IVFFlat</td>
+              <td><strong>PostgreSQL</strong></td>
+              <td>Already on Postgres + <span class="math inline">\(\le 10\)</span> M + heavy SQL filtering — no new
+                system</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Weaviate</strong></td>
+              <td>Weaviate</td>
+              <td>HNSW (+ACORN, hybrid)</td>
+              <td><strong>BSD-3</strong></td>
+              <td>Strong hybrid (dense+BM25) + built-in recsys helpers</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>LanceDB</strong></td>
+              <td>LanceDB</td>
+              <td>IVF-PQ (+RaBitQ)</td>
+              <td><strong>Apache-2.0</strong></td>
+              <td>Embedded, S3-native columnar; billion-scale on object storage</td>
+            </tr>
+            <tr class="even">
+              <td><em>Pinecone (baseline)</em></td>
+              <td>Pinecone</td>
+              <td>proprietary</td>
+              <td>proprietary</td>
+              <td>The honest “buy, don’t build” — turnkey billion-scale + SLA, at lock-in + cost</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Also know: <strong>DiskANN</strong> (on-disk Vamana — billion-scale on one SSD machine when RAM is the wall),
+          <strong>ScaNN</strong> (Google; top CPU recall, Linux-only), and <strong>GPU CAGRA</strong> (now in FAISS-GPU
+          and Milvus — wins on <em>batched throughput</em> and <em>index build speed</em>, not single-query latency).
+        </p>
+        <p><em>Dated latency snapshot (2026 public vector-DB benchmarks — <strong>VectorDBBench</strong>, §9; re-measure
+            on <strong>your</strong> vectors and filters):</em> on a filtered RAG-style load <strong>Qdrant</strong>
+          posts the lowest p50 (<span class="math inline">\(\approx 4\)</span> ms), <strong>pgvector</strong> <span
+            class="math inline">\(\approx 30\)</span> ms, <strong>Milvus</strong> <span class="math inline">\(\approx
+            40\)</span>–<span class="math inline">\(60\)</span> ms; recall and throughput, though, hinge far more on the
+          index and its parameters than on which engine you pick.</p>
+        <p><strong>Reading the benchmark.</strong> <strong>ann-benchmarks.com</strong> (libraries) and
+          <strong>VectorDBBench</strong> (databases, production-scale) both report the one chart that matters:
+          <strong>recall (fraction of true neighbours found) vs queries-per-second</strong> — the <strong>recall/latency
+            Pareto frontier</strong>. Three cautions: a method that dominates at 90% recall can <em>lose</em> at 99%
+          (always read QPS <em>at a fixed recall</em>); a fast-query index may build <span
+            class="math inline">\(10\times\)</span> slower (decisive for frequently-rebuilt catalogs); and GPU numbers
+          usually assume large query <em>batches</em>, a different operating point from single-query latency.
+        </p>
+        <p>The first caution is the one beginners miss, so it is worth a picture. On the recall/QPS frontier, two
+          indexes can <em>cross</em>: the one you would pick from a single headline number is the wrong one once you fix
+          the recall you actually need.</p>
+        <div id="fig-implementation-choices-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-implementation-choices-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/implementation-choices-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-implementation-choices-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;A.1: {}
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>2026 state of play.</strong></p>
+        <ul>
+          <li><strong>HNSW is the safe default; on-disk (DiskANN) and GPU (CAGRA) extend the extremes</strong> (billion-
+            scale on one box; batched throughput).</li>
+          <li><strong>Filtered ANN is the real reason to pick a DB over a library.</strong> Naive “filter-then-search”
+            can return too few results and “search-then-filter” too few under selective filters; modern DBs (Qdrant,
+            Weaviate, Milvus, pgvector 0.8) filter <em>during</em> graph traversal. If filtered retrieval is core — and
+            in recsys it usually is — this capability, not raw QPS, should drive the choice.</li>
+          <li><strong>Hybrid (dense + sparse/BM25) retrieval is now table stakes</strong> — one call blends semantic,
+            lexical, and metadata signals (with reciprocal-rank-fusion merging).</li>
+          <li><strong>The “normalize <span class="math inline">\(\rightarrow\)</span> inner-product = cosine” trick
+              (often gotten wrong).</strong> FAISS has no native cosine metric: <strong>L2-normalize your vectors, then
+              use inner product</strong> — for unit vectors the inner product <em>is</em> the cosine. Forget the
+            normalization and you are silently <em>not</em> doing cosine search — a common, quiet recall bug. Applies to
+            every tool here.</li>
+          <li><strong>License watch:</strong> cores are mostly Apache/MIT/BSD, but <strong>VectorChord</strong> (a
+            pgvector successor) is AGPL/ELv2, and across all the DBs the <strong>managed cloud and enterprise add-ons
+              are separate commercial products</strong>, not covered by the OSS-engine license.</li>
+          <li><strong>Legacy:</strong> <strong>Annoy</strong> is effectively frozen (Spotify points to
+            <em>Voyager</em>); don’t start new work on it.
+          </li>
+        </ul>
+        <section id="reranking-the-cross-encoder-stage-after-retrieval" class="level4">
+          <h4 class="anchored" data-anchor-id="reranking-the-cross-encoder-stage-after-retrieval">Reranking — the
+            cross-encoder stage after retrieval</h4>
+          <p>Retrieval (above) returns a cheap top-<span class="math inline">\(K\)</span> <strong>shortlist</strong>; a
+            <strong>reranker</strong> then re-scores those <span class="math inline">\(K\)</span> with a heavier model
+            that reads the (query, item) pair <strong>together</strong> — a <strong>cross-encoder</strong> — and
+            reorders them. This two-stage funnel (cheap recall <span class="math inline">\(\to\)</span> precise rerank)
+            is near-universal in modern search and increasingly standard in recsys (rerank a CF-retrieved shortlist).
+            <em>Decision rule:</em> rerank only the shortlist (top <span class="math inline">\(50\)</span>–<span
+              class="math inline">\(200\)</span>), <strong>never</strong> the whole catalog — a cross-encoder costs
+            roughly <span class="math inline">\(100\)</span>–<span class="math inline">\(1000\times\)</span> a dot
+            product <em>per pair</em>, so the bill is <span class="math inline">\(K \times\)</span> one forward pass.
+            <em>Current picks (mid-2026):</em> open + Apache-2.0 — <strong>BGE-reranker-v2-m3</strong>,
+            <strong>Qwen3-Reranker</strong> (0.6 / 4 / 8 B, 100+ languages, 32 k context),
+            <strong>mxbai-rerank-v2</strong> (0.5 / 1.5 B); <strong>Jina-reranker-v3</strong> (listwise, tops public
+            BEIR at <span class="math inline">\({\approx}\,62\)</span> nDCG@10); managed — <strong>Cohere Rerank
+              4</strong>. <em>Choose by:</em> lift on <strong>your own</strong> eval set (rerankers transfer
+            imperfectly), end-to-end latency at your <span class="math inline">\(K\)</span>, license, and language
+            coverage.
+          </p>
+          <p>The whole point of the funnel is to spend the expensive model on a <em>tiny</em> shortlist. The figure
+            makes the economics literal: a cheap per-item operation cuts the catalog to a shortlist, then a costly
+            per-<em>pair</em> operation reorders only those.</p>
+          <div id="fig-implementation-choices-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-implementation-choices-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/implementation-choices-2.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-implementation-choices-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;A.2: {}
+              </figcaption>
+            </figure>
+          </div>
+          <table class="caption-top table">
+            <caption>Reranker comparison (mid-2026 snapshot) — all open options are Apache-2.0; choose by lift on your
+              own eval set (rerankers transfer imperfectly across domains), latency at your chosen shortlist size <span
+                class="math inline">\(K\)</span>, and language coverage; Cohere Rerank 4 is the managed baseline when
+              you want zero-infrastructure reranking.</caption>
+            <colgroup>
+              <col style="width: 15%">
+              <col style="width: 21%">
+              <col style="width: 21%">
+              <col style="width: 21%">
+              <col style="width: 21%">
+            </colgroup>
+            <thead>
+              <tr class="header">
+                <th>reranker (mid-2026)</th>
+                <th style="text-align: center;">license</th>
+                <th style="text-align: center;">quality</th>
+                <th style="text-align: center;">latency</th>
+                <th style="text-align: center;">languages</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd">
+                <td><strong>Jina-reranker-v3</strong></td>
+                <td style="text-align: center;">Apache-2.0</td>
+                <td style="text-align: center;">top (BEIR)</td>
+                <td style="text-align: center;">higher (listwise)</td>
+                <td style="text-align: center;">multilingual</td>
+              </tr>
+              <tr class="even">
+                <td><strong>Qwen3-Reranker</strong></td>
+                <td style="text-align: center;">Apache-2.0</td>
+                <td style="text-align: center;">top</td>
+                <td style="text-align: center;">tunable (0.6–8 B)</td>
+                <td style="text-align: center;">100+</td>
+              </tr>
+              <tr class="odd">
+                <td><strong>BGE-reranker-v2-m3</strong></td>
+                <td style="text-align: center;">Apache-2.0</td>
+                <td style="text-align: center;">strong</td>
+                <td style="text-align: center;">low</td>
+                <td style="text-align: center;">multilingual</td>
+              </tr>
+              <tr class="even">
+                <td><strong>mxbai-rerank-v2</strong></td>
+                <td style="text-align: center;">Apache-2.0</td>
+                <td style="text-align: center;">strong</td>
+                <td style="text-align: center;">low (0.5/1.5 B)</td>
+                <td style="text-align: center;">multilingual</td>
+              </tr>
+              <tr class="odd">
+                <td><strong>Cohere Rerank 4</strong></td>
+                <td style="text-align: center;">managed API</td>
+                <td style="text-align: center;">top</td>
+                <td style="text-align: center;">low (hosted)</td>
+                <td style="text-align: center;">broad</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section id="cost-scale-anchors-back-of-envelope" class="level4">
+          <h4 class="anchored" data-anchor-id="cost-scale-anchors-back-of-envelope">Cost &amp; scale anchors
+            (back-of-envelope)</h4>
+          <p>A few numbers worth carrying, so a design discussion stays honest:</p>
+          <ul>
+            <li><strong>Vector storage.</strong> A <span class="math inline">\(d\)</span>-dim <strong>float32</strong>
+              vector is <span class="math inline">\(4d\)</span> bytes, so <strong>1 M <span
+                  class="math inline">\(\times\)</span> 768-dim <span class="math inline">\({\approx}\,3\)</span>
+                GB</strong>; <strong>int8</strong> quantization <span class="math inline">\({\approx}\,0.75\)</span> GB;
+              <strong>binary</strong> <span class="math inline">\({\approx}\,0.1\)</span> GB (with a small recall hit
+              you can recover by reranking, above). Choose precision by <em>catalog size <span
+                  class="math inline">\(\times\)</span> recall budget</em>.
+            </li>
+            <li><strong>Retrieve vs.&nbsp;rerank.</strong> An ANN lookup is <strong>sub-millisecond</strong>; a
+              cross-encoder rerank of <span class="math inline">\(K{=}100\)</span> is <strong>tens of
+                milliseconds</strong> on a GPU — budget it per request, not per item.</li>
+            <li><strong>Embedding compute.</strong> Open encoders run on your own GPU/CPU; managed APIs bill per
+              token/image (order of <strong>cents per 1 k items</strong>). At scale, self-hosting an open encoder
+              usually wins on cost; an API wins on time-to-ship.</li>
+            <li><strong>The rule that dominates all of these.</strong> Before committing, validate the finalists on a
+              <strong>small in-domain eval set</strong> — 50–200 labeled query→relevant-item pairs, scored with
+              Recall@<span class="math inline">\(K\)</span>: a cheaper model that wins on <em>your</em> data beats a
+              pricier leaderboard champion (Rule 1, §1).
+            </li>
+          </ul>
+          <hr>
+        </section>
+      </section>
+      <section id="open-llms-small-language-models-slms" class="level2">
+        <h2 class="anchored" data-anchor-id="open-llms-small-language-models-slms">4. Open LLMs &amp; small language
+          models (SLMs)</h2>
+        <p>For recsys, the LLM is rarely a chatbot — it is an <strong>enhancer</strong> (generating item/user text
+          features, profiles, synthetic tags), a <strong>reranker</strong> (listwise scoring of a candidate set), or a
+          cold-start reasoner (the <strong>LLM × RecSys</strong> note). That changes what “best” means: you want terse,
+          faithful, schema-valid, hallucination-free output at high throughput — <em>not</em> arena charm.</p>
+        <p><strong>How to choose.</strong> Pick on three axes <strong>in this order: license <span
+              class="math inline">\(\rightarrow\)</span> size/serving budget <span
+              class="math inline">\(\rightarrow\)</span> task.</strong> For the bread-and-butter — <strong>cheap,
+            high-throughput batch feature generation</strong> — default to a <strong>small Apache-2.0/MIT model in the
+            1–9B tier</strong> run locally (<strong>vLLM</strong> for GPU throughput, <strong>llama.cpp/GGUF</strong>
+          for CPU/edge); at this size the model is nearly free per item and “write a 50-word profile from these
+          attributes” needs no frontier model. Step <strong>up to a mid/large reasoning model</strong> only for the
+          steps where quality dominates cost (listwise reranking with chain-of-thought, hard cold-start). <strong>Treat
+            license as a hard gate</strong>, and <strong>don’t pick from arena Elo</strong> — validate finalists on
+          <em>your</em> offline metric (NDCG/Recall lift, profile-faithfulness).
+        </p>
+        <table class="caption-top table">
+          <caption>Open LLM and SLM families for recsys (mid-2026 snapshot; the fastest-to-flip section — re-check
+            before committing) — choose by license first (Apache-2.0/MIT are the clean commercial options), then by
+            size/serving budget, then by task; for the bread-and-butter batch feature-generation job, a 1–9B Apache
+            model run via vLLM is nearly free per item.</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Family</th>
+              <th>Maker</th>
+              <th>Open sizes (tier)</th>
+              <th>License — commercial?</th>
+              <th>Best for (recsys)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Qwen3.x</strong></td>
+              <td>Alibaba</td>
+              <td>0.6–32B dense + MoE</td>
+              <td><strong>Apache-2.0 — yes</strong></td>
+              <td>Default all-rounder; small tiers for batch feature-gen, MoE for reranking</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Gemma 4</strong></td>
+              <td>Google</td>
+              <td>~2–31B</td>
+              <td><strong>Apache-2.0 — yes</strong> (NEW at v4; <span class="math inline">\(\le 3\)</span> was custom!)
+              </td>
+              <td>High-quality small profile gen; multimodal item features</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Mistral / Ministral</strong></td>
+              <td>Mistral AI</td>
+              <td>3 / 8 / 14B + large</td>
+              <td><strong>Apache-2.0 — yes</strong></td>
+              <td>Permissive small workhorses; EU-based, no usage caps</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Phi-4</strong></td>
+              <td>Microsoft</td>
+              <td>3.8 / 14B (+reasoning)</td>
+              <td><strong>MIT — yes</strong></td>
+              <td>Small reasoning-grade reranking on a budget</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>DeepSeek (V3/V4)</strong></td>
+              <td>DeepSeek</td>
+              <td>large MoE</td>
+              <td><strong>MIT — yes</strong></td>
+              <td>Large-tier <em>quality</em> reranking / hard reasoning</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Llama 3.2 / 4</strong></td>
+              <td>Meta</td>
+              <td>1–3B edge; large MoE</td>
+              <td><strong>Llama community license — conditional</strong></td>
+              <td>1–3B still a top <em>edge</em> SLM; read the 700M-MAU / attribution / EU clauses</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>SmolLM3 / OLMo 2</strong></td>
+              <td>HF / Ai2</td>
+              <td>1–32B</td>
+              <td><strong>Apache-2.0 — yes; fully open data</strong></td>
+              <td>Reproducible, auditable baselines; provenance matters</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><em>(MoE = mixture-of-experts: you hold all parameters in memory but compute only the “active” few per token
+            — cheaper inference than the total size suggests.)</em></p>
+        <p><strong>Reading the benchmark.</strong> <strong>LMArena</strong> (blind human pairwise Elo) measures <em>chat
+            preference</em> — verbosity and tone, the opposite of what a terse batch profiler needs; use its
+          <strong>style-controlled</strong> view, and recall it has been gamed — a chat-tuned “experimental” variant
+          once topped the raw leaderboard but fell sharply once style was controlled for (§9). <strong>MMLU-Pro /
+            GPQA</strong> are harder, more contamination- resistant knowledge tests (plain MMLU is saturated). The
+          load-bearing caveat for 2026: <strong>“benchmaxxing”</strong> — training on or near benchmark questions means
+          a high score can be <em>recall, not reasoning</em>. Trust only <strong>agreement across three eval
+            <em>types</em></strong> (a static academic test, a style-controlled arena, an agentic suite) — and then your
+          own task eval. The HF Open LLM Leaderboard is <strong>archived</strong>; practitioners now triangulate on
+          <strong>Artificial Analysis</strong> and <strong>Epoch AI</strong> (whose data shows open weights lag the
+          closed frontier by only ~3 months on average).
+        </p>
+        <p><strong>2026 state of play.</strong></p>
+        <ul>
+          <li><strong>The open-weights frontier is Chinese-led</strong> (Qwen, DeepSeek, GLM, Kimi, MiniMax) — all MIT/
+            Apache, all long-context — with <strong>Mistral</strong> the strongest permissive Western entrant.
+            <strong>As of 2026-06</strong>, Llama is no longer the default open choice: <strong>Llama 4 (Scout/Maverick)
+              underwhelmed</strong> on coding/reasoning vs Qwen and DeepSeek, no new open-weight Llama shipped through
+            mid-2026, and Meta signalled its <em>frontier</em> work is going closed (its <strong>Muse Spark</strong>
+            model, Apr 2026, was its first proprietary frontier release since 2023). Llama 3.2-1B/3B remains an
+            excellent <em>edge</em> SLM, and this is the <strong>single fastest-to-flip verdict in this chapter</strong>
+            — re-check before relying on it.
+          </li>
+          <li><strong>The small-model surge is the recsys story.</strong> Each generation pushes capability
+            <em>down</em> the size curve: a 2026 4–9B model does what needed ~30B a year earlier. You can profile
+            millions of items locally for near-zero marginal cost — exactly the enhancer use case.
+          </li>
+          <li><strong>“Thinking” modes are now standard and toggleable.</strong> Turn reasoning <strong>on</strong> for
+            listwise reranking / hard cold-start; <strong>off</strong> for high-throughput batch generation (thinking
+            tokens are pure cost there).</li>
+          <li><strong>The emerging recsys recipe:</strong> use a <strong>large reasoning model to build a gold
+              set</strong>, then <strong>distill into a small Apache/MIT model</strong> (e.g.&nbsp;a 4–9B) for the
+            high-volume batch job — most of the quality at a fraction of the serving cost, with a clean commercial
+            license.</li>
+          <li><strong>License traps (the most error-prone area):</strong> truly unencumbered = <strong>Qwen, Mistral,
+              DeepSeek, GLM, OLMo, SmolLM, Phi, and Gemma <em>4</em></strong>. <strong>Gemma <span
+                class="math inline">\(\le 3\)</span></strong> used a custom, non-OSI license — <em>check the
+              version</em>. <strong>Llama</strong> is a custom community license (700M-MAU clause, “Built with Llama”
+            attribution, an EU restriction on its multimodal models) — fine for many, a dealbreaker for some; never call
+            it “open source.” <strong>Open weights <span class="math inline">\(\ne\)</span> open data</strong> — only
+            OLMo and SmolLM are fully open if reproducibility/provenance is a requirement.</li>
+        </ul>
+        <section id="serving-the-model-the-runtime-is-a-separate-choice-from-the-weights" class="level4">
+          <h4 class="anchored" data-anchor-id="serving-the-model-the-runtime-is-a-separate-choice-from-the-weights">
+            Serving the model — the runtime is a separate choice from the weights</h4>
+          <p>Picking the weights is half the decision; <em>how you run them</em> is the other half, and it is the lever
+            that actually moves throughput and cost. <strong>Match the runtime to the workload, not the model:</strong>
+          </p>
+          <table class="caption-top table">
+            <caption>LLM serving runtime comparison (mid-2026) — match the runtime to the workload, not the model; vLLM
+              is the production default for multi-user GPU serving, SGLang wins on shared-prefix workloads (RAG/agents),
+              Ollama/llama.cpp cover single-user local use, and TEI is purpose-built for the embedding-server case; note
+              that TGI entered maintenance mode in December 2025 (repo archived March 2026).</caption>
+            <colgroup>
+              <col style="width: 33%">
+              <col style="width: 33%">
+              <col style="width: 33%">
+            </colgroup>
+            <thead>
+              <tr class="header">
+                <th>Workload</th>
+                <th>Pick (as of mid-2026)</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd">
+                <td>Multi-user <strong>production</strong> LLM, GPU</td>
+                <td><strong>vLLM</strong></td>
+                <td>PagedAttention + continuous batching keep the GPU saturated; the de-facto default</td>
+              </tr>
+              <tr class="even">
+                <td><strong>Shared-prefix</strong> load (RAG, agents, batch with one big system prompt)</td>
+                <td><strong>SGLang</strong></td>
+                <td>Prefix-caching (RadixAttention) gives a real throughput edge when prompts overlap</td>
+              </tr>
+              <tr class="odd">
+                <td><strong>Single-user / local / desktop</strong></td>
+                <td><strong>Ollama</strong> or <strong>llama.cpp</strong> (GGUF)</td>
+                <td>One-command local serving, CPU/Metal-viable; the simplest path, not for many-user traffic</td>
+              </tr>
+              <tr class="even">
+                <td><strong>Embedding</strong> serving (2)</td>
+                <td><strong>TEI</strong> (Text-Embeddings-Inference) or vLLM</td>
+                <td>Purpose-built embedding server — token-batched, serves E5 / BGE / GTE / Qwen3 / Gemma encoders</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Two dated notes that change the old advice: <strong>Hugging Face’s TGI entered maintenance mode
+              (2025-12-11; repo archived 2026-03-21)</strong> and now itself points new users to vLLM / SGLang /
+            llama.cpp — don’t start new work on it; and for the <strong>batch enhancer job</strong> that dominates
+            recsys (profile a million items overnight, latency-insensitive), <strong>offline batched vLLM</strong> is
+            usually the cheapest path of all, since you can run the GPU at <span class="math inline">\(100\%\)</span>
+            with no request-latency budget to protect.</p>
+          <hr>
+        </section>
+      </section>
+      <section id="recsys-frameworks-libraries" class="level2">
+        <h2 class="anchored" data-anchor-id="recsys-frameworks-libraries">5. RecSys frameworks &amp; libraries</h2>
+        <p>For reproducing the graph/LLM notes’ baselines and for building real recommenders.</p>
+        <p><strong>How to choose.</strong> For a <strong>reproducible paper baseline</strong> (LightGCN / BPR / NGCF /
+          SASRec on one pipeline) use <strong>RecBole</strong> — the broadest model zoo, all four out of the box. If
+          your contribution is <strong>graph or self-supervised</strong>, prefer <strong>SSLRec</strong> or
+          <strong>RecBole-GNN</strong> (LightGCN/SGL/SimGCL/NCL native). If it is an
+          <strong>evaluation/fairness</strong> claim, run it through <strong>Cornac</strong> or <strong>Elliot</strong>,
+          which bake in hyperparameter search and significance tests (and are the two most actively maintained research
+          frameworks). For <strong>production at scale</strong> use <strong>TorchRec</strong> (Meta; the one large-scale
+          framework vigorously maintained in 2026); for a fast classical <strong>implicit-feedback</strong> model in a
+          product, use <strong>implicit</strong> (ALS/BPR). For <strong>LLM-for-RecSys</strong> there is <strong>no
+            mature framework yet</strong> — it is paper repos plus awesome-lists.
+        </p>
+        <table class="caption-top table">
+          <caption>RecSys framework comparison (mid-2026) — RecBole for the broadest model zoo, Cornac for the most
+            actively maintained comparative experiments, SSLRec/RecBole-GNN for SSL/graph contributions, TorchRec for
+            production at scale; the “avoid” row names frameworks that are stale, frozen, or on security-patch
+            life-support.</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Framework</th>
+              <th>Maker</th>
+              <th>Best for</th>
+              <th>Maintained 2026?</th>
+              <th>License</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>RecBole</strong></td>
+              <td>RUCAIBox</td>
+              <td>Broadest research baselines (94 models)</td>
+              <td>Slowing (active enough)</td>
+              <td><strong>MIT</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>Cornac</strong></td>
+              <td>Preferred.AI</td>
+              <td>Comparative experiments + multimodal</td>
+              <td><strong>Active (most current)</strong></td>
+              <td><strong>Apache-2.0</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Elliot</strong></td>
+              <td>Poli. Bari</td>
+              <td>Reproducibility: HPO + significance tests</td>
+              <td>Slowing</td>
+              <td><strong>Apache-2.0</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>SSLRec</strong> / <strong>RecBole-GNN</strong></td>
+              <td>HKUDS / RUCAIBox</td>
+              <td>Self-supervised + graph CF</td>
+              <td>Slowing</td>
+              <td><strong>Apache / MIT</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>ReChorus</strong></td>
+              <td>Tsinghua</td>
+              <td>Sequential / session + CTR</td>
+              <td><strong>Active</strong></td>
+              <td><strong>MIT</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>TorchRec</strong></td>
+              <td>Meta</td>
+              <td>Billion-param embeddings, DLRM, sharding</td>
+              <td><strong>Active (vigorous)</strong></td>
+              <td><strong>BSD-3</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>implicit</strong></td>
+              <td>B. Frederickson</td>
+              <td>Fast implicit-feedback CF (ALS/BPR)</td>
+              <td><strong>Active</strong></td>
+              <td><strong>MIT</strong></td>
+            </tr>
+            <tr class="even">
+              <td><em>Avoid for new work</em></td>
+              <td>—</td>
+              <td>Merlin / Transformers4Rec, LightFM, Spotlight, RecPack</td>
+              <td>Stale / frozen / dead</td>
+              <td>various</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>The reproducible-baseline angle (this is where the <em>Evaluation Metrics</em> note §11
+            bites).</strong> A framework fixes the <em>code</em>, <strong>not the protocol</strong> — two RecBole users
+          still get non-comparable numbers if they choose different splits, filters, samplers, or cutoffs. The
+          literature is unanimous that <strong>copied baseline numbers are the main source of false “progress.”</strong>
+          Five documented pitfalls:</p>
+        <ol type="1">
+          <li><strong>Data split / temporal leakage</strong> — random/leave-one-out splits leak the future and can
+            <strong>reorder the leaderboard</strong> vs a global-timeline split (Ji et al., TOIS 2023).
+          </li>
+          <li><strong>Sampled vs full ranking</strong> — ranking against ~100 sampled negatives is <em>inconsistent</em>
+            with full-catalog ranking and can <strong>reverse</strong> model orderings (Krichene &amp; Rendle, KDD
+            2020).</li>
+          <li><strong>Under-tuned baselines</strong> — properly tuned simple methods beat most “neural” gains; a
+            well-tuned dot-product MF beats NeuMF (Ferrari Dacrema et al.&nbsp;2019; Rendle et al.&nbsp;2020).</li>
+          <li><strong>Negative sampling</strong> (train <em>and</em> eval) silently changes what BPR/LightGCN learn.
+          </li>
+          <li><strong>Metric/cutoff/<span class="math inline">\(k\)</span>-core inconsistencies</strong> shift rankings.
+          </li>
+        </ol>
+        <p><strong>One-line rule:</strong> a recsys accuracy number is only meaningful as a <strong>tuple</strong> —
+          <em>(model, dataset, <span class="math inline">\(k\)</span>-core filter, split + seed, train sampler, eval
+            candidate set, metric + cutoff, tuning budget)</em>. Re-run every baseline yourself under one fixed
+          protocol.
+        </p>
+        <p><strong>2026 state of play.</strong> TorchRec is alive and quarterly; <strong>NVIDIA Merlin /
+            Transformers4Rec are on security-patch life-support</strong> (don’t build new systems on them).
+          <strong>LightFM, Spotlight, RecPack are stale/dead</strong> — high star counts do not mean maintenance (always
+          check the last <em>commit</em>, not the “updated” date). The LLM-for-recsys layer is <strong>paper
+            repos</strong> (e.g.&nbsp;<strong>RLMRec</strong>, built on SSLRec; <strong>LLaRA</strong>) plus
+          awesome-lists — citable references, not infrastructure; and generative- retrieval (<strong>TIGER</strong>) has
+          only third-party reimplementations. License note: most are permissive, but <strong>RecPack is AGPL</strong>,
+          and some popular LLM-recsys awesome-lists carry <strong>no license</strong> (= all rights reserved — not
+          safely reusable).
+        </p>
+        <hr>
+      </section>
+      <section id="ner-nlp-libraries-turning-text-into-features" class="level2">
+        <h2 class="anchored" data-anchor-id="ner-nlp-libraries-turning-text-into-features">6. NER &amp; NLP libraries —
+          turning text into features</h2>
+        <p>When a recommender needs <strong>structured features from item/user text</strong> — entities, tags,
+          attributes (<code>{director, sub-genre, mood}</code> from a film blurb; <code>{brand, material, fit}</code>
+          from product copy) — for content-based, hybrid, or LLM recommenders.</p>
+        <p><strong>How to choose.</strong> <strong>Default to a fast supervised pipeline when your schema is fixed and
+            high-throughput</strong>, and <strong>reach for zero-shot/LLM extraction when your schema is arbitrary or
+            training-data-free.</strong> Tagging a large catalog against a <em>stable</em> entity set, with a one-time
+          fine-tune affordable? <strong>spaCy</strong> (fastest) or <strong>Stanza</strong> (best multilingual) wins on
+          cost-per-item by orders of magnitude. Need <em>arbitrary attributes you can’t pre-train</em>? <strong>GLiNER /
+            NuNER-Zero</strong> (fast span extraction at inference, no training) or a <strong>template-driven extractor
+            (NuExtract) / general LLM under structured-output decoding</strong> for nested, typed, normalized fields.
+        </p>
+        <p>Every F1 below names its <strong>benchmark</strong> — a number without one is meaningless (the same model can
+          move <span class="math inline">\(&gt;10\)</span> F1 across suites). All are <em>supervised in-domain</em>
+          unless marked <strong>zero-shot</strong>; CoNLL (<span class="math inline">\(4\)</span> types) and OntoNotes
+          (<span class="math inline">\(18\)</span> types) are different tests and do not compare directly.</p>
+        <table class="caption-top table">
+          <caption>NER and structured-extraction tool comparison (mid-2026) — each F1 figure names its benchmark suite
+            (CoNLL-2003 or OntoNotes or the OOD-20/CrossNER zero-shot benchmarks) because the same model differs by
+            <span class="math inline">\(&gt;10\)</span> F1 points across suites; the decision axis is fixed schema +
+            high throughput (supervised pipeline: spaCy/Stanza) vs arbitrary schema with no training data (zero-shot:
+            GLiNER or LLM with structured output).
+          </caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Tool</th>
+              <th>Type</th>
+              <th>F1 (named suite) · speed</th>
+              <th>Custom schema?</th>
+              <th>License</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>spaCy</strong> (<code>trf</code>)</td>
+              <td>Supervised pipeline</td>
+              <td><span class="math inline">\({\approx}\,90\)</span> OntoNotes; <strong>fastest</strong>, CPU-viable
+              </td>
+              <td>yes (easy training)</td>
+              <td><strong>MIT</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>Stanza</strong></td>
+              <td>Supervised neural</td>
+              <td><strong>Best multilingual</strong>; <span class="math inline">\({\approx}\,92\)</span> CoNLL, slower
+              </td>
+              <td>yes (needs GPU)</td>
+              <td><strong>Apache-2.0</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Flair</strong></td>
+              <td>Supervised (contextual)</td>
+              <td><span class="math inline">\({\approx}\,94\)</span> CoNLL (top English), slow</td>
+              <td>yes (great UX)</td>
+              <td><strong>MIT</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>HF Transformers</strong></td>
+              <td>Fine-tuned BERT/DeBERTa</td>
+              <td><span class="math inline">\({\approx}\,93\)</span>–<span class="math inline">\(94\)</span> CoNLL
+                ceiling, GPU</td>
+              <td>yes (needs labels)</td>
+              <td><strong>Apache-2.0</strong> (per-model varies)</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>GLiNER</strong></td>
+              <td><strong>Zero-shot</strong> spans</td>
+              <td><span class="math inline">\({\approx}\,48\)</span> OOD-20-avg / <span
+                  class="math inline">\({\approx}\,61\)</span> CrossNER, <strong>fast</strong></td>
+              <td><strong>yes — any types, no training</strong></td>
+              <td><strong>Apache-2.0</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>NuExtract</strong></td>
+              <td>Template LLM → JSON</td>
+              <td>extractive, multimodal (template-bound)</td>
+              <td><strong>yes — JSON template = schema</strong></td>
+              <td><strong>MIT</strong> (most sizes)</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>LLM + structured output</strong></td>
+              <td>LLM + constrained decoding</td>
+              <td><span class="math inline">\({\approx}\,37\)</span> zero-shot OOD-20 (GPT-class), slowest/costliest
+              </td>
+              <td><strong>yes — maximal flexibility</strong></td>
+              <td>per-provider / OSS</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Reading the benchmark.</strong> <strong>CoNLL-2003</strong> (4 types, news) is
+          <strong>saturated</strong> (<span class="math inline">\({\approx}\,93\)</span>–<span
+            class="math inline">\(94\)</span> F1 for the supervised top) and a <strong>contamination risk</strong> (old,
+          widely mirrored — LLM zero-shot scores on it are optimistic). <strong>OntoNotes 5.0</strong> (18 types,
+          multi-genre) is harder and more honest — <em>prefer it</em> (the supervised libraries land <span
+            class="math inline">\({\approx}\,90\)</span>–<span class="math inline">\(91\)</span> there). The
+          supervised-vs-zero-shot gap is large but <strong>suite-dependent</strong>: on the original GLiNER paper’s
+          <strong>20-dataset out-of-domain benchmark</strong>, GLiNER-L averages <span
+            class="math inline">\({\approx}\,48\)</span> F1 and a GPT-class model <span
+            class="math inline">\({\approx}\,37\)</span> (so GLiNER <em>beats</em> the LLM zero-shot, at <span
+            class="math inline">\(&lt;\!1\%\)</span> of the parameters), while on the easier 7-dataset
+          <strong>CrossNER</strong> slice both score higher (GLiNER <span class="math inline">\({\approx}\,61\)</span>).
+          That gap is <strong>irrelevant when no labeled set exists for your schema</strong> — the common recsys case.
+          And any quoted “zero-shot average” is meaningless without naming the suite (the same model differs by <span
+            class="math inline">\({\approx}\,13\)</span> F1 across OOD suites). <strong>Build a small in-domain gold set
+            for <em>your</em> schema; public F1 is a loose prior, never a substitute.</strong>
+        </p>
+        <p><strong>2026 state of play.</strong></p>
+        <ul>
+          <li><strong>Classic supervised NER still wins on throughput/cost</strong> for fixed-schema catalog tagging
+            (spaCy, Stanza — both actively maintained).</li>
+          <li><strong>Zero-shot NER (GLiNER, NuNER-Zero) genuinely owns the “new entity type, no training data”
+              problem</strong> — arbitrary types at inference, small and fast, beats zero-shot ChatGPT; useful, not at
+            supervised parity.</li>
+          <li><strong>Structured-output extraction is the right <em>mechanism</em></strong> — not free-form “return
+            JSON” but schema-constrained decoding (<strong>Outlines, Instructor, XGrammar</strong>, OpenAI’s
+            <code>json_schema</code>). Caveat: it guarantees <strong>schema-valid</strong> JSON, <strong>not correct
+              values</strong> — validate against controlled vocabularies/enums.
+          </li>
+          <li><strong>Practical hybrid:</strong> use GLiNER/LLM to <strong>bootstrap silver labels</strong>, then
+            <strong>distill into a small fine-tuned pipeline</strong> for the high-volume production path — flexibility
+            upfront, throughput in production.
+          </li>
+          <li><strong>License:</strong> the recommended stack is permissive (spaCy/Flair MIT; Stanza/HF/GLiNER Apache);
+            watch one NuExtract size on a research-only license, and per-model licenses under the HF pipeline.</li>
+        </ul>
+        <hr>
+      </section>
+      <section id="speech-stt-tts-adjacent" class="level2">
+        <h2 class="anchored" data-anchor-id="speech-stt-tts-adjacent">7. Speech — STT &amp; TTS (adjacent)</h2>
+        <p><strong>Off the core recsys path.</strong> You need speech models in only two cases: <strong>(a)</strong> a
+          <strong>voice interface</strong> in front of recommendations, or <strong>(b)</strong> your <strong>items are
+            audio</strong> (podcasts, audiobooks, voice notes) and you need <strong>speech-to-text</strong> to turn them
+          into transcripts that then feed the normal text-feature pipeline (§2, §6). In case (b), STT is usually all you
+          need; TTS only if you also <em>speak</em> results back.
+        </p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Direction</th>
+              <th>Default pick</th>
+              <th>Strong alternatives</th>
+              <th>License notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>STT / ASR</strong></td>
+              <td><strong>Whisper large-v3(-turbo)</strong> via <strong>faster-whisper</strong> (99 langs, robust, fast
+                runtime)</td>
+              <td><strong>NVIDIA Parakeet / Canary</strong> (lowest WER, English-mostly, huge throughput);
+                <strong>Moonshine</strong> (edge)
+              </td>
+              <td>Whisper Apache/MIT; Parakeet/Canary CC-BY-4.0 — all commercial-OK</td>
+            </tr>
+            <tr class="even">
+              <td><strong>TTS</strong></td>
+              <td><strong>Kokoro-82M</strong> (Apache, tiny, good) or <strong>Piper</strong> (MIT, offline)</td>
+              <td><strong>Orpheus</strong> (expressive, Apache weights, Llama-derived); <strong>ElevenLabs</strong> (API
+                quality bar)</td>
+              <td><strong>Caution:</strong> F5-TTS, Fish-Speech, Coqui-XTTS are <strong>non-commercial</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>The one trap to flag:</strong> several popular “open” TTS models are <strong>non-commercial</strong>
+          — <strong>F5-TTS</strong> (CC-BY-NC), <strong>Fish-Speech</strong> (CC-BY-NC-SA), <strong>Coqui-XTTS</strong>
+          (Coqui Public Model License, and the project is unmaintained since Coqui wound down). Read the
+          <strong>weights</strong> license, not the repo’s code license. Commercial-safe open TTS is a short list:
+          <strong>Piper, Kokoro, Parler-TTS, Orpheus</strong>. STT is effectively solved and commoditized for English;
+          the real engineering choice there is the <em>runtime</em> (faster-whisper / WhisperX), not the architecture.
+        </p>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">8. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Open weights / open source / open data</strong></td>
+              <td>Released <em>weights only</em> / weights + permissive code license / + training data too. They are
+                different and often confused.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Matryoshka (MRL)</strong></td>
+              <td>Truncatable embeddings — a shorter prefix of the vector still works, so you index at a smaller dim to
+                save memory/latency.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Quantization</strong></td>
+              <td>Storing weights/vectors in fewer bits (4/8-bit, int8/binary) to shrink memory and speed inference, at
+                a small quality cost.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>ANN</strong></td>
+              <td>Approximate nearest-neighbour search — fast, slightly-inexact vector retrieval; the
+                candidate-generation engine.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>HNSW / IVF-PQ / DiskANN / CAGRA</strong></td>
+              <td>ANN index types: graph (in-RAM default) / inverted-list + compression (memory-thrifty) / on-disk
+                (billion-scale) / GPU graph (batched throughput).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Recall vs QPS</strong></td>
+              <td>The ANN trade-off: fraction of true neighbours found vs queries-per-second. Always compare at a
+                <em>fixed</em> recall.
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>SLM</strong></td>
+              <td>Small language model (<span class="math inline">\(\approx 0.5\)</span>–9B) — cheap, high-throughput;
+                the recsys feature-generation workhorse.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MoE (mixture-of-experts)</strong></td>
+              <td>A model that holds many parameters but activates only a few per token — inference cheaper than total
+                size.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Enhancer / reranker</strong></td>
+              <td>Recsys LLM roles: generate item/user text features / re-order a candidate list — not chat.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MTEB / ann-benchmarks / LMArena / CoNLL</strong></td>
+              <td>The standard leaderboards for embeddings / vector indexes / chat-LLMs / NER. Priors, not verdicts.
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Benchmaxxing</strong></td>
+              <td>Training on (or near) benchmark data so a high score reflects recall, not ability — why one
+                leaderboard number is untrustworthy.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Structured output</strong></td>
+              <td>Forcing an LLM to emit schema-valid JSON via constrained decoding — valid shape, not
+                guaranteed-correct values.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Zero-shot NER</strong></td>
+              <td>Extracting arbitrary entity types with no task-specific training (GLiNER, NuNER).</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references-resources" class="level2">
+        <h2 class="anchored" data-anchor-id="references-resources">9. References &amp; resources</h2>
+        <p><em>A curated directory — tools, leaderboards, and primary sources, current as of mid-2026; re-check before
+            relying on a name.</em></p>
+        <p>This is the handbook’s most perishable note — embedding leaderboards reshuffle monthly and the top open LLM
+          is often three months old. Re-check live leaderboards before relying on a specific ranking.</p>
+        <section id="a-papers" class="level3">
+          <h3 class="anchored" data-anchor-id="a-papers">(a) Papers</h3>
+          <ul>
+            <li>Anelli, V. W., Malitesta, D., Pomo, C., Bellogín, A., Di Noia, T., &amp; Di Sciascio, E. (2023).
+              <em>Challenging the myth of graph collaborative filtering: A reasoned and reproducibility-driven
+                analysis</em>. In <em>Proceedings of the 17th ACM Conference on Recommender Systems (RecSys ’23)</em>.
+              arXiv:2308.00404
+            </li>
+            <li>Enevoldsen, K., et al.&nbsp;(2025). <em>MMTEB: Massive multilingual text embedding benchmark</em>. In
+              <em>Proceedings of the 13th International Conference on Learning Representations (ICLR 2025)</em>.
+              arXiv:2502.13595
+            </li>
+            <li>Ferrari Dacrema, M., Cremonesi, P., &amp; Jannach, D. (2019). <em>Are we really making much progress? A
+                worrying analysis of recent neural recommendation approaches</em>. In <em>Proceedings of the 13th ACM
+                Conference on Recommender Systems (RecSys ’19)</em>. arXiv:1907.06902</li>
+            <li>Ji, Y., Sun, A., Zhang, J., &amp; Li, C. (2023). <em>A critical study on data leakage in recommender
+                system offline evaluation</em>. ACM Transactions on Information Systems, 41(3), 75:1–75:27.
+              https://doi.org/10.1145/3569930 arXiv:2010.11060</li>
+            <li>Krichene, W., &amp; Rendle, S. (2020). <em>On sampled metrics for item recommendation</em>. In
+              <em>Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining
+                (KDD ’20)</em>. https://doi.org/10.1145/3394486.3403226
+            </li>
+            <li>Petrov, A., &amp; Macdonald, C. (2022). <em>A systematic review and replicability study of BERT4Rec for
+                sequential recommendation</em>. In <em>Proceedings of the 16th ACM Conference on Recommender Systems
+                (RecSys ’22)</em>. arXiv:2207.07483</li>
+            <li>Rendle, S., Krichene, W., Zhang, L., &amp; Anderson, J. (2020). <em>Neural collaborative filtering
+                vs.&nbsp;matrix factorization revisited</em>. In <em>Proceedings of the 14th ACM Conference on
+                Recommender Systems (RecSys ’20)</em>. arXiv:2005.09683</li>
+            <li>Zaratiana, U., Tomeh, N., Holat, P., &amp; Charnois, T. (2024). <em>GLiNER: Generalist model for named
+                entity recognition using bidirectional transformer</em>. In <em>Proceedings of the 2024 Annual
+                Conference of the North American Chapter of the Association for Computational Linguistics (NAACL
+                2024)</em>. arXiv:2311.08526</li>
+          </ul>
+        </section>
+        <section id="b-tools-libraries-leaderboards" class="level3">
+          <h3 class="anchored" data-anchor-id="b-tools-libraries-leaderboards">(b) Tools, libraries &amp; leaderboards
+          </h3>
+          <p><strong>Embeddings (§2).</strong></p>
+          <ul>
+            <li><strong>MMTEB leaderboard</strong> — <a href="https://huggingface.co/spaces/mteb/leaderboard"
+                class="uri">https://huggingface.co/spaces/mteb/leaderboard</a>; MTEB repo — <a
+                href="https://github.com/embeddings-benchmark/mteb"
+                class="uri">https://github.com/embeddings-benchmark/mteb</a></li>
+            <li><strong>“Maintaining MTEB”</strong> (contamination / leaderboard-reality gap), Chung et al., 2025 — <a
+                href="https://arxiv.org/abs/2506.21182" class="uri">https://arxiv.org/abs/2506.21182</a></li>
+            <li>Model cards: <strong>Qwen3-Embedding</strong> — <a href="https://huggingface.co/Qwen/Qwen3-Embedding-8B"
+                class="uri">https://huggingface.co/Qwen/Qwen3-Embedding-8B</a>;
+              <strong>multilingual-e5-large-instruct</strong> — <a
+                href="https://huggingface.co/intfloat/multilingual-e5-large-instruct"
+                class="uri">https://huggingface.co/intfloat/multilingual-e5-large-instruct</a>; <strong>BGE-M3</strong>
+              — <a href="https://huggingface.co/BAAI/bge-m3" class="uri">https://huggingface.co/BAAI/bge-m3</a>;
+              <strong>EmbeddingGemma</strong> — <a href="https://huggingface.co/google/embeddinggemma-300m"
+                class="uri">https://huggingface.co/google/embeddinggemma-300m</a>; <strong>Nomic-embed-v2</strong> — <a
+                href="https://huggingface.co/nomic-ai/nomic-embed-text-v2-moe"
+                class="uri">https://huggingface.co/nomic-ai/nomic-embed-text-v2-moe</a>
+            </li>
+          </ul>
+          <p><strong>Vector search (§3).</strong></p>
+          <ul>
+            <li><strong>ann-benchmarks</strong> — <a href="https://ann-benchmarks.com/"
+                class="uri">https://ann-benchmarks.com/</a>; <strong>VectorDBBench</strong> (Zilliz) — <a
+                href="https://github.com/zilliztech/VectorDBBench"
+                class="uri">https://github.com/zilliztech/VectorDBBench</a>; <strong>VIBE</strong> (modern-embedding ANN
+              benchmark), 2025 — <a href="https://arxiv.org/abs/2505.17810"
+                class="uri">https://arxiv.org/abs/2505.17810</a></li>
+            <li><strong>FAISS</strong> — <a href="https://github.com/facebookresearch/faiss"
+                class="uri">https://github.com/facebookresearch/faiss</a> (cosine = normalize + inner-product: <a
+                href="https://github.com/facebookresearch/faiss/wiki/MetricType-and-distances"
+                class="uri">https://github.com/facebookresearch/faiss/wiki/MetricType-and-distances</a>);
+              <strong>hnswlib</strong> — <a href="https://github.com/nmslib/hnswlib"
+                class="uri">https://github.com/nmslib/hnswlib</a>; <strong>Qdrant</strong> — <a
+                href="https://qdrant.tech/documentation/" class="uri">https://qdrant.tech/documentation/</a>;
+              <strong>Milvus</strong> — <a href="https://milvus.io/docs" class="uri">https://milvus.io/docs</a>;
+              <strong>pgvector</strong> — <a href="https://github.com/pgvector/pgvector"
+                class="uri">https://github.com/pgvector/pgvector</a>; <strong>DiskANN</strong> — <a
+                href="https://github.com/microsoft/DiskANN" class="uri">https://github.com/microsoft/DiskANN</a>
+            </li>
+          </ul>
+          <p><strong>LLMs / SLMs (§4).</strong></p>
+          <ul>
+            <li>Leaderboards: <strong>LMArena</strong> — <a href="https://lmarena.ai/"
+                class="uri">https://lmarena.ai/</a>; <strong>Artificial Analysis</strong> — <a
+                href="https://artificialanalysis.ai/leaderboards/models"
+                class="uri">https://artificialanalysis.ai/leaderboards/models</a>; <strong>Epoch AI</strong>
+              (open-vs-closed lag) — <a href="https://epoch.ai/data-insights/open-weights-vs-closed-weights-models"
+                class="uri">https://epoch.ai/data-insights/open-weights-vs-closed-weights-models</a></li>
+            <li>Licenses (the trap): <strong>Gemma 4 → Apache-2.0</strong> — <a
+                href="https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
+                class="uri">https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/</a>;
+              <strong>Llama community license</strong> — <a href="https://www.llama.com/llama4/license/"
+                class="uri">https://www.llama.com/llama4/license/</a>. Families: <strong>Qwen</strong> — <a
+                href="https://qwenlm.github.io/" class="uri">https://qwenlm.github.io/</a>; <strong>Mistral</strong> —
+              <a href="https://mistral.ai/news/" class="uri">https://mistral.ai/news/</a>; <strong>DeepSeek</strong> —
+              <a href="https://huggingface.co/deepseek-ai" class="uri">https://huggingface.co/deepseek-ai</a>;
+              <strong>SmolLM3</strong> — <a href="https://huggingface.co/blog/smollm3"
+                class="uri">https://huggingface.co/blog/smollm3</a>; <strong>OLMo 2</strong> — <a
+                href="https://allenai.org/olmo" class="uri">https://allenai.org/olmo</a>
+            </li>
+            <li>Serving runtimes: <strong>vLLM</strong> — <a href="https://github.com/vllm-project/vllm"
+                class="uri">https://github.com/vllm-project/vllm</a>; <strong>SGLang</strong> — <a
+                href="https://github.com/sgl-project/sglang" class="uri">https://github.com/sgl-project/sglang</a>;
+              <strong>Ollama</strong> — <a href="https://github.com/ollama/ollama"
+                class="uri">https://github.com/ollama/ollama</a>; <strong>llama.cpp</strong> — <a
+                href="https://github.com/ggml-org/llama.cpp" class="uri">https://github.com/ggml-org/llama.cpp</a>;
+              <strong>TGI</strong> (maintenance mode since 2025-12-11; archived 2026-03-21) — <a
+                href="https://github.com/huggingface/text-generation-inference"
+                class="uri">https://github.com/huggingface/text-generation-inference</a>; <strong>TEI</strong>
+              (embeddings) — <a href="https://github.com/huggingface/text-embeddings-inference"
+                class="uri">https://github.com/huggingface/text-embeddings-inference</a>
+            </li>
+            <li>2026 open-weights landscape (Llama 4’s reception, Meta’s pivot to closed <em>Muse Spark</em>, LMArena
+              style-control gaming): <strong>H1-2026 open-weights retrospective</strong> — <a
+                href="https://www.digitalapplied.com/blog/open-weight-models-h1-2026-retrospective-deepseek-qwen-llama"
+                class="uri">https://www.digitalapplied.com/blog/open-weight-models-h1-2026-retrospective-deepseek-qwen-llama</a>;
+              <strong>DeepSeek vs Llama 4 vs Qwen3</strong> — <a
+                href="https://www.spheron.network/blog/deepseek-vs-llama-4-vs-qwen3"
+                class="uri">https://www.spheron.network/blog/deepseek-vs-llama-4-vs-qwen3</a>
+            </li>
+          </ul>
+          <p><strong>RecSys frameworks (§5).</strong></p>
+          <ul>
+            <li><strong>RecBole</strong> — <a href="https://github.com/RUCAIBox/RecBole"
+                class="uri">https://github.com/RUCAIBox/RecBole</a>; <strong>Cornac</strong> — <a
+                href="https://github.com/PreferredAI/cornac" class="uri">https://github.com/PreferredAI/cornac</a>;
+              <strong>Elliot</strong> — <a href="https://github.com/sisinflab/elliot"
+                class="uri">https://github.com/sisinflab/elliot</a>; <strong>SSLRec</strong> — <a
+                href="https://github.com/HKUDS/SSLRec" class="uri">https://github.com/HKUDS/SSLRec</a>;
+              <strong>TorchRec</strong> — <a href="https://github.com/meta-pytorch/torchrec"
+                class="uri">https://github.com/meta-pytorch/torchrec</a>; <strong>implicit</strong> — <a
+                href="https://github.com/benfred/implicit" class="uri">https://github.com/benfred/implicit</a>
+            </li>
+          </ul>
+          <p><strong>NER / NLP (§6).</strong></p>
+          <ul>
+            <li><strong>spaCy</strong> — <a href="https://spacy.io/" class="uri">https://spacy.io/</a>
+              (<code>en_core_web_trf</code> OntoNotes F1 <span class="math inline">\({\approx}\,90.2\)</span>: <a
+                href="https://huggingface.co/spacy/en_core_web_trf"
+                class="uri">https://huggingface.co/spacy/en_core_web_trf</a>); <strong>Stanza</strong> — <a
+                href="https://stanfordnlp.github.io/stanza/" class="uri">https://stanfordnlp.github.io/stanza/</a>;
+              <strong>Flair</strong> (CoNLL-2003 F1 <span class="math inline">\({\approx}\,94.1\)</span>) — <a
+                href="https://github.com/flairNLP/flair" class="uri">https://github.com/flairNLP/flair</a>;
+              <strong>GLiNER</strong> paper — <a href="https://arxiv.org/abs/2311.08526"
+                class="uri">https://arxiv.org/abs/2311.08526</a>, <a
+                href="https://aclanthology.org/2024.naacl-long.300.pdf"
+                class="uri">https://aclanthology.org/2024.naacl-long.300.pdf</a>; <strong>NuExtract</strong> — <a
+                href="https://huggingface.co/numind/NuExtract-2.0-8B"
+                class="uri">https://huggingface.co/numind/NuExtract-2.0-8B</a>; <strong>OpenAI Structured
+                Outputs</strong> — <a href="https://openai.com/index/introducing-structured-outputs-in-the-api/"
+                class="uri">https://openai.com/index/introducing-structured-outputs-in-the-api/</a>;
+              <strong>XGrammar</strong> — <a href="https://github.com/mlc-ai/xgrammar"
+                class="uri">https://github.com/mlc-ai/xgrammar</a>
+            </li>
+          </ul>
+          <p><strong>Speech (§7).</strong></p>
+          <ul>
+            <li><strong>Open ASR Leaderboard</strong> — <a href="https://github.com/huggingface/open_asr_leaderboard"
+                class="uri">https://github.com/huggingface/open_asr_leaderboard</a>; <strong>Whisper large-v3</strong> —
+              <a href="https://huggingface.co/openai/whisper-large-v3"
+                class="uri">https://huggingface.co/openai/whisper-large-v3</a>; <strong>faster-whisper</strong> — <a
+                href="https://github.com/SYSTRAN/faster-whisper"
+                class="uri">https://github.com/SYSTRAN/faster-whisper</a>; <strong>NVIDIA Parakeet</strong> — <a
+                href="https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2"
+                class="uri">https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2</a>; <strong>Kokoro-82M</strong> — <a
+                href="https://huggingface.co/hexgrad/Kokoro-82M"
+                class="uri">https://huggingface.co/hexgrad/Kokoro-82M</a>; <strong>Piper</strong> — <a
+                href="https://github.com/rhasspy/piper" class="uri">https://github.com/rhasspy/piper</a>
+            </li>
+          </ul>
+          <p><em>Online sources verified June 2026.</em></p>
+
+
+        </section>
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../chapters/bandits.html" class="pagination-link" aria-label="Bandits &amp; Online Recommendation">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Bandits &amp;
+              Online Recommendation</span></span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/datasets-and-benchmarks.html" class="pagination-link"
+          aria-label="Datasets &amp; Benchmarks">
+          <span class="nav-page-text"><span class="chapter-title">Datasets &amp; Benchmarks</span></span> <i
+            class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body>
+
+</html>

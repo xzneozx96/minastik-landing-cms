@@ -1,0 +1,14 @@
+# Minastik
+
+> Minastik is an AI/LLM and digital-transformation company. This file points AI assistants to
+> Minastik's openly available learning material.
+
+## Learn
+- [Recommender Systems from Zero](https://minastik.com/recsys/): a free, hand-checkable, from-zero
+  handbook on recommender systems (linear algebra to graph- and LLM-based collaborative filtering).
+  Full content map: https://minastik.com/recsys/llms.txt
+- (add learning notes, books and articles here as they ship)
+
+## Reference
+- [Recommender Systems from Zero — Zenodo (DOI 10.5281/zenodo.20952963)](https://doi.org/10.5281/zenodo.20952963):
+  citable PDF + metadata, CC BY 4.0.

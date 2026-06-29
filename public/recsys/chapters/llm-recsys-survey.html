@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <meta name="description"
+    content="How large language models are used across recommendation — as encoders, rankers, feature generators and agents — a role-based map of the landscape.">
+
+  <title>LLM × RecSys: the Landscape – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
+
+
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/training-and-serving.html" rel="next">
+  <link href="../chapters/spectral-graph-filter-cf.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/llm-recsys-survey.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/llm-recsys-survey.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"LLM × RecSys: the Landscape","name":"LLM × RecSys: the Landscape","description":"How large language models are used across recommendation — as encoders, rankers, feature generators and agents — a role-based map of the landscape.","url":"https://minastik.com/recsys/chapters/llm-recsys-survey.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
+
+  <meta property="og:title" content="LLM × RecSys: the Landscape – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="How large language models are used across recommendation — as encoders, rankers, feature generators and agents — a role-based map of the landscape.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title" content="LLM × RecSys: the Landscape – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="How large language models are used across recommendation — as encoders, rankers, feature generators and agents — a role-based map of the landscape.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+  <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
+      </div> <!-- /container-fluid -->
+    </nav>
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/llm-recsys-survey.html">The LLM Era</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/llm-recsys-survey.html"><span class="chapter-title">LLM ×
+                  RecSys: the Landscape</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+          <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
+          <li class="sidebar-item">
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#why-bother-the-complementarity-thesis" id="toc-why-bother-the-complementarity-thesis"
+              class="nav-link active" data-scroll-target="#why-bother-the-complementarity-thesis">1. Why bother? The
+              complementarity thesis</a></li>
+          <li><a href="#the-four-roles-an-llm-can-play" id="toc-the-four-roles-an-llm-can-play" class="nav-link"
+              data-scroll-target="#the-four-roles-an-llm-can-play">2. The four roles an LLM can play</a></li>
+          <li><a href="#the-graph-line-in-depth-the-llm-as-a-semantic-second-view"
+              id="toc-the-graph-line-in-depth-the-llm-as-a-semantic-second-view" class="nav-link"
+              data-scroll-target="#the-graph-line-in-depth-the-llm-as-a-semantic-second-view">3. The graph line, in
+              depth — the LLM as a semantic <em>second view</em></a></li>
+          <li><a href="#choosing-a-role-a-decision-guide" id="toc-choosing-a-role-a-decision-guide" class="nav-link"
+              data-scroll-target="#choosing-a-role-a-decision-guide">4. Choosing a role — a decision guide</a></li>
+          <li><a href="#open-problems-the-20242026-frontier" id="toc-open-problems-the-20242026-frontier"
+              class="nav-link" data-scroll-target="#open-problems-the-20242026-frontier">5. Open problems — the
+              2024–2026 frontier</a></li>
+          <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">6. Exercises</a>
+          </li>
+          <li><a href="#how-this-wraps-tier-3" id="toc-how-this-wraps-tier-3" class="nav-link"
+              data-scroll-target="#how-this-wraps-tier-3">7. How this wraps Tier 3</a></li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">8. Glossary</a></li>
+          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">9.
+              References</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/llm-recsys-survey.html">The LLM Era</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/llm-recsys-survey.html"><span class="chapter-title">LLM ×
+                  RecSys: the Landscape</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title"><span class="chapter-title">LLM × RecSys: the Landscape</span></h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="why-bother-the-complementarity-thesis" class="level2">
+        <h2 class="anchored" data-anchor-id="why-bother-the-complementarity-thesis">1. Why bother? The complementarity
+          thesis</h2>
+        <p>Two families of recommender, each strong exactly where the other is blind:</p>
+        <table class="caption-top table">
+          <caption>Collaborative filtering and large language models are complementary — CF excels at the
+            interaction-graph signal (who clicked what) but is blind to meaning and cold start; LLMs carry semantics and
+            world knowledge but have never seen click logs; almost every LLM-for-recsys method is an answer to the
+            question of how to fuse these two blind spots.</caption>
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th></th>
+              <th><strong>Collaborative filtering</strong> (<em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive
+                  Learning</em>, <em>The Spectral / Graph-Filter View</em>)</th>
+              <th><strong>Large language models</strong></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Learns from</td>
+              <td>the <strong>interaction graph</strong> (who clicked what)</td>
+              <td>a vast <strong>text corpus</strong> (the world’s writing)</td>
+            </tr>
+            <tr class="even">
+              <td>Great at</td>
+              <td>the <strong>collaborative signal</strong> — “users like you also liked…”</td>
+              <td><strong>semantics, world knowledge, reasoning</strong>, language</td>
+            </tr>
+            <tr class="odd">
+              <td>Blind to</td>
+              <td><em>meaning</em> — LightGCN embeddings are <strong>featureless IDs</strong> (<em>From Graphs to
+                  LightGCN</em> §17); a brand-new item with no clicks is invisible (<strong>cold start</strong>)</td>
+              <td>the <strong>collaborative signal</strong> — an LLM has never seen your click logs; it doesn’t know
+                item 4072 is co-watched with item 88</td>
+            </tr>
+            <tr class="even">
+              <td>Cost</td>
+              <td>cheap to serve (one dot product)</td>
+              <td><strong>expensive</strong> (a forward pass of billions of parameters per query); can
+                <strong>hallucinate</strong> items not in the catalog
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>The thesis the whole field rests on: <strong>these are complementary.</strong> Collaborative filtering knows
+          <em>that</em> two items go together but not <em>why</em>; an LLM knows <em>why</em> a sci-fi fan might like a
+          particular space opera but not <em>who</em> actually co-watches them. Almost every LLM-for-recsys method is an
+          answer to one question — <strong>how do you combine the LLM’s semantics with the collaborative
+            signal?</strong> — and the methods differ mainly in <em>what job they hand the LLM</em>.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>The one-line map.</strong> Give the LLM the <em>whole</em> job →
+            <strong>LLM-as-recommender</strong> (§2.1) and <strong>generative recommendation</strong> (§2.2). Give it a
+            <em>supporting</em> job feeding a classical model → <strong>LLM-as-enhancer</strong> (§2.3). Wrap it in a
+            loop with tools and memory → <strong>agentic</strong> (§2.4). The trade-off is always the same axis: <em>how
+              much LLM you put on the serving path</em> (power and cost) vs <em>how much you keep the cheap
+              collaborative backbone</em> (speed and the signal LLMs lack).
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="the-four-roles-an-llm-can-play" class="level2">
+        <h2 class="anchored" data-anchor-id="the-four-roles-an-llm-can-play">2. The four roles an LLM can play</h2>
+        <p>The cleanest taxonomy is <strong>by the LLM’s job</strong>, not by its architecture. Four roles, with their
+          headline trade-off:</p>
+        <table class="caption-top table">
+          <caption>The four roles an LLM can play in a recommender system — organized by what job the LLM does, each
+            with a representative paper and its headline advantage/disadvantage; the trade-off axis is always how much
+            LLM sits on the serving path (power and cost) vs how much a cheap collaborative backbone is retained (speed
+            and the signal LLMs lack).</caption>
+          <colgroup>
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Role</th>
+              <th>What the LLM does</th>
+              <th>Representative work</th>
+              <th>Advantage</th>
+              <th>Disadvantage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>2.1 Recommender</strong></td>
+              <td>reads the user’s history as a prompt and <strong>ranks/selects</strong> items directly</td>
+              <td>TALLRec (RecSys’23), P5 (RecSys’22), LlamaRec</td>
+              <td>zero/few-shot, cold-start, reasoning, explainable</td>
+              <td>slow at serve time; weak on pure collaborative signal; can name <strong>out-of-catalog</strong> items;
+                hard to scale to millions</td>
+            </tr>
+            <tr class="even">
+              <td><strong>2.2 Generator</strong></td>
+              <td><strong>generates</strong> the item’s identifier token-by-token (<strong>semantic IDs</strong>) —
+                recommendation <em>as</em> generation</td>
+              <td>TIGER (NeurIPS’23), generative retrieval</td>
+              <td>no candidate set; captures item content; one compact model</td>
+              <td>semantic-ID construction is fragile; decoding pitfalls; still maturing for huge catalogs</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>2.3 Enhancer</strong></td>
+              <td>produces <strong>semantic features/profiles</strong> that <strong>feed or align with a classical
+                  model</strong> (the LLM never serves)</td>
+              <td><strong>RLMRec (WWW’24)</strong>, KAR (RecSys’24), EasyRec</td>
+              <td>keeps the <strong>cheap, strong CF backbone</strong>; adds semantics + cold-start; LLM runs
+                <strong>offline</strong>
+              </td>
+              <td>needs an alignment/fusion mechanism; quality hinges on profile + alignment design</td>
+            </tr>
+            <tr class="even">
+              <td><strong>2.4 Agent</strong></td>
+              <td>plans, remembers, and calls tools over <strong>multi-turn</strong> conversation</td>
+              <td>agent surveys (2025), conversational RS</td>
+              <td>interactive, explainable, handles open-ended requests</td>
+              <td>early-stage; evaluation is hard; latency and cost compound</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>How this maps to the field’s surveys.</strong> This <em>by-the-LLM’s-job</em> cut is the teachable
+          cross-section of two canonical taxonomies. <strong>Wu et al.</strong> (<em>A Survey on Large Language Models
+            for Recommendation</em>, WWW Journal 2024) split the field top-down into <strong>discriminative</strong> —
+          the LLM <em>enhances/encodes</em> features for a classical model (our §2.3) — vs <strong>generative</strong> —
+          the LLM <em>produces</em> the recommendation (our §2.1–§2.2). <strong>Lin et al.</strong> (<em>How Can
+            Recommender Systems Benefit from LLMs</em>, ACM TOIS 2024, the most-cited LLM4Rec survey) instead use two
+          orthogonal axes: <strong>WHERE</strong> the LLM sits in the pipeline — their five stages are <strong>feature
+            engineering · feature encoder · scoring/ranking · user interaction · pipeline controller</strong> — ×
+          <strong>HOW</strong> it is adapted (tune the LLM or not × keep a conventional model or not). The four roles
+          below collapse those views into one question — <em>what job does the LLM do</em> — and the §3 deep dive lives
+          in the <strong>enhancer</strong> cell (discriminative · encoder-side · conventional-model-retained), the
+          production-dominant choice.
+        </p>
+        <p>The next four subsections take each in turn.</p>
+        <div id="fig-llm-recsys-survey-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-llm-recsys-survey-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/llm-recsys-survey-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-llm-recsys-survey-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;13.1: The four roles on two axes: how much the LLM costs <strong>at serve time</strong>
+              (offline precompute <span class="math inline">\(\rightarrow\)</span> online inference) and <strong>its
+                role in the stack</strong> (feeding a classical CF model <span
+                class="math inline">\(\rightarrow\)</span> being the recommender). The <strong>Enhancer</strong> (the §3
+              focus) sits in the cheap, production-dominant corner; <strong>Recommender / Generator / Agent</strong> put
+              the LLM on the serving path.
+            </figcaption>
+          </figure>
+        </div>
+        <section id="llm-as-recommender-the-llm-is-the-ranker" class="level3">
+          <h3 class="anchored" data-anchor-id="llm-as-recommender-the-llm-is-the-ranker">2.1 LLM-as-Recommender — the
+            LLM <em>is</em> the ranker</h3>
+          <p><strong>How it works.</strong> Serialize the user’s history into a prompt — <em>“A user watched Titanic,
+              The Notebook, La La Land. From [candidate list], which will they watch next?”</em> — and let the LLM rank
+            or pick. <strong>Zero-shot</strong> uses a frozen model; <strong>TALLRec</strong> (Bao et al., RecSys’23)
+            instead <strong>fine-tunes</strong> Llama on a small set of recommendation instructions, which sharply
+            improves it. <strong>P5</strong> (Geng et al., RecSys’22) was the unifier: cast <em>every</em>
+            recommendation task (rating, sequential, explanation) as text-to-text on a single T5, the
+            “<strong>P</strong>retrain, <strong>P</strong>ersonalized <strong>P</strong>rompt &amp;
+            <strong>P</strong>redict” paradigm.
+          </p>
+          <ul>
+            <li><strong>Advantage.</strong> Inherits the LLM’s world knowledge and reasoning, so it shines in
+              <strong>cold-start</strong> and <strong>cross-domain</strong> settings where there’s little interaction
+              data, and it can <em>explain</em> its picks in words.
+            </li>
+            <li><strong>Disadvantage.</strong> It is <strong>slow and expensive</strong> at serve time (a
+              billion-parameter forward pass per request), <strong>weak on the raw collaborative signal</strong> a tiny
+              LightGCN nails, can <strong>hallucinate</strong> items outside the catalog, and struggles to rank against
+              millions of candidates (you must pre-filter). It also carries <strong>systematic ranking biases</strong>:
+              it favours items placed <strong>earlier in the prompt</strong> (position bias) and
+              <strong>popular</strong> items regardless of fit (popularity bias) — both documented for zero-shot LLM
+              rankers (Hou et al., 2024) and only partly fixable by careful prompting or bootstrapping the candidate
+              order.
+            </li>
+          </ul>
+          <blockquote class="blockquote">
+            <p><strong>The production sub-pattern: LLM-as-reranker.</strong> That last point — “can’t rank millions” —
+              is why, in practice, the LLM rarely ranks the whole catalog. It <strong>re-ranks a short candidate
+                list</strong> (top <span class="math inline">\(50\)</span>–<span class="math inline">\(200\)</span>)
+              that a cheap retriever or CF model already fetched — the retrieve-then-rerank funnel of <em>Implementation
+                Choices</em>. A cross-encoder reading each (user, item) pair is the most common way an LLM actually
+              touches a live recommender today.</p>
+          </blockquote>
+        </section>
+        <section id="generative-recommendation-recommend-by-generating-the-item" class="level3">
+          <h3 class="anchored" data-anchor-id="generative-recommendation-recommend-by-generating-the-item">2.2
+            Generative recommendation — recommend by <em>generating</em> the item</h3>
+          <p><strong>How it works.</strong> Like §2.1 the LLM <em>generates</em> the answer rather than scoring a
+            candidate set — but here it generates a compact <strong>item identifier</strong>, not a natural-language
+            pick (so §2.1 and §2.2 are the two <em>generative</em> flavors, vs §2.3’s <em>discriminative</em> one). This
+            line <strong>builds on sequential ID recommenders</strong> — SASRec and BERT4Rec (<em>Representation
+              Learning &amp; the Transformer</em> §4.4), which already predict the <em>next item ID</em> from a user’s
+            history — but replaces their fixed per-item ID with a <strong>generated, content-derived code</strong>. Give
+            each item a <strong>Semantic ID</strong> — a short sequence of discrete tokens derived from its content
+            (e.g.&nbsp;encode the item’s text with a sentence model, then <strong>quantize</strong> the embedding into
+            <strong>codewords</strong>: replace the continuous vector with the nearest entry — the <em>codeword</em> —
+            from a small learned <strong>codebook</strong> of prototype vectors, turning a real-valued vector into a few
+            discrete symbols, exactly like rounding a colour to the nearest crayon in a fixed box) — and train a
+            sequence model to <strong>autoregressively generate the next item’s Semantic ID</strong>, exactly as a
+            language model generates the next word. <strong>TIGER</strong> (Rajput et al., NeurIPS’23) introduced this.
+            Because similar items share codeword prefixes, the model <strong>generalizes</strong> to items it barely
+            saw, and there is <strong>no candidate list</strong> to maintain.
+          </p>
+          <p><em>Worked micro-example — a Semantic ID by quantization.</em> Say an item’s (tiny) text embedding is <span
+              class="math inline">\((0.7,0.2)\)</span>. Snap it to the nearest entry of a <span
+              class="math inline">\(4\)</span>-word codebook <span
+              class="math inline">\(\{(1,0),(0,1),(-1,0),(0,-1)\}\)</span> — the closest is <span
+              class="math inline">\((1,0)\)</span>, so the first code is <strong>A</strong>. Subtract it; the
+            <em>residual</em> <span class="math inline">\((-0.3,0.2)\)</span> is snapped against a second-level codebook
+            and lands exactly on its codeword <strong>p</strong> <span class="math inline">\(=(-0.3,0.2)\)</span> (a
+            zero-distance hit; this level-2 codebook is illustrative — Exercise 4 specifies its own). The item’s
+            <strong>Semantic ID</strong> is the tuple <span class="math inline">\((\textsf{A},\textsf{p})\)</span> — and
+            a similar item (nearby embedding) shares the <strong>A</strong> prefix, which is exactly why a sequence
+            model can <strong>generalize</strong> to items it barely saw. <em>(This is residual quantization, the
+              construction TIGER uses; numbers checked in code.)</em>
+          </p>
+          <div id="fig-llm-recsys-survey-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-llm-recsys-survey-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/llm-recsys-survey-2.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-llm-recsys-survey-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;13.2: <strong>A Semantic ID by residual quantization (the §2.2 worked example).</strong> The
+                embedding <span class="math inline">\((0.7,0.2)\)</span> snaps to its nearest level-1 codeword
+                <strong>A</strong><span class="math inline">\(=(1,0)\)</span>; the leftover <em>residual</em> <span
+                  class="math inline">\((-0.3,0.2)\)</span> snaps to a level-2 codeword <strong>p</strong>; the Semantic
+                ID is the tuple <span class="math inline">\((\textsf{A},\textsf{p})\)</span>. A similar item shares the
+                <strong>A</strong> prefix — what lets the model generalize. The codebooks are themselves
+                <em>learned</em> end-to-end by the RQ-VAE; at serving the seq2seq model generates this tuple by beam
+                search.
+              </figcaption>
+            </figure>
+          </div>
+          <p><strong>How the codebook is <em>learned</em> (RQ-VAE).</strong> The worked example <em>snapped</em> to a
+            given codebook — but where does a <em>good</em> codebook come from? TIGER fits one with an
+            <strong>RQ-VAE</strong> (a <em>residual-quantized variational autoencoder</em>): an encoder maps the item’s
+            content embedding to a vector; that vector is quantized level-by-level (each level snaps the
+            <strong>residual</strong> the level above left over, exactly as in the example); and a decoder must
+            <strong>reconstruct the original embedding</strong> from the chosen codewords. Training the encoder,
+            decoder, and codebooks <em>together</em> to minimize reconstruction error is what forces the codewords to be
+            <strong>informative</strong> — semantically similar items come to share high-level codewords (the shared
+            <strong>A</strong> prefix above), which is the entire point. The codebook is not handed to you; it is
+            <em>fitted</em> so that a handful of discrete symbols preserve the item’s content.
+          </p>
+          <p><strong>How you <em>decode</em> a recommendation (and the collision catch).</strong> At serving time the
+            user’s history becomes a sequence of Semantic IDs, and the seq2seq (sequence-to-sequence) model
+            <strong>autoregressively generates the next item’s ID tuple</strong>, one codeword at a time. To get a
+            ranked <strong>top-<span class="math inline">\(K\)</span></strong> list — not just a single item — you run
+            <strong>beam search</strong>: keep the <span class="math inline">\(B\)</span> most-probable partial ID
+            prefixes at each step, and the completed tuples, ordered by probability, <em>are</em> the recommendations —
+            produced with <strong>no ANN index over millions of items</strong> (generation replaces the retrieval step
+            of <em>Training and Serving a Recommender</em>). Two practical catches the bullets below point at: distinct
+            items can <strong>quantize to the same tuple</strong> (a <em>collision</em>), so TIGER appends one extra
+            disambiguating token to keep every ID unique; and a beam can in principle spell a tuple that names
+            <strong>no real item</strong> — TIGER reports these are rare (a small fraction) and need no special
+            handling; the general cure, when one is needed, is the <strong>constrained decoding</strong> of the box
+            below (restrict generation to valid IDs).
+          </p>
+          <ul>
+            <li><strong>Advantage.</strong> One end-to-end model; <strong>no separate retrieval index</strong>; content
+              is baked into the ID, helping the long tail and cold start.</li>
+            <li><strong>Disadvantage.</strong> Everything rides on the <strong>Semantic-ID construction</strong> (a bad
+              quantizer caps performance); autoregressive decoding has its own failure modes; and scaling to industrial
+              catalogs <strong>was</strong> long an open engineering problem (now partly answered — see below).</li>
+          </ul>
+          <p><strong>Now deployed at industrial scale (2025).</strong> That “open at scale” caveat is the one that just
+            moved. <strong>OneRec</strong> (Deng et al., 2025) runs an <strong>end-to-end generative
+              retrieve-and-rank</strong> model <em>in production</em> at Kuaishou — one generative model replacing the
+            classical retrieve-then-rank cascade, tuned by <strong>iterative DPO preference alignment</strong> — and
+            reports a <strong>+1.6% online watch-time</strong> lift in the main feed. Generative recommendation over an
+            industrial catalog is therefore no longer purely research: it is production-proven at (so far) a handful of
+            very large platforms.</p>
+          <blockquote class="blockquote">
+            <p><strong>Grounding the output (the hallucination cure).</strong> A free-text LLM ranker (§2.1) generates
+              token sequences with no guarantee they name <strong>real catalog items</strong> — it can confidently
+              recommend a film that does not exist. Three standard fixes: <strong>constrained decoding</strong>
+              (restrict generation to the item/ID vocabulary), <strong>candidate-list forcing</strong> (choose only from
+              a retrieved shortlist — the reranker pattern above), and <strong>post-hoc catalog filtering</strong> (drop
+              any generated item not in the catalog). Generative recommendation (§2.2) makes that far rarer <strong>by
+                construction</strong>: a Semantic ID is assembled from real codewords, so a decoded tuple <strong>almost
+                always</strong> names a real item — the few that do not are filtered out, where a free-text title can
+              invent anything.</p>
+          </blockquote>
+        </section>
+        <section id="llm-as-enhancer-the-llm-feeds-a-classical-model-the-focus-of-3" class="level3">
+          <h3 class="anchored" data-anchor-id="llm-as-enhancer-the-llm-feeds-a-classical-model-the-focus-of-3">2.3
+            LLM-as-Enhancer — the LLM feeds a classical model (the focus of §3)</h3>
+          <p><strong>How it works.</strong> Keep a fast classical recommender (matrix factorization, or a
+            <strong>LightGCN</strong> graph model) as the thing that actually serves. Use the LLM
+            <strong>offline</strong> to manufacture <em>semantic</em> signal the classical model lacks, then
+            <strong>fuse</strong> it in:
+          </p>
+          <ul>
+            <li><strong>Knowledge augmentation — KAR</strong> (Xi et al., RecSys’24): prompt the LLM for
+              <em>reasoning</em> about a user (“likes slow-burn romance”) and <em>factual</em> knowledge about an item,
+              encode both, and feed them as extra features through a <strong>mixture-of-experts (MoE) adapter</strong> —
+              a small trained gate that routes each feature to one of several specialist sub-networks (“experts”),
+              letting the backbone absorb the LLM’s signal without retraining — into any backbone.
+            </li>
+            <li><strong>Representation alignment — RLMRec</strong> (Ren et al., WWW’24): have the LLM <strong>write a
+                profile</strong> for each user and item, embed it, and <strong>align that semantic embedding with the
+                collaborative embedding</strong> of a CF backbone. This is the line §3 unpacks.</li>
+          </ul>
+          <p>Surveys split this branch in two: an <strong>enhancer</strong> emits <em>features / knowledge /
+              profiles</em> (KAR, RLMRec), while an <strong>encoder</strong> emits <em>embeddings</em> the recommender
+            consumes directly — but both keep the classical model on the serving path.</p>
+          <ul>
+            <li><strong>Advantage.</strong> The serving path stays <strong>cheap and strong</strong> (the LLM is never
+              called at query time); you <strong>add semantics and cold-start robustness</strong> on top of a proven
+              collaborative model; it drops into existing backbones.</li>
+            <li><strong>Disadvantage.</strong> You need a <strong>fusion/alignment mechanism</strong>, and results hinge
+              on the <strong>quality of the LLM profiles</strong> and of the alignment — a poorly aligned semantic space
+              can <em>hurt</em>.</li>
+          </ul>
+        </section>
+        <section id="agentic-conversational-the-llm-as-a-planner-with-memory" class="level3">
+          <h3 class="anchored" data-anchor-id="agentic-conversational-the-llm-as-a-planner-with-memory">2.4 Agentic
+            &amp; conversational — the LLM as a planner with memory</h3>
+          <p><strong>How it works.</strong> Wrap the LLM in a loop: it <strong>plans</strong>, keeps
+            <strong>memory</strong> of the dialogue and the user’s long-term preferences (often via retrieval-augmented
+            memory), and <strong>calls tools</strong> (a retriever, the CF model, a database). A 2025 survey of LLM
+            agents for recommendation (<em>A Survey on LLM-powered Agents for Recommender Systems</em>, EMNLP-Findings
+            2025) organizes these as <em>recommender-oriented</em>, <em>interaction-oriented</em>, and
+            <em>simulation-oriented</em> agents; conversational recommenders let a user refine requests over several
+            turns.
+          </p>
+          <ul>
+            <li><strong>Advantage.</strong> <strong>Interactive and explainable</strong>; handles open-ended,
+              multi-constraint requests (“a feel-good film under 100 minutes my kids can watch”) that a one-shot ranker
+              cannot.</li>
+            <li><strong>Disadvantage.</strong> <strong>Early-stage</strong>; <strong>evaluation is hard</strong> (no
+              fixed ground truth for a conversation); latency and cost <strong>compound</strong> across turns.</li>
+          </ul>
+          <hr>
+        </section>
+      </section>
+      <section id="the-graph-line-in-depth-the-llm-as-a-semantic-second-view" class="level2">
+        <h2 class="anchored" data-anchor-id="the-graph-line-in-depth-the-llm-as-a-semantic-second-view">3. The graph
+          line, in depth — the LLM as a semantic <em>second view</em></h2>
+        <p>This is the role the <strong>RLMRec / enhancer line</strong> lives in, and it is the natural endpoint of
+          <em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive Learning</em>, and <em>The Spectral / Graph-Filter
+            View</em>. Read it as three layers stacked.
+        </p>
+        <p><strong>Layer 1 — the collaborative backbone (<em>From Graphs to LightGCN</em>).</strong> LightGCN gives
+          every user and item a <strong>featureless ID embedding</strong> and refines it by propagating over the
+          interaction graph; the score is a dot product <span class="math inline">\(e_u\!\cdot\!e_i\)</span>, trained
+          with <strong>BPR</strong> (<em>Losses &amp; Regularizers</em> §9). Strong collaborative signal — but the
+          embeddings carry <strong>no meaning</strong> (<em>From Graphs to LightGCN</em> §17).</p>
+        <p><strong>Layer 2 — self-supervised views (<em>SSL &amp; Contrastive Learning</em>).</strong>
+          SGL/SimGCL/LightGCL add a <strong>contrastive</strong> task: build a <em>second view</em> of each node (by
+          graph or embedding perturbation) and pull a node’s two views together with <strong>InfoNCE</strong> while
+          pushing different nodes apart. This regularizes the geometry (alignment + uniformity) and fights popularity
+          bias — but the “second view” is still built from the <em>same</em> interaction data; <strong>no new outside
+            information enters</strong>.</p>
+        <p><strong>Layer 3 — the LLM as a <em>better</em> second view (RLMRec).</strong> The insight: instead of a
+          <em>perturbed copy</em> of the collaborative embedding, make the second view a <strong>semantic</strong> one
+          the LLM supplies.
+        </p>
+        <pre><code>┌─ LLM-as-enhancer pipeline (RLMRec on a LightGCN backbone)
+│
+│  interactions       -&gt; LightGCN          -&gt; collaborative  e_i
+│  text (reviews,
+│   metadata, title)  -&gt; LLM writes profile
+│                        -&gt; text encoder   -&gt; semantic       s_i
+│
+│  train:  BPR ranking  +  lambda * align(e_i , s_i)
+│          align = InfoNCE pulling e_i &lt;-&gt; s_i
+│          (the SSL contrastive loss, LLM profile = 2nd view)
+│
+│  serve:  dot product  e_u . e_i   (the LLM is NOT called)
+└─</code></pre>
+        <div id="fig-llm-recsys-survey-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-llm-recsys-survey-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/llm-recsys-survey-3.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-llm-recsys-survey-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;13.3: Two ``second views’’ for a collaborative node, contrasted. <strong>Left (Layer 2 /
+                SSL):</strong> both augmented views (<span class="math inline">\(\tilde{G}_1\)</span>, <span
+                class="math inline">\(\tilde{G}_2\)</span>) come from the <em>same</em> interaction graph via different
+              perturbations (edge drop, embedding noise); no new information source enters. <strong>Right (Layer 3 /
+                LLM):</strong> the second view <span class="math inline">\(s_i\)</span> comes from a <em>different</em>
+              source entirely — item text <span class="math inline">\(\to\)</span> LLM profile <span
+                class="math inline">\(\to\)</span> frozen encoder — carrying world-knowledge the interaction graph never
+              contained. This is why Layer 3 is qualitatively different: the SSL perturbation view <em>regularizes</em>
+              geometry within the collaborative space; the LLM semantic view <em>injects</em> external information into
+              it.
+            </figcaption>
+          </figure>
+        </div>
+        <div id="fig-llm-recsys-survey-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-llm-recsys-survey-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/llm-recsys-survey-4.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-llm-recsys-survey-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;13.4: RLMRec alignment pipeline. <strong>Offline (left, train once):</strong> LightGCN refines
+              a collaborative embedding <span class="math inline">\(e_i\)</span> from the interaction graph;
+              simultaneously, the LLM writes a natural-language profile for each item, which a <em>frozen</em> text
+              encoder converts into a semantic embedding <span class="math inline">\(s_i\)</span>. The InfoNCE alignment
+              loss <span class="math inline">\(\mathcal{L}_{\mathrm{align}}\)</span> (together with BPR and <span
+                class="math inline">\(\ell_2\)</span>) pulls <span class="math inline">\(e_i\)</span> and <span
+                class="math inline">\(s_i\)</span> together, injecting the LLM’s world knowledge into the collaborative
+              space. <strong>Online (right, serve):</strong> only a dot product <span
+                class="math inline">\(e_u\!\cdot\!e_i\)</span> runs over the now knowledge-injected embeddings —
+              <strong>no LLM call</strong> per request, keeping serving cost in the sub-cent range (§4.1 cost ladder).
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>The alignment objective, decoded.</strong> RLMRec maximizes the agreement between a node’s
+          <strong>collaborative</strong> embedding <span class="math inline">\(e_i\)</span> and its
+          <strong>semantic</strong> embedding <span class="math inline">\(s_i\)</span>. The contrastive variant
+          (RLMRec-Con) is exactly <em>SSL &amp; Contrastive Learning</em>’s InfoNCE with the two views being <span
+            class="math inline">\((e_i, s_i)\)</span>:
+        </p>
+        <p><span class="math display">\[
+            \mathcal{L}_{\text{align}} \;=\; \sum_i -\log
+            \frac{\exp\!\big(\operatorname{sim}(e_i,\,s_i)/\tau\big)}
+            {\sum_{j}\exp\!\big(\operatorname{sim}(e_i,\,s_j)/\tau\big)} .
+            \]</span></p>
+        <p>Per component: <span class="math inline">\(e_i\)</span> is the <strong>collaborative</strong> embedding of
+          node <span class="math inline">\(i\)</span> (from LightGCN); <span class="math inline">\(s_i\)</span> is its
+          <strong>semantic</strong> embedding (a frozen text-encoder applied to the LLM-written profile of <span
+            class="math inline">\(i\)</span>); <span class="math inline">\(\operatorname{sim}\)</span> is
+          <strong>cosine</strong> similarity; <span class="math inline">\(\tau\)</span> is the
+          <strong>temperature</strong> (Probability primer §3/§7). The <strong>numerator</strong> rewards a node’s
+          <em>own</em> two views for agreeing — “this item’s collaborative identity should match what the LLM says it
+          is”; the <strong>denominator</strong> sums over other nodes <span class="math inline">\(j\)</span>, pushing
+          <span class="math inline">\(i\)</span>’s collaborative embedding <strong>away</strong> from <em>other</em>
+          items’ meanings. These are exactly the two forces <em>SSL &amp; Contrastive Learning</em> names
+          <strong>alignment</strong> (numerator: matched pairs close) and <strong>uniformity</strong> (denominator:
+          everything else spread out) — see that chapter for the picture on the sphere. Minimizing <span
+            class="math inline">\(\mathcal{L}_{\text{align}}\)</span> therefore <strong>drags the collaborative space
+            toward the LLM’s semantic space</strong>, injecting world knowledge that pure interactions never carried.
+          (RLMRec-Gen is the <em>generative</em> cousin: instead of contrasting, it asks the model to
+          <em>reconstruct</em> the semantic embedding from the collaborative one — both maximize the <strong>mutual
+            information</strong> between the two views.)
+        </p>
+        <p><strong>The full training objective</strong> is then <em>Losses &amp; Regularizers</em>’ recipe with one
+          extra term — <em>exactly</em> the shape of <em>SSL &amp; Contrastive Learning</em>’s joint loss:</p>
+        <p><span class="math display">\[
+            \mathcal{L} \;=\; \underbrace{\mathcal{L}_{\text{BPR}}}_{\text{rank}} \;+\;
+            \lambda\,\underbrace{\mathcal{L}_{\text{align}}}_{\text{LLM semantic view}} \;+\;
+            \underbrace{\lambda_2\lVert\Theta\rVert^2}_{\text{L2}} .
+            \]</span></p>
+        <p><strong>Does it work?</strong> Across <strong>six</strong> collaborative backbones (GCCF, LightGCN, SGL,
+          SimGCL, DCCF, AutoCF) and <strong>three</strong> datasets (Amazon-book, Yelp, Steam), RLMRec gives a
+          <strong>consistent, statistically significant lift</strong> — the semantic view helps <em>on top of</em> an
+          SSL backbone like SimGCL, not just a bare one, and the gain is <strong>largest where collaborative signal is
+            thinnest</strong> (sparse / cold items), exactly the long-tail regime traditional CF struggles with
+          (<em>Traditional RecSys</em> §6; <em>From Graphs to LightGCN</em> §13). <em>SSL &amp; Contrastive
+            Learning</em> §7 owns the per-cutoff numbers (e.g.&nbsp;the LightGCN/Amazon-book figure) and the
+          contrastive-vs-generative comparison; this chapter carries only the direction.
+        </p>
+        <p><strong>Why this is the sweet spot.</strong> It keeps the <strong>cheap, strong collaborative backbone on the
+            serving path</strong> (a dot product — no LLM call per request), uses the LLM <strong>offline</strong> to
+          enrich, and <strong>fuses semantics into the collaborative geometry</strong> rather than bolting a slow ranker
+          on top. That is precisely the design space the <strong>LLM-as-enhancer</strong> line operates in: an LLM
+          augmenting a graph-collaborative backbone, with the contribution living in <em>how</em> the semantic signal is
+          produced and aligned.</p>
+        <hr>
+      </section>
+      <section id="choosing-a-role-a-decision-guide" class="level2">
+        <h2 class="anchored" data-anchor-id="choosing-a-role-a-decision-guide">4. Choosing a role — a decision guide
+        </h2>
+        <table class="caption-top table">
+          <caption>Decision guide for choosing an LLM role by constraint — read the left column as the binding
+            constraint on your system and the middle column as the primary recommendation; the right column gives the
+            one-sentence reason, which together encode the serving-cost trade-off that the §4.1 ladder makes
+            quantitative.</caption>
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>If your constraint is…</th>
+              <th>…reach for</th>
+              <th>because</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Low serving latency / huge catalog</strong></td>
+              <td><strong>Enhancer</strong> (§2.3) — LLM offline, CF serves</td>
+              <td>the only LLM cost is offline; serving stays one dot product</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Severe cold-start / little interaction data</strong></td>
+              <td><strong>Recommender</strong> (§2.1) or <strong>Enhancer</strong></td>
+              <td>the LLM’s world knowledge substitutes for missing clicks</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>No retrieval index / content-rich items</strong></td>
+              <td><strong>Generator</strong> (§2.2) — semantic IDs</td>
+              <td>content is baked into the ID; no candidate set to maintain</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Open-ended, multi-turn requests</strong></td>
+              <td><strong>Agent</strong> (§2.4)</td>
+              <td>only a conversation can elicit and refine fuzzy intent</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>You already have a strong graph-CF model</strong></td>
+              <td><strong>Enhancer</strong> (§3)</td>
+              <td>align an LLM semantic view to it; keep everything you have</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Semantic retrieval at scale, content-rich</strong></td>
+              <td><strong>Two-tower LLM-embedding retrieval</strong> (a hybrid)</td>
+              <td>embed users and items with an LLM <em>offline</em>, retrieve by <strong>ANN</strong> over those
+                vectors at serve time — LLM semantics on the <em>retrieval</em> path, but still no per-query LLM call
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>The hybrid worth naming: two-tower LLM-embedding retrieval.</strong> Between “the LLM serves” and
+          “the LLM only enriches” sits a widely used middle road. Encode each item — and a user’s history — into a
+          vector with an LLM-grade text <strong>embedder</strong> <em>offline</em>, then at serve time just do
+          <strong>approximate nearest-neighbour (ANN)</strong> search over those vectors (the <strong>retrieve</strong>
+          stage of <em>Implementation Choices</em>’ funnel). It is <strong>enhancer-class on cost</strong> (no LLM call
+          per query — only an ANN lookup) yet carries the LLM’s <em>semantics directly into retrieval</em>, so a
+          brand-new item is findable from its text alone. The natural full stack is then: <strong>two-tower
+            LLM-embedding retrieval</strong> <span class="math inline">\(\to\)</span> cheap CF/heuristic candidates
+          <span class="math inline">\(\to\)</span> optional <strong>LLM-as-reranker</strong> on the top-<span
+            class="math inline">\(K\)</span> (§2.1). It is a practitioner default when content matters and the catalogue
+          is large.
+        </p>
+        <p><strong>The through-line.</strong> Move <em>down</em> this table and you put <strong>more LLM on the serving
+            path</strong> — more power and flexibility, more cost and risk. The Enhancer/graph line (§3) is popular
+          precisely because it buys the LLM’s semantics while paying its cost only <strong>once, offline</strong>.</p>
+        <p><strong>The 2026 verdict, in one line.</strong> The <strong>enhancer</strong> (offline LLM, CF serves) is the
+          deployable default <em>everywhere</em>; <strong>two-tower LLM-embedding retrieval</strong> is the standard
+          hybrid when content matters; <strong>generative recommendation</strong> (Semantic-ID, OneRec-style) is
+          production-proven only at a few very large platforms; and <strong>LLM-as-recommender</strong> stays a
+          <em>reranker</em> on a short list. Push the LLM further down the serving path only when you can pay for it.
+        </p>
+        <section id="cost-latency-the-orders-of-magnitude-dated" class="level3">
+          <h3 class="anchored" data-anchor-id="cost-latency-the-orders-of-magnitude-dated">4.1 Cost &amp; latency — the
+            orders of magnitude (dated)</h3>
+          <p>Prices and millisecond figures move monthly, so reason in <strong>orders of magnitude</strong>, not exact
+            numbers. The serving cost of a recommender is dominated by <strong>whether an LLM runs per query</strong> —
+            that single fact spans roughly <strong>three to four orders of magnitude</strong>. <em>(Anchors below:
+              filtered ANN latency from the <strong>Implementation Choices</strong> vector-store benchmark; reranking
+              latency/cost from a public mid-2026 reranking study — re-measure on <strong>your</strong> hardware and
+              traffic.)</em></p>
+          <table class="caption-top table">
+            <caption>Serving-cost ladder by LLM pattern (mid-2026 order-of-magnitude anchors; re-measure on your own
+              stack) — the dominant factor is whether an LLM runs <em>per query</em>: patterns that keep the LLM offline
+              (pure CF, two-tower) serve for sub-cent per 1k queries, while putting any LLM on the per-query path raises
+              cost by hundreds to thousands of times.</caption>
+            <colgroup>
+              <col style="width: 23%">
+              <col style="width: 30%">
+              <col style="width: 23%">
+              <col style="width: 23%">
+            </colgroup>
+            <thead>
+              <tr class="header">
+                <th>Pattern</th>
+                <th style="text-align: center;">LLM call per query?</th>
+                <th>Serve latency (order)</th>
+                <th>Serve cost / 1k queries (order)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd">
+                <td><strong>Enhancer / pure CF</strong> (dot product over an ANN index, §2.3, §3)</td>
+                <td style="text-align: center;">no</td>
+                <td><strong>single-digit ms</strong></td>
+                <td><strong>sub-cent</strong> (no model call)</td>
+              </tr>
+              <tr class="even">
+                <td><strong>Two-tower LLM-embedding retrieval</strong> (ANN over offline LLM vectors)</td>
+                <td style="text-align: center;">no</td>
+                <td><strong>single-digit–tens of ms</strong></td>
+                <td><strong>sub-cent</strong> (ANN only; embeddings precomputed)</td>
+              </tr>
+              <tr class="odd">
+                <td><strong>LLM-as-reranker</strong> (specialist cross-encoder on top-<span
+                    class="math inline">\(K\)</span>, §2.1)</td>
+                <td style="text-align: center;">yes, on a <em>short</em> list</td>
+                <td><strong>tens of ms</strong></td>
+                <td><strong><span class="math inline">\(\sim\!\$1\)</span>–few</strong></td>
+              </tr>
+              <tr class="even">
+                <td><strong>LLM-as-reranker</strong> (a <em>general</em> LLM, pointwise over <span
+                    class="math inline">\(K\)</span>)</td>
+                <td style="text-align: center;">yes, <span class="math inline">\(K\)</span> calls</td>
+                <td><strong>seconds</strong></td>
+                <td><strong><span class="math inline">\(\sim\!\$20\)</span>–30</strong></td>
+              </tr>
+              <tr class="odd">
+                <td><strong>LLM-as-recommender / generator</strong> (LLM ranks/generates, §2.1–§2.2)</td>
+                <td style="text-align: center;">yes, the core step</td>
+                <td><strong>hundreds of ms–seconds</strong></td>
+                <td><strong>highest</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <blockquote class="blockquote">
+            <p><strong>Read it as a ladder.</strong> The first step is the big one: a pure-CF serve makes <strong>no
+                model call</strong>, so adding <em>any</em> per-query model — a specialist cross-encoder on a top-<span
+                class="math inline">\(K\)</span> shortlist — already lifts cost by <strong>two-plus orders of
+                magnitude</strong> (sub-cent <span class="math inline">\(\to\sim\!\$1\)</span>–few) while adding only
+              <strong>tens of ms</strong>. Swapping that cross-encoder for a <em>general</em> LLM scoring the same list
+              pointwise costs <strong>another <span class="math inline">\(\sim\!10\times\)</span></strong> (<span
+                class="math inline">\(\sim\!\$2\to\sim\!\$25\)</span> / 1k) and turns tens of ms into
+              <strong>seconds</strong> (one sequential LLM call per candidate). That is why production keeps the LLM
+              <strong>offline</strong> (Enhancer) or confined to a <strong>short reranked list</strong> — and why “the
+              LLM ranks the whole catalogue” stays rare. The offline price is real but bounded: RLMRec’s authors report
+              its alignment adds only <strong><span class="math inline">\(\approx 10\)</span>–20% training time</strong>
+              over the bare backbone, paid once. <em>(Model picks + exact latencies: the <strong>Implementation
+                  Choices</strong> appendix’s retrieval and reranking sections.)</em>
+            </p>
+          </blockquote>
+          <div id="fig-llm-recsys-survey-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-llm-recsys-survey-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/llm-recsys-survey-5.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-llm-recsys-survey-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;13.5: The serving-cost ladder (log scale, mid-2026 order-of-magnitude anchors). The dashed
+                line is the cliff that dominates everything: whether an LLM runs <em>per query</em>. Patterns that keep
+                the LLM offline (pure CF, two-tower LLM-embedding retrieval) serve for sub-cent per 1k queries; once an
+                LLM scores each query the cost jumps by <strong>hundreds of times</strong> (a specialist cross-encoder
+                on a short list) to <strong>thousands of times</strong> (a general LLM). The bars are order-of-magnitude
+                anchors — re-measure on your own traffic; see the Implementation Choices appendix.
+              </figcaption>
+            </figure>
+          </div>
+          <hr>
+        </section>
+      </section>
+      <section id="open-problems-the-20242026-frontier" class="level2">
+        <h2 class="anchored" data-anchor-id="open-problems-the-20242026-frontier">5. Open problems — the 2024–2026
+          frontier</h2>
+        <ul>
+          <li><strong>Do LLMs actually understand the collaborative signal?</strong> An LLM knows <em>semantics</em>,
+            but co-occurrence (“people who bought X bought Y”) is learned from logs, not text. Recent work probes and
+            tries to <em>repair</em> this gap — it is the central question for the Enhancer line, since a semantic view
+            only helps if it aligns with real collaborative structure.</li>
+          <li><strong>RAG-for-recommendation — retrieval-augmented generation as a bridge role.</strong> A pattern that
+            sits between the Enhancer and Agent is <em>retrieval-augmented generation</em> (RAG): at generation time,
+            relevant item or user evidence (reviews, profiles, collaborative neighbours) is retrieved and inserted into
+            the LLM’s prompt, letting the model ground its reasoning in actual catalog signal rather than relying on
+            pretrained world knowledge alone. This blurs the Enhancer / Agent boundary and is an active design space
+            (Gao et al., 2023). The same retrieval can also run <strong>offline</strong> — feeding retrieved neighbours
+            into the LLM’s prompt while it writes item/user profiles for an Enhancer, not only at serve time.</li>
+          <li><strong>Fairness and diversity of LLM rankers.</strong> LLM-based rankers can amplify popularity and
+            demographic biases present in their pretraining corpora, raising an open problem: how to audit and correct
+            for distributional unfairness (across item popularity, provider exposure, and user demographic groups) when
+            the ranker is a black-box billion-parameter model.</li>
+          <li><strong>LLM-based user simulators and synthetic-interaction generation.</strong> An emerging evaluation
+            and data-augmentation direction treats the LLM as a <em>user simulator</em> — generating synthetic
+            interaction sequences (e.g.&nbsp;RecAgent-style multi-agent simulation) to stress-test recommenders,
+            bootstrap training data for cold-start items, or study long-horizon feedback loops; Wang et
+            al.&nbsp;(<em>RecAgent</em>, 2023) is an early reference, and the validity of simulator-generated data vs
+            real logs remains an open measurement question.</li>
+          <li><strong>Evaluation integrity.</strong> LLMs may have <strong>seen the test items</strong> in pretraining
+            (data leakage); conversational/agentic systems have <strong>no fixed ground truth</strong>; and
+            LLM-in-the-loop recommenders can amplify <strong>feedback loops</strong> and popularity bias. Honest
+            evaluation (the Probability primer’s significance testing §8; the metrics of <em>Evaluation Metrics</em>)
+            matters more, not less. Guard it with the protocol of <em>Evaluation Metrics</em> §11 plus three
+            LLM-specific moves: <strong>time-based splits</strong> (test only on interactions after the model’s
+            knowledge cutoff), <strong>held-out or obfuscated item IDs</strong> (so the LLM cannot recognise a title it
+            memorised in pretraining), and stating whether candidates were <strong>retrieved or sampled</strong> (an LLM
+            silently ranking against easy random negatives looks far better than it is).</li>
+          <li><strong>Cost and scale.</strong> Serving LLM <em>rankers</em> under tight latency budgets remains largely
+            unsolved at scale — a major reason the offline-Enhancer pattern dominates production. Generative
+            recommendation over industrial catalogs, long in the same bucket, is the part that just moved:
+            <strong>OneRec</strong> (Deng et al., 2025) is deployed end-to-end at Kuaishou (+1.6% watch-time via
+            iterative DPO), so the honest status is now <em>“unsolved in general, but production-proven at a few large
+              platforms.”</em>
+          </li>
+          <li><strong>Where the long tail meets semantics.</strong> The clearest, most defensible win is
+            <strong>cold-start / long-tail</strong> items, where collaborative signal is absent but text is plentiful —
+            the regime where an aligned semantic view adds the most (and where careful, per-bucket evaluation, not just
+            top-line NDCG, is essential).
+          </li>
+          <li><strong>Where enhancer-line work fits.</strong> Squarely in §3’s Enhancer line: an LLM
+            <strong>augments</strong> a graph-collaborative backbone (LightGCN + SSL), and the research contribution is
+            in <em>how</em> the semantic signal is generated and aligned — the density/quality of the LLM-produced
+            views, evaluated with the rigor floor a top venue expects.
+          </li>
+          <li><strong>Multimodal recommendation — a richer enhancer branch.</strong> The enhancer taxonomy in §2.3
+            implicitly assumes items are described by text alone. Real catalogs are richer: a fashion item is an
+            <em>image</em> (visual style) + a title (text) + an ID (interaction). Multimodal recommenders fuse all three
+            — e.g.&nbsp;an image encoder (CLIP-grade) produces a visual embedding, a text encoder produces a semantic
+            one, and a graph backbone produces a collaborative one, then a learned fusion layer (concatenation, gating,
+            or cross-attention) combines them before alignment. <strong>BM3</strong> (Zhou et al., <em>WWW ’23</em>) is
+            a representative: it builds <em>three</em> modal views — image, text, ID — and aligns them with a
+            <strong>negative-free, dropout-based</strong> self-supervised objective (the <em>bootstrap latent</em> of
+            its title), gaining especially on cold-start items where the ID embedding is weak but image + text remain.
+            The lesson for §3’s alignment framework: the “second view” need not be text-only, and adding a visual view
+            is a natural extension whenever item images are available.
+          </li>
+          <li><strong>Instruction-tuned sequential LLM recommenders — a distinct sub-role within §2.1.</strong> A
+            subtlety glossed in §2.1: there is a meaningful difference between a <em>frozen</em> LLM ranking a candidate
+            list (zero-shot, §2.1) and a <em>fine-tuned</em> LLM that takes a user’s entire interaction
+            <em>sequence</em> and <strong>generates the next item by name</strong> — trained end-to-end on
+            recommendation instructions. <strong>BIGRec</strong> (Bao et al., 2024) grounds this: the model is
+            instruction-tuned on a task of the form <em>“Given the sequence A, B, C, …, predict the next item”</em>,
+            then uses constrained decoding (§2.2’s hallucination cure) to ensure the output is a real catalog item. This
+            is distinct from generative retrieval (§2.2), which generates a <em>Semantic ID</em> rather than a
+            natural-language title, and from the zero-shot ranker of §2.1, which never sees instruction data. It exposes
+            a clean open problem: instruction-tuned sequential recommenders absorb collaborative sequence patterns
+            <em>without</em> a graph backbone — when does that beat, and when does it lose to, an aligned enhancer?
+          </li>
+          <li><strong>Reasoning recommenders — the post-R1 frontier.</strong> After DeepSeek-R1 made RL-trained
+            chain-of-thought cheap, the same idea is reaching recommendation: rather than an LLM that
+            <em>implicitly</em> predicts an item, a model that <strong>reasons in text, then recommends</strong>.
+            <strong>OneRec-Think</strong> (Liu et al., 2025) adds explicit, controllable in-model reasoning to the
+            OneRec generative recommender, trained with a recommendation-specific RL reward (validated at Kuaishou); the
+            analogous move in <em>document</em> ranking — <strong>Rank-R1</strong> (arXiv:2503.06034), an RL-trained
+            reasoning reranker — shows the pattern is general. The open question is whether explicit reasoning earns its
+            serving cost when the output is a ranked list rather than a derivation.
+          </li>
+        </ul>
+        <hr>
+      </section>
+      <section id="exercises" class="level2">
+        <h2 class="anchored" data-anchor-id="exercises">6. Exercises</h2>
+        <p>Ten problems that exercise the survey end to end — most ask you to <em>classify a scenario into one of the
+            four roles</em> or <em>reason about a trade-off</em>, with two small computes drawn straight from the
+          chapter’s own numbers (§2.2’s quantizer, §4.1’s cost ladder). Everything is solvable from this chapter alone;
+          no figure is needed, and where a number appears it is a tiny round one. Each is tagged
+          <strong>(compute)</strong> / <strong>(concept)</strong> / <strong>(extend)</strong> /
+          <strong>(apply)</strong>. <strong>Full worked solutions are in the <em>Solutions</em> appendix at the back of
+            this chapter.</strong>
+        </p>
+        <p><strong>E1. (apply) — Classify five deployments into the four roles.</strong> For each, name the role
+          (<strong>recommender</strong> §2.1, <strong>generator</strong> §2.2, <strong>enhancer</strong> §2.3,
+          <strong>agent</strong> §2.4) and give the one-clue tell: (a) A frozen Llama is handed a prompt <em>“User
+            watched A, B, C; from this list of 50, pick the next”</em> and returns a ranked pick. (b) Offline, an LLM
+          writes a one-paragraph taste profile for every user; the profile is embedded and pulled toward each user’s
+          LightGCN vector during training; at serve time only a dot product runs. (c) A single sequence model emits an
+          item’s identifier token-by-token — <code>(A, p, …)</code> — with no candidate list anywhere in the system. (d)
+          A chatbot refines <em>“a feel-good film under 100 min my kids can watch”</em> over several turns, calling a
+          retriever and the catalog DB between messages. (e) An LLM is prompted for factual knowledge about each item,
+          which is encoded and fed through a trained MoE gate into an existing ranking backbone that does the serving.
+        </p>
+        <p><strong>E2. (concept) — The trade-off axis.</strong> §1 and the §2 table claim the four roles sit on
+          <em>one</em> axis. State that axis in a sentence, then order the four roles along it from “cheapest at serve
+          time / least LLM on the serving path” to “most.” Which single fact, more than any other, sets a recommender’s
+          serving cost?
+        </p>
+        <p><strong>E3. (compute) — The cost cliff, in orders of magnitude.</strong> Use §4.1’s anchors: a pure-CF /
+          enhancer serve costs about <strong>$0.006 per 1k queries</strong> (no model call); a <em>general</em>-LLM
+          reranker scoring a short list costs about <strong>$25 per 1k queries</strong>. (a) By what factor is the
+          general-LLM path more expensive — and how many <em>orders of magnitude</em> is that? (b) At <strong>1,000,000
+            queries/day</strong>, what does each path cost per day? (c) A <em>specialist cross-encoder</em> reranker is
+          about <strong>$2 per 1k</strong>. Roughly how many times cheaper is it than the general LLM, and how many
+          times <em>more</em> expensive than pure CF? (Round to one significant figure.)</p>
+        <p><strong>E4. (compute) — A Semantic ID by residual quantization.</strong> Reusing §2.2’s quantize→codeword
+          recipe: an item’s tiny text embedding is <span class="math inline">\((0.7,\,0.4)\)</span>. The <strong>level-1
+            codebook</strong> is §2.2’s <span class="math inline">\(\{\textsf{A}=(1,0),\ \textsf{B}=(0,1),\
+            \textsf{C}=(-1,0),\ \textsf{D}=(0,-1)\}\)</span>. (a) Snap <span class="math inline">\((0.7,0.4)\)</span> to
+          the nearest codeword (by Euclidean distance) — which letter, and what is the <strong>residual</strong>
+          (embedding minus chosen codeword)? (b) Snap that residual against the <strong>level-2 codebook</strong> <span
+            class="math inline">\(\{\textsf{p}=(-0.3,0.4),\ \textsf{q}=(0.3,0.4),\ \textsf{r}=(-0.3,-0.4),\
+            \textsf{s}=(0.3,-0.4)\}\)</span>. What is the item’s <strong>Semantic ID</strong> tuple? (c) A second item
+          has embedding <span class="math inline">\((0.6,0.5)\)</span>. Show it shares the <strong>same level-1
+            prefix</strong>, and say in one line why a sequence model can then generalize across the two items.</p>
+        <p><strong>E5. (concept) — The alignment objective as InfoNCE.</strong> In §3’s <span
+            class="math inline">\(\mathcal{L}_{\text{align}}\)</span>, identify what the two views <span
+            class="math inline">\((e_i, s_i)\)</span> are, what the <strong>numerator</strong> rewards, what the
+          <strong>denominator</strong> pushes apart, and which two named forces from <em>SSL &amp; Contrastive
+            Learning</em> those correspond to. In one sentence, what does minimizing this loss <em>do</em> to the
+          collaborative embedding space? (You need not re-derive the softmax — defer the InfoNCE mechanics to that
+          chapter.)
+        </p>
+        <p><strong>E6. (concept) — Why the enhancer keeps the CF backbone on the serving path.</strong> RLMRec uses a
+          billion-parameter LLM, yet §3 and §4.1 file it in the <em>cheap</em> corner. Explain the apparent paradox:
+          where does the LLM run, what actually executes per live request, and what does the offline-LLM design buy you
+          over an LLM-as-recommender that ranks at query time? (One paragraph.)</p>
+        <p><strong>E7. (concept) — When <em>not</em> to reach for an LLM.</strong> Give two situations from this chapter
+          where adding an LLM to the serving path is the <em>wrong</em> call, and name the cheaper backbone that wins
+          instead. Then state the single condition under which an LLM’s semantic view adds the <em>most</em> over pure
+          CF.</p>
+        <p><strong>E8. (concept) — The two-tower hybrid.</strong> Describe <strong>two-tower LLM-embedding
+            retrieval</strong> (§4): what is embedded with the LLM and <em>when</em>, what runs at serve time, and why
+          it counts as “enhancer-class on cost” yet still carries LLM semantics. What property lets it find a brand-new
+          item that pure CF cannot — and what is the natural full stack that places it ahead of an LLM reranker?</p>
+        <p><strong>E9. (concept) — An evaluation caution.</strong> §5 warns that an LLM-as-recommender may post a
+          suspiciously strong “zero-shot” number on a public benchmark. Name the leakage mechanism that can inflate it,
+          explain in one line why it is a <em>measurement</em> problem rather than a modelling one, and give one
+          honest-evaluation habit (from §5 / the Probability primer) that guards against fooling yourself.</p>
+        <p><strong>E10. (extend / apply) — Pick a role for a product, then defend it on cost.</strong> A streaming
+          startup has <strong>2 million items</strong>, a <strong>strict sub-50 ms</strong> serving budget, an
+          already-good <strong>LightGCN</strong> model, and a painful <strong>cold-start</strong> problem on newly added
+          titles. (a) Which <em>single</em> role (§2.1–§2.4) best fits? Justify against each of the four constraints.
+          (b) Using E3’s ladder, why does putting a <em>general</em> LLM on the per-query path break the latency budget?
+          (One sentence of order-of-magnitude reasoning.) (c) Sketch the offline vs.&nbsp;serve split your choice
+          implies, and name one thing you would still <strong>measure per cold-start bucket</strong> rather than
+          trusting top-line NDCG.</p>
+        <hr>
+      </section>
+      <section id="how-this-wraps-tier-3" class="level2">
+        <h2 class="anchored" data-anchor-id="how-this-wraps-tier-3">7. How this wraps Tier 3</h2>
+        <p>Tier 3 climbed a ladder: <strong>Traditional RecSys</strong> (similarity, matrix factorization) →
+          <strong>Evaluation</strong> → <strong><em>From Graphs to LightGCN</em></strong> → <strong><em>SSL &amp;
+              Contrastive Learning</em></strong> → <strong><em>The Spectral / Graph-Filter View</em></strong>. This
+          chapter is the capstone: it places that whole collaborative line inside the broader <strong>LLM ×
+            RecSys</strong> field and shows that the frontier most relevant here — <strong>the LLM as a semantic second
+            view, aligned to a graph backbone</strong> — is the direct continuation of <em>From Graphs to LightGCN</em>
+          and <em>SSL &amp; Contrastive Learning</em>. Featureless ID embeddings (<em>From Graphs to LightGCN</em>)
+          gained self-supervised views (<em>SSL &amp; Contrastive Learning</em>) and now gain a <em>semantic</em> one
+          (this chapter). The collaborative signal and the LLM’s world knowledge, finally on the same axis.
+        </p>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">8. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>LLM</strong></td>
+              <td>Large Language Model; maps text to vectors and generates text, carrying broad world knowledge.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Collaborative signal</strong></td>
+              <td>What can be learned from <em>who interacted with what</em> (<em>From Graphs to LightGCN</em>, <em>SSL
+                  &amp; Contrastive Learning</em>, <em>The Spectral / Graph-Filter View</em>), independent of item
+                content.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Cold start</strong></td>
+              <td>A new user/item with (almost) no interactions, so pure CF has nothing to go on.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>LLM-as-recommender</strong></td>
+              <td>The LLM directly ranks/selects items from a prompt of the user’s history (§2.1).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>LLM-as-reranker</strong></td>
+              <td>The most-deployed sub-pattern: the LLM (often a cross-encoder) <strong>re-scores a short top-<span
+                    class="math inline">\(K\)</span> shortlist</strong> a cheap retriever already fetched, rather than
+                ranking the whole catalogue (§2.1).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Two-tower LLM-embedding retrieval</strong></td>
+              <td>A hybrid: embed users and items with an LLM-grade encoder <em>offline</em>, then retrieve by
+                <strong>ANN</strong> over those vectors at serve time — enhancer-class cost, LLM semantics on the
+                retrieval path (§4).
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>ANN (approximate nearest-neighbour)</strong></td>
+              <td>Fast vector search that returns <em>almost</em> the closest vectors to a query, trading a little
+                accuracy for large speed-ups — how embedding retrieval is served (<em>Implementation Choices</em>).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Generative recommendation</strong></td>
+              <td>Recommend by <em>generating</em> an item’s <strong>Semantic ID</strong> token-by-token (§2.2).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Semantic ID</strong></td>
+              <td>A short sequence of content-derived codewords identifying an item (quantized text embedding).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>RQ-VAE</strong></td>
+              <td>The residual-quantized <em>variational</em> autoencoder that <em>learns</em> the Semantic-ID codebooks
+                by reconstructing the content embedding (§2.2).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Beam search (decoding)</strong></td>
+              <td>Keep the <span class="math inline">\(B\)</span> best partial ID prefixes per step; the completed
+                tuples, ranked, are the top-<span class="math inline">\(K\)</span> recommendations (§2.2).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>LLM-as-enhancer</strong></td>
+              <td>The LLM produces semantic features/profiles offline that feed/align with a classical model (§2.3).
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>RLMRec</strong></td>
+              <td>An enhancer that aligns an LLM-written semantic embedding with a CF embedding via
+                contrastive/generative alignment (§3).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Cross-view alignment</strong></td>
+              <td>Pulling a node’s two embeddings (collaborative <span class="math inline">\(e_i\)</span> and semantic
+                <span class="math inline">\(s_i\)</span>) together with InfoNCE.
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Agentic recommender</strong></td>
+              <td>An LLM that plans, remembers, and calls tools over multi-turn conversation (§2.4).</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references" class="level2">
+        <h2 class="anchored" data-anchor-id="references">9. References</h2>
+        <ul>
+          <li>
+            <p>Bao, K., Zhang, J., Zhang, Y., Wang, W., Feng, F., &amp; He, X. (2023). <em>TALLRec: An effective and
+                efficient tuning framework to align large language model with recommendation</em>. In <em>Proceedings of
+                the 17th ACM Conference on Recommender Systems (RecSys ’23)</em>. arXiv:2305.00447</p>
+          </li>
+          <li>
+            <p>Wang, L., et al.&nbsp;(2023). <em>User behavior simulation with large language model based agents
+                (RecAgent)</em>. arXiv:2306.02552</p>
+          </li>
+          <li>
+            <p>Gao, Y., et al.&nbsp;(2023). <em>Retrieval-augmented generation for large language models: A survey</em>.
+              arXiv:2312.10997 <em>(the RAG-for-recommendation reference of §5).</em></p>
+          </li>
+          <li>
+            <p>Bao, K., et al.&nbsp;(2024). <em>A bi-step grounding paradigm for large language models in recommendation
+                systems (BIGRec)</em>. ACM Transactions on Recommender Systems. arXiv:2308.08434</p>
+          </li>
+          <li>
+            <p>Geng, S., Liu, S., Fu, Z., Ge, Y., &amp; Zhang, Y. (2022). <em>Recommendation as language processing
+                (RLP): A unified pretrain, personalized prompt &amp; predict paradigm (P5)</em>. In <em>Proceedings of
+                the 16th ACM Conference on Recommender Systems (RecSys ’22)</em>. arXiv:2203.13366</p>
+          </li>
+          <li>
+            <p>Zhou, X., Zhou, H., Liu, Y., Zeng, Z., Miao, C., Wang, P., You, Y., &amp; Jiang, F. (2023). <em>Bootstrap
+                latent representations for multi-modal recommendation (BM3)</em>. In <em>Proceedings of the ACM Web
+                Conference 2023 (WWW ’23)</em>. arXiv:2207.05969</p>
+          </li>
+          <li>
+            <p>He, X., Deng, K., Wang, X., Li, Y., Zhang, Y., &amp; Wang, M. (2020). <em>LightGCN: Simplifying and
+                powering graph convolution network for recommendation</em>. In <em>Proceedings of the 43rd International
+                ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR ’20)</em>.
+              arXiv:2002.02126</p>
+          </li>
+          <li>
+            <p>Hou, Y., Zhang, J., Lin, Z., Lu, H., Xie, R., McAuley, J., &amp; Zhao, W. X. (2024). <em>Large language
+                models are zero-shot rankers for recommender systems</em>. In <em>Proceedings of the 46th European
+                Conference on Information Retrieval (ECIR)</em>. arXiv:2305.08845</p>
+          </li>
+          <li>
+            <p>Lin, J., Dai, X., Xi, Y., Liu, W., Chen, B., Zhang, H., Liu, Y., Wu, C., Li, X., Zhu, C., Guo, H., Yu,
+              Y., Tang, R., &amp; Zhang, W. (2024). <em>How can recommender systems benefit from large language models:
+                A survey</em>. ACM Transactions on Information Systems, 43(2). https://doi.org/10.1145/3678004
+              arXiv:2306.05817 <em>(Its WHERE axis has five stages: feature engineering · feature encoder ·
+                scoring/ranking · user interaction · pipeline controller.)</em></p>
+          </li>
+          <li>
+            <p>Peng, Q., Liu, H., Huang, H., Yang, Q., &amp; Shao, M. (2025). <em>A survey on LLM-powered agents for
+                recommender systems</em>. In <em>Findings of the Association for Computational Linguistics: EMNLP
+                2025</em> (pp.&nbsp;11574–11583). arXiv:2502.10050</p>
+          </li>
+          <li>
+            <p>Radford, A., Narasimhan, K., Salimans, T., &amp; Sutskever, I. (2018). <em>Improving language
+                understanding by generative pre-training</em>. OpenAI technical report.</p>
+          </li>
+          <li>
+            <p>Rajput, S., Mehta, N., Singh, A., Keshavan, R. H., Vu, T., Heldt, L., Hong, L., Tay, Y., Tran, V. Q.,
+              Samost, J., Kula, M., Chi, E. H., &amp; Sathiamoorthy, M. (2023). <em>Recommender systems with generative
+                retrieval</em> (TIGER). In <em>Advances in Neural Information Processing Systems 36 (NeurIPS ’23)</em>.
+              arXiv:2305.05065</p>
+          </li>
+          <li>
+            <p>Deng, J., Wang, S., Cai, K., Ren, L., Hu, Q., Ding, W., Luo, Q., &amp; Zhou, G. (2025). <em>OneRec:
+                Unifying retrieve and rank with generative recommender and iterative preference alignment</em>.
+              arXiv:2502.18965</p>
+          </li>
+          <li>
+            <p>Liu, Z., et al.&nbsp;(2025). <em>OneRec-Think: In-text reasoning for generative recommendation</em>.
+              arXiv:2510.11639</p>
+          </li>
+          <li>
+            <p>Ren, X., Wei, W., Xia, L., Su, L., Cheng, S., Wang, J., Yin, D., &amp; Huang, C. (2024).
+              <em>Representation learning with large language models for recommendation</em> (RLMRec). In
+              <em>Proceedings of the ACM Web Conference 2024 (WWW ’24)</em>. arXiv:2310.15950
+            </p>
+          </li>
+          <li>
+            <p>Wu, L., Zheng, Z., Qiu, Z., Wang, H., Gu, H., Shen, T., Qin, C., Zhu, C., Zhu, H., Liu, Q., Xiong, H.,
+              &amp; Chen, E. (2024). <em>A survey on large language models for recommendation</em>. World Wide Web,
+              27(60). https://doi.org/10.1007/s11280-024-01291-2 arXiv:2305.19860</p>
+          </li>
+          <li>
+            <p>Xi, Y., Liu, W., Lin, J., Cai, X., Zhu, H., Zhu, J., Chen, B., Tang, R., Zhang, W., Zhang, R., &amp; Yu,
+              Y. (2024). <em>Towards open-world recommendation with knowledge augmentation from large language
+                models</em> (KAR). In <em>Proceedings of the 18th ACM Conference on Recommender Systems (RecSys
+                ’24)</em>. arXiv:2306.10933</p>
+          </li>
+          <li>
+            <p>Yu, J., Yin, H., Xia, X., Chen, T., Cui, L., &amp; Nguyen, Q. V. H. (2022). <em>Are graph augmentations
+                necessary? Simple graph contrastive learning for recommendation</em> (SimGCL). In <em>Proceedings of the
+                45th International ACM SIGIR Conference (SIGIR ’22)</em>. arXiv:2112.08679</p>
+          </li>
+        </ul>
+        <p><em>Cost/latency anchors in §4.1</em> are order-of-magnitude figures, not fixed prices: per-query
+          LLM-reranking cost (specialist cross-encoder <span class="math inline">\(\sim\!\$2\)</span>/1k vs general LLM
+          <span class="math inline">\(\sim\!\$20\)</span>–30/1k) from a public mid-2026 reranking study (ZeroEntropy,
+          <em>LLM-as-Reranker Guide</em>, 2026); ANN p50 latency and reranker model picks from the
+          <strong>Implementation Choices</strong> appendix; RLMRec’s “<span class="math inline">\(\approx
+            10\)</span>–20% extra training time” from the RLMRec paper (Table 4 + §4.5). Re-measure on your own stack
+          before quoting.
+        </p>
+        <p><em>Online sources verified June 2026.</em></p>
+
+
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../chapters/spectral-graph-filter-cf.html" class="pagination-link"
+          aria-label="The Spectral / Graph-Filter View">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">The Spectral /
+              Graph-Filter View</span></span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/training-and-serving.html" class="pagination-link"
+          aria-label="Training and Serving a Recommender">
+          <span class="nav-page-text"><span class="chapter-title">Training and Serving a Recommender</span></span> <i
+            class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body>
+
+</html>

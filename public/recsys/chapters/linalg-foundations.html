@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <meta name="description"
+    content="Vectors, matrices, dot products, norms and projections built from zero — the linear-algebra toolkit every recommender and neural network runs on.">
+
+  <title>Linear Algebra for ML – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
+
+
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/calculus-foundations.html" rel="next">
+  <link href="../index.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/linalg-foundations.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/linalg-foundations.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Linear Algebra for ML","name":"Linear Algebra for ML","description":"Vectors, matrices, dot products, norms and projections built from zero — the linear-algebra toolkit every recommender and neural network runs on.","url":"https://minastik.com/recsys/chapters/linalg-foundations.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
+
+  <meta property="og:title" content="Linear Algebra for ML – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="Vectors, matrices, dot products, norms and projections built from zero — the linear-algebra toolkit every recommender and neural network runs on.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title" content="Linear Algebra for ML – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="Vectors, matrices, dot products, norms and projections built from zero — the linear-algebra toolkit every recommender and neural network runs on.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+  <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
+      </div> <!-- /container-fluid -->
+    </nav>
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/linalg-foundations.html">Mathematical Foundations</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/linalg-foundations.html"><span class="chapter-title">Linear
+                  Algebra for ML</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+          <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
+          <li class="sidebar-item">
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#vectors" id="toc-vectors" class="nav-link active" data-scroll-target="#vectors">1. Vectors</a>
+          </li>
+          <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices">2. Matrices</a></li>
+          <li><a href="#the-matrixvector-product" id="toc-the-matrixvector-product" class="nav-link"
+              data-scroll-target="#the-matrixvector-product">3. The matrix–vector product</a></li>
+          <li><a href="#the-dot-product-and-cosine-similarity" id="toc-the-dot-product-and-cosine-similarity"
+              class="nav-link" data-scroll-target="#the-dot-product-and-cosine-similarity">4. The dot product and cosine
+              similarity</a></li>
+          <li><a href="#eigenvalues-and-eigenvectors" id="toc-eigenvalues-and-eigenvectors" class="nav-link"
+              data-scroll-target="#eigenvalues-and-eigenvectors">5. Eigenvalues and eigenvectors</a></li>
+          <li><a href="#the-singular-value-decomposition-svd" id="toc-the-singular-value-decomposition-svd"
+              class="nav-link" data-scroll-target="#the-singular-value-decomposition-svd">6. The singular value
+              decomposition (SVD)</a></li>
+          <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">7. Exercises</a>
+          </li>
+          <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link"
+              data-scroll-target="#where-this-fits-in-the-book">8. Where this fits in the book</a></li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">9. Glossary</a></li>
+          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">10.
+              References</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/linalg-foundations.html">Mathematical Foundations</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/linalg-foundations.html"><span class="chapter-title">Linear
+                  Algebra for ML</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title"><span class="chapter-title">Linear Algebra for ML</span></h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="vectors" class="level2">
+        <h2 class="anchored" data-anchor-id="vectors">1. Vectors</h2>
+        <p>A <strong>vector</strong> is an ordered list of numbers. We write it as a column:</p>
+        <p><span class="math display">\[
+            \mathbf{u} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}, \qquad
+            \mathbf{x} = \begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix}.
+            \]</span></p>
+        <p>The numbers are its <strong>components</strong> (or <em>entries</em>, or <em>coordinates</em>); how many
+          there are is the vector’s <strong>dimension</strong> (<span class="math inline">\(\mathbf{u}\)</span> is
+          2-dimensional, <span class="math inline">\(\mathbf{x}\)</span> is 3-dimensional). The set of all <span
+            class="math inline">\(d\)</span>-dimensional real vectors is written <span
+            class="math inline">\(\mathbb{R}^{d}\)</span>.</p>
+        <blockquote class="blockquote">
+          <p><strong>Why “vector”.</strong> From Latin <em>vehere</em>, “to carry” (same root as <em>vehicle</em>). A
+            vector <em>carries</em> you from the origin to a point — it is naturally pictured as an
+            <strong>arrow</strong> from <span class="math inline">\((0,0)\)</span> to the point whose coordinates are
+            its entries. That arrow picture is the whole reason linear algebra is geometric, not just bookkeeping.
+          </p>
+        </blockquote>
+        <p><strong>Two readings, one object.</strong> A vector is <em>both</em> a list of numbers (a data record: a
+          movie’s <span class="math inline">\(d\)</span> learned features; a user’s <span
+            class="math inline">\(d\)</span> tastes) <em>and</em> an arrow in <span
+            class="math inline">\(d\)</span>-dimensional space. In machine learning these features are called an
+          <strong>embedding</strong> — a learned vector that places each user or item as a point in space (this is
+          exactly the embedding of <em>From Graphs to LightGCN</em>).
+        </p>
+        <p><strong>Length (norm).</strong> The <strong>length</strong> of a vector — its <strong>norm</strong>, written
+          <span class="math inline">\(\lVert\mathbf{u}\rVert\)</span> — is how long the arrow is, by the Pythagorean
+          theorem:
+        </p>
+        <p><span class="math display">\[
+            \lVert \mathbf{u}\rVert \;=\; \sqrt{\,u_1^2 + u_2^2 + \cdots + u_d^2\,}
+            \;=\;\underbrace{\sqrt{\textstyle\sum_i u_i^2}}_{\text{root of the sum of squared entries}} .
+            \]</span></p>
+        <p>For <span class="math inline">\(\mathbf{u}=[3,4]\)</span>: <span
+            class="math inline">\(\lVert\mathbf{u}\rVert=\sqrt{3^2+4^2}=\sqrt{25}=5\)</span>. (Per component:
+          <strong>squaring</strong> makes every entry positive and weights big ones more; the <span
+            class="math inline">\(\sum\)</span> pools them into one number; the outer <span
+            class="math inline">\(\sqrt{\cdot}\)</span> undoes the squaring so the length is back in the vector’s own
+          units — here exactly the hypotenuse <span class="math inline">\(5\)</span>.) A vector of length <span
+            class="math inline">\(1\)</span> is called a <strong>unit vector</strong>; dividing a vector by its own
+          length (“normalizing”) makes it a unit vector pointing the same way.
+        </p>
+        <p>This is the <strong>L2 (Euclidean) norm</strong>, the everyday “length.” It is one of a family: the
+          <strong><span class="math inline">\(L_p\)</span> norm</strong> <span
+            class="math inline">\(\lVert\mathbf{u}\rVert_p=\big(\sum_i |u_i|^p\big)^{1/p}\)</span> raises each absolute
+          entry to the power <span class="math inline">\(p\)</span>, sums, then takes the <span
+            class="math inline">\(p\)</span>-th root. Two cases recur in ML — <span class="math inline">\(p=2\)</span>
+          is this Euclidean length, and <span class="math inline">\(p=1\)</span> is the <strong>L1 (Manhattan / taxicab)
+            norm</strong> <span class="math inline">\(\lVert\mathbf{u}\rVert_1=\sum_i|u_i|\)</span> (for <span
+            class="math inline">\([3,4]\)</span> that is <span class="math inline">\(3+4=7\)</span>, the city-block
+          distance). <em>Losses &amp; Regularizers</em> uses <strong>both</strong>: L2 for ridge / weight decay, L1 for
+          lasso / sparsity.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “norm”.</strong> From Latin <em>norma</em> — a carpenter’s <strong>square</strong>, hence a
+            <em>standard</em> or <em>rule</em>. A norm is the agreed standard for “how big” a vector is, and to
+            <strong>normalize</strong> is to rescale it to the standard unit length <span
+              class="math inline">\(1\)</span>. (Same root as <em>normal</em> = “conforming to the standard”; in
+            geometry a <em>normal</em> direction is the perpendicular one that such a square marks off. The notation
+            <span class="math inline">\(\lVert\cdot\rVert\)</span> uses double bars to distinguish a vector’s norm from
+            a number’s absolute value <span class="math inline">\(|\cdot|\)</span>.)
+          </p>
+        </blockquote>
+        <blockquote class="blockquote">
+          <p><strong>Intuition.</strong> Keep both pictures in your head. The <em>list</em> tells you how to compute;
+            the <em>arrow</em> tells you what the computation means (longer = bigger, same direction = similar). Every
+            operation below is just arithmetic on the lists that <em>does something</em> to the arrows.</p>
+        </blockquote>
+        <div id="fig-linalg-foundations-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.1: A vector <em>is</em> an arrow from the origin to its coordinates; its
+              <strong>norm</strong> (length) is the Pythagorean hypotenuse, <span
+                class="math inline">\(\sqrt{3^2+4^2}=5\)</span>.
+            </figcaption>
+          </figure>
+        </div>
+        <hr>
+      </section>
+      <section id="matrices" class="level2">
+        <h2 class="anchored" data-anchor-id="matrices">2. Matrices</h2>
+        <p>A <strong>matrix</strong> is a rectangular grid of numbers, with <strong>rows</strong> (running left–right)
+          and <strong>columns</strong> (running top–bottom). A matrix with <span class="math inline">\(m\)</span> rows
+          and <span class="math inline">\(n\)</span> columns is called an <span class="math inline">\(m\times n\)</span>
+          (“<span class="math inline">\(m\)</span>-by-<span class="math inline">\(n\)</span>”) matrix; <span
+            class="math inline">\(m\times n\)</span> is its <strong>shape</strong>. The entry in row <span
+            class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span> is written <span
+            class="math inline">\(A_{ij}\)</span>.</p>
+        <p><span class="math display">\[
+            A = \begin{bmatrix} 2 &amp; 0 &amp; 1 \\ 1 &amp; 3 &amp; 0 \end{bmatrix}
+            \quad(\text{shape } 2\times 3:\ \ A_{11}=2,\ A_{23}=0).
+            \]</span></p>
+        <blockquote class="blockquote">
+          <p><strong>Why “matrix”.</strong> Latin for <em>womb</em> / <em>source</em> (from <em>mater</em>, “mother”).
+            The mathematician J. J. Sylvester coined the term in 1850 for an array <em>out of which</em>
+            sub-determinants are born — the grid is the “mother” the smaller objects come from.</p>
+        </blockquote>
+        <p><strong>Three ways to read one matrix</strong> — all describe the same grid, and each is useful later:</p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Reading</th>
+              <th>What you see</th>
+              <th>Used in</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>A table of numbers</strong></td>
+              <td>a spreadsheet: e.g.&nbsp;row <span class="math inline">\(i\)</span> = user, column <span
+                  class="math inline">\(j\)</span> = movie, entry = rating</td>
+              <td>the interaction matrix (From Graphs to LightGCN)</td>
+            </tr>
+            <tr class="even">
+              <td><strong>A stack of row vectors / columns</strong></td>
+              <td>each row is a vector; each column is a vector</td>
+              <td>embedding matrix = a stack of per-item vectors (From Graphs to LightGCN)</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>A function</strong></td>
+              <td>a rule that <em>transforms</em> a vector into another vector</td>
+              <td>propagation, filtering (From Graphs to LightGCN and The Spectral / Graph-Filter View)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>The third reading is the deep one: <strong>a matrix is a linear transformation</strong>. Feeding a vector in
+          (next section) is how the matrix <em>acts</em>.</p>
+        <p><strong>Two special matrices.</strong> The <strong>identity matrix</strong> <span
+            class="math inline">\(I\)</span> (Latin <em>idem</em>, “the same” — it hands every vector back unchanged,
+          <span class="math inline">\(I\mathbf{x}=\mathbf{x}\)</span>, the matrix analog of the number <span
+            class="math inline">\(1\)</span>) has <span class="math inline">\(1\)</span>s on the
+          <strong>diagonal</strong> (Greek <em>dia-</em> “across” + <em>gōnia</em> “corner”: the corner-to-corner line)
+          and <span class="math inline">\(0\)</span>s elsewhere. A matrix is <strong>symmetric</strong> if it equals its
+          own mirror across the diagonal (<span class="math inline">\(A_{ij}=A_{ji}\)</span>); the
+          <strong>transpose</strong> <span class="math inline">\(A^{\top}\)</span> (Latin <em>trans-</em> “across” +
+          <em>ponere</em> “to place” — each entry placed across the diagonal) is that mirror (swap rows and columns), so
+          symmetric means <span class="math inline">\(A=A^{\top}\)</span>. Symmetry matters in §5: symmetric matrices
+          have especially clean eigenvectors.
+        </p>
+        <section id="the-determinant-does-the-transform-collapse-space" class="level3">
+          <h3 class="anchored" data-anchor-id="the-determinant-does-the-transform-collapse-space">The determinant — does
+            the transform collapse space?</h3>
+          <p>Read <span class="math inline">\(A\)</span> as a transformation (third reading above). Its
+            <strong>determinant</strong> <span class="math inline">\(\det(A)\)</span> is the factor by which it
+            <strong>scales area/volume</strong>, with the <em>sign</em> flagging a flip. For a <span
+              class="math inline">\(2\times2\)</span> matrix it is
+          </p>
+          <p><span class="math display">\[
+              \det\begin{bmatrix}a&amp;b\\c&amp;d\end{bmatrix}=ad-bc.
+              \]</span></p>
+          <p>Per component: the two columns <span class="math inline">\([a,c]\)</span> and <span
+              class="math inline">\([b,d]\)</span> are the edges of a parallelogram; <span
+              class="math inline">\(ad\)</span> is the area it would span if those edges were axis-aligned, and <span
+              class="math inline">\(bc\)</span> is the <strong>shear</strong> you subtract once they tilt — so <span
+              class="math inline">\(ad-bc\)</span> is the <em>signed area</em> of the parallelogram the columns make.
+            Zero area means the two columns collapsed onto one line (a killed dimension).</p>
+          <ul>
+            <li><span
+                class="math inline">\(\det\!\begin{bmatrix}2&amp;1\\1&amp;2\end{bmatrix}=2\cdot2-1\cdot1=\mathbf{3}\)</span>
+              — areas are tripled.</li>
+            <li><span
+                class="math inline">\(\det\!\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}=1\cdot4-2\cdot2=\mathbf{0}\)</span>
+              — <strong>zero</strong>: the transform <strong>squashes the whole plane onto a line</strong> (it kills a
+              dimension). A zero determinant is the danger sign.</li>
+          </ul>
+          <p>We will follow these <strong>two running matrices</strong> through §2, §5, and §6: the healthy <span
+              class="math inline">\(S=\left[\begin{smallmatrix}2&amp;1\\1&amp;2\end{smallmatrix}\right]\)</span> (det
+            <span class="math inline">\(3\)</span>, full rank, invertible — the eigenvalue and ellipse example) and the
+            collapsed <span
+              class="math inline">\(M=\left[\begin{smallmatrix}1&amp;2\\2&amp;4\end{smallmatrix}\right]\)</span> (det
+            <span class="math inline">\(0\)</span>, rank <span class="math inline">\(1\)</span>, singular — the SVD
+            example). Tracking the same two objects beats meeting fresh numbers each section.
+          </p>
+          <blockquote class="blockquote">
+            <p><strong>Why “determinant”.</strong> It <em>determines</em> whether the matrix can be undone (next two
+              subsections) and whether a system <span class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> has a unique
+              solution. (<span class="math inline">\(3\times3\)</span> and larger use a longer cofactor-expansion
+              formula; the <em>meaning</em> — volume scaling, zero = collapse — is what the book needs.)</p>
+          </blockquote>
+        </section>
+        <section id="rank-how-many-independent-directions" class="level3">
+          <h3 class="anchored" data-anchor-id="rank-how-many-independent-directions">Rank — how many independent
+            directions?</h3>
+          <p>The <strong>rank</strong> is the number of <strong>linearly independent</strong> rows (equivalently,
+            columns) — how many genuinely different directions the matrix’s output can reach. (A set of vectors is
+            <em>linearly independent</em> when no one of them can be written as a weighted sum of the others — each
+            points in a direction the rest cannot reach together.)
+          </p>
+          <ul>
+            <li><span class="math inline">\(\begin{bmatrix}2&amp;1\\1&amp;2\end{bmatrix}\)</span> has rank
+              <strong>2</strong>: neither row is a multiple of the other (two independent directions → “full rank”).
+            </li>
+            <li><span class="math inline">\(\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}\)</span> has rank
+              <strong>1</strong>: row <span class="math inline">\(2 = 2\times\)</span> row <span
+                class="math inline">\(1\)</span>, so both rows lie on <em>one</em> line (this is the matrix the SVD
+              decomposes in §6).
+            </li>
+          </ul>
+          <p>A square <span class="math inline">\(n\times n\)</span> matrix with rank <span
+              class="math inline">\(n\)</span> is <strong>full rank</strong>; rank <span
+              class="math inline">\(&lt;n\)</span> is <strong>rank-deficient</strong>.</p>
+        </section>
+        <section id="invertibility-can-the-transform-be-undone" class="level3">
+          <h3 class="anchored" data-anchor-id="invertibility-can-the-transform-be-undone">Invertibility — can the
+            transform be undone?</h3>
+          <p>A square matrix <span class="math inline">\(A\)</span> is <strong>invertible</strong> (or
+            <em>nonsingular</em>) if some <strong>inverse</strong> <span class="math inline">\(A^{-1}\)</span> undoes
+            it: <span class="math inline">\(A^{-1}A=AA^{-1}=I\)</span>. For a <span
+              class="math inline">\(2\times2\)</span>,
+          </p>
+          <p><span class="math display">\[
+              A^{-1}=\frac{1}{\det A}\begin{bmatrix}d&amp;-b\\-c&amp;a\end{bmatrix}\qquad(\text{exists only when }\det
+              A\neq0).
+              \]</span></p>
+          <p>Per component: <strong>swap</strong> the diagonal (<span class="math inline">\(a\leftrightarrow
+              d\)</span>), <strong>negate</strong> the off-diagonal (<span class="math inline">\(b,c\)</span>), then
+            <strong>divide every entry by <span class="math inline">\(\det A\)</span></strong> — that rescaling is
+            exactly what makes <span class="math inline">\(A^{-1}A\)</span> land on <span
+              class="math inline">\(I\)</span>, and it divides by zero (no inverse) precisely when <span
+              class="math inline">\(\det A=0\)</span>.
+          </p>
+          <p>For <span class="math inline">\(A=\begin{bmatrix}2&amp;1\\1&amp;2\end{bmatrix}\)</span> (<span
+              class="math inline">\(\det=3\)</span>): <span
+              class="math inline">\(A^{-1}=\tfrac{1}{3}\begin{bmatrix}2&amp;-1\\-1&amp;2\end{bmatrix}=\begin{bmatrix}0.667&amp;-0.333\\-0.333&amp;0.667\end{bmatrix}\)</span>,
+            and indeed <span class="math inline">\(AA^{-1}=I\)</span>. But <span
+              class="math inline">\(\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}\)</span> has <span
+              class="math inline">\(\det=0\)</span>, so <strong>no inverse exists</strong> — once the plane is flattened
+            onto a line you cannot recover which point you came from.</p>
+          <blockquote class="blockquote">
+            <p><strong>The one fact that ties §2 together.</strong> For a square matrix these are <em>the same</em>
+              condition: <span class="math display">\[\det A\neq 0 \;\Longleftrightarrow\; \text{full rank}
+                \;\Longleftrightarrow\; \text{invertible} \;\Longleftrightarrow\; \text{no eigenvalue (§5) or singular
+                value (§6) is }0.\]</span> A matrix that fails them is <strong>singular</strong> (the word §6 traces).
+              <em>Why “invertible”:</em> the transform can be <strong>inverted</strong> — run backwards.
+            </p>
+          </blockquote>
+          <p><strong>Watch the collapse (a rank-1 matrix, by hand).</strong> Take <span
+              class="math inline">\(A=\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}\)</span> (rank <span
+              class="math inline">\(1\)</span>, <span class="math inline">\(\det=0\)</span>) and read where it sends the
+            two unit axes: <span class="math inline">\(A[1,0]=[1,2]\)</span> and <span
+              class="math inline">\(A[0,1]=[2,4]=2[1,2]\)</span>. <strong>Both land on the single line through <span
+                class="math inline">\([1,2]\)</span></strong> — and so does <em>every</em> output, because both columns
+            are multiples of <span class="math inline">\([1,2]\)</span> (e.g.&nbsp;<span
+              class="math inline">\(A[1,1]=[3,6]=3[1,2]\)</span>). The whole plane is squashed onto one line, the
+            <strong>column space</strong>. Two consequences fall out, and both <em>are</em> the meaning of “<span
+              class="math inline">\(\det=0\)</span>”:
+          </p>
+          <ul>
+            <li><strong>A direction is destroyed.</strong> <span class="math inline">\(A[2,-1]=[0,0]\)</span>: the input
+              <span class="math inline">\([2,-1]\)</span> is mapped to the origin. That killed direction is the
+              <strong>null space</strong> — the dimension the transform throws away.
+            </li>
+            <li><strong>It cannot be undone.</strong> <span class="math inline">\(A[3,-1]=[1,2]=A[1,0]\)</span>: two
+              <em>different</em> inputs give the <em>same</em> output, so there is no inverse — once flattened onto the
+              line, <span class="math inline">\([1,0]\)</span> and <span class="math inline">\([3,-1]\)</span> are
+              indistinguishable.
+            </li>
+          </ul>
+          <p>A full-rank map keeps the plane a plane; a rank-deficient one <strong>loses a dimension</strong>. That lost
+            dimension is exactly the <strong>zero singular value</strong> the SVD exposes in §6, and the same collapse
+            that <em>over-smoothing</em> inflicts on graph embeddings (<em>From Graphs to LightGCN</em> §12).</p>
+          <div id="fig-linalg-foundations-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-linalg-foundations-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/linalg-foundations-2.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-linalg-foundations-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;1.2: A rank-1 matrix collapses the plane onto a line. <span
+                  class="math inline">\(A=\big[\begin{smallmatrix}1&amp;2\\2&amp;4\end{smallmatrix}\big]\)</span> sends
+                <em>every</em> input onto the single line <span class="math inline">\(\{c [1,2]\}\)</span> (blue
+                dashed): the unit axes <span class="math inline">\([1,0],[0,1]\)</span> (grey) land at <span
+                  class="math inline">\([1,2]\)</span> and <span class="math inline">\([2,4]\)</span>. The direction
+                <span class="math inline">\([2,-1]\)</span> (red) is mapped to the origin — a whole dimension is
+                destroyed (the null space), which is why <span class="math inline">\(\det=0\)</span> and the map has no
+                inverse.
+              </figcaption>
+            </figure>
+          </div>
+          <hr>
+        </section>
+      </section>
+      <section id="the-matrixvector-product" class="level2">
+        <h2 class="anchored" data-anchor-id="the-matrixvector-product">3. The matrix–vector product</h2>
+        <p>This is <em>the</em> operation. Almost everything in the book — a propagation layer, a graph filter, a linear
+          scoring head — is “multiply by a matrix.”</p>
+        <p><strong>The rule.</strong> To multiply matrix <span class="math inline">\(A\)</span> (shape <span
+            class="math inline">\(m\times n\)</span>) by vector <span class="math inline">\(\mathbf{x}\)</span>
+          (dimension <span class="math inline">\(n\)</span>), take the <strong>dot product</strong> (§4) of each row of
+          <span class="math inline">\(A\)</span> with <span class="math inline">\(\mathbf{x}\)</span>. The result is a
+          new vector of dimension <span class="math inline">\(m\)</span> — one entry per row:
+        </p>
+        <p><span class="math display">\[
+            (A\mathbf{x})_i \;=\; \underbrace{\sum_{j=1}^{n} A_{ij}\,x_j}_{\text{row }i\text{ of }A\text{ dotted with
+            }\mathbf{x}} .
+            \]</span></p>
+        <p>The inner dimensions must match: an <span class="math inline">\(m\times n\)</span> matrix eats an <span
+            class="math inline">\(n\)</span>-vector and emits an <span class="math inline">\(m\)</span>-vector (“<span
+            class="math inline">\(n\)</span> in, <span class="math inline">\(m\)</span> out”). If they don’t match, the
+          product is undefined.</p>
+        <p><strong>Worked by hand.</strong> With <span
+            class="math inline">\(A=\begin{bmatrix}2&amp;0&amp;1\\[2pt]1&amp;3&amp;0\end{bmatrix}\)</span> and <span
+            class="math inline">\(\mathbf{x}=\begin{bmatrix}1\\2\\1\end{bmatrix}\)</span>:</p>
+        <p><span class="math display">\[
+            A\mathbf{x}=
+            \begin{bmatrix}
+            2\cdot 1 + 0\cdot 2 + 1\cdot 1\\[2pt]
+            1\cdot 1 + 3\cdot 2 + 0\cdot 1
+            \end{bmatrix}
+            =
+            \begin{bmatrix} 2+0+1\\ 1+6+0 \end{bmatrix}
+            =
+            \begin{bmatrix} 3\\ 7 \end{bmatrix}. \quad✓
+            \]</span></p>
+        <ul>
+          <li>Row 1 <span class="math inline">\([2,0,1]\)</span> dotted with <span
+              class="math inline">\([1,2,1]\)</span>: <span class="math inline">\(2+0+1=3\)</span>. ✓</li>
+          <li>Row 2 <span class="math inline">\([1,3,0]\)</span> dotted with <span
+              class="math inline">\([1,2,1]\)</span>: <span class="math inline">\(1+6+0=7\)</span>. ✓</li>
+        </ul>
+        <p>A <span class="math inline">\(2\times 3\)</span> matrix turned a 3-vector into a 2-vector — exactly “3 in, 2
+          out.”</p>
+        <blockquote class="blockquote">
+          <p><strong>Intuition.</strong> Two complementary pictures of the same product: <strong>(a)
+              per-output:</strong> each output entry asks one row “how much do you agree with <span
+              class="math inline">\(\mathbf{x}\)</span>?” (a dot product, §4). <strong>(b) per-input:</strong> <span
+              class="math inline">\(A\mathbf{x}\)</span> is a weighted blend of <span class="math inline">\(A\)</span>’s
+            <em>columns</em>, the weights being <span class="math inline">\(\mathbf{x}\)</span>’s entries — <span
+              class="math inline">\(A\mathbf{x}=1\!\cdot\!\text{col}_1
+              +2\!\cdot\!\text{col}_2+1\!\cdot\!\text{col}_3\)</span>. That second picture — “a matrix mixes its
+            columns” — is precisely what a graph-propagation layer does: mix each node’s vector with its neighbours’.
+          </p>
+        </blockquote>
+        <div id="fig-linalg-foundations-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-3.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.3: Picture (b): <span class="math inline">\(A\mathbf{x}\)</span> is a <strong>blend of <span
+                  class="math inline">\(A\)</span>’s columns</strong>. Adding the three weighted columns tip-to-tail
+              (each arrow labelled) lands at <span class="math inline">\([3,7]\)</span> — the same vector the row-by-row
+              dot products gave above. Mixing a node’s vector with its neighbours’ is one such column blend.
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>Matrix times matrix</strong> is the same rule applied column by column: <span
+            class="math inline">\(AB\)</span>’s <span class="math inline">\(j\)</span>-th column is <span
+            class="math inline">\(A\)</span> times <span class="math inline">\(B\)</span>’s <span
+            class="math inline">\(j\)</span>-th column. <strong>Worked once</strong>, with <span
+            class="math inline">\(A=\begin{bmatrix}1&amp;2\\3&amp;4\end{bmatrix}\)</span> and the column-swap <span
+            class="math inline">\(B=\begin{bmatrix}0&amp;1\\1&amp;0\end{bmatrix}\)</span>:</p>
+        <p><span class="math display">\[
+            AB=\begin{bmatrix}1&amp;2\\3&amp;4\end{bmatrix}\!\begin{bmatrix}0&amp;1\\1&amp;0\end{bmatrix}=\begin{bmatrix}2&amp;1\\4&amp;3\end{bmatrix},
+            \qquad
+            BA=\begin{bmatrix}0&amp;1\\1&amp;0\end{bmatrix}\!\begin{bmatrix}1&amp;2\\3&amp;4\end{bmatrix}=\begin{bmatrix}3&amp;4\\1&amp;2\end{bmatrix}.
+            \]</span></p>
+        <p><span class="math inline">\(AB\)</span> swapped <span class="math inline">\(A\)</span>’s
+          <strong>columns</strong>, <span class="math inline">\(BA\)</span> swapped its <strong>rows</strong> — so
+          <strong>order matters</strong>: <span class="math inline">\(AB\ne BA\)</span> in general. (You use this exact
+          rule once more in §6, to form <span class="math inline">\(M^{\top}M\)</span>.)
+        </p>
+        <hr>
+      </section>
+      <section id="the-dot-product-and-cosine-similarity" class="level2">
+        <h2 class="anchored" data-anchor-id="the-dot-product-and-cosine-similarity">4. The dot product and cosine
+          similarity</h2>
+        <p><strong>The dot product</strong> (also <em>inner product</em> or <em>scalar product</em>) of two
+          same-dimension vectors multiplies them entry-by-entry and sums:</p>
+        <p><span class="math display">\[
+            \mathbf{u}\cdot\mathbf{v} \;=\; \sum_{i=1}^{d} u_i v_i
+            \;=\; u_1v_1 + u_2v_2 + \cdots + u_dv_d .
+            \]</span></p>
+        <p>It returns a single number (a <em>scalar</em> — Latin <em>scala</em>, “ladder/scale”: a pure magnitude that
+          <strong>scales</strong> a vector, with no direction of its own), not a vector — hence “scalar product.” A
+          clean geometric fact ties it to angle and length:
+        </p>
+        <p><span class="math display">\[
+            \mathbf{u}\cdot\mathbf{v}
+            \;=\; \underbrace{\lVert\mathbf{u}\rVert}_{\text{length of }\mathbf{u}}\,
+            \underbrace{\lVert\mathbf{v}\rVert}_{\text{length of }\mathbf{v}}\,
+            \underbrace{\cos\theta}_{\substack{\text{cosine of the}\\\text{angle between them}}} .
+            \]</span></p>
+        <p>So the dot product is <strong>large and positive when two vectors point the same way, zero when they are
+            perpendicular, negative when they oppose.</strong> Perpendicular vectors (dot product <span
+            class="math inline">\(0\)</span>) are called <strong>orthogonal</strong> (Greek <em>orthos</em>
+          “right/straight” + <em>gōnia</em> “angle” — literally “right-angled,” the same <em>orthos</em> as in
+          <em>orthodontics</em>); the word returns in §5 and §6.
+        </p>
+        <p><strong>Cosine similarity</strong> (<em>cosine</em> = “<strong>co</strong>mplement’s <strong>sine</strong>” —
+          the sine of the complementary angle <span class="math inline">\(90^\circ-\theta\)</span>). Divide out the two
+          lengths and you are left with just <span class="math inline">\(\cos\theta\)</span>, which lives in <span
+            class="math inline">\([-1,1]\)</span> and ignores magnitude — pure <em>direction</em> agreement:</p>
+        <p><span class="math display">\[
+            \cos\theta \;=\; \frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{u}\rVert\,\lVert\mathbf{v}\rVert}.
+            \]</span></p>
+        <p>This is <strong>cosine similarity</strong>: <span class="math inline">\(+1\)</span> = same direction, <span
+            class="math inline">\(0\)</span> = orthogonal, <span class="math inline">\(-1\)</span> = opposite. It is the
+          standard “how alike are these two embeddings?” measure (and the alignment term in <em>SSL &amp; Contrastive
+            Learning</em> is exactly this on normalized vectors).</p>
+        <p><strong>Worked by hand.</strong> Take <span class="math inline">\(\mathbf{u}=[3,4]\)</span> and <span
+            class="math inline">\(\mathbf{v}=[4,3]\)</span>.</p>
+        <ul>
+          <li>Dot product: <span class="math inline">\(\mathbf{u}\cdot\mathbf{v}=3\cdot4+4\cdot3=12+12=24\)</span>.</li>
+          <li>Lengths: <span class="math inline">\(\lVert\mathbf{u}\rVert=\sqrt{9+16}=5\)</span>, <span
+              class="math inline">\(\lVert\mathbf{v}\rVert=\sqrt{16+9}=5\)</span>.</li>
+          <li>Cosine: <span class="math inline">\(\dfrac{24}{5\cdot5}=\dfrac{24}{25}=0.96\)</span>. ✓ (an angle of about
+            <span class="math inline">\(16.3^{\circ}\)</span> — nearly the same direction, as the near-<span
+              class="math inline">\(1\)</span> value says).
+          </li>
+        </ul>
+        <p><strong>The contrast that teaches it.</strong> Now take <span
+            class="math inline">\(\mathbf{w}=[-4,3]\)</span> against the same <span
+            class="math inline">\(\mathbf{u}=[3,4]\)</span>:</p>
+        <ul>
+          <li>Dot product: <span class="math inline">\(\mathbf{u}\cdot\mathbf{w}=3(-4)+4(3)=-12+12=0\)</span>.</li>
+          <li>Cosine: <span class="math inline">\(0/(5\cdot5)=0\)</span> — <strong>orthogonal</strong>, a right angle,
+            <em>no</em> agreement. ✓
+          </li>
+        </ul>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>pair</th>
+              <th>dot product</th>
+              <th>cosine</th>
+              <th>reading</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><span class="math inline">\(\mathbf{u}=[3,4],\ \mathbf{v}=[4,3]\)</span></td>
+              <td><span class="math inline">\(24\)</span></td>
+              <td><span class="math inline">\(0.96\)</span></td>
+              <td>almost the same direction</td>
+            </tr>
+            <tr class="even">
+              <td><span class="math inline">\(\mathbf{u}=[3,4],\ \mathbf{w}=[-4,3]\)</span></td>
+              <td><span class="math inline">\(0\)</span></td>
+              <td><span class="math inline">\(0\)</span></td>
+              <td>perpendicular — unrelated</td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="fig-linalg-foundations-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-4.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.4: Cosine similarity is the cosine of the <em>angle</em> between two vectors: <span
+                class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> nearly
+              align (small angle <span class="math inline">\(\Rightarrow \cos\approx0.96\)</span>), while <span
+                class="math inline">\(\mathbf{w}\perp\mathbf{u}\)</span> (<span class="math inline">\(\cos=0\)</span>).
+              Lengths divide out, so only <em>direction</em> counts.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>The recommender’s scoring rule.</strong> In <em>From Graphs to LightGCN</em> a user <span
+              class="math inline">\(\mathbf{p}\)</span> and an item <span class="math inline">\(\mathbf{q}\)</span> are
+            each a vector; the predicted affinity is <span class="math inline">\(\mathbf{p}\cdot\mathbf{q}\)</span> —
+            high when their directions agree. That single dot product is the entire scoring head of a
+            matrix-factorization or LightGCN recommender. Cosine is its length-normalized cousin.</p>
+        </blockquote>
+        <p>One sentence: <strong>the dot product turns “do these two vectors agree?” into a single number, and dividing
+            by their lengths (cosine) keeps only the direction.</strong></p>
+        <section id="cousins-euclidean-distance-and-a-serving-trick" class="level3">
+          <h3 class="anchored" data-anchor-id="cousins-euclidean-distance-and-a-serving-trick">Cousins: Euclidean
+            distance, and a serving trick</h3>
+          <p>Two more scoring rules complete the picture. <strong>Euclidean distance</strong> <span
+              class="math inline">\(\lVert\mathbf{u}-\mathbf{v}\rVert\)</span> is the straight-line gap between the two
+            arrow-tips — <em>subtract, then take the L2 norm</em> (§1). For <span
+              class="math inline">\(\mathbf{u}=[3,4]\)</span> and <span class="math inline">\(\mathbf{v}=[4,3]\)</span>:
+            <span class="math inline">\(\mathbf{u}-\mathbf{v}=[-1,1]\)</span>, so distance <span
+              class="math inline">\(=\sqrt{2}\approx1.41\)</span>; for the perpendicular <span
+              class="math inline">\(\mathbf{w}=[-4,3]\)</span>: <span
+              class="math inline">\(\mathbf{u}-\mathbf{w}=[7,1]\)</span>, distance <span
+              class="math inline">\(=\sqrt{50}\approx7.07\)</span>.
+          </p>
+          <table class="caption-top table">
+            <colgroup>
+              <col style="width: 25%">
+              <col style="width: 25%">
+              <col style="width: 25%">
+              <col style="width: 25%">
+            </colgroup>
+            <thead>
+              <tr class="header">
+                <th>measure</th>
+                <th><span class="math inline">\(\mathbf{u},\mathbf{v}\)</span></th>
+                <th><span class="math inline">\(\mathbf{u},\mathbf{w}\)</span></th>
+                <th>feels length?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd">
+                <td>dot product</td>
+                <td><span class="math inline">\(24\)</span></td>
+                <td><span class="math inline">\(0\)</span></td>
+                <td>yes</td>
+              </tr>
+              <tr class="even">
+                <td>cosine</td>
+                <td><span class="math inline">\(0.96\)</span></td>
+                <td><span class="math inline">\(0\)</span></td>
+                <td>no</td>
+              </tr>
+              <tr class="odd">
+                <td>Euclidean distance</td>
+                <td><span class="math inline">\(1.41\)</span></td>
+                <td><span class="math inline">\(7.07\)</span></td>
+                <td>yes</td>
+              </tr>
+            </tbody>
+          </table>
+          <p><em>Which to use?</em> <strong>Cosine</strong> when only <em>direction</em> (a taste profile) matters and
+            vector length is an artifact; <strong>distance</strong> when magnitude is meaningful; the <strong>raw dot
+              product</strong> when you want both — and it is the cheapest, which is why recommenders score with it.</p>
+          <blockquote class="blockquote">
+            <p><strong>A serving trick (practitioner).</strong> L2-<strong>normalize</strong> every embedding once
+              (divide by its length, §1) and the dot product <em>becomes</em> the cosine — so cosine ranking turns into
+              plain inner-product search, which fast vector indexes do in milliseconds. The flip side: on
+              <strong>un-normalized</strong> vectors the dot product is <strong>length-sensitive</strong>, so a few
+              big-norm “popular” items can dominate the ranking — a bias to watch for.
+            </p>
+          </blockquote>
+        </section>
+        <section id="projection-a-coordinate-is-a-dot-product" class="level3">
+          <h3 class="anchored" data-anchor-id="projection-a-coordinate-is-a-dot-product">Projection: a coordinate is a
+            dot product</h3>
+          <p><strong>Projecting</strong> <span class="math inline">\(\mathbf{u}\)</span> onto <span
+              class="math inline">\(\mathbf{v}\)</span> asks <em>how much of <span
+                class="math inline">\(\mathbf{u}\)</span> lies along <span class="math inline">\(\mathbf{v}\)</span>’s
+              direction</em> — geometrically, the <strong>shadow</strong> <span
+              class="math inline">\(\mathbf{u}\)</span> casts on <span class="math inline">\(\mathbf{v}\)</span>’s line:
+          </p>
+          <p><span class="math display">\[
+              \mathrm{proj}_{\mathbf{v}}\mathbf{u} \;=\;
+              \underbrace{\frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{v}\rVert^{2}}}_{\text{how many
+              }\mathbf{v}\text{'s}}\;\mathbf{v}.
+              \]</span></p>
+          <p>Per component: the dot product measures the overlap; dividing by <span
+              class="math inline">\(\lVert\mathbf{v}\rVert^{2}\)</span> turns it into “how many copies of <span
+              class="math inline">\(\mathbf{v}\)</span>”; multiplying by <span class="math inline">\(\mathbf{v}\)</span>
+            lays that many copies along the line. <em>Worked:</em> project <span
+              class="math inline">\(\mathbf{u}=[3,4]\)</span> onto the <span class="math inline">\(x\)</span>-axis <span
+              class="math inline">\(\mathbf{v}=[1,0]\)</span>: <span
+              class="math inline">\(\frac{3}{1}[1,0]=[3,0]\)</span> — exactly <span
+              class="math inline">\(\mathbf{u}\)</span>’s <span class="math inline">\(x\)</span>-component, its shadow
+            on the floor.</p>
+          <p><strong>Why it matters downstream.</strong> When the <span class="math inline">\(\mathbf{v}\)</span>’s form
+            an <strong>orthonormal basis</strong> (unit-length and mutually perpendicular — §6’s <span
+              class="math inline">\(U,V\)</span>), every <span
+              class="math inline">\(\lVert\mathbf{v}\rVert^{2}=1\)</span>, so each projection is <em>just a dot
+              product</em> and a vector’s coordinates are a list of them: <span
+              class="math inline">\(\mathbf{u}=\sum_i(\mathbf{u}\cdot\mathbf{e}_i)\,\mathbf{e}_i\)</span>. That is
+            precisely what <em>The Spectral / Graph-Filter View</em>’s <strong>Graph Fourier Transform</strong> does —
+            <em>project a signal onto the graph’s eigenvectors</em> to read its frequency coordinates.
+          </p>
+          <blockquote class="blockquote">
+            <p><strong>Why “orthonormal”.</strong> A blend of <strong>orthogonal</strong> (perpendicular, above) +
+              <strong>normal</strong> (unit length, §1’s <em>normalize</em>): an <strong>orthonormal basis</strong> is a
+              full set of directions that are mutually perpendicular <em>and</em> each of length <span
+                class="math inline">\(1\)</span> — a clean, rotated set of axes.
+            </p>
+          </blockquote>
+          <p><strong>A tiny orthonormal basis (worked).</strong> Rotate the standard axes by <span
+              class="math inline">\(45^\circ\)</span> to get <span
+              class="math inline">\(\mathbf{e}_1=\tfrac{1}{\sqrt2}[1,1]\approx[0.707,0.707]\)</span> and <span
+              class="math inline">\(\mathbf{e}_2=\tfrac{1}{\sqrt2}[-1,1]\approx[-0.707,0.707]\)</span> — exactly §5’s
+            two eigenvectors of <span class="math inline">\(S\)</span>, scaled to length <span
+              class="math inline">\(1\)</span>. Check the two defining properties: each is a unit vector, <span
+              class="math inline">\(\lVert\mathbf{e}_1\rVert=\sqrt{0.5+0.5}=1\)</span> (same for <span
+              class="math inline">\(\mathbf{e}_2\)</span>), and they are orthogonal, <span
+              class="math inline">\(\mathbf{e}_1\cdot\mathbf{e}_2=\tfrac12(-1+1)=0\)</span>. ✓ Now read <span
+              class="math inline">\(\mathbf{u}=[3,4]\)</span> in this frame — each coordinate is <em>one dot
+              product</em>:</p>
+          <p><span class="math display">\[
+              c_1=\mathbf{u}\cdot\mathbf{e}_1=\tfrac{3+4}{\sqrt2}=\tfrac{7}{\sqrt2}\approx4.95,\qquad
+              c_2=\mathbf{u}\cdot\mathbf{e}_2=\tfrac{-3+4}{\sqrt2}=\tfrac{1}{\sqrt2}\approx0.707,
+              \]</span></p>
+          <p>and rebuilding from those coordinates returns <span class="math inline">\(\mathbf{u}\)</span> exactly:
+            <span
+              class="math inline">\(c_1\mathbf{e}_1+c_2\mathbf{e}_2=\tfrac{7}{\sqrt2}\!\cdot\!\tfrac{1}{\sqrt2}[1,1]+\tfrac{1}{\sqrt2}\!\cdot\!\tfrac{1}{\sqrt2}[-1,1]=\tfrac72[1,1]+\tfrac12[-1,1]=[3,4]\)</span>.
+            ✓ That round-trip — <em>project onto each basis vector, then add the pieces back</em> — is the whole
+            mechanism §6’s <span class="math inline">\(U,V\)</span> and the Graph Fourier Transform run on.
+          </p>
+          <div id="fig-linalg-foundations-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+            <figure class="quarto-float quarto-float-fig figure">
+              <div aria-describedby="fig-linalg-foundations-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                <img src="../figs/linalg-foundations-5.svg" class="img-fluid figure-img">
+              </div>
+              <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+                id="fig-linalg-foundations-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+                Figure&nbsp;1.5: A tiny <strong>orthonormal basis</strong>: <span
+                  class="math inline">\(\mathbf{e}_1,\mathbf{e}_2\)</span> are unit-length and meet at a right angle (a
+                <span class="math inline">\(45^\circ\)</span>-rotated set of axes). A vector’s coordinate in this frame
+                is just its <strong>dot product</strong> with each basis vector (<span
+                  class="math inline">\(c_1=\mathbf{u}\cdot\mathbf{e}_1\approx4.95\)</span> along <span
+                  class="math inline">\(\mathbf{e}_1\)</span>, <span
+                  class="math inline">\(c_2=\mathbf{u}\cdot\mathbf{e}_2\approx0.707\)</span> along <span
+                  class="math inline">\(\mathbf{e}_2\)</span>); adding the two pieces back returns <span
+                  class="math inline">\(\mathbf{u}\)</span>. This is the round-trip §6’s <span
+                  class="math inline">\(U,V\)</span> run on.
+              </figcaption>
+            </figure>
+          </div>
+          <hr>
+        </section>
+      </section>
+      <section id="eigenvalues-and-eigenvectors" class="level2">
+        <h2 class="anchored" data-anchor-id="eigenvalues-and-eigenvectors">5. Eigenvalues and eigenvectors</h2>
+        <p>Read a matrix <span class="math inline">\(A\)</span> as a <em>function</em> (§2): it sends each vector <span
+            class="math inline">\(\mathbf{v}\)</span> to a new vector <span class="math inline">\(A\mathbf{v}\)</span>.
+          Usually that <em>rotates and stretches</em> the arrow. But a few special directions are <strong>only
+            stretched, never rotated</strong> — <span class="math inline">\(A\mathbf{v}\)</span> lands on the same line
+          as <span class="math inline">\(\mathbf{v}\)</span>:</p>
+        <p><span class="math display">\[
+            A\,\mathbf{v} \;=\; \underbrace{\lambda}_{\substack{\text{eigenvalue:}\\\text{stretch
+            factor}}}\;\underbrace{\mathbf{v}}_{\substack{\text{eigenvector:}\\\text{the unmoved direction}}} .
+            \]</span></p>
+        <p>Such a <span class="math inline">\(\mathbf{v}\)</span> (nonzero) is an <strong>eigenvector</strong> of <span
+            class="math inline">\(A\)</span>; the number <span class="math inline">\(\lambda\)</span> telling how much
+          it is stretched is the matching <strong>eigenvalue</strong>. <span class="math inline">\(\lambda&gt;1\)</span>
+          stretches, <span class="math inline">\(0&lt;\lambda&lt;1\)</span> shrinks, <span
+            class="math inline">\(\lambda&lt;0\)</span> flips, <span class="math inline">\(\lambda=1\)</span> leaves it
+          fixed.</p>
+        <blockquote class="blockquote">
+          <p><strong>Why “eigen”.</strong> German <em>eigen</em> = “own / characteristic / proper.” An eigenvector is a
+            direction the matrix treats as <em>its own</em> — it points the result straight back out along the input.
+            (Older English texts even say <em>characteristic vector</em>.) The name is the mnemonic: eigen = the
+            matrix’s <em>own</em> axes.</p>
+        </blockquote>
+        <p><strong>Why they matter.</strong> For a <strong>symmetric</strong> matrix (§2) the eigenvectors are mutually
+          <strong>orthogonal</strong> (§4) and form a complete set of perpendicular axes — an
+          <strong>eigenbasis</strong>. In those axes the matrix is trivial: it just scales each axis by its <span
+            class="math inline">\(\lambda\)</span>. So <em>any</em> action of a symmetric matrix is “rotate into its
+          eigen-axes, scale each, rotate back.” This is the engine under <em>The Spectral / Graph-Filter View</em>: a
+          graph’s eigenvectors are its <strong>frequency patterns</strong>, and filtering = reweighting each eigenvector
+          by a function of its <span class="math inline">\(\lambda\)</span>.
+        </p>
+        <p><strong>Worked by hand.</strong> Take the symmetric matrix <span
+            class="math inline">\(S=\begin{bmatrix}2&amp;1\\[2pt]1&amp;2\end{bmatrix}\)</span>. Two directions are clean
+          to test (using <span class="math inline">\(\tfrac{1}{\sqrt2}\approx0.707\)</span>):</p>
+        <p><em>Direction <span class="math inline">\(\mathbf{v}_1=[1,1]\)</span></em> (scaled to unit length <span
+            class="math inline">\([0.707,0.707]\)</span>):</p>
+        <p><span class="math display">\[
+            S\begin{bmatrix}1\\1\end{bmatrix}
+            =\begin{bmatrix}2\cdot1+1\cdot1\\ 1\cdot1+2\cdot1\end{bmatrix}
+            =\begin{bmatrix}3\\3\end{bmatrix}
+            =3\begin{bmatrix}1\\1\end{bmatrix}\;\Rightarrow\;\lambda_1=3. \quad✓
+            \]</span></p>
+        <p><em>Direction <span class="math inline">\(\mathbf{v}_2=[1,-1]\)</span></em> (unit <span
+            class="math inline">\([0.707,-0.707]\)</span>):</p>
+        <p><span class="math display">\[
+            S\begin{bmatrix}1\\-1\end{bmatrix}
+            =\begin{bmatrix}2\cdot1+1(-1)\\ 1\cdot1+2(-1)\end{bmatrix}
+            =\begin{bmatrix}1\\-1\end{bmatrix}
+            =1\begin{bmatrix}1\\-1\end{bmatrix}\;\Rightarrow\;\lambda_2=1. \quad✓
+            \]</span></p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>eigenvector (unit)</th>
+              <th>eigenvalue <span class="math inline">\(\lambda\)</span></th>
+              <th>what <span class="math inline">\(S\)</span> does to it</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><span class="math inline">\([0.707,\;0.707]\)</span> (the “both agree” axis)</td>
+              <td><span class="math inline">\(3\)</span></td>
+              <td>stretches <span class="math inline">\(\times 3\)</span></td>
+            </tr>
+            <tr class="even">
+              <td><span class="math inline">\([0.707,\;-0.707]\)</span> (the “they differ” axis)</td>
+              <td><span class="math inline">\(1\)</span></td>
+              <td>leaves it unchanged</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>And the two eigenvectors are orthogonal: <span class="math inline">\([1,1]\cdot[1,-1]=1-1=0\)</span> ✓ —
+          perpendicular axes, exactly as the symmetric case promises. Notice the eigenvalues, <span
+            class="math inline">\(3\)</span> and <span class="math inline">\(1\)</span>, sum to <span
+            class="math inline">\(4\)</span> = the diagonal sum <span class="math inline">\(2+2\)</span> of <span
+            class="math inline">\(S\)</span> (a handy hand-check called the <em>trace</em>).</p>
+        <div id="fig-linalg-foundations-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-6.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.6: The matrix <span class="math inline">\(S\)</span> (eigenvalues <span
+                class="math inline">\(3,1\)</span>) acting on three vectors: <strong>eigenvector</strong> <span
+                class="math inline">\(v_1=[1,1]\)</span> stays on its line, stretched (<span
+                class="math inline">\(Sv_1=3v_1\)</span>, blue); <strong>eigenvector</strong> <span
+                class="math inline">\(v_2=[1,-1]\)</span> stays on its line unmoved (<span
+                class="math inline">\(Sv_2=1{\cdot}v_2=v_2\)</span>, teal); the non-eigenvector <span
+                class="math inline">\(\mathbf{a}=[1,0]\)</span> is <strong>rotated</strong> off its line (<span
+                class="math inline">\(S\mathbf{a}=[2,1]\)</span>, red). Both eigenvectors stay on their own lines; only
+              non-eigenvectors rotate off.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Cross-reference, not duplication.</strong> <em>The Spectral / Graph-Filter View</em> puts these
+            eigenvectors to work as a graph’s <em>frequencies</em> and reads <span
+              class="math inline">\(\lambda\)</span> as a <em>frequency label</em> — high <span
+              class="math inline">\(\lambda\)</span> = smooth pattern, low/negative <span
+              class="math inline">\(\lambda\)</span> = jagged. The eigen machinery is <strong>defined here</strong>;
+            <em>The Spectral / Graph-Filter View</em> <em>uses</em> it. Go there for the graph-signal meaning.
+          </p>
+        </blockquote>
+        <p><strong>How to find them — the characteristic equation.</strong> You don’t have to guess the directions. An
+          eigenvector obeys <span class="math inline">\(A\mathbf{v}=\lambda\mathbf{v}\)</span>, i.e.&nbsp;<span
+            class="math inline">\((A-\lambda I)\mathbf{v}=\mathbf{0}\)</span> with <span
+            class="math inline">\(\mathbf{v}\neq\mathbf{0}\)</span>. We need <span class="math inline">\(A-\lambda
+            I\)</span> to send a <em>nonzero</em> <span class="math inline">\(\mathbf{v}\)</span> to <span
+            class="math inline">\(\mathbf{0}\)</span> — i.e.&nbsp;to be <strong>singular</strong> — and (§2) a matrix is
+          singular exactly when its determinant is <span class="math inline">\(0\)</span>, so <span
+            class="math inline">\(\det(A-\lambda I)=0\)</span>. That gives the recipe:</p>
+        <ol type="1">
+          <li><strong>Eigenvalues:</strong> solve the <strong>characteristic equation</strong> <span
+              class="math inline">\(\det(A-\lambda I)=0\)</span> for <span class="math inline">\(\lambda\)</span>.</li>
+          <li><strong>Eigenvectors:</strong> for each <span class="math inline">\(\lambda\)</span>, solve <span
+              class="math inline">\((A-\lambda I)\mathbf{v}=\mathbf{0}\)</span>.</li>
+        </ol>
+        <p><em>Worked on <span class="math inline">\(S=\begin{bmatrix}2&amp;1\\1&amp;2\end{bmatrix}\)</span>.</em> Step
+          1 — the determinant (§2) of <span class="math inline">\(S-\lambda I\)</span>:</p>
+        <p><span class="math display">\[
+            \det\begin{bmatrix}2-\lambda&amp;1\\1&amp;2-\lambda\end{bmatrix}=(2-\lambda)^2-1=\lambda^2-4\lambda+3=(\lambda-1)(\lambda-3)=0
+            \;\Rightarrow\;\lambda=1,\ 3,
+            \]</span></p>
+        <p>exactly the two stretch factors we tested above. Step 2 — for <span class="math inline">\(\lambda=3\)</span>,
+          <span class="math inline">\(S-3I=\begin{bmatrix}-1&amp;1\\1&amp;-1\end{bmatrix}\)</span>, whose equation <span
+            class="math inline">\(-v_1+v_2=0\)</span> forces <span class="math inline">\(v_1=v_2\)</span> → <span
+            class="math inline">\(\mathbf{v}=[1,1]\)</span>; for <span class="math inline">\(\lambda=1\)</span>, <span
+            class="math inline">\(S-I=\begin{bmatrix}1&amp;1\\1&amp;1\end{bmatrix}\)</span> forces <span
+            class="math inline">\(v_2=-v_1\)</span> → <span class="math inline">\(\mathbf{v}=[1,-1]\)</span> (the same
+          two axes as the table). Because each <span class="math inline">\(A-\lambda I\)</span> is <em>singular</em>
+          (what <span class="math inline">\(\det=0\)</span> bought us), its one independent equation pins down only a
+          <strong>direction</strong> — the whole line <span class="math inline">\(\{c\,\mathbf{v}\}\)</span> of
+          multiples solves it — so we report the unit-length representative. The characteristic polynomial has degree
+          <span class="math inline">\(n\)</span> for an <span class="math inline">\(n\times n\)</span> matrix, so there
+          are <strong><span class="math inline">\(n\)</span> eigenvalues</strong> (counting repeats; for non-symmetric
+          matrices some may be complex). That polynomial route is the definition; the book mostly <em>uses</em> the
+          resulting (stretched-only direction) intuition.
+        </p>
+        <hr>
+      </section>
+      <section id="the-singular-value-decomposition-svd" class="level2">
+        <h2 class="anchored" data-anchor-id="the-singular-value-decomposition-svd">6. The singular value decomposition
+          (SVD)</h2>
+        <p>Eigenvectors (§5) need a <em>square</em> matrix, and behave cleanest when it is symmetric. Most data matrices
+          are <strong>rectangular</strong> (users <span class="math inline">\(\times\)</span> movies) and not symmetric.
+          The <strong>singular value decomposition (SVD)</strong> is the universal replacement: <strong>every</strong>
+          matrix — any shape, any contents — factors as</p>
+        <p><span class="math display">\[
+            M \;=\; \underbrace{U}_{\substack{\text{left patterns}\\(\text{output directions})}}\;
+            \underbrace{\Sigma}_{\substack{\text{strengths }\sigma_i\ge 0\\(\text{diagonal})}}\;
+            \underbrace{V^{\top}}_{\substack{\text{right patterns}\\(\text{input directions})}} .
+            \]</span></p>
+        <ul>
+          <li><span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> hold
+            <strong>orthonormal</strong> patterns (unit-length, mutually orthogonal — §4): the output-side and
+            input-side directions.
+          </li>
+          <li><span class="math inline">\(\Sigma\)</span> is diagonal, holding the <strong>singular values</strong>
+            <span class="math inline">\(\sigma_1\ge\sigma_2\ge\cdots\ge0\)</span>, the <em>strength</em> of each
+            pattern. A big <span class="math inline">\(\sigma\)</span> = a direction the matrix amplifies a lot.
+          </li>
+        </ul>
+        <div id="fig-linalg-foundations-7" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-7.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.7: <strong>The shapes of the SVD.</strong> A tall <span class="math inline">\(m\times
+                n\)</span> matrix <span class="math inline">\(M\)</span> factors into a <strong>square</strong> <span
+                class="math inline">\(U\)</span> (<span class="math inline">\(m\times m\)</span>), the
+              <strong>diagonal</strong> <span class="math inline">\(\Sigma\)</span> (<span class="math inline">\(m\times
+                n\)</span>, only the <span class="math inline">\(\sigma_i\ge0\)</span> on its diagonal), and a small
+              <strong>square</strong> <span class="math inline">\(V^{\top}\)</span> (<span class="math inline">\(n\times
+                n\)</span>). <span class="math inline">\(U,V\)</span> are <strong>orthonormal</strong> (perpendicular
+              unit columns). Keeping only the largest <span class="math inline">\(\sigma_i\)</span> (with their columns
+              of <span class="math inline">\(U,V\)</span>) is the truncated SVD below.
+            </figcaption>
+          </figure>
+        </div>
+        <p>Equivalently, <span class="math inline">\(M\)</span> is a <strong>sum of rank-1 pieces</strong>, biggest
+          first: <span
+            class="math inline">\(M=\sigma_1\,\mathbf{u}_1\mathbf{v}_1^{\top}+\sigma_2\,\mathbf{u}_2\mathbf{v}_2^{\top}+\cdots\)</span>,
+          where <span class="math inline">\(\mathbf{u}_i\mathbf{v}_i^{\top}\)</span> is the <em>outer product</em> (a
+          column times a row = a whole matrix — e.g.&nbsp;<span
+            class="math inline">\(\begin{bmatrix}1\\2\end{bmatrix}[1\ \
+            2]=\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}\)</span>, entry <span class="math inline">\((i,j)\)</span>
+          being simply <span class="math inline">\(u_iv_j\)</span>). Keeping only the top few terms is <strong>truncated
+            SVD</strong> — the best low-rank approximation <em>in the least-squares (<strong>Frobenius</strong>)
+            sense</em> (the Frobenius norm is just the L2 norm of a matrix flattened into one long vector, <span
+            class="math inline">\(\sqrt{\sum_{ij}M_{ij}^2}\)</span> — after <strong>Ferdinand Frobenius</strong>), the
+          <strong>Eckart–Young theorem</strong> (Carl <strong>Eckart</strong> &amp; Gale <strong>Young</strong>, who
+          proved it for factor analysis in <em>Psychometrika</em>, 1936) — and the basis of the SVD recommenders in
+          <em>The Spectral / Graph-Filter View</em>.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “singular”.</strong> From the older theory of matrices, where a non-invertible matrix was
+            called <em>singular</em>; the SVD’s smallest singular values say exactly how close a matrix is to that
+            singular (degenerate) state. A <span class="math inline">\(\sigma_i=0\)</span> is a direction the matrix
+            collapses to nothing.</p>
+        </blockquote>
+        <div id="fig-linalg-foundations-8" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-linalg-foundations-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/linalg-foundations-8.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-linalg-foundations-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;1.8: What a matrix <em>does</em> geometrically: it maps the unit circle (grey) to an
+              <strong>ellipse</strong> (blue) whose semi-axis lengths are its <strong>singular values</strong> <span
+                class="math inline">\(\sigma_1,\sigma_2\)</span> (here <span class="math inline">\(3\)</span> and <span
+                class="math inline">\(1\)</span>, for the full-rank symmetric matrix <span
+                class="math inline">\(\left[\begin{smallmatrix}2&amp;1\\1&amp;2\end{smallmatrix}\right]\)</span> —
+              picked so the ellipse is visible). When a <span class="math inline">\(\sigma=0\)</span>, the ellipse
+              flattens to a line segment — exactly the rank-1 matrix worked next.
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>Worked by hand.</strong> Take the (deliberately rank-1) matrix <span
+            class="math inline">\(M=\begin{bmatrix}1&amp;2\\[2pt]2&amp;4\end{bmatrix}\)</span> — the <strong>rank-1
+            matrix from §2</strong> (row 2 is exactly <span class="math inline">\(2\times\)</span> row 1, so the rows
+          point the same way); <em>one</em> direction should carry everything.</p>
+        <p>Find the strengths from <span class="math inline">\(M^{\top}M\)</span> (a symmetric matrix, so §5 applies):
+        </p>
+        <p><span class="math display">\[
+            M^{\top}M=\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}\!\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}
+            =\begin{bmatrix}5&amp;10\\10&amp;20\end{bmatrix},
+            \qquad \text{eigenvalues } 25 \text{ and } 0 .
+            \]</span></p>
+        <p>For a <span class="math inline">\(2\times2\)</span> matrix the eigenvalues sum to the <strong>trace</strong>
+          and multiply to the <strong>determinant</strong> (§5, §2): here <span
+            class="math inline">\(\operatorname{tr}=5+20=25=25+0\)</span> ✓ and <span
+            class="math inline">\(\det=5\cdot20-10\cdot10=100-100=0=25\cdot0\)</span> ✓, so <span
+            class="math inline">\(\lambda=25,\,0\)</span> with no further calculation.</p>
+        <p>The singular values are the square roots of those eigenvalues: <span
+            class="math inline">\(\sigma_1=\sqrt{25}=5\)</span> and <span
+            class="math inline">\(\sigma_2=\sqrt{0}=0\)</span>. So the SVD has <strong>one</strong> nonzero piece. Its
+          direction is <span
+            class="math inline">\(\mathbf{u}_1=\mathbf{v}_1=\tfrac{1}{\sqrt5}[1,2]\approx[0.447,\,0.894]\)</span> (the
+          shared row/column direction; note that the left and right singular vectors coincide here because <span
+            class="math inline">\(M\)</span> is <strong>symmetric</strong> — <span
+            class="math inline">\(M^{\top}=M\)</span> — so its output and input spaces share the same eigenvectors; for
+          a general non-symmetric matrix <span class="math inline">\(\mathbf{u}_i\neq\mathbf{v}_i\)</span>), and
+          reconstructing the single rank-1 term gives <span class="math inline">\(M\)</span> back exactly:</p>
+        <p><span class="math display">\[
+            \sigma_1\,\mathbf{u}_1\mathbf{v}_1^{\top}
+            =5\cdot\frac{1}{\sqrt5}\!\begin{bmatrix}1\\2\end{bmatrix}\cdot\frac{1}{\sqrt5}\,[1\ \ 2]
+            =\frac{5}{5}\begin{bmatrix}1\\2\end{bmatrix}[1\ \ 2]
+            =\begin{bmatrix}1&amp;2\\2&amp;4\end{bmatrix}=M. \quad✓
+            \]</span></p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>singular value</th>
+              <th>direction <span class="math inline">\(\mathbf{u}_i=\mathbf{v}_i\)</span></th>
+              <th>contribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><span class="math inline">\(\sigma_1=5\)</span></td>
+              <td><span class="math inline">\([0.447,\;0.894]\)</span></td>
+              <td><strong>all of <span class="math inline">\(M\)</span></strong> (one rank-1 piece)</td>
+            </tr>
+            <tr class="even">
+              <td><span class="math inline">\(\sigma_2=0\)</span></td>
+              <td>(orthogonal mate)</td>
+              <td>nothing — collapsed</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>The punchline:</strong> a single direction with <span class="math inline">\(\sigma=5\)</span>
+          reconstructs the entire matrix, while the second (<span class="math inline">\(\sigma=0\)</span>) contributes
+          nothing — <span class="math inline">\(M\)</span> is <strong>rank 1</strong>. That is exactly why
+          <em>truncated</em> SVD compresses: real interaction matrices have a few big <span
+            class="math inline">\(\sigma\)</span> carrying most of the signal and a long tail of tiny ones that are
+          mostly noise; keep the top <span class="math inline">\(q\)</span> and you keep the structure while dropping
+          the noise.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Cross-reference, not duplication.</strong> <em>The Spectral / Graph-Filter View</em> reads the
+            <strong>truncated SVD as an ideal low-pass filter</strong> (PSGE, LightGCL): keeping the top-<span
+              class="math inline">\(q\)</span> singular components = passing the strongest global patterns and cutting
+            the rest. The decomposition is <strong>defined here</strong>; <em>The Spectral / Graph-Filter View</em>
+            gives it the graph-signal meaning. (<em>SSL &amp; Contrastive Learning</em> also leans on LightGCL’s SVD
+            view.)
+          </p>
+        </blockquote>
+        <section id="eigenvalue-vs.-singular-value-the-key-distinction" class="level3">
+          <h3 class="anchored" data-anchor-id="eigenvalue-vs.-singular-value-the-key-distinction">Eigenvalue
+            vs.&nbsp;singular value — the key distinction</h3>
+          <p>Both measure “how much a matrix stretches,” so they are easily confused — but they are <strong>different
+              objects</strong>:</p>
+          <table class="caption-top table">
+            <caption>Eigenvalue vs.&nbsp;singular value side by side — eigenvalues require a <strong>square</strong>
+              matrix and can be negative or complex; singular values are defined for any shape and are always real and
+              non-negative, making <span class="math inline">\(\sigma_i = \sqrt{\lambda_i(A^\top A)}\)</span> the
+              universal stretch measure.</caption>
+            <colgroup>
+              <col style="width: 33%">
+              <col style="width: 33%">
+              <col style="width: 33%">
+            </colgroup>
+            <thead>
+              <tr class="header">
+                <th></th>
+                <th><strong>Eigenvalue <span class="math inline">\(\lambda\)</span></strong> (§5)</th>
+                <th><strong>Singular value <span class="math inline">\(\sigma\)</span></strong> (§6)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="odd">
+                <td>Matrix shape</td>
+                <td><strong>square only</strong></td>
+                <td><strong>any</strong> shape (incl.&nbsp;rectangular)</td>
+              </tr>
+              <tr class="even">
+                <td>Definition</td>
+                <td><span class="math inline">\(A\mathbf{v}=\lambda\mathbf{v}\)</span> (same direction in and out)</td>
+                <td>strength of an input→output pattern; <span
+                    class="math inline">\(\sigma_i=\sqrt{\lambda_i(A^{\top}A)}\)</span> (root of an eigenvalue of <span
+                    class="math inline">\(A^{\top}A\)</span>)</td>
+              </tr>
+              <tr class="odd">
+                <td>Sign / type</td>
+                <td>can be negative, zero, or complex</td>
+                <td>always <strong>real and <span class="math inline">\(\ge 0\)</span></strong></td>
+              </tr>
+              <tr class="even">
+                <td>Always a full set?</td>
+                <td>only for “nice” (e.g.&nbsp;symmetric) matrices</td>
+                <td><strong>always</strong> (<span class="math inline">\(\min(m,n)\)</span> of them, any matrix)</td>
+              </tr>
+              <tr class="odd">
+                <td>Geometric picture</td>
+                <td>stretch along an <em>invariant</em> direction</td>
+                <td>stretch of the principal axes of the output ellipse</td>
+              </tr>
+            </tbody>
+          </table>
+          <p><strong>They generally differ — even for a square matrix.</strong> Take <span
+              class="math inline">\(A=\begin{bmatrix}3&amp;4\\0&amp;0\end{bmatrix}\)</span>. It is triangular, so its
+            <strong>eigenvalues</strong> are the diagonal, <span class="math inline">\(3\)</span> and <span
+              class="math inline">\(0\)</span>. But <span
+              class="math inline">\(A^{\top}A=\begin{bmatrix}9&amp;12\\12&amp;16\end{bmatrix}\)</span> has eigenvalues
+            <span class="math inline">\(25\)</span> and <span class="math inline">\(0\)</span>, so the <strong>singular
+              values</strong> are <span class="math inline">\(\sqrt{25}=5\)</span> and <span
+              class="math inline">\(0\)</span>. Same matrix, yet <span
+              class="math inline">\(\{\lambda\}=\{3,0\}\)</span> while <span
+              class="math inline">\(\{\sigma\}=\{5,0\}\)</span>.
+          </p>
+          <p><strong>When do they coincide?</strong> For a <strong>symmetric positive-semidefinite</strong> matrix —
+            <em>positive-semidefinite</em> (<strong>PSD</strong>) meaning every eigenvalue is <span
+              class="math inline">\(\ge 0\)</span>, equivalently <span
+              class="math inline">\(\mathbf{x}^{\top}A\mathbf{x}\ge0\)</span> for all <span
+              class="math inline">\(\mathbf{x}\)</span> (the quadratic form never goes negative) — <span
+              class="math inline">\(\sigma_i=\lambda_i\)</span> exactly (the reason: a symmetric <span
+              class="math inline">\(A\)</span> has <span class="math inline">\(A^{\top}A=A^{2}\)</span>, so the
+            eigenvalues of <span class="math inline">\(A^{\top}A\)</span> are <span
+              class="math inline">\(\lambda_i^{2}\)</span> and <span
+              class="math inline">\(\sigma_i=\sqrt{\lambda_i^{2}}=|\lambda_i|=\lambda_i\)</span> once every <span
+              class="math inline">\(\lambda_i\ge0\)</span>) — which is why §5’s symmetric eigen-machinery and the SVD
+            line up in <em>The Spectral / Graph-Filter View</em>.
+          </p>
+          <blockquote class="blockquote">
+            <p><strong>Why every <span class="math inline">\(M^{\top}M\)</span> is PSD (one line).</strong> This is why
+              <span class="math inline">\(\sigma_i=\sqrt{\lambda_i(M^{\top}M)}\)</span> is always a <em>real</em>
+              number. For <strong>any</strong> matrix <span class="math inline">\(M\)</span> and any <span
+                class="math inline">\(\mathbf{x}\)</span>, <span
+                class="math display">\[\mathbf{x}^{\top}(M^{\top}M)\mathbf{x}=(M\mathbf{x})^{\top}(M\mathbf{x})=\lVert
+                M\mathbf{x}\rVert^{2}\ge0,\]</span> a squared length, so no eigenvalue of <span
+                class="math inline">\(M^{\top}M\)</span> can be negative. <em>Check it on the running</em> <span
+                class="math inline">\(M=\left[\begin{smallmatrix}1&amp;2\\2&amp;4\end{smallmatrix}\right]\)</span> (so
+              <span
+                class="math inline">\(M^{\top}M=\left[\begin{smallmatrix}5&amp;10\\10&amp;20\end{smallmatrix}\right]\)</span>):
+              for <span class="math inline">\(\mathbf{x}=[1,0]\)</span>, <span
+                class="math inline">\(\mathbf{x}^{\top}(M^{\top}M)\mathbf{x}=5\)</span> and <span
+                class="math inline">\(M\mathbf{x}=[1,2]\)</span> has <span class="math inline">\(\lVert
+                M\mathbf{x}\rVert^{2}=1+4=5\)</span> ✓; for the collapsed direction <span
+                class="math inline">\(\mathbf{x}=[2,-1]\)</span> both are <span class="math inline">\(0\)</span> (<span
+                class="math inline">\(M\mathbf{x}=[0,0]\)</span>) — matching its eigenvalue <span
+                class="math inline">\(0\)</span>. Covariance and graph Laplacian matrices are PSD for the same reason,
+              which is what keeps their singular values real and <span class="math inline">\(\ge0\)</span>.
+            </p>
+          </blockquote>
+          <p>And the <strong>rank</strong> of <em>any</em> matrix is its number of nonzero <strong>singular
+              values</strong> (the always-defined notion, §2).</p>
+          <p>One sentence: <strong>the SVD writes any matrix as orthonormal patterns scaled by singular values, and
+              keeping the largest few is the best low-rank summary of the matrix.</strong></p>
+          <blockquote class="blockquote">
+            <p><strong>In practice.</strong> You never compute norms, eigenvalues, or SVDs by hand — use
+              <code>numpy.linalg</code> or <code>torch.linalg</code> (<code>norm</code> for §1’s length,
+              <code>eigh</code> for a symmetric matrix’s eigenvalues, <code>svd</code> for §6’s full decomposition —
+              pass <code>full_matrices=False</code> for the <strong>economy</strong> (thin) form, the only part you ever
+              use in practice — and <code>solve(A, b)</code> to solve a linear system <span
+                class="math inline">\(A\mathbf{x}=\mathbf{b}\)</span> — the ridge / normal-equations and ALS
+              least-squares step in recommenders — which is faster <em>and</em> more accurate than forming
+              <code>inv(A)</code> then multiplying). For similarity search at scale, all-pairs dot products are <span
+                class="math inline">\(O(n^2)\)</span> and infeasible; instead, build an approximate-nearest-neighbour
+              index such as <strong>FAISS</strong>, <strong>ScaNN</strong>, or <strong>hnswlib</strong> that retrieves
+              the top-<span class="math inline">\(k\)</span> inner-product or cosine neighbours in sub-linear time. Two
+              numerical caveats worth knowing: (1) near-singular matrices are <em>ill-conditioned</em> — check
+              <code>numpy.linalg.cond(A)</code> before trusting a solve or an inverse; (2) an empirical SVD never
+              returns an exact <span class="math inline">\(\sigma = 0\)</span>, only values like <span
+                class="math inline">\(10^{-16}\)</span>, so <em>threshold</em> by a small <span
+                class="math inline">\(\varepsilon\)</span> when counting rank or deciding which components to drop.
+            </p>
+          </blockquote>
+          <hr>
+        </section>
+      </section>
+      <section id="exercises" class="level2">
+        <h2 class="anchored" data-anchor-id="exercises">7. Exercises</h2>
+        <p>Work these by hand — the numbers are kept tiny on purpose. Full worked solutions are in the
+          <strong>Solutions</strong> appendix at the back of the book.
+        </p>
+        <ol type="1">
+          <li>
+            <p><strong>(compute)</strong> Take the chapter’s running <span
+                class="math inline">\(\mathbf{u}=[3,4]\)</span> and a new <span
+                class="math inline">\(\mathbf{s}=[2,1]\)</span>. Compute the dot product <span
+                class="math inline">\(\mathbf{u}\cdot\mathbf{s}\)</span> (§4). Is it positive, zero, or negative — and
+              what does that sign say about whether the two arrows broadly point the same way?</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Let <span class="math inline">\(\mathbf{g}=[6,8]\)</span>. Compute its L2 norm
+              <span class="math inline">\(\lVert\mathbf{g}\rVert\)</span> (§1), then <strong>normalize</strong> it to a
+              unit vector <span class="math inline">\(\hat{\mathbf{g}}=\mathbf{g}/\lVert\mathbf{g}\rVert\)</span>.
+              Confirm your <span class="math inline">\(\hat{\mathbf{g}}\)</span> has length <span
+                class="math inline">\(1\)</span>.
+            </p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Using the running <span class="math inline">\(\mathbf{u}=[3,4]\)</span> and
+              <span class="math inline">\(\mathbf{t}=[0,5]\)</span>, compute the <strong>cosine similarity</strong>
+              <span
+                class="math inline">\(\cos\theta=\dfrac{\mathbf{u}\cdot\mathbf{t}}{\lVert\mathbf{u}\rVert\,\lVert\mathbf{t}\rVert}\)</span>
+              (§4). Is the result closer to the <span class="math inline">\(0.96\)</span> of the chapter’s near-aligned
+              pair or to the <span class="math inline">\(0\)</span> of its orthogonal pair?
+            </p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> With the chapter’s matrix <span
+                class="math inline">\(A=\begin{bmatrix}2&amp;0&amp;1\\1&amp;3&amp;0\end{bmatrix}\)</span> and a new
+              <span class="math inline">\(\mathbf{y}=[2,1,3]\)</span>, compute the matrix–vector product <span
+                class="math inline">\(A\mathbf{y}\)</span> (§3) row by row. Then write the same answer as the
+              <strong>column blend</strong> <span
+                class="math inline">\(2\,\mathrm{col}_1+1\,\mathrm{col}_2+3\,\mathrm{col}_3\)</span> and check the two
+              agree.
+            </p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Find the eigenvalues of <span
+                class="math inline">\(B=\begin{bmatrix}3&amp;1\\1&amp;3\end{bmatrix}\)</span> by solving the
+              <strong>characteristic equation</strong> <span class="math inline">\(\det(B-\lambda I)=0\)</span> (§5).
+              Verify your two <span class="math inline">\(\lambda\)</span> sum to the <strong>trace</strong> <span
+                class="math inline">\(3+3\)</span>, and state which of <span class="math inline">\([1,1]\)</span> or
+              <span class="math inline">\([1,-1]\)</span> is the eigenvector for the <em>larger</em> eigenvalue.
+            </p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> The chapter shows that for <span
+                class="math inline">\(A=\begin{bmatrix}3&amp;4\\0&amp;0\end{bmatrix}\)</span> the eigenvalues are <span
+                class="math inline">\(\{3,0\}\)</span> but the singular values are <span
+                class="math inline">\(\{5,0\}\)</span>. In one or two sentences, explain <em>why</em> a single square
+              matrix can have a different set of eigenvalues and singular values — and name the one family of matrices
+              for which the two sets coincide (§6).</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> §4 builds the orthonormal basis <span
+                class="math inline">\(\mathbf{e}_1=\tfrac{1}{\sqrt2}[1,1]\)</span>, <span
+                class="math inline">\(\mathbf{e}_2=\tfrac{1}{\sqrt2}[-1,1]\)</span> and reads a vector’s coordinate in
+              it as a <em>dot product</em>, <span class="math inline">\(c_i=\mathbf{u}\cdot\mathbf{e}_i\)</span>.
+              Explain in words <em>why</em> the simple formula <span
+                class="math inline">\(\mathbf{u}=\sum_i(\mathbf{u}\cdot\mathbf{e}_i)\,\mathbf{e}_i\)</span> works here
+              but would <strong>not</strong> give the right coordinates if the <span
+                class="math inline">\(\mathbf{e}_i\)</span> were merely orthogonal without being unit length.</p>
+          </li>
+          <li>
+            <p><strong>(extend)</strong> Apply §6’s recipe to a <em>new</em> rank-1 matrix <span
+                class="math inline">\(G=\begin{bmatrix}2&amp;2\\2&amp;2\end{bmatrix}\)</span>. Form <span
+                class="math inline">\(G^{\top}G\)</span>, read off its eigenvalues, take square roots to get the
+              <strong>singular values</strong>, and state <span class="math inline">\(G\)</span>’s
+              <strong>rank</strong>. (Hint: <span class="math inline">\(G\)</span> is symmetric and its rows are equal,
+              just like the chapter’s <span
+                class="math inline">\(M=\left[\begin{smallmatrix}1&amp;2\\2&amp;4\end{smallmatrix}\right]\)</span>.)
+            </p>
+          </li>
+          <li>
+            <p><strong>(extend)</strong> §6 calls a symmetric matrix <strong>PSD</strong> when <span
+                class="math inline">\(\mathbf{x}^{\top}A\mathbf{x}\ge0\)</span> for every <span
+                class="math inline">\(\mathbf{x}\)</span>. Test the swapped matrix <span
+                class="math inline">\(D=\begin{bmatrix}1&amp;2\\2&amp;1\end{bmatrix}\)</span>: evaluate <span
+                class="math inline">\(\mathbf{x}^{\top}D\mathbf{x}\)</span> at <span
+                class="math inline">\(\mathbf{x}=[1,-1]\)</span>. Is <span class="math inline">\(D\)</span> PSD? Use
+              your number as the one-vector <em>witness</em> that settles it, and contrast with <span
+                class="math inline">\(S=\left[\begin{smallmatrix}2&amp;1\\1&amp;2\end{smallmatrix}\right]\)</span> at
+              the same <span class="math inline">\(\mathbf{x}\)</span>.</p>
+          </li>
+          <li>
+            <p><strong>(apply)</strong> A recommender stores a user as <span
+                class="math inline">\(\mathbf{p}=[2,1,3]\)</span> and scores an item <span
+                class="math inline">\(\mathbf{q}\)</span> by the dot product <span class="math inline">\(\hat
+                r=\mathbf{p}\cdot\mathbf{q}\)</span> (§4 — the scoring head of matrix factorization / LightGCN). Two
+              candidate items have vectors <span class="math inline">\(\mathbf{q}_1=[1,3,0]\)</span> and <span
+                class="math inline">\(\mathbf{q}_2=[0,1,2]\)</span>. (a) Rank them by <span class="math inline">\(\hat
+                r\)</span>. (b) Now rank them by <strong>cosine similarity</strong> instead. Do the two rankings agree,
+              and which item does <em>raw dot product</em> favour partly because of its larger norm — the bias §4’s
+              “serving trick” warns about?</p>
+          </li>
+          <li>
+            <p><strong>(compute) — watch a rank-1 collapse.</strong> For <span
+                class="math inline">\(A=\begin{bmatrix}2&amp;4\\1&amp;2\end{bmatrix}\)</span>: (a) compute <span
+                class="math inline">\(\det A\)</span>. (b) Apply <span class="math inline">\(A\)</span> to <span
+                class="math inline">\([1,0]\)</span> and to <span class="math inline">\([2,-1]\)</span> — what is
+              special about the second output? (c) Every output of <span class="math inline">\(A\)</span> lies on one
+              line; give a vector that spans it.</p>
+          </li>
+          <li>
+            <p><strong>(concept) — spot the singular matrix.</strong> One of these collapses a direction to <span
+                class="math inline">\(\mathbf 0\)</span>; the other two do not. Using only the determinant (§2), which
+              is <strong>singular</strong>: <span
+                class="math inline">\(\begin{bmatrix}1&amp;0\\0&amp;3\end{bmatrix}\)</span>, <span
+                class="math inline">\(\begin{bmatrix}2&amp;1\\4&amp;2\end{bmatrix}\)</span>, <span
+                class="math inline">\(\begin{bmatrix}1&amp;1\\1&amp;2\end{bmatrix}\)</span>?</p>
+          </li>
+          <li>
+            <p><strong>(apply) — eigenvalues from the trace and determinant.</strong> A <span
+                class="math inline">\(2\times2\)</span> symmetric matrix has <strong>trace <span
+                  class="math inline">\(5\)</span></strong> and <strong>determinant <span
+                  class="math inline">\(6\)</span></strong> (§5: <span
+                class="math inline">\(\lambda_1+\lambda_2=\)</span> trace, <span
+                class="math inline">\(\lambda_1\lambda_2=\det\)</span>). Find its two eigenvalues <em>without</em>
+              writing the matrix down. (Hint: which two numbers add to <span class="math inline">\(5\)</span> and
+              multiply to <span class="math inline">\(6\)</span>?)</p>
+          </li>
+        </ol>
+      </section>
+      <section id="where-this-fits-in-the-book" class="level2">
+        <h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">8. Where this fits in the book</h2>
+        <p>Each piece built here is <em>used</em> (not re-derived) downstream. One owning note per fact: this is the
+          owning note for the linear-algebra basics; later notes link back here.</p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 33%">
+            <col style="width: 33%">
+            <col style="width: 33%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Built here</th>
+              <th>First used in</th>
+              <th>As</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Vector, norm, embedding (§1)</td>
+              <td>From Graphs to LightGCN</td>
+              <td>user/item <strong>embeddings</strong> placed in space</td>
+            </tr>
+            <tr class="even">
+              <td>Matrix, transpose, symmetric (§2)</td>
+              <td>From Graphs to LightGCN and The Spectral / Graph-Filter View</td>
+              <td>adjacency / interaction / embedding <strong>matrices</strong></td>
+            </tr>
+            <tr class="odd">
+              <td>Matrix–vector product (§3)</td>
+              <td>From Graphs to LightGCN and The Spectral / Graph-Filter View</td>
+              <td>a <strong>propagation / filter layer</strong> = “multiply by a matrix”</td>
+            </tr>
+            <tr class="even">
+              <td>Dot product, cosine (§4)</td>
+              <td>From Graphs to LightGCN and SSL &amp; Contrastive Learning</td>
+              <td>the <strong>scoring rule</strong> <span class="math inline">\(\mathbf{p}\cdot\mathbf{q}\)</span>; the
+                <strong>alignment</strong> term
+              </td>
+            </tr>
+            <tr class="odd">
+              <td>Projection / orthonormal basis (§4)</td>
+              <td>The Spectral / Graph-Filter View</td>
+              <td>the <strong>Graph Fourier Transform</strong> = project a signal onto eigenvectors</td>
+            </tr>
+            <tr class="even">
+              <td>Eigenvalue / eigenvector, eigenbasis (§5)</td>
+              <td>The Spectral / Graph-Filter View</td>
+              <td>a graph’s <strong>frequencies</strong>; filtering = reweight each</td>
+            </tr>
+            <tr class="odd">
+              <td>SVD, singular value, truncated SVD (§6)</td>
+              <td>SSL &amp; Contrastive Learning and The Spectral / Graph-Filter View</td>
+              <td><strong>LightGCL’s SVD view</strong>; the ideal low-pass / low-rank methods</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>The spine: <strong>a matrix is a function on vectors; a dot product scores agreement; the eigenvectors/SVD
+            reveal the directions a matrix cares about.</strong> Carry that into <em>From Graphs to LightGCN</em> and
+          the rest follows.</p>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">9. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Vector</strong></td>
+              <td>An ordered list of numbers; equivalently, an arrow from the origin to a point.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Component / entry</strong></td>
+              <td>One number inside a vector.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Dimension</strong></td>
+              <td>How many components a vector has (<span class="math inline">\(\mathbb{R}^d\)</span> = all <span
+                  class="math inline">\(d\)</span>-vectors).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Norm / length</strong> <span class="math inline">\(\lVert\mathbf{u}\rVert\)</span></td>
+              <td>The arrow’s length; default <strong>L2</strong> <span class="math inline">\(\sqrt{\sum_i
+                  u_i^2}\)</span>. <strong>L1</strong> <span class="math inline">\(=\sum_i\lvert u_i\rvert\)</span>
+                (used in lasso).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Unit vector</strong></td>
+              <td>A vector of length <span class="math inline">\(1\)</span>; “normalizing” = dividing by your own
+                length.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Embedding</strong></td>
+              <td>A learned vector representing a user/item as a point in space.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Matrix</strong></td>
+              <td>A rectangular grid of numbers; also a <em>linear transformation</em> of vectors.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Shape</strong> <span class="math inline">\(m\times n\)</span></td>
+              <td><span class="math inline">\(m\)</span> rows by <span class="math inline">\(n\)</span> columns.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Transpose</strong> <span class="math inline">\(A^{\top}\)</span></td>
+              <td>The matrix mirrored across its diagonal (rows ↔︎ columns).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Symmetric</strong></td>
+              <td><span class="math inline">\(A=A^{\top}\)</span>; clean orthogonal eigenvectors.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Identity</strong> <span class="math inline">\(I\)</span></td>
+              <td>The “do-nothing” matrix; <span class="math inline">\(I\mathbf{x}=\mathbf{x}\)</span>.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Determinant</strong> <span class="math inline">\(\det A\)</span></td>
+              <td>Area/volume-scaling factor (<span class="math inline">\(ad-bc\)</span> for <span
+                  class="math inline">\(2\times2\)</span>); <span class="math inline">\(\det=0\)</span> ⇒ collapses a
+                dimension / non-invertible.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Invertible / singular</strong></td>
+              <td>Invertible = has an inverse <span class="math inline">\(A^{-1}\)</span> (<span
+                  class="math inline">\(\det\neq0\)</span>, full rank); <em>singular</em> = no inverse (<span
+                  class="math inline">\(\det=0\)</span>).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Characteristic equation</strong></td>
+              <td><span class="math inline">\(\det(A-\lambda I)=0\)</span>; its roots are the eigenvalues.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Matrix–vector product</strong> <span class="math inline">\(A\mathbf{x}\)</span></td>
+              <td>Dot each row of <span class="math inline">\(A\)</span> with <span
+                  class="math inline">\(\mathbf{x}\)</span>; “<span class="math inline">\(n\)</span> in, <span
+                  class="math inline">\(m\)</span> out.”</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Dot / inner / scalar product</strong> <span
+                  class="math inline">\(\mathbf{u}\cdot\mathbf{v}\)</span></td>
+              <td><span class="math inline">\(\sum_i u_iv_i\)</span>; one number measuring agreement.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Orthogonal</strong></td>
+              <td>Perpendicular; dot product <span class="math inline">\(0\)</span>.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Orthonormal basis</strong></td>
+              <td>A full set of axes that are mutually orthogonal <em>and</em> each unit length; a coordinate is then
+                just a dot product (<span class="math inline">\(U,V\)</span> in §6).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Cosine similarity</strong></td>
+              <td><span
+                  class="math inline">\(\dfrac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{u}\rVert\lVert\mathbf{v}\rVert}\in[-1,1]\)</span>;
+                direction agreement, ignoring length.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Euclidean distance</strong> <span
+                  class="math inline">\(\lVert\mathbf{u}-\mathbf{v}\rVert\)</span></td>
+              <td>Straight-line gap between two arrow-tips; feels magnitude (unlike cosine).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Projection</strong> <span class="math inline">\(\mathrm{proj}_{\mathbf{v}}\mathbf{u}\)</span>
+              </td>
+              <td>The shadow of <span class="math inline">\(\mathbf{u}\)</span> on <span
+                  class="math inline">\(\mathbf{v}\)</span>’s line, <span
+                  class="math inline">\(\frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{v}\rVert^{2}}\mathbf{v}\)</span>;
+                in an orthonormal basis a coordinate is just a dot product.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Eigenvector</strong></td>
+              <td>A direction a matrix only stretches, not rotates: <span
+                  class="math inline">\(A\mathbf{v}=\lambda\mathbf{v}\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Eigenvalue <span class="math inline">\(\lambda\)</span></strong></td>
+              <td>The stretch factor of an eigenvector.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Eigenbasis</strong></td>
+              <td>A symmetric matrix’s full set of orthogonal eigenvectors.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Trace</strong></td>
+              <td>Sum of a square matrix’s diagonal entries; equals the sum of its eigenvalues.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>SVD</strong> <span class="math inline">\(M=U\Sigma V^{\top}\)</span></td>
+              <td>Factor any matrix into orthonormal patterns (<span class="math inline">\(U,V\)</span>) scaled by
+                singular values (<span class="math inline">\(\Sigma\)</span>).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Singular value <span class="math inline">\(\sigma\)</span></strong></td>
+              <td>The strength of an SVD pattern; <span class="math inline">\(\sigma\ge0\)</span>, biggest first.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Positive-semidefinite (PSD)</strong></td>
+              <td>A symmetric matrix with all eigenvalues <span class="math inline">\(\ge0\)</span> (equivalently <span
+                  class="math inline">\(\mathbf{x}^{\top}A\mathbf{x}\ge0\)</span> always); every <span
+                  class="math inline">\(M^{\top}M\)</span> is PSD since <span
+                  class="math inline">\(\mathbf{x}^{\top}M^{\top}M\mathbf{x}=\lVert M\mathbf{x}\rVert^{2}\)</span>.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Truncated SVD</strong></td>
+              <td>Keep the top-<span class="math inline">\(q\)</span> singular components = best low-rank approximation
+                (least-squares / Frobenius sense).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Rank</strong></td>
+              <td>The matrix’s number of independent directions: independent rows/columns (§2) = nonzero singular values
+                (§6).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Outer product</strong> <span class="math inline">\(\mathbf{u}\mathbf{v}^{\top}\)</span></td>
+              <td>A column times a row = a whole rank-1 matrix.</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references" class="level2">
+        <h2 class="anchored" data-anchor-id="references">10. References</h2>
+        <ul>
+          <li>Eckart, C., &amp; Young, G. (1936). <em>The approximation of one matrix by another of lower rank</em>.
+            Psychometrika, 1(3), 211–218. https://doi.org/10.1007/BF02288367</li>
+          <li>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep learning</em>. MIT Press.</li>
+          <li>Meyer, C. D. (2000). <em>Matrix analysis and applied linear algebra</em>. SIAM.</li>
+          <li>Stewart, G. W. (1993). <em>On the early history of the singular value decomposition</em>. SIAM Review,
+            35(4), 551–566. https://doi.org/10.1137/1035134</li>
+          <li>Strang, G. (2019). <em>Linear algebra and learning from data</em>. Wellesley–Cambridge Press.</li>
+          <li>Strang, G. (2023). <em>Introduction to linear algebra</em> (6th ed.). Wellesley–Cambridge Press.</li>
+        </ul>
+        <blockquote class="blockquote">
+          <p><strong>Recency note.</strong> Everything in this primer is textbook-stable linear algebra (vectors, the
+            matrix–vector product, the dot product, eigenvalues/eigenvectors, the SVD) with no moving research frontier;
+            the citations are canonical texts. The <em>applications</em> of this material to recommendation move
+            quickly, but those (and any recent works) are tracked in the <em>From Graphs to LightGCN</em>, <em>SSL &amp;
+              Contrastive Learning</em>, and <em>The Spectral / Graph-Filter View</em> chapters, not here.</p>
+        </blockquote>
+        <p><em>Online sources verified June 2026.</em></p>
+
+
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../index.html" class="pagination-link" aria-label="Preface">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/calculus-foundations.html" class="pagination-link" aria-label="Calculus for ML">
+          <span class="nav-page-text"><span class="chapter-title">Calculus for ML</span></span> <i
+            class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body>
+
+</html>

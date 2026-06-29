@@ -1,0 +1,51 @@
+# Recommender Systems from Zero
+
+> A free, hand-checkable, from-zero handbook on recommender systems: a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand.
+
+Authors: Duong Tan Nghia (HUST · Minastik) and Tran Manh Hoang (HUST). Open access, CC BY 4.0. This is the web reading edition hosted by Minastik; the citable record (PDF + DOI) is on Zenodo (DOI 10.5281/zenodo.20952963). Mathematics is rendered with MathJax and every chapter carries small, hand-verifiable numerical examples.
+
+- [Preface — start here](https://minastik.com/recsys/): how to read the book, what it assumes, the reading order.
+
+## Mathematical foundations
+- [Linear Algebra for ML](https://minastik.com/recsys/chapters/linalg-foundations.html): Vectors, matrices, dot products and norms — the linear algebra recommenders are built on.
+- [Calculus for ML](https://minastik.com/recsys/chapters/calculus-foundations.html): Derivatives, gradients and the chain rule behind gradient descent.
+- [Probability & Statistics for ML](https://minastik.com/recsys/chapters/math-foundations.html): Probability, expectation and Bayesian updating from scratch.
+
+## Machine-learning fundamentals
+- [Loss Functions & Regularizers](https://minastik.com/recsys/chapters/losses-and-regularizers.html): Ranking losses and regularizers used to train recommenders.
+- [Neural Networks & Back-propagation](https://minastik.com/recsys/chapters/neural-networks.html): From a single neuron to multilayer networks, backpropagation and embeddings.
+- [Representation Learning & the Transformer](https://minastik.com/recsys/chapters/nlp-and-transformers.html): Tokenization, attention and the Transformer architecture.
+
+## Recommender-system foundations
+- [Traditional Recommender Systems](https://minastik.com/recsys/chapters/traditional-recsys.html): Content-based, neighborhood and matrix-factorization collaborative filtering.
+- [Evaluation Metrics](https://minastik.com/recsys/chapters/recsys-metrics.html): How recommendation quality is measured — Recall@K, NDCG, MAP and more.
+
+## Sequence-based recommenders
+- [Sequential & Session-Based Recommendation](https://minastik.com/recsys/chapters/sequential-recsys.html): Session- and sequence-based next-item recommendation.
+
+## Graph-based recommenders
+- [From Graphs to LightGCN](https://minastik.com/recsys/chapters/gcn-to-lightgcn.html): Graph convolution networks simplified to LightGCN for collaborative filtering.
+- [SSL & Contrastive Learning](https://minastik.com/recsys/chapters/gcl-and-ssl-recsys.html): Graph contrastive learning and self-supervised signals for recommendation.
+- [The Spectral / Graph-Filter View](https://minastik.com/recsys/chapters/spectral-graph-filter-cf.html): The spectral / graph-signal-processing view of collaborative filtering.
+
+## The LLM era
+- [LLM × RecSys: the Landscape](https://minastik.com/recsys/chapters/llm-recsys-survey.html): How large language models are used across the recommendation pipeline.
+
+## Building a recommender
+- [Training and Serving a Recommender](https://minastik.com/recsys/chapters/training-and-serving.html): Training, evaluating and serving a recommender end to end.
+
+## Frontiers
+- [Click-Through Rate Prediction & Feature Interactions](https://minastik.com/recsys/chapters/deep-ctr.html): Deep models for click-through-rate prediction.
+- [Bandits & Online Recommendation](https://minastik.com/recsys/chapters/bandits.html): Multi-armed and contextual bandits for online recommendation.
+
+## Appendices
+- [Appendix A — Implementation Choices: A Practitioner’s Field Guide](https://minastik.com/recsys/chapters/implementation-choices.html): Practical implementation and reproducibility notes.
+- [Appendix B — Datasets & Benchmarks](https://minastik.com/recsys/chapters/datasets-and-benchmarks.html): Common datasets and benchmark / evaluation protocols.
+- [Appendix C — Generating Features with LLMs](https://minastik.com/recsys/chapters/llm-feature-generation.html): Using LLMs to generate user and item features.
+- [Appendix D — Reinforcement Learning for Recommendation](https://minastik.com/recsys/chapters/rl-recsys.html): Reinforcement-learning approaches to recommendation.
+- [Appendix E — Federated & Privacy-Preserving Recommendation](https://minastik.com/recsys/chapters/federated-recsys.html): Federated and privacy-preserving recommendation.
+- [Appendix F — Solutions to Exercises](https://minastik.com/recsys/chapters/solutions.html): Worked solutions to the book's exercises.
+
+## Reference and citation
+- [Download & cite — Zenodo record (DOI 10.5281/zenodo.20952963)](https://doi.org/10.5281/zenodo.20952963): canonical PDF and citation metadata. Cite the concept DOI; it resolves to the latest version.
+- License: Creative Commons Attribution 4.0 (CC BY 4.0) — free to read, share and adapt with attribution.

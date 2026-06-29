@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+  <meta name="description"
+    content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+
+  <title>Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
+
+
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/llm-feature-generation.html" rel="next">
+  <link href="../chapters/implementation-choices.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/datasets-and-benchmarks.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/datasets-and-benchmarks.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix B — Datasets & Benchmarks","name":"Appendix B — Datasets & Benchmarks","description":"Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.","url":"https://minastik.com/recsys/chapters/datasets-and-benchmarks.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
+
+  <meta property="og:title" content="Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title" content="Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+  <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
+      </div> <!-- /container-fluid -->
+    </nav>
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span
+                  class="chapter-title">Datasets &amp; Benchmarks</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+          <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
+          <li class="sidebar-item">
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#the-datasets-you-will-actually-meet" id="toc-the-datasets-you-will-actually-meet"
+              class="nav-link active" data-scroll-target="#the-datasets-you-will-actually-meet">1. The datasets you will
+              actually meet</a></li>
+          <li><a href="#the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book"
+              id="toc-the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book" class="nav-link"
+              data-scroll-target="#the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book">2. The standard graph-CF
+              trio: Gowalla, Yelp2018, Amazon-Book</a></li>
+          <li><a href="#splitting-without-leaking-the-future-the-keystone"
+              id="toc-splitting-without-leaking-the-future-the-keystone" class="nav-link"
+              data-scroll-target="#splitting-without-leaking-the-future-the-keystone">3. Splitting without leaking the
+              future (the keystone)</a></li>
+          <li><a href="#the-benchmark-map-which-model-which-dataset-which-protocol"
+              id="toc-the-benchmark-map-which-model-which-dataset-which-protocol" class="nav-link"
+              data-scroll-target="#the-benchmark-map-which-model-which-dataset-which-protocol">4. The benchmark map:
+              which model, which dataset, which protocol</a></li>
+          <li><a href="#two-evaluation-traps-the-data-side-creates" id="toc-two-evaluation-traps-the-data-side-creates"
+              class="nav-link" data-scroll-target="#two-evaluation-traps-the-data-side-creates">5. Two evaluation traps
+              the data side creates</a></li>
+          <li><a href="#how-the-field-gets-data-today" id="toc-how-the-field-gets-data-today" class="nav-link"
+              data-scroll-target="#how-the-field-gets-data-today">6. How the field gets data today</a></li>
+          <li><a href="#active-deprecated-and-a-licensing-caution" id="toc-active-deprecated-and-a-licensing-caution"
+              class="nav-link" data-scroll-target="#active-deprecated-and-a-licensing-caution">7. Active, deprecated,
+              and a licensing caution</a></li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">8. Glossary</a></li>
+          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">9.
+              References</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
+
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li>
+            <li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span
+                  class="chapter-title">Datasets &amp; Benchmarks</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title">Appendix B — Datasets &amp; Benchmarks</h1>
+        </div>
+
+
+
+        <div class="quarto-title-meta">
+
+
+
+
+        </div>
+
+
+
+      </header>
+
+
+      <section id="the-datasets-you-will-actually-meet" class="level2">
+        <h2 class="anchored" data-anchor-id="the-datasets-you-will-actually-meet">1. The datasets you will actually meet
+        </h2>
+        <p>Academic recommendation runs on a surprisingly small set of public logs. It helps to group them by
+          <strong>family</strong>, because the family fixes the loss and the metric more than the size does:
+        </p>
+        <ul>
+          <li><strong>Rating prediction</strong> (explicit stars) — MovieLens, Netflix, Book-Crossing.</li>
+          <li><strong>Implicit top-<span class="math inline">\(N\)</span> / graph CF</strong> (clicks, check-ins, buys)
+            — Gowalla, Yelp, Amazon, Steam, LastFM.</li>
+          <li><strong>CTR / news / sequential</strong> (a binary click, often with rich features or a time axis) —
+            Criteo, MIND, Taobao.</li>
+        </ul>
+        <p>For each, the four properties that actually change your modelling choice are: <strong>feedback</strong>
+          (explicit ratings vs.&nbsp;implicit 0/1), <strong>timestamps?</strong> (needed for a temporal split, §3),
+          <strong>side-features?</strong> (enables content / FM / cold-start), and <strong>license</strong>.
+        </p>
+        <table class="caption-top table">
+          <caption>A working subset of the public datasets in academic recommender-systems research, grouped by the
+            family that fixes the loss and metric. The <strong>Status</strong> tag reads <strong>Active</strong>
+            (downloadable today), <strong>Restricted</strong> (gated — academic-only / revocable / by signed agreement),
+            or <strong>Withdrawn</strong> (officially pulled — keep it for history, do not build on it). The other
+            columns that drive a modelling choice are the <strong>feedback type</strong>, whether there are
+            <strong>timestamps</strong> (for a temporal split), and whether there are <strong>side-features</strong>
+            (for content / FM / cold-start).
+          </caption>
+          <colgroup>
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 17%">
+            <col style="width: 17%">
+            <col style="width: 13%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Dataset</th>
+              <th>Domain</th>
+              <th>Scale (approx.)</th>
+              <th>Feedback</th>
+              <th style="text-align: center;">Time</th>
+              <th style="text-align: center;">Side-features</th>
+              <th>Status &amp; license</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>MovieLens</strong> (100K–32M)</td>
+              <td>movies</td>
+              <td>100K–32M ratings</td>
+              <td>explicit 1–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">genres, tags, tag-genome; demographics (100K/1M only)</td>
+              <td><strong>Active</strong> — GroupLens; research, non-commercial</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Netflix Prize</strong></td>
+              <td>movies</td>
+              <td>100M ratings</td>
+              <td>explicit 1–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">title/year only</td>
+              <td><strong>Withdrawn</strong> (de-anonymization); copies circulate — cite as history (§7)</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Amazon Reviews</strong></td>
+              <td>e-commerce</td>
+              <td>233M (’18) → 571M (’23)</td>
+              <td>explicit 1–5 + text</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">metadata, images; per category</td>
+              <td><strong>Active</strong> — research; on HuggingFace</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Yelp Open Dataset</strong></td>
+              <td>local business</td>
+              <td>~7M reviews</td>
+              <td>explicit 1–5 + text</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">attributes, social graph, check-ins</td>
+              <td><strong>Active</strong> (rolling) — academic, <strong>revocable</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Gowalla</strong></td>
+              <td>check-ins</td>
+              <td>~1M (10-core)</td>
+              <td><strong>implicit</strong></td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">geo, friendship graph</td>
+              <td><strong>Active</strong> — SNAP, public</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Steam</strong></td>
+              <td>games</td>
+              <td>~7M reviews</td>
+              <td>implicit + reviews</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">genres, price, playtime</td>
+              <td><strong>Active</strong> — research</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>LastFM</strong> (LFM-1b / 2b)</td>
+              <td>music</td>
+              <td>1B–2B plays</td>
+              <td><strong>implicit</strong></td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">demographics, genre</td>
+              <td><strong>Withdrawn</strong> — LFM-2b pulled (license); LFM-1b gated</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MIND</strong></td>
+              <td>news</td>
+              <td>1M users, &gt;15M impr.</td>
+              <td><strong>implicit</strong> click</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">title, abstract, body, entities</td>
+              <td><strong>Active</strong> — Microsoft research license</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Criteo</strong></td>
+              <td>display ads</td>
+              <td>~45M rows</td>
+              <td><strong>implicit</strong> click</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">13 numeric + 26 categorical (hashed)</td>
+              <td><strong>Active</strong> — public (Kaggle)</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Book-Crossing</strong></td>
+              <td>books</td>
+              <td>1.1M ratings</td>
+              <td>explicit 1–10 + implicit</td>
+              <td style="text-align: center;">no</td>
+              <td style="text-align: center;">age, location, metadata</td>
+              <td><strong>Active</strong> — public (GroupLens)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Inside the families: which variant carries what.</strong> Several entries above are not one dataset
+          but a <em>family</em> of releases, and a beginner can lose hours to the wrong one (MovieLens alone has seven).
+          The matrices below show, per family, what data each variant actually gives you.</p>
+        <table class="caption-top table">
+          <caption><strong>The MovieLens family.</strong> Every <em>numbered</em> release is a <strong>frozen</strong>
+            benchmark; the two <em>latest</em> sets are development data that <strong>change over time</strong> and must
+            not be used for reported results. Pick by the data you need: <strong>user demographics</strong>
+            (age/gender/occupation) exist only in <strong>100K/1M</strong>; the <strong>tag genome</strong> (a movie
+            <span class="math inline">\(\times\)</span> tag relevance matrix — 1,128 tags in 20M, 1,129 in 25M) only in
+            <strong>20M/25M</strong>; <strong>10M</strong> first added free-text tags. Ratings are whole-star 1–5 in
+            100K/1M, half-star 0.5–5 from 10M on. (User <span class="math inline">\(\times\)</span> item counts grow
+            with size: 943 <span class="math inline">\(\times\)</span> 1.7K at 100K up to 162K <span
+              class="math inline">\(\times\)</span> 62K at 25M.) GroupLens now also ships a <strong>32M</strong> frozen
+            release (2023). Source: GroupLens; Harper &amp; Konstan (2015).
+          </caption>
+          <colgroup>
+            <col style="width: 12%">
+            <col style="width: 12%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 12%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>MovieLens variant</th>
+              <th>Ratings</th>
+              <th style="text-align: center;">Scale</th>
+              <th style="text-align: center;">Tags</th>
+              <th style="text-align: center;">Tag-genome</th>
+              <th style="text-align: center;">Demographics</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>100K</strong> (1998)</td>
+              <td>100K</td>
+              <td style="text-align: center;">1–5</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">yes</td>
+              <td>smallest frozen set; demographics</td>
+            </tr>
+            <tr class="even">
+              <td><strong>1M</strong> (2003)</td>
+              <td>1M</td>
+              <td style="text-align: center;">1–5</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">yes</td>
+              <td>the classic mid-scale CF benchmark</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>10M</strong> (2009)</td>
+              <td>10M</td>
+              <td style="text-align: center;">0.5–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">—</td>
+              <td>first release with free-text tags</td>
+            </tr>
+            <tr class="even">
+              <td><strong>20M</strong> (2015)</td>
+              <td>20M</td>
+              <td style="text-align: center;">0.5–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">—</td>
+              <td>the classic tag-genome benchmark</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>25M</strong> (2019)</td>
+              <td>25M</td>
+              <td style="text-align: center;">0.5–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">—</td>
+              <td>larger frozen genome set</td>
+            </tr>
+            <tr class="even">
+              <td><strong>latest-small</strong></td>
+              <td>~100K</td>
+              <td style="text-align: center;">0.5–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">—</td>
+              <td style="text-align: center;">—</td>
+              <td>quick dev / teaching — <em>not for results</em></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>latest-full</strong></td>
+              <td>~33M</td>
+              <td style="text-align: center;">0.5–5</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">yes</td>
+              <td style="text-align: center;">—</td>
+              <td>dev only; <em>changes over time</em></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="caption-top table">
+          <caption><strong>The Amazon Reviews family</strong> grows by <em>release year</em>, not a size-suffix; each
+            version re-crawls all categories. Papers use a <em>single category</em> — most often <strong>Books</strong>,
+            <strong>Beauty</strong>, <strong>Sports</strong>, or <strong>Toys</strong>. The graph-CF
+            <strong>“Amazon-Book”</strong> benchmark is a <strong>10-core subset of the 2014 Books category</strong>
+            (about 52.6K users, 91.6K items, 3.0M interactions) frozen in the NGCF/LightGCN repos — a benchmark
+            <em>artifact</em>, not the live category (which is far larger). Use <strong>2023</strong> for new work.
+            Sources: Ni et al.&nbsp;(2019); Hou et al.&nbsp;(2024).
+          </caption>
+          <colgroup>
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 21%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Amazon Reviews version</th>
+              <th>Curators</th>
+              <th>Reviews</th>
+              <th style="text-align: center;">Categories</th>
+              <th>Adds over prior</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>2014</strong></td>
+              <td>McAuley et al.</td>
+              <td>~143M</td>
+              <td style="text-align: center;">~24</td>
+              <td>ratings, text, also-bought graph</td>
+              <td>superseded</td>
+            </tr>
+            <tr class="even">
+              <td><strong>2018</strong></td>
+              <td>Ni, Li &amp; McAuley</td>
+              <td>233M</td>
+              <td style="text-align: center;">~30</td>
+              <td><span class="math inline">\(+\)</span> price, brand, image features</td>
+              <td><strong>Active</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>2023</strong></td>
+              <td>Hou et al.&nbsp;(McAuley Lab)</td>
+              <td><strong>571M</strong></td>
+              <td style="text-align: center;">33</td>
+              <td><span class="math inline">\(+\)</span> richer metadata; HuggingFace-hosted</td>
+              <td><strong>Active — current</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="caption-top table">
+          <caption><strong>The remaining well-known families and their variants / snapshots.</strong> Two rows are
+            <strong>frozen evaluation artifacts</strong>, not live datasets — <em>Yelp2018</em> and the graph-CF
+            <em>Amazon-Book</em> — that live only in the benchmark repos, so do not try to re-download them from the
+            vendor (§2). <em>MIND-small</em> is a 50K-user sample for quick iteration (no test split). Book-Crossing’s
+            implicit feedback is coded <strong>0</strong> — an interaction <em>without</em> a grade, not a low score.
+            Sources: official dataset pages; Ziegler et al.&nbsp;(2004); Wan &amp; McAuley (2018).
+          </caption>
+          <colgroup>
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Other family · variant</th>
+              <th>Scale</th>
+              <th>Carries</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Yelp</strong> Open Dataset (rolling)</td>
+              <td>~7M reviews · 150K businesses · ~1.9M users</td>
+              <td>text + stars, business attributes, <strong>friend graph</strong>, check-ins, tips</td>
+              <td><strong>Active</strong> — academic, revocable</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Yelp2018</strong> (snapshot)</td>
+              <td>31.7K users · 38K items · 1.56M (10-core)</td>
+              <td>interactions only</td>
+              <td><strong>Frozen</strong> — in NGCF/LightGCN repos</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>MIND-large</strong> (news)</td>
+              <td>1M users · ~160K news · &gt;15M impressions</td>
+              <td>title, abstract, body, category, entities</td>
+              <td><strong>Active</strong> — MS research license</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MIND-small</strong></td>
+              <td>50K sampled users (train+dev)</td>
+              <td>a subset of MIND-large</td>
+              <td><strong>Active</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Book-Crossing</strong></td>
+              <td>1.15M ratings · 279K users · 271K books</td>
+              <td>explicit <strong>1–10</strong> + implicit (0); age/location</td>
+              <td><strong>Active</strong> — GroupLens</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Goodreads</strong> (UCSD)</td>
+              <td>~228M interactions · 876K users · 2.36M books</td>
+              <td>reviews, <strong>shelves</strong>, spoiler tags</td>
+              <td><strong>Active</strong> — academic</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Amazon-Books</strong></td>
+              <td>= Amazon Reviews “Books” category</td>
+              <td>(see the Amazon table)</td>
+              <td><strong>Active</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book" class="level2">
+        <h2 class="anchored" data-anchor-id="the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book">2. The standard
+          graph-CF trio: Gowalla, Yelp2018, Amazon-Book</h2>
+        <p>The graph chapters (<em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive Learning</em>) — and nearly
+          every graph-CF paper — report on the <strong>same three datasets</strong>: <strong>Gowalla</strong>,
+          <strong>Yelp2018</strong>, and <strong>Amazon-Book</strong>. This is not a coincidence, and knowing
+          <em>why</em> saves a beginner real confusion:
+        </p>
+        <ol type="1">
+          <li><strong>They are implicit / one-class.</strong> Graph CF models the user–item interaction <em>graph</em>;
+            explicit star ratings are discarded and every observed pair is a binary edge. All three are pure interaction
+            logs, not rating-prediction tasks.</li>
+          <li><strong>They span a sparsity range</strong> (~<span class="math inline">\(0.08\%\)</span>–<span
+              class="math inline">\(0.13\%\)</span> density) and three domains (check-ins, local-business, books), so a
+            method cannot win by overfitting one density regime.</li>
+          <li><strong>The preprocessing is frozen.</strong> Everyone reuses the <em>same</em> 10-core-filtered, fixed
+            train/test split released with <strong>NGCF</strong> (the paper LightGCN built on). That shared split — not
+            any statistical superiority — is the real reason the trio dominates: it lets papers quote each other’s
+            numbers as directly comparable.</li>
+        </ol>
+        <blockquote class="blockquote">
+          <p><strong>Why this matters (and its catch).</strong> Comparability is the whole point — but the frozen split
+            is itself a known hazard (§3): if it was made by a <em>random</em> rather than a <em>temporal</em> cut,
+            every model trained on it inherits the same future-leak. Comparable is not the same as correct.</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="splitting-without-leaking-the-future-the-keystone" class="level2">
+        <h2 class="anchored" data-anchor-id="splitting-without-leaking-the-future-the-keystone">3. Splitting without
+          leaking the future (the keystone)</h2>
+        <p>A model is graded by holding out some interactions as a <strong>test set</strong>. <em>How</em> you choose
+          them decides whether the score is honest. Two protocols dominate, and the difference is the single most
+          important idea in this appendix.</p>
+        <ul>
+          <li><strong>Random split</strong> — hold out a random fraction of all interactions. Simple, and <strong>wrong
+              for any data with time</strong>: it can put a user’s <em>later</em> interactions in train and an
+            <em>earlier</em> one in test, so the model trains on the future to predict the past. The score inflates.
+          </li>
+          <li><strong>Temporal / leave-one-last split</strong> — for each user, sort by time and hold out their
+            <strong>chronologically last</strong> interaction (and often the second-last for validation). This grades
+            the model the way it is used: <strong>predict the next thing from everything before it.</strong> It is the
+            honest default, and mandatory for sequential models (<em>Sequential &amp; Session-Based Recommendation</em>
+            §6).
+          </li>
+        </ul>
+        <p>Almost always, a <strong>k-core filter</strong> runs <em>first</em>: repeatedly drop users and items with
+          fewer than <span class="math inline">\(k\)</span> interactions until none remain (papers use <span
+            class="math inline">\(k=10\)</span>; we use <span class="math inline">\(k=2\)</span> to keep it tiny). This
+          removes the noisiest cold cases so the comparison is stable.</p>
+        <p><strong>Worked example — k-core then leave-one-last, by hand.</strong> Four users over five items, with
+          timestamps <span class="math inline">\(t\)</span>:</p>
+        <table class="caption-top table">
+          <thead>
+            <tr class="header">
+              <th>User</th>
+              <th>Interactions (item@time)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>U1</strong></td>
+              <td>A@1, B@2, C@3</td>
+            </tr>
+            <tr class="even">
+              <td><strong>U2</strong></td>
+              <td>A@1, B@2</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>U3</strong></td>
+              <td>A@1, C@2, D@3</td>
+            </tr>
+            <tr class="even">
+              <td><strong>U4</strong></td>
+              <td>E@1</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><em>Step 1 — 2-core filter.</em> Count interactions: users U1=3, U2=2, U3=3, <strong>U4=1</strong>; items
+          A=3, B=2, C=2, <strong>D=1</strong>, <strong>E=1</strong>. Drop everything below <span
+            class="math inline">\(2\)</span>: out goes <strong>U4</strong> (only one interaction) and items
+          <strong>D</strong> and <strong>E</strong>. Re-check what remains — U1=3, U2=2, U3=2; A=3, B=2, C=2 — all <span
+            class="math inline">\(\ge 2\)</span>, so we stop (the filter is <strong>iterative</strong>; here one pass
+          suffices).
+        </p>
+        <p><em>Step 2 — leave-one-last.</em> For each surviving user, hold out the <strong>last by time</strong>:</p>
+        <p><span class="math display">\[
+            \text{TEST}=\{\text{U1}\!:\!\text{C@3},\ \text{U2}\!:\!\text{B@2},\ \text{U3}\!:\!\text{C@2}\},\qquad
+            \text{TRAIN}=\{\text{U1}\!:\!\text{A,B},\ \text{U2}\!:\!\text{A},\ \text{U3}\!:\!\text{A}\}.
+            \]</span></p>
+        <p>Note the subtlety that trips people up: <strong>U3’s chronologically last interaction was D@3 — but D was
+            removed by the k-core filter</strong>, so U3’s held-out test item is the <em>next-latest survivor</em>, C@2.
+          Filtering happens <strong>before</strong> splitting; the order matters.</p>
+        <div id="fig-datasets-and-benchmarks-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/datasets-and-benchmarks-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</strong> U4 and items D, E are
+              removed by the 2-core filter (U4 and D@3 shown only by their absence). For each surviving user the
+              <strong>last interaction by time</strong> (orange) is the test target; everything earlier (teal) is
+              training. U3’s true last item, <code>D@3</code>, was filtered out <em>before</em> the split, so its test
+              item is the next-latest survivor, <code>C@2</code> — filtering precedes splitting.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why not just split randomly?</strong> Because recommendation is a forecast. A random split that
+            trains on U1’s C@3 and tests on U1’s A@1 is grading the model on a question it has already been shown the
+            answer to. Every honest evaluation in this book uses a temporal hold-out.</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="the-benchmark-map-which-model-which-dataset-which-protocol" class="level2">
+        <h2 class="anchored" data-anchor-id="the-benchmark-map-which-model-which-dataset-which-protocol">4. The
+          benchmark map: which model, which dataset, which protocol</h2>
+        <p>The sections so far gave you the datasets (§1), the trio everyone shares (§2), and how to split without
+          leaking the future (§3). This section assembles them into the map the rest of the literature actually lives
+          on: <strong>for each research community, the datasets it runs on, the models most often cited on them, and the
+            one evaluation protocol they all share.</strong> Read alongside the <em>LLM × RecSys: the Landscape</em>
+          chapter — which surveys the <em>models</em> in depth — it is, in one place, the answer to the question a
+          practitioner or reviewer asks first: <em>which model, on which dataset, under which protocol?</em></p>
+        <p>One idea organizes the whole map, and it is the opposite of what a beginner expects: <strong>the protocol is
+            fixed by the research community, not by the dataset.</strong> MovieLens-1M alone is evaluated three
+          incompatible ways — as RMSE rating-prediction (the Netflix-Prize lineage), as leave-one-out ranking against 99
+          sampled negatives (the NCF lineage), and as leave-one-out <em>next-item</em> prediction against 100 sampled
+          negatives (the SASRec / BERT4Rec lineage). A number is therefore comparable to another only when the
+          <strong>regime, the split, and the ranking scope all match</strong> — the concrete form of the reproducibility
+          warning §5 sharpens. (The metric <em>definitions</em> — Recall@<span class="math inline">\(K\)</span>,
+          NDCG@<span class="math inline">\(K\)</span>, MRR, AUC, RMSE — and the sampled-vs-full argument live in
+          <em>Evaluation Metrics</em>; here they are only labels.)
+        </p>
+        <table class="caption-top table">
+          <caption>The field’s <strong>benchmark map</strong> — each research community (regime) pairs a set of public
+            datasets with its most-cited models and <strong>one shared evaluation protocol</strong> (split <span
+              class="math inline">\(+\)</span> ranking scope <span class="math inline">\(+\)</span> metrics). The
+            deciding fact: the protocol is set by the <em>community</em>, not the dataset — MovieLens-1M appears under
+            three regimes with three protocols. Two numbers are comparable only when regime, split, and scope all match.
+            Model definitions live in the chapters that introduce each family (<em>Traditional Recommender Systems</em>,
+            <em>Sequential &amp; Session-Based Recommendation</em>, <em>From Graphs to LightGCN</em>, <em>LLM ×
+              RecSys</em>); metric definitions live in <em>Evaluation Metrics</em>.
+          </caption>
+          <colgroup>
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Regime (community)</th>
+              <th>Typical datasets</th>
+              <th>Most-cited models (year)</th>
+              <th>Split</th>
+              <th>Ranking scope</th>
+              <th>Headline metrics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Rating prediction</strong></td>
+              <td>Netflix Prize; MovieLens 100K/1M/10M</td>
+              <td>MF / SVD++ (’08), timeSVD++ (’09), RBM-CF (’07), BellKor (’09)</td>
+              <td>random or <span class="math inline">\(k\)</span>-fold over ratings</td>
+              <td>predict the star value</td>
+              <td><strong>RMSE</strong> (MAE)</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Implicit top-<span class="math inline">\(N\)</span>, sampled</strong></td>
+              <td>MovieLens-1M; Pinterest</td>
+              <td>NeuMF / NCF (’17)</td>
+              <td>leave-one-out (last by time)</td>
+              <td>vs.&nbsp;<strong>99</strong> sampled negatives</td>
+              <td><strong>HR@10, NDCG@10</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Sequential, sampled</strong></td>
+              <td>MovieLens-1M; Amazon Beauty/Games; Steam (BERT4Rec adds ML-20M)</td>
+              <td>GRU4Rec (’16), Caser (’18), SASRec (’18), BERT4Rec (’19)</td>
+              <td>leave-one-out</td>
+              <td>vs.&nbsp;<strong>100</strong> sampled negatives</td>
+              <td><strong>HR@10, NDCG@10, MRR</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>Sequential, full</strong></td>
+              <td>+ Amazon Sports/Toys; Yelp</td>
+              <td>S3-Rec (’20), CL4SRec (’22), DuoRec (’22), FEARec (’23)</td>
+              <td>leave-one-out</td>
+              <td><strong>full ranking</strong> (all items)</td>
+              <td>HR / NDCG <span class="citation" data-cites="10,20">@10,20</span>, MRR</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Graph CF (the trio)</strong></td>
+              <td>Gowalla, Yelp2018, Amazon-Book (SGL adds iFashion; KGAT adds LastFM)</td>
+              <td>NGCF (’19), LightGCN (’20), DGCF (’20), SGL (’21), SimGCL (’22), LightGCL (’23)</td>
+              <td><strong>random</strong> per-user 80/20, 10-core</td>
+              <td><strong>full ranking</strong> (all items)</td>
+              <td><strong>Recall@20, NDCG@20</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>CTR prediction</strong></td>
+              <td>Criteo, Avazu</td>
+              <td>Wide&amp;Deep (’16), DeepFM (’17), DCN (’17), xDeepFM (’18), AutoInt (’19), DIN (’18)</td>
+              <td>random 8:1:1</td>
+              <td>per-impression binary click</td>
+              <td><strong>AUC, LogLoss</strong></td>
+            </tr>
+            <tr class="odd">
+              <td><strong>News</strong></td>
+              <td>MIND</td>
+              <td>DKN (’18), NPA (’19), NAML (’19), LSTUR (’19), NRMS (’19)</td>
+              <td>impression / time-ordered</td>
+              <td>within each impression</td>
+              <td><strong>AUC, MRR, nDCG@5/10</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>LLM-augmented CF</strong> <em>(this book)</em></td>
+              <td>ML-20M (genome subset); Amazon-Books; ML-1M</td>
+              <td>RLMRec R1/R1-plus/R2/R3, LightGCN + contrastive backbones, SASRec</td>
+              <td><strong>global temporal</strong> (by date), 10-core</td>
+              <td><strong>full ranking</strong> (all items)</td>
+              <td>NDCG / Recall <span class="citation" data-cites="10,20,50">@10,20,50</span>, MRR; 5-seed paired-<span
+                  class="math inline">\(t\)</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>A few precise points the table compresses, each worth knowing before you trust a leaderboard:</p>
+        <ul>
+          <li><strong>The sequential shift (the two sequential rows).</strong> Early next-item models ranked the
+            held-out item against a small <strong>sample of 100 negatives</strong> (BERT4Rec’s drawn by item popularity;
+            SASRec’s paper says only “randomly sampled”) and reported HR@10 / NDCG@10. After Krichene &amp; Rendle
+            (2020) showed sampled metrics can <em>reverse</em> which model looks better (§5), the field moved to
+            <strong>full ranking over the whole catalogue</strong>; S3-Rec, CL4SRec, DuoRec and later work report
+            unsampled metrics, and modern re-benchmarks re-score even SASRec and BERT4Rec that way. One model, two very
+            different headline numbers — always check which.
+          </li>
+          <li><strong>NCF vs.&nbsp;sequential negatives.</strong> The NCF protocol pairs the test item with
+            <strong>99</strong> sampled negatives (a 100-item list); the SASRec / BERT4Rec protocol uses
+            <strong>100</strong> (a 101-item list). The one-item difference is real, and it is exactly the kind of
+            detail that makes two “leave-one-out HR@10” numbers quietly non-comparable.
+          </li>
+          <li><strong>The trio’s split is <em>random</em>, not temporal (§2, §3).</strong> NGCF released a fixed
+            per-user 80/20 split (10% of train held out for validation, 10-core filtered); LightGCN and every
+            contrastive successor reuse it <em>verbatim</em> — which is precisely why their numbers are mutually
+            quotable. But because the cut is random, it does not test temporal generalization: here “comparable” still
+            is not “leak-free.”</li>
+          <li><strong>Dataset lineage, kept straight.</strong> <em>Alibaba-iFashion</em> enters this list with
+            <strong>SGL</strong> (2021), not the original trio; <em>LastFM / Last-FM</em> is the third member of
+            <strong>KGAT</strong>’s <em>knowledge-graph</em> trio, not of the NGCF general-CF trio.
+          </li>
+          <li><strong>This book’s own studies (last row).</strong> The <em>LLM × RecSys</em> chapter’s experiments
+            (LLM-MovieLens) sit in the graph-CF / full-ranking regime but deliberately adopt the <strong>leak-free
+              protocol §3 argues for</strong>: a <em>global temporal</em> split by calendar date (not the trio’s random
+            cut), full ranking over all items, NDCG / Recall @{10, 20, 50} and MRR averaged over five seeds with paired
+            <span class="math inline">\(t\)</span>-tests. It is a worked instance of doing it the honest way on a modern
+            LLM-augmented setup.
+          </li>
+        </ul>
+        <p>The <strong>protocol anchors</strong> — the papers whose numbers later work quotes itself <em>against</em> —
+          are, by regime: rating prediction, the <strong>Netflix Prize</strong> and Koren’s matrix-factorization line;
+          the sampled top-<span class="math inline">\(N\)</span> regime, <strong>NCF</strong> (He et al., 2017); early
+          sequential, <strong>SASRec</strong> (2018) and <strong>BERT4Rec</strong> (2019); the shift to full ranking,
+          <strong>Krichene &amp; Rendle</strong> (2020); graph CF, <strong>NGCF</strong> (2019, which released the
+          split) and <strong>LightGCN</strong> (2020); CTR, <strong>Wide &amp; Deep</strong> (2016) onward, standardized
+          by the <strong>FuxiCTR</strong> open benchmark (2021); news, the <strong>MIND</strong> dataset paper (Wu et
+          al., 2020). Full citations are in §9.
+        </p>
+        <table class="caption-top table">
+          <caption>The same map indexed <strong>by dataset</strong> — the lookup for <em>“I have this dataset (or I’m
+              reading a paper that uses it): who runs on it, and how?”</em> One dataset can host several regimes
+            (MovieLens-1M is the clearest case, hence three protocols). <em>Yelp2018</em> and <em>Amazon-Book</em> are
+            the frozen NGCF-split versions, not the raw <em>Yelp Open Dataset</em> / <em>Amazon Reviews</em> dumps of
+            §1. “LOO” <span class="math inline">\(=\)</span> leave-one-out (hold out each user’s last interaction by
+            time, §3); “sampled <span class="math inline">\(\to\)</span> full” marks the regimes that began with sampled
+            negatives and moved to full ranking after Krichene &amp; Rendle (2020).</caption>
+          <colgroup>
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+            <col style="width: 16%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Dataset</th>
+              <th>Feedback</th>
+              <th>Used by (regime)</th>
+              <th>Representative models</th>
+              <th>Protocol (split · scope)</th>
+              <th>Headline metric</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>MovieLens-1M</strong></td>
+              <td>explicit <span class="math inline">\(\to\)</span> implicit</td>
+              <td>rating · NCF · sequential</td>
+              <td>MF, NeuMF, SASRec, BERT4Rec</td>
+              <td>random ratings <em>or</em> LOO · sampled</td>
+              <td>RMSE <em>or</em> HR@10 / NDCG@10</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MovieLens-20M</strong></td>
+              <td>explicit <span class="math inline">\(\to\)</span> implicit</td>
+              <td>graph CF · this book · BERT4Rec</td>
+              <td>LightGCN, RLMRec, BERT4Rec</td>
+              <td>temporal · full</td>
+              <td>NDCG@10 / Recall@20</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Netflix Prize</strong></td>
+              <td>explicit</td>
+              <td>rating prediction <em>(history)</em></td>
+              <td>MF, SVD++, BellKor</td>
+              <td>fixed Probe/Quiz/Test · —</td>
+              <td><strong>RMSE</strong></td>
+            </tr>
+            <tr class="even">
+              <td><strong>Amazon-Book</strong></td>
+              <td>implicit</td>
+              <td>graph CF (trio)</td>
+              <td>NGCF, LightGCN, SGL</td>
+              <td>random 80/20, 10-core · full</td>
+              <td>Recall@20 / NDCG@20</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Amazon Beauty / Sports / Toys</strong></td>
+              <td>implicit</td>
+              <td>sequential</td>
+              <td>SASRec, BERT4Rec, S3-Rec</td>
+              <td>LOO · sampled <span class="math inline">\(\to\)</span> full</td>
+              <td>HR@10 / NDCG@10</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Yelp2018</strong></td>
+              <td>implicit</td>
+              <td>graph CF (trio)</td>
+              <td>NGCF, LightGCN, SimGCL</td>
+              <td>random 80/20, 10-core · full</td>
+              <td>Recall@20 / NDCG@20</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Gowalla</strong></td>
+              <td>implicit</td>
+              <td>graph CF (trio); POI</td>
+              <td>LightGCN, SGL, LightGCL</td>
+              <td>random 80/20, 10-core · full</td>
+              <td>Recall@20 / NDCG@20</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Steam</strong></td>
+              <td>implicit</td>
+              <td>sequential</td>
+              <td>SASRec, BERT4Rec</td>
+              <td>LOO · sampled <span class="math inline">\(\to\)</span> full</td>
+              <td>HR@10 / NDCG@10</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>LastFM / Last-FM</strong></td>
+              <td>implicit</td>
+              <td>knowledge-graph CF</td>
+              <td>KGAT</td>
+              <td>random 80/20, 10-core · full</td>
+              <td>Recall@20 / NDCG@20</td>
+            </tr>
+            <tr class="even">
+              <td><strong>MIND</strong></td>
+              <td>implicit click</td>
+              <td>news</td>
+              <td>NRMS, NAML, LSTUR</td>
+              <td>impression / time · within-impression</td>
+              <td>AUC / MRR / nDCG@5,10</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Criteo / Avazu</strong></td>
+              <td>implicit click</td>
+              <td>CTR</td>
+              <td>DeepFM, DCN, xDeepFM</td>
+              <td>random 8:1:1 · per-impression</td>
+              <td>AUC / LogLoss</td>
+            </tr>
+          </tbody>
+        </table>
+        <blockquote class="blockquote">
+          <p><strong>How to use the two tables.</strong> Go <em>down</em> the benchmark map when you are
+            <strong>choosing how to run an experiment</strong>: pick the regime that matches your task and inherit its
+            split, scope, and metrics wholesale, so your numbers join an existing conversation instead of starting a
+            private one. Go <em>into</em> the dataset index when you are <strong>reading a paper or holding a
+              dataset</strong>: look up what its community does, and you will know whether a headline number is
+            full-ranking or sampled, temporal or random, <em>before</em> you decide how much to trust it.
+          </p>
+        </blockquote>
+        <div id="fig-datasets-and-benchmarks-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/datasets-and-benchmarks-2.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</strong> Explicit-rating tasks
+              split at random and report RMSE; implicit-feedback tasks should split by <em>time</em> (§3) and then rank
+              over the <em>full</em> catalogue (Recall/NDCG@<span class="math inline">\(K\)</span>, the honest modern
+              default) rather than against a handful of sampled negatives (HR/NDCG@10), which Krichene &amp; Rendle
+              (2020) showed can reverse model rankings. Each <em>ranking</em> regime in the map above is a leaf of this
+              tree; the CTR and news regimes split differently (random or impression-based) and report AUC-family
+              metrics instead.
+            </figcaption>
+          </figure>
+        </div>
+        <hr>
+      </section>
+      <section id="two-evaluation-traps-the-data-side-creates" class="level2">
+        <h2 class="anchored" data-anchor-id="two-evaluation-traps-the-data-side-creates">5. Two evaluation traps the
+          data side creates</h2>
+        <p>Beyond the split, two well-documented pitfalls live on the data side; both are reasons to distrust a headline
+          number.</p>
+        <ul>
+          <li><strong>Popularity bias in evaluation.</strong> A few blockbusters collect most test interactions (the
+            long tail of <em>From Graphs to LightGCN</em> §13), so a recommender that simply pushes popular items scores
+            well on Recall/NDCG without personalizing at all. Report a popularity-aware view (coverage, tail-Recall)
+            alongside the headline metric.</li>
+          <li><strong>The reproducibility critique.</strong> Ferrari Dacrema, Cremonesi &amp; Jannach (“<em>Are we
+              really making much progress?</em>”, RecSys 2019) re-evaluated a wave of neural recommenders and found most
+            could not be reproduced, and the reproducible ones were often <strong>beaten by a well-tuned classical
+              baseline</strong> (item-kNN, matrix factorization). The lesson for a from-zero reader: a strong,
+            <em>tuned</em> baseline is mandatory, and a gain is meaningless without identical splits, full-ranking
+            metrics (the sampled-vs-full caution of <em>Evaluation Metrics</em>), and released code.
+          </li>
+        </ul>
+        <hr>
+      </section>
+      <section id="how-the-field-gets-data-today" class="level2">
+        <h2 class="anchored" data-anchor-id="how-the-field-gets-data-today">6. How the field gets data today</h2>
+        <p>You rarely parse a raw dump by hand any more — the work has moved into toolkits and metadata standards:</p>
+        <ul>
+          <li><strong>Curated catalogs.</strong> Julian McAuley’s <em>Recommender Systems Datasets</em> page (UCSD) is
+            the community’s de-facto index; several GitHub “awesome-datasets” lists mirror it.</li>
+          <li><strong>Benchmark frameworks</strong> ship datasets in a unified format and run dozens of models on them
+            under one protocol — the modern way to “present” a dataset: <strong>RecBole</strong> (~40 datasets, 90+
+            models, the <code>.inter</code>/<code>.user</code>/<code>.item</code> atomic format),
+            <strong>Cornac</strong> (multimodal/side-info focus), <strong>Elliot</strong> (reproducibility-first: one
+            config drives models + HPO + metrics + significance tests), <strong>Microsoft Recommenders</strong>, and
+            <strong>LensKit</strong>.
+          </li>
+          <li><strong>Hosting &amp; metadata.</strong> <strong>HuggingFace Datasets</strong> is now a primary host
+            (Amazon-Reviews-2023 lives there with standard splits); <strong>Croissant</strong> (MLCommons, 2024) is the
+            emerging machine-readable metadata standard — a record now <em>required</em> for NeurIPS dataset
+            submissions.</li>
+        </ul>
+        <blockquote class="blockquote">
+          <p><strong>In practice.</strong> Don’t hand-roll loading and splitting. Pick a framework (RecBole or Elliot
+            for research comparability; Microsoft Recommenders for an end-to-end pipeline), use its built-in
+            <strong>temporal</strong> split, and report the framework + version so others can reproduce you. If you must
+            publish a dataset, attach a <strong>Croissant</strong> record.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="active-deprecated-and-a-licensing-caution" class="level2">
+        <h2 class="anchored" data-anchor-id="active-deprecated-and-a-licensing-caution">7. Active, deprecated, and a
+          licensing caution</h2>
+        <p>Famous datasets split into two groups, and a from-zero reader should know both: the <strong>active</strong>
+          ones you actually build on, and the <strong>deprecated / withdrawn</strong> ones that shaped the field but are
+          no longer safe — or even possible — to use. The withdrawn ones are still worth knowing by name (you will meet
+          them in older papers); they are never worth training on.</p>
+        <ul>
+          <li><strong>Netflix Prize</strong> (2006) — the dataset that launched modern collaborative-filtering research,
+            <strong>withdrawn</strong> after researchers de-anonymized its users and a privacy lawsuit (<em>Doe v.
+              Netflix</em>) followed. There is no official download; unofficial copies circulate, but <strong>cite it as
+              history, do not train on it</strong>.
+          </li>
+          <li><strong>LastFM LFM-2b / LFM-1b</strong> — the large listening-history sets are <strong>no longer
+              officially distributed</strong> (“license issues”; LFM-1b was historically the more available of the two).
+            Treat as restricted and check current terms.</li>
+          <li><strong>Yahoo! Webscope (e.g.&nbsp;the R3 music-ratings set)</strong> — still available, but <strong>only
+              by signed agreement</strong> (academic use). R3 remains the classic <em>missing-not-at-random</em>
+            benchmark — it pairs users’ organic ratings with a <strong>randomly-surveyed</strong> set — so it recurs in
+            debiasing work despite the access gate.</li>
+        </ul>
+        <p>Most <strong>active</strong> datasets — MovieLens, Gowalla, Yelp, Amazon, MIND, Steam, Book-Crossing,
+          Goodreads — are free <strong>for research, non-commercial</strong> use <em>with attribution</em> (Yelp’s
+          license is notably <strong>revocable</strong>). Always read the specific license before any commercial use.
+        </p>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">8. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Explicit / implicit feedback</strong></td>
+              <td>Stated ratings (1–5) vs.&nbsp;behavioural <span class="math inline">\(0/1\)</span> (click/buy); the
+                latter is positives-only.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>k-core filter</strong></td>
+              <td>Iteratively drop users/items with <span class="math inline">\(&lt;k\)</span> interactions until none
+                remain; stabilizes the data.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Random split</strong></td>
+              <td>Hold out a random fraction of interactions — <strong>leaks the future</strong> for time-ordered data.
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>Temporal / leave-one-last split</strong></td>
+              <td>Hold out each user’s chronologically last interaction; the honest, leak-free default.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Graph-CF trio</strong></td>
+              <td>Gowalla / Yelp2018 / Amazon-Book — the frozen-split benchmark of graph-CF papers.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Popularity bias (in eval)</strong></td>
+              <td>Popular items dominate the test set, so pushing them inflates accuracy metrics.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Benchmark framework</strong></td>
+              <td>RecBole / Cornac / Elliot / Microsoft Recommenders / LensKit — unified datasets + models + protocol.
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>Croissant</strong></td>
+              <td>MLCommons machine-readable dataset-metadata standard (2024); required for NeurIPS dataset tracks.</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references" class="level2">
+        <h2 class="anchored" data-anchor-id="references">9. References</h2>
+        <p>Ordered alphabetically. The benchmark-map entries (§4) are grouped here with the dataset and reproducibility
+          references; each carries a short note on <em>what it anchors</em>.</p>
+        <ul>
+          <li>
+            <p>Cheng, H.-T., Koc, L., Harmsen, J., et al.&nbsp;(2016). <em>Wide &amp; Deep learning for recommender
+                systems</em>. In <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS @
+                RecSys)</em>. arXiv:1606.07792 <em>(the CTR wide-and-deep anchor)</em></p>
+          </li>
+          <li>
+            <p>Ferrari Dacrema, M., Cremonesi, P., &amp; Jannach, D. (2019). <em>Are we really making much progress? A
+                worrying analysis of recent neural recommendation approaches</em>. In <em>Proceedings of the 13th ACM
+                Conference on Recommender Systems (RecSys)</em>. https://doi.org/10.1145/3298689.3347058</p>
+          </li>
+          <li>
+            <p>Harper, F. M., &amp; Konstan, J. A. (2015). <em>The MovieLens datasets: History and context</em>. <em>ACM
+                Transactions on Interactive Intelligent Systems, 5</em>(4). https://doi.org/10.1145/2827872</p>
+          </li>
+          <li>
+            <p>He, X., Liao, L., Zhang, H., Nie, L., Hu, X., &amp; Chua, T.-S. (2017). <em>Neural collaborative
+                filtering (NCF / NeuMF)</em>. In <em>Proceedings of WWW</em>. arXiv:1708.05031 <em>(the leave-one-out +
+                99-sampled-negatives top-<span class="math inline">\(N\)</span> protocol)</em></p>
+          </li>
+          <li>
+            <p>He, X., Deng, K., Wang, X., Li, Y., Zhang, Y., &amp; Wang, M. (2020). <em>LightGCN: Simplifying and
+                powering graph convolution network for recommendation</em>. In <em>Proceedings of SIGIR</em>.
+              arXiv:2002.02126 <em>(reuses NGCF’s split; the de-facto graph-CF backbone)</em></p>
+          </li>
+          <li>
+            <p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation (SASRec)</em>. In
+              <em>Proceedings of ICDM</em>. arXiv:1808.09781 <em>(leave-one-out + 100 sampled negatives)</em>
+            </p>
+          </li>
+          <li>
+            <p>Koren, Y., Bell, R., &amp; Volinsky, C. (2009). <em>Matrix factorization techniques for recommender
+                systems</em>. <em>Computer, 42</em>(8), 30–37. https://doi.org/10.1109/MC.2009.263 <em>(the
+                rating-prediction MF line behind the Netflix Prize)</em></p>
+          </li>
+          <li>
+            <p>Krichene, W., &amp; Rendle, S. (2020). <em>On sampled metrics for item recommendation</em>. In
+              <em>Proceedings of KDD</em>. https://doi.org/10.1145/3394486.3403226 <em>(the case against sampled metrics
+                — why the field moved to full ranking)</em>
+            </p>
+          </li>
+          <li>
+            <p>Narayanan, A., &amp; Shmatikov, V. (2008). <em>Robust de-anonymization of large sparse datasets</em>. In
+              <em>IEEE Symposium on Security and Privacy</em> <em>(the Netflix Prize de-anonymization)</em>.
+              https://doi.org/10.1109/SP.2008.33
+            </p>
+          </li>
+          <li>
+            <p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential
+                recommendation with bidirectional encoder representations from Transformer</em>. In <em>Proceedings of
+                CIKM</em>. arXiv:1904.06690 <em>(leave-one-out + 100 popularity-sampled negatives)</em></p>
+          </li>
+          <li>
+            <p>Wang, X., He, X., Cao, Y., Liu, M., &amp; Chua, T.-S. (2019). <em>KGAT: Knowledge graph attention network
+                for recommendation</em>. In <em>Proceedings of KDD</em>. arXiv:1905.07854 <em>(the knowledge-graph trio:
+                Amazon-Book / LastFM / Yelp2018)</em></p>
+          </li>
+          <li>
+            <p>Wang, X., He, X., Wang, M., Feng, F., &amp; Chua, T.-S. (2019). <em>Neural graph collaborative filtering
+                (NGCF)</em>. In <em>Proceedings of SIGIR</em>. arXiv:1905.08108 <em>(released the random per-user 80/20
+                split the graph-CF trio reuses verbatim)</em></p>
+          </li>
+          <li>
+            <p>Wu, F., Qiao, Y., Chen, J.-H., et al.&nbsp;(2020). <em>MIND: A large-scale dataset for news
+                recommendation</em>. In <em>Proceedings of ACL</em>. https://aclanthology.org/2020.acl-main.331 <em>(the
+                news-recommendation impression-based protocol)</em></p>
+          </li>
+          <li>
+            <p>Wu, J., Wang, X., Feng, F., He, X., Chen, L., Lian, J., &amp; Xie, X. (2021). <em>Self-supervised graph
+                learning for recommendation (SGL)</em>. In <em>Proceedings of SIGIR</em>. arXiv:2010.10783 <em>(adds
+                Alibaba-iFashion to the graph-CF trio)</em></p>
+          </li>
+          <li>
+            <p>Zhao, W. X., et al.&nbsp;(2021). <em>RecBole: Towards a unified, comprehensive and efficient framework
+                for recommendation algorithms</em>. In <em>Proceedings of CIKM</em>. arXiv:2011.01731</p>
+          </li>
+          <li>
+            <p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate
+                prediction (FuxiCTR)</em>. In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(standardized the
+                Criteo / Avazu 8:1:1 split + AUC / LogLoss)</em></p>
+          </li>
+        </ul>
+        <p><em>Online sources verified June 2026.</em></p>
+
+
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+          }
+        }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = (cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+            }
+          };
+        }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../chapters/implementation-choices.html" class="pagination-link"
+          aria-label="Implementation Choices: A Practitioner's Field Guide">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Implementation
+              Choices: A Practitioner’s Field Guide</span></span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/llm-feature-generation.html" class="pagination-link"
+          aria-label="Generating Features with LLMs">
+          <span class="nav-page-text"><span class="chapter-title">Generating Features with LLMs</span></span> <i
+            class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body>
+
+</html>
