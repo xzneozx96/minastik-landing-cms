@@ -198,6 +198,29 @@
   color: hsl(210, 40%, 92%);
 }
 
+/* Callout header bars — Quarto hardcodes pale tinted backgrounds per type */
+[data-bs-theme="dark"] .callout.callout-style-default > .callout-header {
+  background-color: hsl(233, 29%, 13%) !important;
+  color: hsl(210, 40%, 95%);
+}
+
+[data-bs-theme="dark"] div.callout-note.callout-style-default > .callout-header {
+  background-color: hsl(221, 35%, 15%) !important;
+}
+
+[data-bs-theme="dark"] div.callout-tip.callout-style-default > .callout-header {
+  background-color: hsl(142, 25%, 13%) !important;
+}
+
+[data-bs-theme="dark"] div.callout-warning.callout-style-default > .callout-header {
+  background-color: hsl(38, 35%, 14%) !important;
+}
+
+[data-bs-theme="dark"] div.callout-important.callout-style-default > .callout-header,
+[data-bs-theme="dark"] div.callout-caution.callout-style-default > .callout-header {
+  background-color: hsl(0, 35%, 15%) !important;
+}
+
 /* ── Tables ───────────────────────────────────────────────────────── */
 [data-bs-theme="dark"] table {
   color: hsl(210, 40%, 90%);
@@ -243,10 +266,21 @@
 }
 
 /* ── Footer ───────────────────────────────────────────────────────── */
-[data-bs-theme="dark"] footer {
-  background-color: hsl(233, 29%, 7%);
+/* Quarto hardcodes .nav-footer { background-color:#fff } — override it. */
+[data-bs-theme="dark"] .nav-footer {
+  background-color: hsl(233, 29%, 7%) !important;
   border-top: 1px solid hsl(233, 29%, 16%);
   color: hsl(215, 20%, 55%);
+}
+
+[data-bs-theme="dark"] .nav-footer a {
+  color: hsl(221, 83%, 67%);
+}
+
+[data-bs-theme="dark"] .nav-footer .nav-footer-center,
+[data-bs-theme="dark"] .nav-footer .nav-footer-left,
+[data-bs-theme="dark"] .nav-footer .nav-footer-right {
+  color: hsl(215, 20%, 60%);
 }
 
 /* ── Search modal (Autocomplete + Quarto search) ─────────────────── */
@@ -332,34 +366,44 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Layout — match reference (narrow sidebar, constrained content)
+   Layout — Dify-style docs grid
+   Reconfigure Quarto's named-line CSS grid rather than fighting it with
+   margins. Sidebar flush-left, constrained reading column, right TOC,
+   flexible whitespace between content and TOC.
    ═══════════════════════════════════════════════════════════════════ */
-
-/* Sidebar */
-.sidebar.docked {
-  width: 320px !important;
-  min-width: 320px !important;
-}
-
 @media (min-width: 992px) {
-  #quarto-sidebar {
-    width: 320px !important;
+  body.docked #quarto-content.page-columns,
+  body.docked #quarto-content.page-columns.toc-left {
+    grid-template-columns:
+      [screen-start screen-start-inset page-start page-start-inset body-start-outset] 300px
+      [body-start] 3em
+      [body-content-start] minmax(0, 760px)
+      [body-content-end] minmax(2em, 1fr)
+      [body-end body-end-outset] 280px
+      [page-end-inset page-end] 0
+      [screen-end-inset screen-end] !important;
   }
 
-  #quarto-content.quarto-container {
-    margin-left: 320px !important;
+  /* Sidebar fills its 300px track */
+  body.docked #quarto-sidebar.sidebar.docked {
+    width: auto !important;
+    min-width: 0 !important;
+    padding-left: 1.25rem;
+    padding-right: 0.75rem;
+  }
+
+  /* Right TOC sits in its own track */
+  #quarto-margin-sidebar {
+    width: auto;
+    padding-left: 0.5rem;
+    font-size: 0.82rem;
   }
 }
 
-/* Content: constrain reading width */
-#quarto-document-content {
-  max-width: 740px;
-}
-
-/* Right TOC */
-#quarto-margin-sidebar {
-  width: 300px;
-  font-size: 0.82rem;
+/* Reading column width cap (belt-and-suspenders with the grid track) */
+#quarto-document-content,
+main.content {
+  max-width: 760px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
