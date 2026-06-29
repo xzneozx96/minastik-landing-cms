@@ -1,6 +1,6 @@
 (function () {
   var KEY = 'mnk-theme';
-  var DEFAULT = 'dark';
+  var DEFAULT = 'light';
 
   function getTheme() {
     return localStorage.getItem(KEY) || DEFAULT;

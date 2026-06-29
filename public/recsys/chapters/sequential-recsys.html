@@ -1,52 +1,79 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
 
-<meta name="description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<title>Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero</title>
-<style>
-/* Default styles provided by pandoc.
+  <meta name="description"
+    content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
+
+  <title>Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero</title>
+  <style>
+    /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-  vertical-align: middle;
-}
-</style>
+    code {
+      white-space: pre-wrap;
+    }
+
+    span.smallcaps {
+      font-variant: small-caps;
+    }
+
+    div.columns {
+      display: flex;
+      gap: min(4vw, 1.5em);
+    }
+
+    div.column {
+      flex: auto;
+      overflow-x: auto;
+    }
+
+    div.hanging-indent {
+      margin-left: 1.5em;
+      text-indent: -1.5em;
+    }
+
+    ul.task-list {
+      list-style: none;
+    }
+
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em;
+      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+      vertical-align: middle;
+    }
+  </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../chapters/gcn-to-lightgcn.html" rel="next">
-<link href="../chapters/recsys-metrics.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/clipboard/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../site_libs/quarto-search/quarto-search.js"></script>
+  <meta name="quarto:offset" content="../">
+  <link href="../chapters/gcn-to-lightgcn.html" rel="next">
+  <link href="../chapters/recsys-metrics.html" rel="prev">
+  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
+    id="quarto-text-highlighting-styles">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
+    append-hash="true" id="quarto-bootstrap" data-mode="light">
+  <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -73,10 +100,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
      via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
      and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
@@ -158,960 +185,1342 @@ ul.task-list li input[type="checkbox"] {
   ]
 }
 </script>
-<link rel="canonical" href="https://minastik.com/recsys/chapters/sequential-recsys.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/sequential-recsys.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Sequential & Session-Based Recommendation","name":"Sequential & Session-Based Recommendation","description":"Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.","url":"https://minastik.com/recsys/chapters/sequential-recsys.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+  <link rel="canonical" href="https://minastik.com/recsys/chapters/sequential-recsys.html">
+  <meta property="og:url" content="https://minastik.com/recsys/chapters/sequential-recsys.html">
+  <meta property="og:type" content="article">
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Sequential & Session-Based Recommendation","name":"Sequential & Session-Based Recommendation","description":"Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.","url":"https://minastik.com/recsys/chapters/sequential-recsys.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
+  <script type="text/javascript">
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
       }
     }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+    window.Quarto = {
+      typesetMath
+    };
+  </script>
 
-<meta property="og:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
-<meta property="og:description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
-<meta property="og:image" content="https://minastik.com/recsys/social-card.png">
-<meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
-<meta name="twitter:description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
-<meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
-<meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
+  <meta property="og:description"
+    content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
+  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+  <meta property="og:site_name" content="Recommender Systems from Zero">
+  <meta name="twitter:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
+  <meta name="twitter:description"
+    content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
+  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
   <!-- minastik-brand -->
-  <script>document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('mnk-theme')||'dark');</script>
+  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
   <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
   <!-- /minastik-brand -->
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
 
-<div id="quarto-search-results"></div>
+  <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
-    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
-    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
-    </a>
-    <a class="navbar-brand" href="https://minastik.com">
-    <span class="navbar-title">Recommender Systems from Zero</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://minastik.com"> 
-<span class="menu-text">← Minastik</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="https://minastik.com/learn"> 
-<span class="menu-text">Learn</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
-  <div class="quarto-reader-toggle-btn">
-  <i class="bi"></i>
-  </div>
-</a>
-</div>
+        <div class="navbar-brand-container mx-auto">
+          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+          </a>
+          <a class="navbar-brand" href="https://minastik.com">
+            <span class="navbar-title">Recommender Systems from Zero</span>
+          </a>
+        </div>
+        <div id="quarto-search" class="" title="Search"></div>
+
+        <span class=""></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com">
+                <span class="menu-text">← Minastik</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://minastik.com/learn">
+                <span class="menu-text">Learn</span></a>
+            </li>
+          </ul>
+        </div> <!-- /navcollapse -->
+        <div class="quarto-navbar-tools">
+
+        </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+    <nav class="quarto-secondary-nav">
+      <div class="container-fluid d-flex">
+        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <i class="bi bi-layout-text-sidebar-reverse"></i>
+        </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a>
+            </li>
+            <li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span
+                  class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li>
+          </ol>
+        </nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
+          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
+          aria-label="Toggle sidebar navigation"
+          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
-<!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
+        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <!-- content -->
+  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    <!-- sidebar -->
+    <nav id="quarto-sidebar"
+      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+          <div id="quarto-search" class="" title="Search"></div>
         </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Mathematical Foundations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <div class="sidebar-menu-container">
+        <ul class="list-unstyled mt-1">
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Machine-Learning Fundamentals</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <div class="sidebar-item-container">
+              <a href="../index.html" class="sidebar-item-text sidebar-link">
+                <span class="menu-text">Preface</span></a>
+            </div>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+                <span class="menu-text">Mathematical Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Linear Algebra for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Calculus for ML</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+                <span class="menu-text">Machine-Learning Fundamentals</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+                <span class="menu-text">Recommender-System Foundations</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Traditional Recommender Systems</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Evaluation Metrics</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+                <span class="menu-text">Sequence-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link active"><span
+                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+                <span class="menu-text">Graph-Based Recommenders</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">From Graphs to LightGCN</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+                <span class="menu-text">The LLM Era</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+                <span class="menu-text">Building a Recommender</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Training and Serving a Recommender</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+                <span class="menu-text">Frontiers</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="sidebar-item sidebar-item-section">
+            <div class="sidebar-item-container">
+              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+                <span class="menu-text">Appendices</span></a>
+              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
+                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
+                aria-label="Toggle section">
+                <i class="bi bi-chevron-right ms-2"></i>
+              </a>
+            </div>
+            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Generating Features with LLMs</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
+                      class="chapter-title">Solutions to Exercises</span></a>
+                </div>
+              </li>
+              <li class="sidebar-item">
+                <div class="sidebar-item-container">
+                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+                    <span class="menu-text">About the Authors</span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Recommender-System Foundations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequence-Based Recommenders</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Graph-Based Recommenders</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Building a Recommender</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
- <span class="menu-text">Frontiers</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About the Authors</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
+    </nav>
+    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
+      data-bs-target=".quarto-sidebar-collapse-item"></div>
+    <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul class="collapse">
-  <li><a href="#from-a-matrix-to-a-sequence-what-order-adds" id="toc-from-a-matrix-to-a-sequence-what-order-adds" class="nav-link active" data-scroll-target="#from-a-matrix-to-a-sequence-what-order-adds">1. From a matrix to a sequence: what order adds</a></li>
-  <li><a href="#the-simplest-sequence-model-markov-chains" id="toc-the-simplest-sequence-model-markov-chains" class="nav-link" data-scroll-target="#the-simplest-sequence-model-markov-chains">2. The simplest sequence model: Markov chains</a></li>
-  <li><a href="#reading-the-whole-session-gru4rec" id="toc-reading-the-whole-session-gru4rec" class="nav-link" data-scroll-target="#reading-the-whole-session-gru4rec">3. Reading the whole session: GRU4Rec</a></li>
-  <li><a href="#attention-over-the-session-sasrec" id="toc-attention-over-the-session-sasrec" class="nav-link" data-scroll-target="#attention-over-the-session-sasrec">4. Attention over the session: SASRec</a></li>
-  <li><a href="#looking-both-ways-bert4rec" id="toc-looking-both-ways-bert4rec" class="nav-link" data-scroll-target="#looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</a></li>
-  <li><a href="#training-and-evaluating-a-sequence-model" id="toc-training-and-evaluating-a-sequence-model" class="nav-link" data-scroll-target="#training-and-evaluating-a-sequence-model">6. Training and evaluating a sequence model</a></li>
-  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">7. Where this fits in the book</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">8. Exercises</a></li>
-  <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">9. Glossary</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">10. References</a></li>
-  </ul>
-</nav>
+      <nav id="TOC" role="doc-toc" class="toc-active">
+        <h2 id="toc-title">Table of contents</h2>
+
+        <ul class="collapse">
+          <li><a href="#from-a-matrix-to-a-sequence-what-order-adds"
+              id="toc-from-a-matrix-to-a-sequence-what-order-adds" class="nav-link active"
+              data-scroll-target="#from-a-matrix-to-a-sequence-what-order-adds">1. From a matrix to a sequence: what
+              order adds</a></li>
+          <li><a href="#the-simplest-sequence-model-markov-chains" id="toc-the-simplest-sequence-model-markov-chains"
+              class="nav-link" data-scroll-target="#the-simplest-sequence-model-markov-chains">2. The simplest sequence
+              model: Markov chains</a></li>
+          <li><a href="#reading-the-whole-session-gru4rec" id="toc-reading-the-whole-session-gru4rec" class="nav-link"
+              data-scroll-target="#reading-the-whole-session-gru4rec">3. Reading the whole session: GRU4Rec</a></li>
+          <li><a href="#attention-over-the-session-sasrec" id="toc-attention-over-the-session-sasrec" class="nav-link"
+              data-scroll-target="#attention-over-the-session-sasrec">4. Attention over the session: SASRec</a></li>
+          <li><a href="#looking-both-ways-bert4rec" id="toc-looking-both-ways-bert4rec" class="nav-link"
+              data-scroll-target="#looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</a></li>
+          <li><a href="#training-and-evaluating-a-sequence-model" id="toc-training-and-evaluating-a-sequence-model"
+              class="nav-link" data-scroll-target="#training-and-evaluating-a-sequence-model">6. Training and evaluating
+              a sequence model</a></li>
+          <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link"
+              data-scroll-target="#where-this-fits-in-the-book">7. Where this fits in the book</a></li>
+          <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">8. Exercises</a>
+          </li>
+          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">9. Glossary</a></li>
+          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">10.
+              References</a></li>
+        </ul>
+      </nav>
     </div>
-<!-- main -->
-<main class="content" id="quarto-document-content">
+    <!-- main -->
+    <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></h1>
-</div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
+      <header id="title-block-header" class="quarto-title-block default">
+        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a>
+            </li>
+            <li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span
+                  class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li>
+          </ol>
+        </nav>
+        <div class="quarto-title">
+          <h1 class="title"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></h1>
+        </div>
 
 
-</header>
+
+        <div class="quarto-title-meta">
 
 
-<section id="from-a-matrix-to-a-sequence-what-order-adds" class="level2">
-<h2 class="anchored" data-anchor-id="from-a-matrix-to-a-sequence-what-order-adds">1. From a matrix to a sequence: what order adds</h2>
-<p>Traditional CF asks <em>“what rating goes in this empty cell?”</em> — a question about a <strong>static</strong> matrix in which the rows could be shuffled and nothing would change. But a recommendation log is a <strong>stream of events in time</strong>:</p>
-<p><span class="math display">\[
-\text{Ann's history} = (\ \text{Titanic},\ \text{Avatar},\ \underbrace{?}_{\text{next}}\ ).
-\]</span></p>
-<p>Two facts the matrix cannot see: the events have an <strong>order</strong> (Titanic came before Avatar), and the <strong>most recent</strong> ones matter most (what you watched an hour ago predicts your next click far better than what you watched a year ago). <strong>Sequential recommendation</strong> is the problem of using that order.</p>
-<p><strong>Two settings, one task.</strong> The literature splits on <em>how much you know about the user</em>:</p>
-<ul>
-<li><strong>Sequential recommendation</strong> — you have a <strong>long, identified</strong> history for each user (their whole watch list), and predict the next item in it.</li>
-<li><strong>Session-based recommendation</strong> — you have only the <strong>current, short, often anonymous session</strong> (the handful of clicks since the page loaded), with <em>no user id</em> at all. This is the harder, very common e-commerce case: a logged-out visitor with three clicks.</li>
-</ul>
-<p>Both reduce to the same core question — <strong>next-item prediction</strong>:</p>
-<blockquote class="blockquote">
-<p>Given the items seen so far, <span class="math inline">\((i_1, i_2, \dots, i_{t-1})\)</span>, score every catalog item for being the <strong>next</strong> one, <span class="math inline">\(i_t\)</span>, and recommend the top-<span class="math inline">\(K\)</span>.</p>
-</blockquote>
-<p>Notice the shape of the answer is unchanged from Traditional RecSys: a <strong>score per item</strong>, ranked. What changes is the <em>input</em> — an <strong>ordered prefix</strong> instead of a user id — and so what the model must capture: <strong>which earlier items, in which order, predict what comes next.</strong></p>
-<div id="fig-sequential-recsys-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-1.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.1: <strong>Three views of the same interactions.</strong> <em>Traditional RecSys</em> reads them as a static <strong>matrix</strong> (rows can be shuffled — no order). <em>This chapter</em> reads one user’s history as an ordered <strong>sequence</strong> and predicts the <strong>next</strong> item. The <em>next</em> chapter reads them as a <strong>graph</strong> of who-touched-what. Same data, three lenses; sequence is the order-aware one.
-</figcaption>
-</figure>
-</div>
-<blockquote class="blockquote">
-<p><strong>Why “sequential” and “session.”</strong> <em>Sequential</em> = the model consumes an ordered <strong>sequence</strong> of past items. <em>Session</em> = one unbroken visit (the clicks between arriving and leaving); session-based models work from that short window alone, with no long-term profile.</p>
-</blockquote>
-<hr>
-</section>
-<section id="the-simplest-sequence-model-markov-chains" class="level2">
-<h2 class="anchored" data-anchor-id="the-simplest-sequence-model-markov-chains">2. The simplest sequence model: Markov chains</h2>
-<p>Start with the crudest possible use of order: <strong>the next item depends only on the last one.</strong> A <strong>(first-order) Markov chain</strong> models the sequence by a table of <strong>transition probabilities</strong> <span class="math inline">\(P(\text{next}=j \mid \text{last}=i)\)</span> — “after <span class="math inline">\(i\)</span>, how often does <span class="math inline">\(j\)</span> follow?” — estimated by <strong>counting</strong> in the log.</p>
-<blockquote class="blockquote">
-<p><strong>Why “Markov.”</strong> After Andrey <strong>Markov</strong>, who studied processes with the <em>memoryless</em> property: the next state depends only on the <strong>current</strong> state, not the full history. A first-order chain remembers exactly <strong>one</strong> step back.</p>
-</blockquote>
-<p><strong>Worked example — transitions by counting.</strong> Take four tiny sessions over three movies — Titanic (T), Avatar (A), Matrix (M):</p>
-<p><span class="math display">\[
-\text{T}\!\to\!\text{A}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{A},\qquad \text{A}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{M}.
-\]</span></p>
-<p>Count every adjacent <strong>(from <span class="math inline">\(\to\)</span> to)</strong> pair. From <strong>T</strong> we see <span class="math inline">\(\text{T}\!\to\!\text{A}\)</span> <strong>twice</strong> and <span class="math inline">\(\text{T}\!\to\!\text{M}\)</span> <strong>once</strong> (<span class="math inline">\(3\)</span> transitions out of T); from <strong>A</strong> we see <span class="math inline">\(\text{A}\!\to\!\text{M}\)</span> <strong>twice</strong> (<span class="math inline">\(2\)</span> out of A). Dividing each count by its row total gives the transition probabilities:</p>
-<p><span class="math display">\[
-P(\text{A}\mid\text{T})=\tfrac{2}{3}\approx0.667,\quad
-P(\text{M}\mid\text{T})=\tfrac{1}{3}\approx0.333,\quad
-P(\text{M}\mid\text{A})=\tfrac{2}{2}=1.0.
-\]</span></p>
-<p>Per component: the <strong>numerator</strong> is how often that specific pair occurred; the <strong>denominator</strong> is how often the <em>from</em>-item appeared as a “from” at all — so each row is a normalized vote that sums to <span class="math inline">\(1\)</span>. Reading it: a user whose last movie was <strong>Titanic</strong> is predicted to watch <strong>Avatar</strong> next (probability <span class="math inline">\(0.667\)</span>, the bigger count); a user whose last was <strong>Avatar</strong> is sent to <strong>Matrix</strong> (<span class="math inline">\(1.0\)</span>). The whole “model” is a counted table.</p>
-<div id="fig-sequential-recsys-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-2.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.2: <strong>A first-order Markov chain counted from four sessions.</strong> Each arrow is <span class="math inline">\(P(\text{next}\mid\text{last})\)</span>, estimated by dividing the transition count by the row total. After <em>Titanic</em>, <em>Avatar</em> is the likely next watch (<span class="math inline">\(0.667\)</span>, <strong>thick</strong>) over <em>Matrix</em> (<span class="math inline">\(0.333\)</span>, <strong>thin</strong>); after <em>Avatar</em>, <em>Matrix</em> is certain in this toy (<span class="math inline">\(1.0\)</span>). The model is just this table of counts.
-</figcaption>
-</figure>
-</div>
-<p><strong>The two limits — and the fix.</strong> A plain Markov chain has no <strong>memory</strong> beyond the last item (it cannot learn “users who saw <em>both</em> Titanic and Avatar like Inception”), and it is <strong>not personalized</strong> (everyone shares one transition table). The classic remedy is <strong>FPMC — Factorizing Personalized Markov Chains</strong> (Rendle et al., 2010), which scores the next item as a <strong>sum of two dot products</strong>:</p>
-<p><span class="math display">\[
-\hat s(u,\,\text{last}=l,\,\text{next}=i)\;=\;\underbrace{\mathbf p_u\cdot\mathbf q_i}_{\text{matrix factorization: does }u\text{ like }i?}\;+\;\underbrace{\mathbf q'_l\cdot\mathbf q''_i}_{\text{Markov: does }i\text{ follow }l?}.
-\]</span></p>
-<p>Decoded: the <strong>first</strong> term is exactly the matrix-factorization score of Traditional RecSys §5 (user taste meets item traits); the <strong>second</strong> replaces the <em>counted</em> transition table with a <strong>learned</strong> one — each item gets vectors so that “<span class="math inline">\(i\)</span> tends to follow <span class="math inline">\(l\)</span>” becomes a dot product <span class="math inline">\(\mathbf q'_l\cdot\mathbf q''_i\)</span>, which <strong>generalizes</strong> to pairs never seen together (the same low-rank trick that let MF fill blank cells). FPMC is, in one line, <strong>MF plus a factorized Markov step</strong> — the hinge between the static matrix and the deep sequence models below.</p>
-<blockquote class="blockquote">
-<p><strong>Why “FPMC.”</strong> <strong>F</strong>actorizing <strong>P</strong>ersonalized <strong>M</strong>arkov <strong>C</strong>hains: it <em>factorizes</em> the transition table into item vectors (so it generalizes), and makes it <em>personalized</em> by adding the per-user MF term.</p>
-</blockquote>
-<hr>
-</section>
-<section id="reading-the-whole-session-gru4rec" class="level2">
-<h2 class="anchored" data-anchor-id="reading-the-whole-session-gru4rec">3. Reading the whole session: GRU4Rec</h2>
-<p>A Markov chain forgets everything but the last click. To use the <strong>whole</strong> session we need a model that carries a <strong>running summary</strong> of it. A <strong>recurrent neural network (RNN)</strong> does exactly that: it reads the items left-to-right, and after each one updates a <strong>hidden state</strong> <span class="math inline">\(\mathbf h_t\)</span> — a fixed-length vector meant to encode “everything relevant so far”:</p>
-<p><span class="math display">\[
-\mathbf h_t \;=\; f\big(\mathbf h_{t-1},\ \text{embed}(i_t)\big),\qquad
-\hat{\mathbf y}_t \;=\; \text{scores over all items, from } \mathbf h_t .
-\]</span></p>
-<p>Decoded: <span class="math inline">\(\text{embed}(i_t)\)</span> is the current item’s vector (Traditional RecSys §5); <span class="math inline">\(f\)</span> folds it into the previous summary <span class="math inline">\(\mathbf h_{t-1}\)</span> to produce the new summary <span class="math inline">\(\mathbf h_t\)</span>; and the next-item scores are read off <span class="math inline">\(\mathbf h_t\)</span>. The state is the memory — unlike the Markov chain, it can in principle carry information from <strong>any</strong> earlier position.</p>
-<p><strong>GRU4Rec</strong> (Hidasi et al., 2016) was the model that brought this to session-based recommendation. Its <span class="math inline">\(f\)</span> is a <strong>GRU</strong> — a <em>gated recurrent unit</em>, a cell (built in the RNN/LSTM/GRU family of <em>Representation Learning &amp; the Transformer</em> §3) whose <strong>gates</strong> learn what to <strong>keep</strong> versus <strong>forget</strong> from the running state, which is what lets it hold useful context over a longer session without the signal washing out. Two engineering ideas made it work on real logs: <strong>session-parallel mini-batches</strong> (process many short sessions side by side so the GPU stays busy) and a <strong>ranking loss</strong> over the next item (a pairwise BPR-style or TOP1 loss — <em>Losses &amp; Regularizers</em> §9 — rather than a full softmax over a huge catalog).</p>
-<blockquote class="blockquote">
-<p><strong>Why “GRU4Rec.”</strong> It is a <strong>GRU</strong> recurrent network <strong>for Rec</strong>ommendation; “4” is the internet’s “for.” The point of the name is the cell: a <em>gated</em> RNN reading a session.</p>
-</blockquote>
-<p>The recurrent view has one structural weakness, though: it must <strong>compress the entire past into one vector</strong> and process strictly left-to-right, step by step. Long-range dependencies fade, and the sequential computation is hard to parallelize. Both complaints are answered by letting each position look <strong>directly</strong> at every earlier one — <strong>attention</strong>.</p>
-<hr>
-</section>
-<section id="attention-over-the-session-sasrec" class="level2">
-<h2 class="anchored" data-anchor-id="attention-over-the-session-sasrec">4. Attention over the session: SASRec</h2>
-<p>The Transformer chapter built <strong>self-attention</strong>: a mechanism where each position forms a <strong>query</strong>, compares it (by dot product) against a <strong>key</strong> at every position, turns those similarities into softmax <strong>weights</strong>, and reads out a weighted average of the <strong>values</strong>. <strong>SASRec — Self-Attentive Sequential Recommendation</strong> (Kang &amp; McAuley, 2018) — is that mechanism applied to a session: stack the item embeddings of the prefix, run self-attention, and the output at the <strong>last</strong> position is the summary used to score the next item.</p>
-<p>Two adaptations make attention fit recommendation:</p>
-<ul>
-<li>A <strong>causal mask</strong>: when predicting the item at position <span class="math inline">\(t\)</span>, a position may attend only to positions <span class="math inline">\(\le t\)</span> — never to the future it is trying to predict. (Same lower-triangular mask the Transformer chapter used for left-to-right language models.)</li>
-<li><strong>Positional embeddings</strong>: raw attention is order-blind (permute the inputs and the weighted average is unchanged), so SASRec <strong>adds a learned position vector</strong> to each item embedding, re-injecting “this was the 1st / 2nd / … click.” (We fold this in below and flag it.)</li>
-</ul>
-<p><strong>Worked example — one self-attention step, by hand.</strong> Ann’s session so far is <span class="math inline">\((\text{Titanic},\ \text{Avatar})\)</span>; predict the next item. Use <span class="math inline">\(d=2\)</span> embeddings</p>
-<p><span class="math display">\[
-\text{Titanic}=[1,0],\quad \text{Avatar}=[0,1],\quad \text{Matrix}=[1,1],
-\]</span></p>
-<p>and — to keep every number checkable — take the query/key/value projections to be the <strong>identity</strong> (real SASRec <em>learns</em> these matrices and adds positional vectors; here we expose the bare mechanism, exactly as the Transformer chapter first did). The query is the <strong>last</strong> position, Avatar <span class="math inline">\(=[0,1]\)</span>. Self-attention scores it against the two keys (Titanic, Avatar), scaled by <span class="math inline">\(\sqrt d=\sqrt2\approx1.414\)</span>:</p>
-<p><span class="math display">\[
-\frac{q\cdot k_{\text{Ti}}}{\sqrt d}=\frac{[0,1]\cdot[1,0]}{1.414}=\frac{0}{1.414}=0,
-\qquad
-\frac{q\cdot k_{\text{Av}}}{\sqrt d}=\frac{[0,1]\cdot[0,1]}{1.414}=\frac{1}{1.414}=0.707.
-\]</span></p>
-<p>(Both positions are <span class="math inline">\(\le\)</span> the last, so the causal mask blocks nothing here.) Softmax turns the two scores <span class="math inline">\([0,\,0.707]\)</span> into weights — <span class="math inline">\(e^{0}=1\)</span>, <span class="math inline">\(e^{0.707}=2.028\)</span>, sum <span class="math inline">\(=3.028\)</span>:</p>
-<p><span class="math display">\[
-\alpha_{\text{Ti}}=\tfrac{1}{3.028}=0.330,\qquad \alpha_{\text{Av}}=\tfrac{2.028}{3.028}=0.670.
-\]</span></p>
-<p>The <strong>context vector</strong> is the weighted average of the values (here the embeddings):</p>
-<p><span class="math display">\[
-\mathbf c = 0.330\,[1,0] + 0.670\,[0,1] = [\,0.330,\ 0.670\,].
-\]</span></p>
-<p>Finally, score each candidate next item by its dot product with <span class="math inline">\(\mathbf c\)</span> (the same “embedding <span class="math inline">\(\cdot\)</span> summary” head as everywhere else in the book):</p>
-<p><span class="math display">\[
-\text{Titanic}: [0.330,0.670]\cdot[1,0]=0.330,\quad
-\text{Avatar}: 0.670,\quad
-\text{Matrix}: [0.330,0.670]\cdot[1,1]=\boxed{1.000}.
-\]</span></p>
-<p>Reading it: attention put <strong>more weight on the most recent item</strong> (Avatar, <span class="math inline">\(0.670\)</span>) but did not ignore Titanic (<span class="math inline">\(0.330\)</span>); the resulting context blends both tastes, and <strong>Matrix</strong> — which shares a feature with each — scores highest (<span class="math inline">\(1.000\)</span>) and is recommended next. The whole step is dot products and one softmax, no different from the Transformer chapter — only the <em>input</em> (a session) and the <em>read-out</em> (next-item scores) are new.</p>
-<div id="fig-sequential-recsys-3" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-3.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.3: <strong>One causal self-attention step (SASRec), reproducing the worked numbers.</strong> The <strong>query</strong> (the last item, <em>Avatar</em>) attends to the session: a <strong>thick</strong> edge to <em>Avatar</em> (<span class="math inline">\(\alpha{=}0.670\)</span>) and a <strong>thin</strong> one to <em>Titanic</em> (<span class="math inline">\(\alpha{=}0.330\)</span>). Their weighted average is the <strong>context</strong> <span class="math inline">\([0.330,0.670]\)</span>, which scores each candidate by a dot product — <em>Matrix</em> wins at <span class="math inline">\(1.000\)</span>. Recency dominates the weights, but earlier items still contribute.
-</figcaption>
-</figure>
-</div>
-<blockquote class="blockquote">
-<p><strong>Why “SASRec.”</strong> <strong>S</strong>elf-<strong>A</strong>ttentive <strong>S</strong>equential <strong>Rec</strong>ommendation: it drops the RNN for the Transformer’s self-attention, so every position reads every earlier one directly — capturing long-range “what predicts what” in one parallel layer.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>In practice.</strong> Real SASRec stacks a few masked self-attention + feed-forward blocks (Transformer chapter), adds learned positional embeddings, and trains with a binary next-item loss over sampled negatives. Don’t hand-roll it: <strong>RecBole</strong> and the authors’ released code provide tuned implementations, and SASRec remains one of the <strong>strongest, hardest-to-beat baselines</strong> in sequential recommendation — always run it before claiming a new model wins.</p>
-</blockquote>
-<hr>
-</section>
-<section id="looking-both-ways-bert4rec" class="level2">
-<h2 class="anchored" data-anchor-id="looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</h2>
-<p>SASRec reads strictly <strong>left-to-right</strong>: when scoring position <span class="math inline">\(t\)</span> it may use only the past. That is the right constraint at <em>inference</em> (the future genuinely is unknown), but it makes <em>training</em> one-directional — each item is predicted from its left context only. The Transformer chapter showed a different pretraining recipe: <strong>BERT’s masked-language model</strong>, which <strong>hides</strong> random tokens and predicts each from <strong>both</strong> sides at once.</p>
-<p><strong>BERT4Rec</strong> (Sun et al., 2019) applies that recipe to sequences. It uses <strong>bidirectional</strong> self-attention (no causal mask) and trains with the <strong>cloze</strong> objective: randomly <strong>mask</strong> a fraction of items in the session and predict each masked item from everything around it — left <em>and</em> right. At inference, it appends a <code>[mask]</code> token to the end of the session and predicts <em>that</em>, recovering next-item recommendation.</p>
-<blockquote class="blockquote">
-<p><strong>Why “BERT4Rec” and “cloze.”</strong> It ports <strong>BERT</strong> (the bidirectional Transformer encoder) to <strong>Rec</strong>ommendation. <em>Cloze</em> (from “closure,” Taylor, 1953) is the fill-in-the-blank task from language testing — delete a word and have the reader restore it from context; BERT4Rec deletes an item and restores it from the surrounding session.</p>
-</blockquote>
-<p>The contrast with SASRec is exactly the <strong>mask</strong>, and it is the cleanest way to see the two designs:</p>
-<div id="fig-sequential-recsys-4" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-4.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) uses a <strong>lower-triangular</strong> mask — position <span class="math inline">\(t\)</span> attends only to positions <span class="math inline">\(\le t\)</span>, so it is trained to predict the next item from the past alone. <em>BERT4Rec</em> (right) attends <strong>both ways</strong> and is trained by masking an item (the <code>[m]</code> cell) and reconstructing it from the whole surrounding session. The mask is the entire design difference.
-</figcaption>
-</figure>
-</div>
-<p>Which wins is <strong>dataset-dependent</strong> — bidirectional context helps when sessions are long and the signal is not purely “most recent,” while the causal SASRec is simpler and often as strong; careful re-evaluations have found the two close once both are tuned. Report both, and tune them equally (the reproducibility caution of the <em>Datasets &amp; Benchmarks</em> appendix applies here too).</p>
-<hr>
-</section>
-<section id="training-and-evaluating-a-sequence-model" class="level2">
-<h2 class="anchored" data-anchor-id="training-and-evaluating-a-sequence-model">6. Training and evaluating a sequence model</h2>
-<p><strong>Training — every prefix is an example.</strong> A single session of length <span class="math inline">\(n\)</span> is not one training example but <span class="math inline">\(n-1\)</span>: from each prefix <span class="math inline">\((i_1,\dots,i_{t-1})\)</span> predict <span class="math inline">\(i_t\)</span>. The loss on each is the usual next-item objective — a <strong>softmax / sampled-softmax</strong> over the catalog, or a pairwise <strong>BPR</strong> ranking loss (<em>Losses &amp; Regularizers</em> §9–§10) — with <strong>negative sampling</strong> to avoid scoring millions of items every step (<em>Training and Serving</em>). BERT4Rec instead optimizes the <strong>cloze</strong> loss (predict the masked positions). Either way the model learns <em>embeddings</em> and <em>attention/recurrence weights</em> by gradient descent (Calculus primer).</p>
-<p><strong>Evaluation — split by time, not at random.</strong> A sequence model must be graded the way it will be used: <strong>predict the future from the past</strong>. The standard protocol is the <strong>leave-one-last</strong> split — for each user, hold out their <strong>chronologically last</strong> interaction as the test target, the second-last for validation, and train on the rest — then report <strong>Hit-Rate@<span class="math inline">\(K\)</span></strong> and <strong>NDCG@<span class="math inline">\(K\)</span></strong> (<em>Evaluation Metrics</em>). A <strong>random</strong> train/test split would let the model train on interactions that occurred <strong>after</strong> the test item — leaking the future and badly inflating the score. This temporal-split discipline, and the leakage trap it avoids, is detailed in the <em>Datasets &amp; Benchmarks</em> appendix.</p>
-<blockquote class="blockquote">
-<p><strong>One-sentence takeaway.</strong> Slice each session into prefix→next examples, train the attention/recurrence with a sampled ranking loss, and <strong>evaluate by holding out each user’s last interaction</strong> — never a random split, which leaks the future a sequence model exists to predict.</p>
-</blockquote>
-<hr>
-</section>
-<section id="where-this-fits-in-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">7. Where this fits in the book</h2>
-<p>Sequential recommendation is the <strong>order-aware</strong> lens on the very same interaction log that the matrix (Traditional RecSys) and the graph (<em>From Graphs to LightGCN</em>) read differently — three complementary views of one stream of events (Figure 1). Its importance to the book is the <strong>bridge it builds</strong>: SASRec and BERT4Rec are nothing but the <strong>self-attention of the Transformer chapter</strong> pointed at item sequences, which is precisely why the <strong>LLM era</strong> that follows feels inevitable — a large language model <em>is</em> a sequence model, and recommending the “next item” is the same shape of problem as predicting the next token.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Idea (here)</th>
-<th>Where it returns</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Item embeddings, scored by a dot product (§2, §4)</td>
-<td>the embeddings of Traditional RecSys §5 and <em>From Graphs to LightGCN</em></td>
-</tr>
-<tr class="even">
-<td>Self-attention over a session (§4)</td>
-<td>the <strong>Transformer</strong> chapter’s mechanism, reused; the on-ramp to <em>LLM × RecSys</em></td>
-</tr>
-<tr class="odd">
-<td>Causal vs.&nbsp;cloze masking (§5)</td>
-<td>the GPT-style vs.&nbsp;BERT-style pretraining of the Transformer chapter</td>
-</tr>
-<tr class="even">
-<td>Next-item softmax / BPR loss (§6)</td>
-<td><em>Losses &amp; Regularizers</em> §9–§10</td>
-</tr>
-<tr class="odd">
-<td>Leave-one-last split, HR@<span class="math inline">\(K\)</span> / NDCG@<span class="math inline">\(K\)</span> (§6)</td>
-<td><em>Evaluation Metrics</em>; the leakage discussion of the <em>Datasets &amp; Benchmarks</em> appendix</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Carry this forward:</strong> <em>the matrix forgets order; a sequence model remembers it — from a one-step Markov count, to a recurrent summary, to self-attention that lets the next item look back over the whole session. That last step is the Transformer, which is also what the LLM era runs on.</em></p>
-<hr>
-</section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">8. Exercises</h2>
-<p>Work these by hand — the numbers are kept tiny on purpose, and reuse the chapter’s Titanic/Avatar/Matrix sessions. Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
-<ol type="1">
-<li><p><strong>(compute)</strong> From §2’s four sessions, you counted the transitions out of <strong>T</strong> and <strong>A</strong>. Now suppose a fifth session <span class="math inline">\(\text{M}\!\to\!\text{T}\)</span> is added. Recompute <span class="math inline">\(P(\text{next}\mid\text{last}=\text{M})\)</span>. What is special about a “from-M” row before this session is added?</p></li>
-<li><p><strong>(compute)</strong> A first-order Markov chain predicts the next item from the <strong>last</strong> one only. Given the chain of §2 (<span class="math inline">\(P(\text{A}\mid\text{T})=0.667\)</span>, <span class="math inline">\(P(\text{M}\mid\text{T})=0.333\)</span>), which item does it recommend after a session ending in <strong>Titanic</strong>, and why can it <em>not</em> use the fact that the user also saw Avatar earlier in a longer session?</p></li>
-<li><p><strong>(compute)</strong> Redo §4’s self-attention step but with the session <span class="math inline">\((\text{Avatar},\ \text{Titanic})\)</span> — i.e.&nbsp;the <strong>same two items in the opposite order</strong>, so the query is now <strong>Titanic</strong> <span class="math inline">\(=[1,0]\)</span>. Using identity projections and <span class="math inline">\(\sqrt d=\sqrt2\)</span>, compute the two raw scores, the softmax weights, the context vector, and the three candidate scores. Which item is recommended now, and why did reversing the order change the answer?</p></li>
-<li><p><strong>(compute)</strong> In §4 the softmax turned raw scores <span class="math inline">\([0,\,0.707]\)</span> into weights <span class="math inline">\([0.330,0.670]\)</span>. Verify the larger weight by hand: compute <span class="math inline">\(e^{0.707}/(e^{0}+e^{0.707})\)</span> using <span class="math inline">\(e^{0.707}\approx2.028\)</span>.</p></li>
-<li><p><strong>(compute)</strong> Using §4’s context vector <span class="math inline">\(\mathbf c=[0.330,0.670]\)</span>, score a <strong>fourth</strong> candidate “Inception” with embedding <span class="math inline">\([2,0]\)</span>. Where does it rank against Titanic (<span class="math inline">\(0.330\)</span>), Avatar (<span class="math inline">\(0.670\)</span>), and Matrix (<span class="math inline">\(1.000\)</span>)? Its raw dot-product score is large mostly because of what property of its vector — and which §-of-an-earlier-chapter bias does that echo?</p></li>
-<li><p><strong>(concept)</strong> §3’s RNN keeps a hidden state <span class="math inline">\(\mathbf h_t=f(\mathbf h_{t-1},\text{embed}(i_t))\)</span>. In one or two sentences, explain what <span class="math inline">\(\mathbf h_t\)</span> is supposed to store, and the one structural weakness (versus self-attention) that motivated SASRec.</p></li>
-<li><p><strong>(concept)</strong> SASRec uses a <strong>causal mask</strong>; BERT4Rec uses <strong>bidirectional</strong> attention with a <strong>cloze</strong> objective. Explain why SASRec <em>must</em> mask the future during training, yet BERT4Rec is allowed to look both ways — what is different about the two training tasks?</p></li>
-<li><p><strong>(concept)</strong> Raw self-attention is <strong>order-blind</strong>: permuting the inputs leaves the weighted average unchanged. What does SASRec add to fix this, and why does a sequence model need it when a bag-of-items model would not?</p></li>
-<li><p><strong>(concept)</strong> You evaluate a sequence recommender with a <strong>random</strong> train/test split and get a suspiciously high NDCG@10. Explain the leakage that random splitting causes for sequence data, and what split (§6) fixes it.</p></li>
-<li><p><strong>(apply)</strong> FPMC (§2) scores the next item as <span class="math inline">\(\mathbf p_u\cdot\mathbf q_i+\mathbf q'_l\cdot\mathbf q''_i\)</span>. Say which <strong>term</strong> dominates for (a) a brand-new, anonymous session with a strong “last item” signal, and (b) a long-time user whose tastes are well known but whose last click was an accidental mis-tap. Which model of this chapter keeps <strong>only</strong> the second (Markov) term?</p></li>
-</ol>
-<hr>
-</section>
-<section id="glossary" class="level2">
-<h2 class="anchored" data-anchor-id="glossary">9. Glossary</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Term</th>
-<th>Plain meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Sequential recommendation</strong></td>
-<td>Predict the next item from a user’s <strong>ordered</strong> history.</td>
-</tr>
-<tr class="even">
-<td><strong>Session-based recommendation</strong></td>
-<td>Same, but from a short, often <strong>anonymous</strong> current session (no user id).</td>
-</tr>
-<tr class="odd">
-<td><strong>Next-item prediction</strong></td>
-<td>The core task: given <span class="math inline">\((i_1,\dots,i_{t-1})\)</span>, score every item for being <span class="math inline">\(i_t\)</span>.</td>
-</tr>
-<tr class="even">
-<td><strong>Markov chain (first-order)</strong></td>
-<td>Next item depends only on the <strong>last</strong> one; transitions estimated by counting.</td>
-</tr>
-<tr class="odd">
-<td><strong>Transition probability</strong></td>
-<td><span class="math inline">\(P(\text{next}=j\mid\text{last}=i)\)</span> — count of <span class="math inline">\(i\!\to\!j\)</span> over count of <span class="math inline">\(i\)</span>-as-from.</td>
-</tr>
-<tr class="even">
-<td><strong>FPMC</strong></td>
-<td>Factorizing Personalized Markov Chains: MF term <span class="math inline">\(+\)</span> a <strong>learned</strong> (factorized) transition term.</td>
-</tr>
-<tr class="odd">
-<td><strong>RNN / hidden state <span class="math inline">\(\mathbf h_t\)</span></strong></td>
-<td>A net that folds each item into a running fixed-length <strong>summary</strong> of the session.</td>
-</tr>
-<tr class="even">
-<td><strong>GRU4Rec</strong></td>
-<td>A <strong>gated</strong> RNN for session-based recommendation; session-parallel batches + a ranking loss.</td>
-</tr>
-<tr class="odd">
-<td><strong>Self-attention</strong></td>
-<td>Each position attends (by dot-product softmax) to others, reading a weighted average (Transformer chapter).</td>
-</tr>
-<tr class="even">
-<td><strong>SASRec</strong></td>
-<td>Self-Attentive Sequential Recommendation: a <strong>causal</strong> Transformer over the item sequence.</td>
-</tr>
-<tr class="odd">
-<td><strong>Causal mask</strong></td>
-<td>Lower-triangular mask: position <span class="math inline">\(t\)</span> may attend only to positions <span class="math inline">\(\le t\)</span> (no peeking at the future).</td>
-</tr>
-<tr class="even">
-<td><strong>Positional embedding</strong></td>
-<td>A learned per-position vector added to item embeddings so attention can see <strong>order</strong>.</td>
-</tr>
-<tr class="odd">
-<td><strong>BERT4Rec</strong></td>
-<td>A <strong>bidirectional</strong> Transformer trained with the <strong>cloze</strong> (masked-item) objective.</td>
-</tr>
-<tr class="even">
-<td><strong>Cloze objective</strong></td>
-<td>Mask random items and predict each from both-side context (fill-in-the-blank).</td>
-</tr>
-<tr class="odd">
-<td><strong>Leave-one-last split</strong></td>
-<td>Hold out each user’s chronologically <strong>last</strong> interaction for test (temporal, leak-free).</td>
-</tr>
-<tr class="even">
-<td><strong>Hit-Rate@K / NDCG@K</strong></td>
-<td>Was the held-out next item in the top <span class="math inline">\(K\)</span>? / how high was it? (<em>Evaluation Metrics</em>).</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">10. References</h2>
-<ul>
-<li><p>Rendle, S., Freudenthaler, C., &amp; Schmidt-Thieme, L. (2010). <em>Factorizing personalized Markov chains for next-basket recommendation</em>. In <em>Proceedings of the 19th International Conference on World Wide Web (WWW)</em>. https://doi.org/10.1145/1772690.1772773</p></li>
-<li><p>Hidasi, B., Karatzoglou, A., Baltrunas, L., &amp; Tikk, D. (2016). <em>Session-based recommendations with recurrent neural networks</em>. In <em>International Conference on Learning Representations (ICLR)</em>. arXiv:1511.06939</p></li>
-<li><p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation</em>. In <em>Proceedings of the 18th IEEE International Conference on Data Mining (ICDM)</em>. arXiv:1808.09781</p></li>
-<li><p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential recommendation with bidirectional encoder representations from transformer</em>. In <em>Proceedings of the 28th ACM International Conference on Information and Knowledge Management (CIKM)</em>. arXiv:1904.06690</p></li>
-<li><p>Wang, S., Cao, L., Wang, Y., Sheng, Q. Z., Orgun, M. A., &amp; Lian, D. (2021). <em>A survey on session-based recommender systems</em>. <em>ACM Computing Surveys, 54</em>(7). https://doi.org/10.1145/3465401</p></li>
-</ul>
-<p><em>Online sources verified June 2026.</em></p>
 
 
-</section>
+        </div>
 
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
-    }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
-    }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
-    });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
-    }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
+
+
+      </header>
+
+
+      <section id="from-a-matrix-to-a-sequence-what-order-adds" class="level2">
+        <h2 class="anchored" data-anchor-id="from-a-matrix-to-a-sequence-what-order-adds">1. From a matrix to a
+          sequence: what order adds</h2>
+        <p>Traditional CF asks <em>“what rating goes in this empty cell?”</em> — a question about a
+          <strong>static</strong> matrix in which the rows could be shuffled and nothing would change. But a
+          recommendation log is a <strong>stream of events in time</strong>:
+        </p>
+        <p><span class="math display">\[
+            \text{Ann's history} = (\ \text{Titanic},\ \text{Avatar},\ \underbrace{?}_{\text{next}}\ ).
+            \]</span></p>
+        <p>Two facts the matrix cannot see: the events have an <strong>order</strong> (Titanic came before Avatar), and
+          the <strong>most recent</strong> ones matter most (what you watched an hour ago predicts your next click far
+          better than what you watched a year ago). <strong>Sequential recommendation</strong> is the problem of using
+          that order.</p>
+        <p><strong>Two settings, one task.</strong> The literature splits on <em>how much you know about the user</em>:
+        </p>
+        <ul>
+          <li><strong>Sequential recommendation</strong> — you have a <strong>long, identified</strong> history for each
+            user (their whole watch list), and predict the next item in it.</li>
+          <li><strong>Session-based recommendation</strong> — you have only the <strong>current, short, often anonymous
+              session</strong> (the handful of clicks since the page loaded), with <em>no user id</em> at all. This is
+            the harder, very common e-commerce case: a logged-out visitor with three clicks.</li>
+        </ul>
+        <p>Both reduce to the same core question — <strong>next-item prediction</strong>:</p>
+        <blockquote class="blockquote">
+          <p>Given the items seen so far, <span class="math inline">\((i_1, i_2, \dots, i_{t-1})\)</span>, score every
+            catalog item for being the <strong>next</strong> one, <span class="math inline">\(i_t\)</span>, and
+            recommend the top-<span class="math inline">\(K\)</span>.</p>
+        </blockquote>
+        <p>Notice the shape of the answer is unchanged from Traditional RecSys: a <strong>score per item</strong>,
+          ranked. What changes is the <em>input</em> — an <strong>ordered prefix</strong> instead of a user id — and so
+          what the model must capture: <strong>which earlier items, in which order, predict what comes next.</strong>
+        </p>
+        <div id="fig-sequential-recsys-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/sequential-recsys-1.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;9.1: <strong>Three views of the same interactions.</strong> <em>Traditional RecSys</em> reads
+              them as a static <strong>matrix</strong> (rows can be shuffled — no order). <em>This chapter</em> reads
+              one user’s history as an ordered <strong>sequence</strong> and predicts the <strong>next</strong> item.
+              The <em>next</em> chapter reads them as a <strong>graph</strong> of who-touched-what. Same data, three
+              lenses; sequence is the order-aware one.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why “sequential” and “session.”</strong> <em>Sequential</em> = the model consumes an ordered
+            <strong>sequence</strong> of past items. <em>Session</em> = one unbroken visit (the clicks between arriving
+            and leaving); session-based models work from that short window alone, with no long-term profile.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="the-simplest-sequence-model-markov-chains" class="level2">
+        <h2 class="anchored" data-anchor-id="the-simplest-sequence-model-markov-chains">2. The simplest sequence model:
+          Markov chains</h2>
+        <p>Start with the crudest possible use of order: <strong>the next item depends only on the last one.</strong> A
+          <strong>(first-order) Markov chain</strong> models the sequence by a table of <strong>transition
+            probabilities</strong> <span class="math inline">\(P(\text{next}=j \mid \text{last}=i)\)</span> — “after
+          <span class="math inline">\(i\)</span>, how often does <span class="math inline">\(j\)</span> follow?” —
+          estimated by <strong>counting</strong> in the log.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “Markov.”</strong> After Andrey <strong>Markov</strong>, who studied processes with the
+            <em>memoryless</em> property: the next state depends only on the <strong>current</strong> state, not the
+            full history. A first-order chain remembers exactly <strong>one</strong> step back.
+          </p>
+        </blockquote>
+        <p><strong>Worked example — transitions by counting.</strong> Take four tiny sessions over three movies —
+          Titanic (T), Avatar (A), Matrix (M):</p>
+        <p><span class="math display">\[
+            \text{T}\!\to\!\text{A}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{A},\qquad \text{A}\!\to\!\text{M},\qquad
+            \text{T}\!\to\!\text{M}.
+            \]</span></p>
+        <p>Count every adjacent <strong>(from <span class="math inline">\(\to\)</span> to)</strong> pair. From
+          <strong>T</strong> we see <span class="math inline">\(\text{T}\!\to\!\text{A}\)</span> <strong>twice</strong>
+          and <span class="math inline">\(\text{T}\!\to\!\text{M}\)</span> <strong>once</strong> (<span
+            class="math inline">\(3\)</span> transitions out of T); from <strong>A</strong> we see <span
+            class="math inline">\(\text{A}\!\to\!\text{M}\)</span> <strong>twice</strong> (<span
+            class="math inline">\(2\)</span> out of A). Dividing each count by its row total gives the transition
+          probabilities:
+        </p>
+        <p><span class="math display">\[
+            P(\text{A}\mid\text{T})=\tfrac{2}{3}\approx0.667,\quad
+            P(\text{M}\mid\text{T})=\tfrac{1}{3}\approx0.333,\quad
+            P(\text{M}\mid\text{A})=\tfrac{2}{2}=1.0.
+            \]</span></p>
+        <p>Per component: the <strong>numerator</strong> is how often that specific pair occurred; the
+          <strong>denominator</strong> is how often the <em>from</em>-item appeared as a “from” at all — so each row is
+          a normalized vote that sums to <span class="math inline">\(1\)</span>. Reading it: a user whose last movie was
+          <strong>Titanic</strong> is predicted to watch <strong>Avatar</strong> next (probability <span
+            class="math inline">\(0.667\)</span>, the bigger count); a user whose last was <strong>Avatar</strong> is
+          sent to <strong>Matrix</strong> (<span class="math inline">\(1.0\)</span>). The whole “model” is a counted
+          table.
+        </p>
+        <div id="fig-sequential-recsys-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/sequential-recsys-2.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;9.2: <strong>A first-order Markov chain counted from four sessions.</strong> Each arrow is
+              <span class="math inline">\(P(\text{next}\mid\text{last})\)</span>, estimated by dividing the transition
+              count by the row total. After <em>Titanic</em>, <em>Avatar</em> is the likely next watch (<span
+                class="math inline">\(0.667\)</span>, <strong>thick</strong>) over <em>Matrix</em> (<span
+                class="math inline">\(0.333\)</span>, <strong>thin</strong>); after <em>Avatar</em>, <em>Matrix</em> is
+              certain in this toy (<span class="math inline">\(1.0\)</span>). The model is just this table of counts.
+            </figcaption>
+          </figure>
+        </div>
+        <p><strong>The two limits — and the fix.</strong> A plain Markov chain has no <strong>memory</strong> beyond the
+          last item (it cannot learn “users who saw <em>both</em> Titanic and Avatar like Inception”), and it is
+          <strong>not personalized</strong> (everyone shares one transition table). The classic remedy is <strong>FPMC —
+            Factorizing Personalized Markov Chains</strong> (Rendle et al., 2010), which scores the next item as a
+          <strong>sum of two dot products</strong>:
+        </p>
+        <p><span class="math display">\[
+            \hat s(u,\,\text{last}=l,\,\text{next}=i)\;=\;\underbrace{\mathbf p_u\cdot\mathbf q_i}_{\text{matrix
+            factorization: does }u\text{ like }i?}\;+\;\underbrace{\mathbf q'_l\cdot\mathbf q''_i}_{\text{Markov: does
+            }i\text{ follow }l?}.
+            \]</span></p>
+        <p>Decoded: the <strong>first</strong> term is exactly the matrix-factorization score of Traditional RecSys §5
+          (user taste meets item traits); the <strong>second</strong> replaces the <em>counted</em> transition table
+          with a <strong>learned</strong> one — each item gets vectors so that “<span class="math inline">\(i\)</span>
+          tends to follow <span class="math inline">\(l\)</span>” becomes a dot product <span
+            class="math inline">\(\mathbf q'_l\cdot\mathbf q''_i\)</span>, which <strong>generalizes</strong> to pairs
+          never seen together (the same low-rank trick that let MF fill blank cells). FPMC is, in one line, <strong>MF
+            plus a factorized Markov step</strong> — the hinge between the static matrix and the deep sequence models
+          below.</p>
+        <blockquote class="blockquote">
+          <p><strong>Why “FPMC.”</strong> <strong>F</strong>actorizing <strong>P</strong>ersonalized
+            <strong>M</strong>arkov <strong>C</strong>hains: it <em>factorizes</em> the transition table into item
+            vectors (so it generalizes), and makes it <em>personalized</em> by adding the per-user MF term.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="reading-the-whole-session-gru4rec" class="level2">
+        <h2 class="anchored" data-anchor-id="reading-the-whole-session-gru4rec">3. Reading the whole session: GRU4Rec
+        </h2>
+        <p>A Markov chain forgets everything but the last click. To use the <strong>whole</strong> session we need a
+          model that carries a <strong>running summary</strong> of it. A <strong>recurrent neural network (RNN)</strong>
+          does exactly that: it reads the items left-to-right, and after each one updates a <strong>hidden
+            state</strong> <span class="math inline">\(\mathbf h_t\)</span> — a fixed-length vector meant to encode
+          “everything relevant so far”:</p>
+        <p><span class="math display">\[
+            \mathbf h_t \;=\; f\big(\mathbf h_{t-1},\ \text{embed}(i_t)\big),\qquad
+            \hat{\mathbf y}_t \;=\; \text{scores over all items, from } \mathbf h_t .
+            \]</span></p>
+        <p>Decoded: <span class="math inline">\(\text{embed}(i_t)\)</span> is the current item’s vector (Traditional
+          RecSys §5); <span class="math inline">\(f\)</span> folds it into the previous summary <span
+            class="math inline">\(\mathbf h_{t-1}\)</span> to produce the new summary <span
+            class="math inline">\(\mathbf h_t\)</span>; and the next-item scores are read off <span
+            class="math inline">\(\mathbf h_t\)</span>. The state is the memory — unlike the Markov chain, it can in
+          principle carry information from <strong>any</strong> earlier position.</p>
+        <p><strong>GRU4Rec</strong> (Hidasi et al., 2016) was the model that brought this to session-based
+          recommendation. Its <span class="math inline">\(f\)</span> is a <strong>GRU</strong> — a <em>gated recurrent
+            unit</em>, a cell (built in the RNN/LSTM/GRU family of <em>Representation Learning &amp; the
+            Transformer</em> §3) whose <strong>gates</strong> learn what to <strong>keep</strong> versus
+          <strong>forget</strong> from the running state, which is what lets it hold useful context over a longer
+          session without the signal washing out. Two engineering ideas made it work on real logs:
+          <strong>session-parallel mini-batches</strong> (process many short sessions side by side so the GPU stays
+          busy) and a <strong>ranking loss</strong> over the next item (a pairwise BPR-style or TOP1 loss — <em>Losses
+            &amp; Regularizers</em> §9 — rather than a full softmax over a huge catalog).
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “GRU4Rec.”</strong> It is a <strong>GRU</strong> recurrent network <strong>for
+              Rec</strong>ommendation; “4” is the internet’s “for.” The point of the name is the cell: a <em>gated</em>
+            RNN reading a session.</p>
+        </blockquote>
+        <p>The recurrent view has one structural weakness, though: it must <strong>compress the entire past into one
+            vector</strong> and process strictly left-to-right, step by step. Long-range dependencies fade, and the
+          sequential computation is hard to parallelize. Both complaints are answered by letting each position look
+          <strong>directly</strong> at every earlier one — <strong>attention</strong>.
+        </p>
+        <hr>
+      </section>
+      <section id="attention-over-the-session-sasrec" class="level2">
+        <h2 class="anchored" data-anchor-id="attention-over-the-session-sasrec">4. Attention over the session: SASRec
+        </h2>
+        <p>The Transformer chapter built <strong>self-attention</strong>: a mechanism where each position forms a
+          <strong>query</strong>, compares it (by dot product) against a <strong>key</strong> at every position, turns
+          those similarities into softmax <strong>weights</strong>, and reads out a weighted average of the
+          <strong>values</strong>. <strong>SASRec — Self-Attentive Sequential Recommendation</strong> (Kang &amp;
+          McAuley, 2018) — is that mechanism applied to a session: stack the item embeddings of the prefix, run
+          self-attention, and the output at the <strong>last</strong> position is the summary used to score the next
+          item.
+        </p>
+        <p>Two adaptations make attention fit recommendation:</p>
+        <ul>
+          <li>A <strong>causal mask</strong>: when predicting the item at position <span
+              class="math inline">\(t\)</span>, a position may attend only to positions <span class="math inline">\(\le
+              t\)</span> — never to the future it is trying to predict. (Same lower-triangular mask the Transformer
+            chapter used for left-to-right language models.)</li>
+          <li><strong>Positional embeddings</strong>: raw attention is order-blind (permute the inputs and the weighted
+            average is unchanged), so SASRec <strong>adds a learned position vector</strong> to each item embedding,
+            re-injecting “this was the 1st / 2nd / … click.” (We fold this in below and flag it.)</li>
+        </ul>
+        <p><strong>Worked example — one self-attention step, by hand.</strong> Ann’s session so far is <span
+            class="math inline">\((\text{Titanic},\ \text{Avatar})\)</span>; predict the next item. Use <span
+            class="math inline">\(d=2\)</span> embeddings</p>
+        <p><span class="math display">\[
+            \text{Titanic}=[1,0],\quad \text{Avatar}=[0,1],\quad \text{Matrix}=[1,1],
+            \]</span></p>
+        <p>and — to keep every number checkable — take the query/key/value projections to be the
+          <strong>identity</strong> (real SASRec <em>learns</em> these matrices and adds positional vectors; here we
+          expose the bare mechanism, exactly as the Transformer chapter first did). The query is the
+          <strong>last</strong> position, Avatar <span class="math inline">\(=[0,1]\)</span>. Self-attention scores it
+          against the two keys (Titanic, Avatar), scaled by <span class="math inline">\(\sqrt
+            d=\sqrt2\approx1.414\)</span>:
+        </p>
+        <p><span class="math display">\[
+            \frac{q\cdot k_{\text{Ti}}}{\sqrt d}=\frac{[0,1]\cdot[1,0]}{1.414}=\frac{0}{1.414}=0,
+            \qquad
+            \frac{q\cdot k_{\text{Av}}}{\sqrt d}=\frac{[0,1]\cdot[0,1]}{1.414}=\frac{1}{1.414}=0.707.
+            \]</span></p>
+        <p>(Both positions are <span class="math inline">\(\le\)</span> the last, so the causal mask blocks nothing
+          here.) Softmax turns the two scores <span class="math inline">\([0,\,0.707]\)</span> into weights — <span
+            class="math inline">\(e^{0}=1\)</span>, <span class="math inline">\(e^{0.707}=2.028\)</span>, sum <span
+            class="math inline">\(=3.028\)</span>:</p>
+        <p><span class="math display">\[
+            \alpha_{\text{Ti}}=\tfrac{1}{3.028}=0.330,\qquad \alpha_{\text{Av}}=\tfrac{2.028}{3.028}=0.670.
+            \]</span></p>
+        <p>The <strong>context vector</strong> is the weighted average of the values (here the embeddings):</p>
+        <p><span class="math display">\[
+            \mathbf c = 0.330\,[1,0] + 0.670\,[0,1] = [\,0.330,\ 0.670\,].
+            \]</span></p>
+        <p>Finally, score each candidate next item by its dot product with <span class="math inline">\(\mathbf
+            c\)</span> (the same “embedding <span class="math inline">\(\cdot\)</span> summary” head as everywhere else
+          in the book):</p>
+        <p><span class="math display">\[
+            \text{Titanic}: [0.330,0.670]\cdot[1,0]=0.330,\quad
+            \text{Avatar}: 0.670,\quad
+            \text{Matrix}: [0.330,0.670]\cdot[1,1]=\boxed{1.000}.
+            \]</span></p>
+        <p>Reading it: attention put <strong>more weight on the most recent item</strong> (Avatar, <span
+            class="math inline">\(0.670\)</span>) but did not ignore Titanic (<span
+            class="math inline">\(0.330\)</span>); the resulting context blends both tastes, and <strong>Matrix</strong>
+          — which shares a feature with each — scores highest (<span class="math inline">\(1.000\)</span>) and is
+          recommended next. The whole step is dot products and one softmax, no different from the Transformer chapter —
+          only the <em>input</em> (a session) and the <em>read-out</em> (next-item scores) are new.</p>
+        <div id="fig-sequential-recsys-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/sequential-recsys-3.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;9.3: <strong>One causal self-attention step (SASRec), reproducing the worked numbers.</strong>
+              The <strong>query</strong> (the last item, <em>Avatar</em>) attends to the session: a
+              <strong>thick</strong> edge to <em>Avatar</em> (<span class="math inline">\(\alpha{=}0.670\)</span>) and a
+              <strong>thin</strong> one to <em>Titanic</em> (<span class="math inline">\(\alpha{=}0.330\)</span>). Their
+              weighted average is the <strong>context</strong> <span class="math inline">\([0.330,0.670]\)</span>, which
+              scores each candidate by a dot product — <em>Matrix</em> wins at <span
+                class="math inline">\(1.000\)</span>. Recency dominates the weights, but earlier items still contribute.
+            </figcaption>
+          </figure>
+        </div>
+        <blockquote class="blockquote">
+          <p><strong>Why “SASRec.”</strong> <strong>S</strong>elf-<strong>A</strong>ttentive <strong>S</strong>equential
+            <strong>Rec</strong>ommendation: it drops the RNN for the Transformer’s self-attention, so every position
+            reads every earlier one directly — capturing long-range “what predicts what” in one parallel layer.
+          </p>
+        </blockquote>
+        <blockquote class="blockquote">
+          <p><strong>In practice.</strong> Real SASRec stacks a few masked self-attention + feed-forward blocks
+            (Transformer chapter), adds learned positional embeddings, and trains with a binary next-item loss over
+            sampled negatives. Don’t hand-roll it: <strong>RecBole</strong> and the authors’ released code provide tuned
+            implementations, and SASRec remains one of the <strong>strongest, hardest-to-beat baselines</strong> in
+            sequential recommendation — always run it before claiming a new model wins.</p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="looking-both-ways-bert4rec" class="level2">
+        <h2 class="anchored" data-anchor-id="looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</h2>
+        <p>SASRec reads strictly <strong>left-to-right</strong>: when scoring position <span
+            class="math inline">\(t\)</span> it may use only the past. That is the right constraint at
+          <em>inference</em> (the future genuinely is unknown), but it makes <em>training</em> one-directional — each
+          item is predicted from its left context only. The Transformer chapter showed a different pretraining recipe:
+          <strong>BERT’s masked-language model</strong>, which <strong>hides</strong> random tokens and predicts each
+          from <strong>both</strong> sides at once.
+        </p>
+        <p><strong>BERT4Rec</strong> (Sun et al., 2019) applies that recipe to sequences. It uses
+          <strong>bidirectional</strong> self-attention (no causal mask) and trains with the <strong>cloze</strong>
+          objective: randomly <strong>mask</strong> a fraction of items in the session and predict each masked item from
+          everything around it — left <em>and</em> right. At inference, it appends a <code>[mask]</code> token to the
+          end of the session and predicts <em>that</em>, recovering next-item recommendation.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>Why “BERT4Rec” and “cloze.”</strong> It ports <strong>BERT</strong> (the bidirectional Transformer
+            encoder) to <strong>Rec</strong>ommendation. <em>Cloze</em> (from “closure,” Taylor, 1953) is the
+            fill-in-the-blank task from language testing — delete a word and have the reader restore it from context;
+            BERT4Rec deletes an item and restores it from the surrounding session.</p>
+        </blockquote>
+        <p>The contrast with SASRec is exactly the <strong>mask</strong>, and it is the cleanest way to see the two
+          designs:</p>
+        <div id="fig-sequential-recsys-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+          <figure class="quarto-float quarto-float-fig figure">
+            <div aria-describedby="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              <img src="../figs/sequential-recsys-4.svg" class="img-fluid figure-img">
+            </div>
+            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
+              id="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+              Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) uses a
+              <strong>lower-triangular</strong> mask — position <span class="math inline">\(t\)</span> attends only to
+              positions <span class="math inline">\(\le t\)</span>, so it is trained to predict the next item from the
+              past alone. <em>BERT4Rec</em> (right) attends <strong>both ways</strong> and is trained by masking an item
+              (the <code>[m]</code> cell) and reconstructing it from the whole surrounding session. The mask is the
+              entire design difference.
+            </figcaption>
+          </figure>
+        </div>
+        <p>Which wins is <strong>dataset-dependent</strong> — bidirectional context helps when sessions are long and the
+          signal is not purely “most recent,” while the causal SASRec is simpler and often as strong; careful
+          re-evaluations have found the two close once both are tuned. Report both, and tune them equally (the
+          reproducibility caution of the <em>Datasets &amp; Benchmarks</em> appendix applies here too).</p>
+        <hr>
+      </section>
+      <section id="training-and-evaluating-a-sequence-model" class="level2">
+        <h2 class="anchored" data-anchor-id="training-and-evaluating-a-sequence-model">6. Training and evaluating a
+          sequence model</h2>
+        <p><strong>Training — every prefix is an example.</strong> A single session of length <span
+            class="math inline">\(n\)</span> is not one training example but <span class="math inline">\(n-1\)</span>:
+          from each prefix <span class="math inline">\((i_1,\dots,i_{t-1})\)</span> predict <span
+            class="math inline">\(i_t\)</span>. The loss on each is the usual next-item objective — a <strong>softmax /
+            sampled-softmax</strong> over the catalog, or a pairwise <strong>BPR</strong> ranking loss (<em>Losses &amp;
+            Regularizers</em> §9–§10) — with <strong>negative sampling</strong> to avoid scoring millions of items every
+          step (<em>Training and Serving</em>). BERT4Rec instead optimizes the <strong>cloze</strong> loss (predict the
+          masked positions). Either way the model learns <em>embeddings</em> and <em>attention/recurrence weights</em>
+          by gradient descent (Calculus primer).</p>
+        <p><strong>Evaluation — split by time, not at random.</strong> A sequence model must be graded the way it will
+          be used: <strong>predict the future from the past</strong>. The standard protocol is the
+          <strong>leave-one-last</strong> split — for each user, hold out their <strong>chronologically last</strong>
+          interaction as the test target, the second-last for validation, and train on the rest — then report
+          <strong>Hit-Rate@<span class="math inline">\(K\)</span></strong> and <strong>NDCG@<span
+              class="math inline">\(K\)</span></strong> (<em>Evaluation Metrics</em>). A <strong>random</strong>
+          train/test split would let the model train on interactions that occurred <strong>after</strong> the test item
+          — leaking the future and badly inflating the score. This temporal-split discipline, and the leakage trap it
+          avoids, is detailed in the <em>Datasets &amp; Benchmarks</em> appendix.
+        </p>
+        <blockquote class="blockquote">
+          <p><strong>One-sentence takeaway.</strong> Slice each session into prefix→next examples, train the
+            attention/recurrence with a sampled ranking loss, and <strong>evaluate by holding out each user’s last
+              interaction</strong> — never a random split, which leaks the future a sequence model exists to predict.
+          </p>
+        </blockquote>
+        <hr>
+      </section>
+      <section id="where-this-fits-in-the-book" class="level2">
+        <h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">7. Where this fits in the book</h2>
+        <p>Sequential recommendation is the <strong>order-aware</strong> lens on the very same interaction log that the
+          matrix (Traditional RecSys) and the graph (<em>From Graphs to LightGCN</em>) read differently — three
+          complementary views of one stream of events (Figure 1). Its importance to the book is the <strong>bridge it
+            builds</strong>: SASRec and BERT4Rec are nothing but the <strong>self-attention of the Transformer
+            chapter</strong> pointed at item sequences, which is precisely why the <strong>LLM era</strong> that follows
+          feels inevitable — a large language model <em>is</em> a sequence model, and recommending the “next item” is
+          the same shape of problem as predicting the next token.</p>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Idea (here)</th>
+              <th>Where it returns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td>Item embeddings, scored by a dot product (§2, §4)</td>
+              <td>the embeddings of Traditional RecSys §5 and <em>From Graphs to LightGCN</em></td>
+            </tr>
+            <tr class="even">
+              <td>Self-attention over a session (§4)</td>
+              <td>the <strong>Transformer</strong> chapter’s mechanism, reused; the on-ramp to <em>LLM × RecSys</em>
+              </td>
+            </tr>
+            <tr class="odd">
+              <td>Causal vs.&nbsp;cloze masking (§5)</td>
+              <td>the GPT-style vs.&nbsp;BERT-style pretraining of the Transformer chapter</td>
+            </tr>
+            <tr class="even">
+              <td>Next-item softmax / BPR loss (§6)</td>
+              <td><em>Losses &amp; Regularizers</em> §9–§10</td>
+            </tr>
+            <tr class="odd">
+              <td>Leave-one-last split, HR@<span class="math inline">\(K\)</span> / NDCG@<span
+                  class="math inline">\(K\)</span> (§6)</td>
+              <td><em>Evaluation Metrics</em>; the leakage discussion of the <em>Datasets &amp; Benchmarks</em> appendix
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Carry this forward:</strong> <em>the matrix forgets order; a sequence model remembers it — from a
+            one-step Markov count, to a recurrent summary, to self-attention that lets the next item look back over the
+            whole session. That last step is the Transformer, which is also what the LLM era runs on.</em></p>
+        <hr>
+      </section>
+      <section id="exercises" class="level2">
+        <h2 class="anchored" data-anchor-id="exercises">8. Exercises</h2>
+        <p>Work these by hand — the numbers are kept tiny on purpose, and reuse the chapter’s Titanic/Avatar/Matrix
+          sessions. Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
+        <ol type="1">
+          <li>
+            <p><strong>(compute)</strong> From §2’s four sessions, you counted the transitions out of <strong>T</strong>
+              and <strong>A</strong>. Now suppose a fifth session <span
+                class="math inline">\(\text{M}\!\to\!\text{T}\)</span> is added. Recompute <span
+                class="math inline">\(P(\text{next}\mid\text{last}=\text{M})\)</span>. What is special about a “from-M”
+              row before this session is added?</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> A first-order Markov chain predicts the next item from the
+              <strong>last</strong> one only. Given the chain of §2 (<span
+                class="math inline">\(P(\text{A}\mid\text{T})=0.667\)</span>, <span
+                class="math inline">\(P(\text{M}\mid\text{T})=0.333\)</span>), which item does it recommend after a
+              session ending in <strong>Titanic</strong>, and why can it <em>not</em> use the fact that the user also
+              saw Avatar earlier in a longer session?
+            </p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Redo §4’s self-attention step but with the session <span
+                class="math inline">\((\text{Avatar},\ \text{Titanic})\)</span> — i.e.&nbsp;the <strong>same two items
+                in the opposite order</strong>, so the query is now <strong>Titanic</strong> <span
+                class="math inline">\(=[1,0]\)</span>. Using identity projections and <span class="math inline">\(\sqrt
+                d=\sqrt2\)</span>, compute the two raw scores, the softmax weights, the context vector, and the three
+              candidate scores. Which item is recommended now, and why did reversing the order change the answer?</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> In §4 the softmax turned raw scores <span
+                class="math inline">\([0,\,0.707]\)</span> into weights <span
+                class="math inline">\([0.330,0.670]\)</span>. Verify the larger weight by hand: compute <span
+                class="math inline">\(e^{0.707}/(e^{0}+e^{0.707})\)</span> using <span
+                class="math inline">\(e^{0.707}\approx2.028\)</span>.</p>
+          </li>
+          <li>
+            <p><strong>(compute)</strong> Using §4’s context vector <span class="math inline">\(\mathbf
+                c=[0.330,0.670]\)</span>, score a <strong>fourth</strong> candidate “Inception” with embedding <span
+                class="math inline">\([2,0]\)</span>. Where does it rank against Titanic (<span
+                class="math inline">\(0.330\)</span>), Avatar (<span class="math inline">\(0.670\)</span>), and Matrix
+              (<span class="math inline">\(1.000\)</span>)? Its raw dot-product score is large mostly because of what
+              property of its vector — and which §-of-an-earlier-chapter bias does that echo?</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> §3’s RNN keeps a hidden state <span class="math inline">\(\mathbf
+                h_t=f(\mathbf h_{t-1},\text{embed}(i_t))\)</span>. In one or two sentences, explain what <span
+                class="math inline">\(\mathbf h_t\)</span> is supposed to store, and the one structural weakness (versus
+              self-attention) that motivated SASRec.</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> SASRec uses a <strong>causal mask</strong>; BERT4Rec uses
+              <strong>bidirectional</strong> attention with a <strong>cloze</strong> objective. Explain why SASRec
+              <em>must</em> mask the future during training, yet BERT4Rec is allowed to look both ways — what is
+              different about the two training tasks?
+            </p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> Raw self-attention is <strong>order-blind</strong>: permuting the inputs
+              leaves the weighted average unchanged. What does SASRec add to fix this, and why does a sequence model
+              need it when a bag-of-items model would not?</p>
+          </li>
+          <li>
+            <p><strong>(concept)</strong> You evaluate a sequence recommender with a <strong>random</strong> train/test
+              split and get a suspiciously high NDCG@10. Explain the leakage that random splitting causes for sequence
+              data, and what split (§6) fixes it.</p>
+          </li>
+          <li>
+            <p><strong>(apply)</strong> FPMC (§2) scores the next item as <span class="math inline">\(\mathbf
+                p_u\cdot\mathbf q_i+\mathbf q'_l\cdot\mathbf q''_i\)</span>. Say which <strong>term</strong> dominates
+              for (a) a brand-new, anonymous session with a strong “last item” signal, and (b) a long-time user whose
+              tastes are well known but whose last click was an accidental mis-tap. Which model of this chapter keeps
+              <strong>only</strong> the second (Markov) term?
+            </p>
+          </li>
+        </ol>
+        <hr>
+      </section>
+      <section id="glossary" class="level2">
+        <h2 class="anchored" data-anchor-id="glossary">9. Glossary</h2>
+        <table class="caption-top table">
+          <colgroup>
+            <col style="width: 50%">
+            <col style="width: 50%">
+          </colgroup>
+          <thead>
+            <tr class="header">
+              <th>Term</th>
+              <th>Plain meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd">
+              <td><strong>Sequential recommendation</strong></td>
+              <td>Predict the next item from a user’s <strong>ordered</strong> history.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Session-based recommendation</strong></td>
+              <td>Same, but from a short, often <strong>anonymous</strong> current session (no user id).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Next-item prediction</strong></td>
+              <td>The core task: given <span class="math inline">\((i_1,\dots,i_{t-1})\)</span>, score every item for
+                being <span class="math inline">\(i_t\)</span>.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Markov chain (first-order)</strong></td>
+              <td>Next item depends only on the <strong>last</strong> one; transitions estimated by counting.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Transition probability</strong></td>
+              <td><span class="math inline">\(P(\text{next}=j\mid\text{last}=i)\)</span> — count of <span
+                  class="math inline">\(i\!\to\!j\)</span> over count of <span class="math inline">\(i\)</span>-as-from.
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>FPMC</strong></td>
+              <td>Factorizing Personalized Markov Chains: MF term <span class="math inline">\(+\)</span> a
+                <strong>learned</strong> (factorized) transition term.
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>RNN / hidden state <span class="math inline">\(\mathbf h_t\)</span></strong></td>
+              <td>A net that folds each item into a running fixed-length <strong>summary</strong> of the session.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>GRU4Rec</strong></td>
+              <td>A <strong>gated</strong> RNN for session-based recommendation; session-parallel batches + a ranking
+                loss.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Self-attention</strong></td>
+              <td>Each position attends (by dot-product softmax) to others, reading a weighted average (Transformer
+                chapter).</td>
+            </tr>
+            <tr class="even">
+              <td><strong>SASRec</strong></td>
+              <td>Self-Attentive Sequential Recommendation: a <strong>causal</strong> Transformer over the item
+                sequence.</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Causal mask</strong></td>
+              <td>Lower-triangular mask: position <span class="math inline">\(t\)</span> may attend only to positions
+                <span class="math inline">\(\le t\)</span> (no peeking at the future).
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>Positional embedding</strong></td>
+              <td>A learned per-position vector added to item embeddings so attention can see <strong>order</strong>.
+              </td>
+            </tr>
+            <tr class="odd">
+              <td><strong>BERT4Rec</strong></td>
+              <td>A <strong>bidirectional</strong> Transformer trained with the <strong>cloze</strong> (masked-item)
+                objective.</td>
+            </tr>
+            <tr class="even">
+              <td><strong>Cloze objective</strong></td>
+              <td>Mask random items and predict each from both-side context (fill-in-the-blank).</td>
+            </tr>
+            <tr class="odd">
+              <td><strong>Leave-one-last split</strong></td>
+              <td>Hold out each user’s chronologically <strong>last</strong> interaction for test (temporal, leak-free).
+              </td>
+            </tr>
+            <tr class="even">
+              <td><strong>Hit-Rate@K / NDCG@K</strong></td>
+              <td>Was the held-out next item in the top <span class="math inline">\(K\)</span>? / how high was it?
+                (<em>Evaluation Metrics</em>).</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+      </section>
+      <section id="references" class="level2">
+        <h2 class="anchored" data-anchor-id="references">10. References</h2>
+        <ul>
+          <li>
+            <p>Rendle, S., Freudenthaler, C., &amp; Schmidt-Thieme, L. (2010). <em>Factorizing personalized Markov
+                chains for next-basket recommendation</em>. In <em>Proceedings of the 19th International Conference on
+                World Wide Web (WWW)</em>. https://doi.org/10.1145/1772690.1772773</p>
+          </li>
+          <li>
+            <p>Hidasi, B., Karatzoglou, A., Baltrunas, L., &amp; Tikk, D. (2016). <em>Session-based recommendations with
+                recurrent neural networks</em>. In <em>International Conference on Learning Representations (ICLR)</em>.
+              arXiv:1511.06939</p>
+          </li>
+          <li>
+            <p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation</em>. In
+              <em>Proceedings of the 18th IEEE International Conference on Data Mining (ICDM)</em>. arXiv:1808.09781
+            </p>
+          </li>
+          <li>
+            <p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential
+                recommendation with bidirectional encoder representations from transformer</em>. In <em>Proceedings of
+                the 28th ACM International Conference on Information and Knowledge Management (CIKM)</em>.
+              arXiv:1904.06690</p>
+          </li>
+          <li>
+            <p>Wang, S., Cao, L., Wang, Y., Sheng, Q. Z., Orgun, M. A., &amp; Lian, D. (2021). <em>A survey on
+                session-based recommender systems</em>. <em>ACM Computing Surveys, 54</em>(7).
+              https://doi.org/10.1145/3465401</p>
+          </li>
+        </ul>
+        <p><em>Online sources verified June 2026.</em></p>
+
+
+      </section>
+
+    </main> <!-- /main -->
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const icon = "";
+        const anchorJS = new window.AnchorJS();
+        anchorJS.options = {
+          placement: 'right',
+          icon: icon
+        };
+        anchorJS.add('.anchored');
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {
+              return true;
+            }
           }
+          return false;
+        }
+        const onCopySuccess = function (e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button,
+              {
+                trigger: "manual",
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]
+              });
+            tooltip.show();
+          }
+          setTimeout(function () {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function (trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+        var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i = 0; i < links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
             // target, if specified
             link.setAttribute("target", "_blank");
             if (link.getAttribute("rel") === null) {
               link.setAttribute("rel", "noopener");
             }
-        }
-      }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
-    }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
-    }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
           }
         }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function (el) {
+              return el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+          window.tippy(el, config);
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i = 0; i < noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function () {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch { }
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
             } else {
-              container.appendChild(child.cloneNode(true));
-              break;
+              return "";
             }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
-      } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
-      }
-    }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
-          }
-        } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
-            if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
+        const xrefs = window.document.querySelectorAll('a.quarto-xref');
+        const processXRef = (id, note) => {
+          // Strip column container classes
+          const stripColumnClz = (el) => {
+            el.classList.remove("page-full", "page-columns");
+            if (el.children) {
+              for (const child of el.children) {
+                stripColumnClz(child);
+              }
+            }
+          }
+          stripColumnClz(note)
+          if (id === null || id.startsWith('sec-')) {
+            // Special case sections, only their first couple elements
+            const container = document.createElement("div");
+            if (note.children && note.children.length > 2) {
+              container.appendChild(note.children[0].cloneNode(true));
+              for (let i = 1; i < note.children.length; i++) {
+                const child = note.children[i];
+                if (child.tagName === "P" && child.innerText === "") {
+                  continue;
+                } else {
+                  container.appendChild(child.cloneNode(true));
+                  break;
+                }
+              }
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(container);
+              }
+              return container.innerHTML
+            } else {
+              if (window.Quarto?.typesetMath) {
+                window.Quarto.typesetMath(note);
+              }
+              return note.innerHTML;
+            }
+          } else {
+            // Remove any anchor links if they are present
+            const anchorLink = note.querySelector('a.anchorjs-link');
+            if (anchorLink) {
+              anchorLink.remove();
+            }
+            if (window.Quarto?.typesetMath) {
+              window.Quarto.typesetMath(note);
+            }
+            if (note.classList.contains("callout")) {
+              return note.outerHTML;
+            } else {
+              return note.innerHTML;
+            }
+          }
+        }
+        for (var i = 0; i < xrefs.length; i++) {
+          const xref = xrefs[i];
+          tippyHover(xref, undefined, function (instance) {
+            instance.disable();
+            let url = xref.getAttribute('href');
+            let hash = undefined;
+            if (url.startsWith('#')) {
+              hash = url;
+            } else {
+              try { hash = new URL(url).hash; } catch { }
+            }
+            if (hash) {
+              const id = hash.replace(/^#\/?/, "");
+              const note = window.document.getElementById(id);
+              if (note !== null) {
+                try {
+                  const html = processXRef(id, note.cloneNode(true));
+                  instance.setContent(html);
+                } finally {
+                  instance.enable();
+                  instance.show();
+                }
+              } else {
+                // See if we can fetch this
+                fetch(url.split('#')[0])
+                  .then(res => res.text())
+                  .then(html => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(html, "text/html");
+                    const note = htmlDoc.getElementById(id);
+                    if (note !== null) {
+                      const html = processXRef(id, note);
+                      instance.setContent(html);
+                    }
+                  }).finally(() => {
+                    instance.enable();
+                    instance.show();
+                  });
+              }
+            } else {
+              // See if we can fetch a full url (with no hash to target)
+              // This is a special case and we should probably do some content thinning / targeting
+              fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(html, "text/html");
+                  const note = htmlDoc.querySelector('main.content');
+                  if (note !== null) {
+                    // This should only happen for chapter cross references
+                    // (since there is no id in the URL)
+                    // remove the first header
+                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                      note.children[0].remove();
+                    }
+                    const html = processXRef(null, note);
+                    instance.setContent(html);
+                  }
+                }).finally(() => {
+                  instance.enable();
+                  instance.show();
+                });
+            }
+          }, function (instance) {
+          });
+        }
         let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
+        const selectorForAnnotation = (cell, annotation) => {
           let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          let lineAttr = 'data-code-annotation="' + annotation + '"';
           const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
           return selector;
         }
@@ -1128,11 +1537,11 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
           let height = null;
           let parent = null;
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
             if (lineIds.length > 1) {
               const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
               const bottom = lastEl.offsetTop + lastEl.offsetHeight;
@@ -1175,32 +1584,32 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
           });
           selectedAnnoteEl = undefined;
         };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
+        // Handle positioning of the toggle
+        window.addEventListener(
+          "resize",
+          throttle(() => {
+            elRect = undefined;
+            if (selectedAnnoteEl) {
+              selectCodeLines(selectedAnnoteEl);
+            }
+          }, 10)
+        );
+        function throttle(fn, ms) {
+          let throttle = false;
+          let timer;
+          return (...args) => {
+            if (!throttle) { // first call gets through
               fn.apply(this, args);
               throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
+            } else { // all the others get throttled
+              if (timer) clearTimeout(timer); // cancel #2
               timer = setTimeout(() => {
                 fn.apply(this, args);
                 timer = throttle = false;
               }, ms);
-          }
-        };
-      }
+            }
+          };
+        }
         // Attach click handler to the DT
         const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
         for (const annoteDlNode of annoteDls) {
@@ -1221,71 +1630,74 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
             }
           });
         }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
-      } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
-        });
-      }
-    }
-  });
-  </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../chapters/recsys-metrics.html" class="pagination-link" aria-label="Evaluation Metrics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Evaluation Metrics</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../chapters/gcn-to-lightgcn.html" class="pagination-link" aria-label="From Graphs to LightGCN">
-        <span class="nav-page-text"><span class="chapter-title">From Graphs to LightGCN</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
-</div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-    <div class="nav-footer-left">
-<p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
-</div>   
-    <div class="nav-footer-center">
-      &nbsp;
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i = 0; i < bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function () {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function (cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+    </script>
+    <nav class="page-navigation">
+      <div class="nav-page nav-page-previous">
+        <a href="../chapters/recsys-metrics.html" class="pagination-link" aria-label="Evaluation Metrics">
+          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Evaluation
+              Metrics</span></span>
+        </a>
+      </div>
+      <div class="nav-page nav-page-next">
+        <a href="../chapters/gcn-to-lightgcn.html" class="pagination-link" aria-label="From Graphs to LightGCN">
+          <span class="nav-page-text"><span class="chapter-title">From Graphs to LightGCN</span></span> <i
+            class="bi bi-arrow-right-short"></i>
+        </a>
+      </div>
+    </nav>
+  </div> <!-- /content -->
+  <footer class="footer">
+    <div class="nav-footer">
+      <div class="nav-footer-left">
+        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+      </div>
+      <div class="nav-footer-center">
+        &nbsp;
+      </div>
+      <div class="nav-footer-right">
+        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
+            10.5281/zenodo.20952963)</a></p>
+      </div>
     </div>
-    <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
-</div>
-  </div>
-</footer>
+  </footer>
 
 
 
@@ -1293,4 +1705,6 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
   <!-- minastik-brand-js -->
   <script src="/recsys/site_libs/minastik-brand.js"></script>
   <!-- /minastik-brand-js -->
-</body></html>
+</body>
+
+</html>

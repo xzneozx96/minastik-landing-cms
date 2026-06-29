@@ -1,8 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════════
    Minastik brand layer for the Recommender Systems book
    Injected on top of Quarto's Bootstrap CSS.
-   Dark by default; toggled via data-bs-theme on <html>.
+   Light by default; toggled via data-bs-theme on <html>.
    ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Theme toggle (temporarily hidden) ───────────────────────────── */
+#mnk-theme-toggle {
+  display: none !important;
+}
 
 /* ── Dark theme variables ─────────────────────────────────────────── */
 [data-bs-theme="dark"] {
