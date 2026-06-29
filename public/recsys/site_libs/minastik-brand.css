@@ -259,20 +259,19 @@
    Layout — match reference (narrow sidebar, constrained content)
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Sidebar: tighten from Quarto's ~250px default */
+/* Sidebar */
 .sidebar.docked {
-  width: 220px !important;
-  min-width: 220px !important;
+  width: 320px !important;
+  min-width: 320px !important;
 }
 
 @media (min-width: 992px) {
   #quarto-sidebar {
-    width: 220px !important;
+    width: 320px !important;
   }
 
-  /* Offset main content to account for narrower sidebar */
   #quarto-content.quarto-container {
-    margin-left: 220px !important;
+    margin-left: 320px !important;
   }
 }
 
@@ -281,9 +280,9 @@
   max-width: 740px;
 }
 
-/* Right TOC: keep compact */
+/* Right TOC */
 #quarto-margin-sidebar {
-  width: 200px;
+  width: 300px;
   font-size: 0.82rem;
 }
 
