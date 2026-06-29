@@ -4,8 +4,9 @@
    Light by default; toggled via data-bs-theme on <html>.
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── Theme toggle (temporarily hidden) ───────────────────────────── */
-#mnk-theme-toggle {
+/* ── Temporarily hidden nav items ────────────────────────────────── */
+#mnk-theme-toggle,
+.navbar-nav .nav-item:has(a[href="https://minastik.com/learn"]) {
   display: none !important;
 }
 
