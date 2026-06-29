@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+
+<title>Training and Serving a Recommender – Recommender Systems from Zero</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/deep-ctr.html" rel="next">
+<link href="../chapters/llm-recsys-survey.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+<link rel="canonical" href="https://minastik.com/recsys/chapters/training-and-serving.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/training-and-serving.html"><meta property="og:type" content="article">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Training and Serving a Recommender","name":"Training and Serving a Recommender","description":"The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.","url":"https://minastik.com/recsys/chapters/training-and-serving.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Training and Serving a Recommender – Recommender Systems from Zero">
+<meta property="og:description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+<meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+<meta property="og:site_name" content="Recommender Systems from Zero">
+<meta name="twitter:title" content="Training and Serving a Recommender – Recommender Systems from Zero">
+<meta name="twitter:description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+<meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="https://minastik.com">
+    <span class="navbar-title">Recommender Systems from Zero</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com"> 
+<span class="menu-text">← Minastik</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com/learn"> 
+<span class="menu-text">Learn</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mathematical Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine-Learning Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Recommender-System Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequence-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Graph-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">The LLM Era</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Building a Recommender</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Frontiers</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#the-gap-from-a-score-to-a-system" id="toc-the-gap-from-a-score-to-a-system" class="nav-link active" data-scroll-target="#the-gap-from-a-score-to-a-system">1. The gap: from a score to a system</a></li>
+  <li><a href="#implicit-feedback-where-do-the-negatives-come-from" id="toc-implicit-feedback-where-do-the-negatives-come-from" class="nav-link" data-scroll-target="#implicit-feedback-where-do-the-negatives-come-from">2. Implicit feedback: where do the negatives come from?</a></li>
+  <li><a href="#how-to-sample-a-negative" id="toc-how-to-sample-a-negative" class="nav-link" data-scroll-target="#how-to-sample-a-negative">3. How to sample a negative</a></li>
+  <li><a href="#one-training-step-by-hand" id="toc-one-training-step-by-hand" class="nav-link" data-scroll-target="#one-training-step-by-hand">4. One training step, by hand</a></li>
+  <li><a href="#the-training-loop" id="toc-the-training-loop" class="nav-link" data-scroll-target="#the-training-loop">5. The training loop</a></li>
+  <li><a href="#from-embeddings-to-a-ranked-list-inference" id="toc-from-embeddings-to-a-ranked-list-inference" class="nav-link" data-scroll-target="#from-embeddings-to-a-ranked-list-inference">6. From embeddings to a ranked list: inference</a></li>
+  <li><a href="#serving-at-scale-approximate-nearest-neighbour-search" id="toc-serving-at-scale-approximate-nearest-neighbour-search" class="nav-link" data-scroll-target="#serving-at-scale-approximate-nearest-neighbour-search">7. Serving at scale: approximate nearest-neighbour search</a></li>
+  <li><a href="#the-two-stage-funnel-retrieval-ranking" id="toc-the-two-stage-funnel-retrieval-ranking" class="nav-link" data-scroll-target="#the-two-stage-funnel-retrieval-ranking">8. The two-stage funnel: retrieval → ranking</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">9. Exercises</a></li>
+  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">10. Where this fits in the book</a></li>
+  <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">11. Glossary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">12. References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Training and Serving a Recommender</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-gap-from-a-score-to-a-system" class="level2">
+<h2 class="anchored" data-anchor-id="the-gap-from-a-score-to-a-system">1. The gap: from a score to a system</h2>
+<p>You can already <em>score</em> a (user, item) pair — that was the whole of the model chapters. But a recommender has to do two more things, and they are exactly the two this chapter owns.</p>
+<p><strong>Training.</strong> The score <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> is only as good as the embeddings <span class="math inline">\(\mathbf p_u,\mathbf q_i\)</span> in it, and those start as <strong>random numbers</strong>. Training is the loop that walks them from random to useful by repeatedly showing the model a <em>contrast</em> — “this item beats that one for this user” — and nudging the vectors so the score agrees. The objective (BPR) was given in <em>Losses &amp; Regularizers</em> §9; the <strong>loop around it</strong> is §3–§5 here.</p>
+<p><strong>Serving.</strong> A trained model must, on request, return a short ranked list for a user out of a catalogue that may hold <strong>tens of millions</strong> of items — in a few milliseconds. Scoring every item and sorting is correct but far too slow at that scale, so real systems use <strong>approximate nearest- neighbour search</strong> and split the work into a <strong>retrieval → ranking funnel</strong>. That is §6–§8.</p>
+<p>These concerns are <strong>cross-cutting</strong>: the same loop trains MF, LightGCN, or an SSL model (they differ only in how <span class="math inline">\(\mathbf p_u,\mathbf q_i\)</span> are computed before the dot product); the same funnel serves all of them. That is why they get one chapter of their own instead of being repeated in each model chapter.</p>
+<hr>
+</section>
+<section id="implicit-feedback-where-do-the-negatives-come-from" class="level2">
+<h2 class="anchored" data-anchor-id="implicit-feedback-where-do-the-negatives-come-from">2. Implicit feedback: where do the negatives come from?</h2>
+<p>Recall the central fact of implicit feedback (<em>Traditional RecSys</em> §1): the data is <strong>positives-only</strong>. We see what a user <em>clicked, watched, bought</em> — never an explicit “disliked.” A blank cell is <strong>unknown</strong>, not a confirmed <em>no</em>.</p>
+<p>This is a problem the moment you want to <em>rank</em>. A ranking loss like <strong>BPR</strong> is built on <strong>triples</strong> <span class="math inline">\((u, i^+, i^-)\)</span> — “user <span class="math inline">\(u\)</span> prefers item <span class="math inline">\(i^+\)</span> over item <span class="math inline">\(i^-\)</span>” — and it needs a <strong>negative</strong> <span class="math inline">\(i^-\)</span> for every positive <span class="math inline">\(i^+\)</span>. But the data hands us only positives. So we must <strong>invent</strong> the negatives:</p>
+<blockquote class="blockquote">
+<p><strong>Negative sampling.</strong> For each observed positive <span class="math inline">\((u, i^+)\)</span>, <strong>draw</strong> an item <span class="math inline">\(i^-\)</span> that <span class="math inline">\(u\)</span> has <em>not</em> interacted with and treat it as a (provisional) negative. <em>Why the name:</em> we <em>sample</em> a few stand-in <em>negatives</em> rather than using all un-clicked items (there are millions) or pretending we have true labels (we don’t).</p>
+</blockquote>
+<p>Two things make this sound rather than a hack:</p>
+<ul>
+<li>A random un-clicked item is <strong>usually</strong> genuinely uninteresting to <span class="math inline">\(u\)</span> — so it is a <em>good enough</em> negative on average, even though any single draw might accidentally be a false negative (an item <span class="math inline">\(u\)</span> would have liked but never saw).</li>
+<li>We only need the <strong>relative</strong> order <span class="math inline">\(\hat r_{u,i^+}&gt;\hat r_{u,i^-}\)</span> to be right, not absolute labels. Pushing observed items above random un-clicked ones, over millions of triples, is enough to learn a good ranking.</li>
+</ul>
+<p>The whole training loop is built on this one move. So before the loop, we must choose <strong>how</strong> to sample.</p>
+<hr>
+</section>
+<section id="how-to-sample-a-negative" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-sample-a-negative">3. How to sample a negative</h2>
+<p>There is more than one sampling distribution, and the choice measurably changes what the model learns. Four are worth knowing.</p>
+<p><strong>Uniform (the default).</strong> Pick <span class="math inline">\(i^-\)</span> <strong>uniformly at random</strong> from the items <span class="math inline">\(u\)</span> has not touched. Every un-clicked item is equally likely. This is the default BPR negative sampler (<em>Losses &amp; Regularizers</em> §9) — cheap, popularity-neutral, and a strong baseline. (It is “unbiased” only in the sense of <em>no popularity skew</em>; it is <strong>not</strong> an unbiased estimate of the full-softmax gradient — the gap the logQ correction below repairs.)</p>
+<p><strong>Popularity-weighted.</strong> Sample <span class="math inline">\(i^-\)</span> with probability <strong>proportional to its popularity raised to a power</strong> — the same <span class="math inline">\(\text{pop}^{0.75}\)</span> trick word2vec uses for its negatives (<em>Representation Learning &amp; the Transformer</em>). Popular items are sampled as negatives <em>more often</em>, which (a) makes <strong>harder</strong> negatives (a popular item is a more confusable distractor than an obscure one) and (b) directly <strong>pushes popular items down</strong>, countering their tendency to be over-recommended (the popularity bias of <em>Evaluation Metrics</em> §12). The <span class="math inline">\(0.75\)</span> power <strong>tempers</strong> the skew so rare items still appear.</p>
+<p><strong>In-batch negatives.</strong> Don’t sample fresh items at all — reuse the <strong>other positives in the current mini-batch</strong> as negatives for each other. If the batch holds positives for 1,024 different (user, item) pairs, each user gets <span class="math inline">\({\sim}1{,}023\)</span> ready-made negatives <strong>for free</strong> (no extra lookups). This is the standard trick for the contrastive loss in <em>SSL &amp; Contrastive Learning</em> §3.4, and the cheapest way to get <em>many</em> negatives. Its one hazard: a genuine positive that happens to share the batch becomes a <strong>false negative</strong> (pushed apart) — rare, but likelier for very popular items. The standard production fix is a <strong>logQ correction</strong>: subtract each item’s log-sampling-probability (roughly its log-popularity) from the in-batch logits, so frequent items are not systematically over-penalized as negatives.</p>
+<p><strong>Hard negatives.</strong> Deliberately pick <strong>high-scoring</strong> un-clicked items — the ones the model currently gets <em>wrong</em> (ranks too high). These carry the most gradient signal, so the model learns faster; but pushed too far they overlap true positives and hurt. Used carefully (e.g.&nbsp;<em>dynamic</em> negative sampling), they sharpen a model that uniform negatives have left “good but blurry.” <strong>Dynamic</strong> (hard) negative sampling re-mines the hardest un-clicked items for each user every few thousand steps — rather than fixing them once per epoch — so the negatives keep getting harder as the embeddings improve.</p>
+<p><strong>Worked example.</strong> Ann has interacted with <span class="math inline">\(\{\)</span>Titanic, Avatar<span class="math inline">\(\}\)</span>; the three un-clicked candidates and their play-counts are below. Uniform gives each <span class="math inline">\(\tfrac13\)</span>; popularity-weighted uses <span class="math inline">\(\text{pop}^{0.75}\)</span>, normalized.</p>
+<table class="caption-top table">
+<caption>Two negative-sampling distributions over the same three un-clicked items. <span class="math inline">\(\text{pop}^{0.75}\)</span> values: <span class="math inline">\(60^{0.75}=21.56\)</span>, <span class="math inline">\(30^{0.75}=12.82\)</span>, <span class="math inline">\(10^{0.75}=5.62\)</span>, summing to <span class="math inline">\(40.0\)</span>; dividing gives the last column. Uniform treats all three alike; popularity-weighting samples the blockbuster Rambo as the negative <strong><span class="math inline">\({\sim}54\%\)</span></strong> of the time (vs <span class="math inline">\(33\%\)</span>), so the loop spends more effort pushing the over-exposed item down.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Candidate negative</th>
+<th style="text-align: right;">Popularity (plays)</th>
+<th style="text-align: right;"><span class="math inline">\(\text{pop}^{0.75}\)</span></th>
+<th style="text-align: right;">Uniform <span class="math inline">\(p\)</span></th>
+<th style="text-align: right;">Popularity-weighted <span class="math inline">\(p\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rambo (blockbuster)</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">21.56</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: right;"><strong>0.539</strong></td>
+</tr>
+<tr class="even">
+<td>Die Hard</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">12.82</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: right;">0.320</td>
+</tr>
+<tr class="odd">
+<td>The Notebook (niche)</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5.62</td>
+<td style="text-align: right;">0.333</td>
+<td style="text-align: right;">0.141</td>
+</tr>
+</tbody>
+</table>
+<p>Whatever the sampler, the output is the same: a stream of triples <span class="math inline">\((u, i^+, i^-)\)</span>. Now we can train.</p>
+<hr>
+</section>
+<section id="one-training-step-by-hand" class="level2">
+<h2 class="anchored" data-anchor-id="one-training-step-by-hand">4. One training step, by hand</h2>
+<p>Take <strong>one</strong> triple and walk it through the loop on the <em>Traditional RecSys</em> §5 vectors, so every number is checkable.</p>
+<p><strong>Setup.</strong> User Ann has factors <span class="math inline">\(\mathbf p_{\text{Ann}}=[\,2,\,0.5\,]\)</span> (romance <span class="math inline">\(2\)</span>, action <span class="math inline">\(0.5\)</span>). The positive is <strong>Avatar</strong>, <span class="math inline">\(\mathbf q^{+}=[\,1,\,1\,]\)</span>; the sampled negative is a pure- action film <strong>Rambo</strong>, <span class="math inline">\(\mathbf q^{-}=[\,0,\,2\,]\)</span>. Learning rate <span class="math inline">\(\eta=0.1\)</span>.</p>
+<p><strong>Step 1 — score the pair (forward).</strong> Two dot products: <span class="math display">\[
+\hat r^{+}=\mathbf p_{\text{Ann}}\cdot\mathbf q^{+}=(2)(1)+(0.5)(1)=2.5,\qquad
+\hat r^{-}=\mathbf p_{\text{Ann}}\cdot\mathbf q^{-}=(2)(0)+(0.5)(2)=1.0 .
+\]</span> The <strong>score gap</strong> is <span class="math inline">\(d=\hat r^{+}-\hat r^{-}=2.5-1.0=1.5\)</span>. Ann already ranks Avatar above Rambo, but only by <span class="math inline">\(1.5\)</span> — there is room to push.</p>
+<p><strong>Step 2 — the loss (how wrong are we?).</strong> BPR’s per-triple loss is <span class="math inline">\(-\ln\sigma(d)\)</span> (the <em>Losses &amp; Regularizers</em> §9 result; <span class="math inline">\(\sigma\)</span> is the sigmoid). With <span class="math inline">\(d=1.5\)</span>: <span class="math display">\[
+\sigma(1.5)=0.8176,\qquad \mathcal{L}=-\ln(0.8176)=0.2014 .
+\]</span> A small but non-zero loss — the model is mostly right and will be nudged gently.</p>
+<p><strong>Step 3 — the gradient (which way to move).</strong> <em>Losses &amp; Regularizers</em> §9 gives the BPR gradient as <span class="math inline">\(\dfrac{\partial\mathcal L}{\partial\theta}=-\big(1-\sigma(d)\big)\dfrac{\partial d}{\partial\theta}\)</span> — the factor <span class="math inline">\(-(1-\sigma(d))\)</span> is <strong>large when <span class="math inline">\(d\)</span> is small/negative</strong> (a triple we get wrong) and <strong>near zero when <span class="math inline">\(d\)</span> is large</strong> (already correct), so the loop spends its effort where it is wrong. Here <span class="math inline">\(1-\sigma(1.5)=0.1824\)</span>. For matrix factorization the score is a dot product, so <span class="math inline">\(\dfrac{\partial d}{\partial \mathbf p_u}=\mathbf q^{+}-\mathbf q^{-}\)</span>, giving <span class="math display">\[
+\frac{\partial\mathcal L}{\partial \mathbf p_{\text{Ann}}}
+=-\,0.1824\,\big(\mathbf q^{+}-\mathbf q^{-}\big)
+=-\,0.1824\,\big([1,1]-[0,2]\big)
+=-\,0.1824\,[\,1,\,-1\,]=[\,-0.1824,\ 0.1824\,].
+\]</span></p>
+<p><strong>Step 4 — the update (move downhill).</strong> Gradient <em>descent</em> subtracts <span class="math inline">\(\eta\)</span> times the gradient: <span class="math display">\[
+\mathbf p_{\text{Ann}}\leftarrow \mathbf p_{\text{Ann}}-\eta\,\frac{\partial\mathcal L}{\partial\mathbf p_{\text{Ann}}}
+=[\,2,\,0.5\,]-0.1\,[\,-0.1824,\ 0.1824\,]=[\,2.0182,\ 0.4818\,].
+\]</span> Read the move: Ann’s <strong>romance</strong> factor went <strong>up</strong> (<span class="math inline">\(2\to2.018\)</span>) and her <strong>action</strong> factor went <strong>down</strong> (<span class="math inline">\(0.5\to0.482\)</span>) — she was nudged <em>toward</em> the romance-heavy positive and <em>away</em> from the action negative. (The item vectors <span class="math inline">\(\mathbf q^{+},\mathbf q^{-}\)</span> update by the symmetric rule; we move only <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span> here to keep the arithmetic small.)</p>
+<p><strong>Did it work?</strong> Re-score with the updated Ann: <span class="math display">\[
+\hat r^{+}_{\text{new}}=[2.0182,0.4818]\cdot[1,1]=2.500,\qquad
+\hat r^{-}_{\text{new}}=[2.0182,0.4818]\cdot[0,2]=0.9635,
+\]</span> so the gap <strong>widened</strong> from <span class="math inline">\(d=1.500\)</span> to <span class="math inline">\(d'=1.536\)</span>. One triple, one step — the positive moved further above the negative, which is exactly what ranking training is for. Multiply this by millions of triples over many epochs and the embeddings settle into a geometry where observed items reliably out-score sampled ones.</p>
+<div id="fig-training-and-serving-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: Embedding-space view of the §4 update. Ann’s vector is nudged from <span class="math inline">\(\mathbf{p}_{\text{pre}}=[2.0,\ 0.5]\)</span> to <span class="math inline">\(\mathbf{p}_{\text{post}}=[2.018,\ 0.482]\)</span> (arrow) — one small step in 2-D romance–action space. The move goes toward the positive Avatar <span class="math inline">\([1,1]\)</span> (romance <span class="math inline">\(\uparrow\)</span>) and away from the negative Rambo <span class="math inline">\([0,2]\)</span> (action <span class="math inline">\(\downarrow\)</span>), exactly as the arithmetic in Steps 3–4 predicts. (Points in the caption use <span class="math inline">\(\to\)</span> notation: pre <span class="math inline">\(\to\)</span> post.)
+</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="the-training-loop" class="level2">
+<h2 class="anchored" data-anchor-id="the-training-loop">5. The training loop</h2>
+<p>Steps 1–4 are one update. The full training is just that update, <strong>looped</strong> over mini-batches and epochs:</p>
+<pre><code>initialize all embeddings E randomly
+for epoch in 1..T:
+    for each mini-batch of positives (u, i+):
+        for each (u, i+):  sample a negative  i-          # §3
+        scores   = dot(e_u, e_i+),  dot(e_u, e_i-)        # forward  (§4 step 1)
+        L_bpr    = mean( -ln sigma(score+ - score-) )     # loss     (§4 step 2)
+        loss     = L_bpr + lambda * ||E||^2               # + L2 regularizer
+        grads    = backprop(loss)                         # gradient (§4 step 3)
+        E        = optimizer_step(E, grads, eta)          # update   (§4 step 4)</code></pre>
+<ul>
+<li>An <strong>epoch</strong> is one pass over all observed positives; you run several (until validation NDCG — <em>Evaluation Metrics</em> §7 — stops improving, i.e.&nbsp;<em>early stopping</em>, a regularizer from <em>Losses &amp; Regularizers</em> §5).</li>
+<li>A <strong>mini-batch</strong> is a handful of triples processed together (so the update uses an <em>average</em> gradient — steadier than one triple at a time, cheaper than all of them). It is also where <strong>in-batch negatives</strong> (§3) come from.</li>
+<li>The <strong>only learnable parameters are the embeddings</strong> <span class="math inline">\(E\)</span>. For MF those are <span class="math inline">\(\mathbf p_u,\mathbf
+q_i\)</span> directly; for LightGCN they are the base table <span class="math inline">\(E^{(0)}\)</span>, and the forward pass first <em>propagates</em> them over the graph (<em>From Graphs to LightGCN</em> §7–§11) before the dot product — but the loop around it is <strong>identical</strong>. Concretely: in the pseudocode above, the <code>e_u</code> and <code>e_i+</code> that enter <code>dot()</code> are for LightGCN the <strong>propagated, layer-averaged embeddings</strong> <span class="math inline">\(\bar{\mathbf
+e}_u = \frac{1}{L+1}\sum_{\ell=0}^{L}\mathbf e_u^{(\ell)}\)</span> (where <span class="math inline">\(L\)</span> is the number of graph propagation layers) — the output of the graph aggregation described in <em>From Graphs to LightGCN</em> §10–§11 — <em>not</em> the raw rows of <span class="math inline">\(E^{(0)}\)</span>; the base table is what the optimizer updates, but the dot product always operates on the propagated result.</li>
+</ul>
+<div id="fig-training-and-serving-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-2.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: The training loop: sample a contrast, score it, measure how wrong the order is (BPR loss), and nudge the embeddings to widen the gap — then repeat. <em>SSL &amp; Contrastive Learning</em> §3.4 adds one box (a contrastive term <span class="math inline">\(+\lambda\mathcal{L}_{\text{cl}}\)</span> on a second view) to this exact loop; the rest is unchanged.
+</figcaption>
+</figure>
+</div>
+<p>That is the whole of training. <em>SSL &amp; Contrastive Learning</em> extends this loop by adding a second loss term (<span class="math inline">\(+\lambda\mathcal L_{\text{cl}}\)</span>) computed from a second “view” of the graph; everything else — sample, score, backprop, step — is what you see here.</p>
+<hr>
+</section>
+<section id="from-embeddings-to-a-ranked-list-inference" class="level2">
+<h2 class="anchored" data-anchor-id="from-embeddings-to-a-ranked-list-inference">6. From embeddings to a ranked list: inference</h2>
+<p>Training leaves us with a frozen table of embeddings. <strong>Inference</strong> (serving) is the act of using them to answer a request: <em>give user <span class="math inline">\(u\)</span> their top <span class="math inline">\(K\)</span> items.</em> The recipe is the mirror of scoring:</p>
+<ol type="1">
+<li>Take the user vector <span class="math inline">\(\mathbf p_u\)</span>.</li>
+<li>Score <strong>every candidate item</strong>: <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> for all <span class="math inline">\(i\)</span>.</li>
+<li><strong>Remove items <span class="math inline">\(u\)</span> has already seen</strong> (you don’t re-recommend a watched film).</li>
+<li><strong>Sort</strong> by score and return the <strong>top <span class="math inline">\(K\)</span></strong>.</li>
+</ol>
+<p><strong>Worked example.</strong> Use the trained <span class="math inline">\(\mathbf p_{\text{Ann}}=[2.018,\,0.482]\)</span> from §4 against a tiny catalogue. Ann has already seen <span class="math inline">\(\{\)</span>Titanic, Avatar<span class="math inline">\(\}\)</span>, so they are filtered out; the rest are scored by the dot product:</p>
+<table class="caption-top table">
+<caption>Inference for Ann: score every unseen item by the dot product, then sort. Top-<span class="math inline">\(2\)</span> = <strong>The Notebook, La La Land</strong> — the two most romance-leaning films, exactly what Ann’s trained <span class="math inline">\([2.018,0.482]\)</span> (romance <span class="math inline">\(\gg\)</span> action) vector should surface.</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item (unseen)</th>
+<th><span class="math inline">\(\mathbf q_i\)</span></th>
+<th style="text-align: right;">score <span class="math inline">\(\mathbf p_{\text{Ann}}\cdot\mathbf q_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The Notebook</td>
+<td><span class="math inline">\([2,\,0.2]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2.018(2)+0.482(0.2)=\mathbf{4.132}\)</span></td>
+</tr>
+<tr class="even">
+<td>La La Land</td>
+<td><span class="math inline">\([1.5,\,0.5]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2.018(1.5)+0.482(0.5)=\mathbf{3.268}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Die Hard</td>
+<td><span class="math inline">\([0.5,\,1.8]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2.018(0.5)+0.482(1.8)=\mathbf{1.877}\)</span></td>
+</tr>
+<tr class="even">
+<td>Rambo</td>
+<td><span class="math inline">\([0,\,2]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2.018(0)+0.482(2)=\mathbf{0.964}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Sorted, the ranking is Notebook <span class="math inline">\(&gt;\)</span> La La Land <span class="math inline">\(&gt;\)</span> Die Hard <span class="math inline">\(&gt;\)</span> Rambo, so <span class="math inline">\(\text{top-}2 = \{\)</span>Notebook, La La Land<span class="math inline">\(\}\)</span>. Sensible — and trivial on four items. The trouble is the <strong>scale</strong>: step 2 scores <em>every</em> item. With <span class="math inline">\(M\)</span> items and a <span class="math inline">\(d\)</span>-dimensional dot product, one user costs <span class="math inline">\(O(Md)\)</span>, and a catalogue of <span class="math inline">\(M=10^{7}\)</span> items makes that hopeless to do exactly for every request. That is the problem §7 solves.</p>
+<hr>
+</section>
+<section id="serving-at-scale-approximate-nearest-neighbour-search" class="level2">
+<h2 class="anchored" data-anchor-id="serving-at-scale-approximate-nearest-neighbour-search">7. Serving at scale: approximate nearest-neighbour search</h2>
+<section id="two-towers-the-retrieval-model-behind-the-index" class="level3">
+<h3 class="anchored" data-anchor-id="two-towers-the-retrieval-model-behind-the-index">Two towers: the retrieval model behind the index</h3>
+<p>§6 scored with a single learned table (<span class="math inline">\(\mathbf p_u\)</span> for users, <span class="math inline">\(\mathbf q_i\)</span> for items). Production <em>retrieval</em> keeps that dot product but produces the vectors with <strong>two separate networks</strong> — a <strong>user tower</strong> <span class="math inline">\(f\)</span> mapping a user’s features/history to <span class="math inline">\(\mathbf p_u\)</span>, and an <strong>item tower</strong> <span class="math inline">\(g\)</span> mapping an item’s features to <span class="math inline">\(\mathbf q_i\)</span> — scored by <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span>. (MF is the special case where each tower is a bare ID lookup.)</p>
+<p>Why this is <em>the</em> retrieval workhorse is an <strong>asymmetry</strong>: the item tower’s output depends only on the item, so <strong>every <span class="math inline">\(\mathbf q_i\)</span> is computed offline and frozen into the ANN index</strong>; only the <strong>user tower runs online</strong>, once per request, to produce <span class="math inline">\(\mathbf p_u\)</span> — then a single ANN lookup (below) finds its nearest items. The four catalogue vectors in §6’s table are exactly what you would precompute and index; at serve time Ann’s <span class="math inline">\(\mathbf p_u=[2.018,0.482]\)</span> is the <em>only</em> vector computed fresh. Training uses the cheap <strong>in-batch / sampled-softmax</strong> negatives of §3 (every other item in the batch is a free negative), which is why two-tower retrievers scale to web-sized catalogues.</p>
+<div id="fig-training-and-serving-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-3.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.3: <strong>Two-tower retrieval.</strong> The <em>item tower</em> (bottom) depends only on the item, so every item vector <span class="math inline">\(\mathbf q_i\)</span> is computed <em>offline</em> and frozen into the ANN index; the <em>user tower</em> (top) is the only part that runs <em>online</em>, producing <span class="math inline">\(\mathbf p_u\)</span> per request — after which one ANN query returns the top-<span class="math inline">\(K\)</span> by <span class="math inline">\(\mathbf p_u\cdot\mathbf q_i\)</span>. Matrix factorization is the special case where each tower is a bare ID lookup.
+</figcaption>
+</figure>
+</div>
+<p>Step 2 of inference — “score every item and take the largest” — is exactly a <strong>nearest-neighbour</strong> query in disguise: find the item vectors <span class="math inline">\(\mathbf q_i\)</span> with the <strong>largest dot product</strong> against <span class="math inline">\(\mathbf p_u\)</span>. This is called <strong>Maximum Inner-Product Search (MIPS)</strong>.</p>
+<p>Doing it <strong>exactly</strong> means touching all <span class="math inline">\(M\)</span> items per user. At <span class="math inline">\(M=10^{7}\)</span> and millions of users, that is billions of dot products per second — too slow and too expensive. The fix is to accept a tiny amount of error:</p>
+<blockquote class="blockquote">
+<p><strong>Approximate Nearest-Neighbour (ANN) search.</strong> Build an <strong>index</strong> over the item vectors <em>once</em>, offline, so that at query time you examine only a <strong>small fraction</strong> of items yet almost always find the true top-<span class="math inline">\(K\)</span>. <em>Why “approximate”:</em> you trade an exact answer for a massive speed-up, occasionally missing a true neighbour — a trade a recommender can easily afford (the candidate list is re-ranked anyway, §8).</p>
+</blockquote>
+<p>Two ideas behind the common indexes (the <em>libraries</em> that implement them are dated in the <strong>Implementation Choices</strong> appendix §3):</p>
+<ul>
+<li><strong>Partition the space</strong> (clustering / inverted file): group items into buckets offline; at query time search only the few buckets nearest the user vector. You scan a fraction, not the whole catalogue.</li>
+<li><strong>Navigate a graph</strong> (HNSW — <em>Hierarchical Navigable Small World</em>): link each item to its nearest neighbours in a multi-layer graph and <strong>greedily walk</strong> toward the query, descending from coarse to fine layers. Search cost grows roughly <strong>logarithmically</strong> in <span class="math inline">\(M\)</span>, not linearly.</li>
+</ul>
+<p><strong>The cosine ↔︎ inner-product trick.</strong> Most ANN libraries optimise either inner product or Euclidean distance, while recommenders often want <strong>cosine</strong> similarity. They are the same search after one step: <strong><span class="math inline">\(\ell_2\)</span>-normalize</strong> every vector (divide by its length). For unit vectors, the dot product <em>is</em> the cosine, so “cosine top-<span class="math inline">\(K\)</span>” becomes “inner-product top-<span class="math inline">\(K\)</span>” — a plain MIPS query the index already supports. (This is why the appendix’s vector-search section says “normalize, then use inner product.”)</p>
+<p><strong>How approximate is “approximate”? (index recall.)</strong> You tune the index by its <strong>recall@k against the exact answer</strong>: if the exact top-5 is <span class="math inline">\(\{a,b,c,d,e\}\)</span> but the ANN returns <span class="math inline">\(\{a,b,c,d,x\}\)</span>, the index recall@5 is <span class="math inline">\(4/5=0.80\)</span> — it found 4 of the 5 true neighbours. The operating rule is forgiving: because the ranking stage (§8) re-sorts whatever retrieval hands it, an index recall around <strong>0.95</strong> is usually plenty, and you trade that last sliver of recall for a large latency win. (This is the <em>serving-side</em> use of recall@k; the metric itself is defined in <em>Evaluation Metrics</em>.)</p>
+<p>So serving a learned recommender at scale is: <strong>embed once, index once, then answer each request with one fast ANN query</strong> over the item index. But there is a second reason real systems don’t stop at a single ANN query — they use it as only the <em>first</em> of two stages.</p>
+<hr>
+</section>
+</section>
+<section id="the-two-stage-funnel-retrieval-ranking" class="level2">
+<h2 class="anchored" data-anchor-id="the-two-stage-funnel-retrieval-ranking">8. The two-stage funnel: retrieval → ranking</h2>
+<p><em>Traditional RecSys</em> §7 showed the <strong>funnel</strong> in outline; here is why it exists and how the two stages divide the labour. A production recommender almost never scores all items with its <em>best</em> model — that model is too expensive to run millions of times per request. Instead it splits serving into two stages with <strong>opposite priorities</strong>:</p>
+<table class="caption-top table">
+<caption>The two stages of serving. Retrieval is a high-<strong>recall</strong> sieve (a fast dot-product/ANN pass that must not drop good items); ranking is a high-<strong>precision</strong> sort (a heavy model that can afford rich features because it only sees a few hundred candidates). The model chapters’ embeddings power the <em>first</em> stage; a feature-rich model (e.g.&nbsp;the factorization machine of <em>Traditional RecSys</em> §8) powers the <em>second</em>.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Job</th>
+<th>Model</th>
+<th>Priority</th>
+<th>Scale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Retrieval</strong> (candidate generation)</td>
+<td>cut the catalogue to a shortlist</td>
+<td>cheap: embeddings + ANN (§7)</td>
+<td><strong>recall</strong> — don’t miss good items</td>
+<td><span class="math inline">\(M\approx10^{7}\to\)</span> a few hundred</td>
+</tr>
+<tr class="even">
+<td><strong>Ranking</strong></td>
+<td>order the shortlist precisely</td>
+<td>expensive: a rich feature model (FM / CTR / LLM)</td>
+<td><strong>precision</strong> — get the top few right</td>
+<td>a few hundred <span class="math inline">\(\to\)</span> top-<span class="math inline">\(K\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why two stages, not one?</strong> A single cheap model (retrieval alone) misses subtle, context-dependent preferences. A single rich model (ranking alone) cannot run over millions of items per request. The funnel gets both: retrieval is <strong>fast and forgiving</strong> (keep anything plausibly good), ranking is <strong>slow and sharp</strong> (only a few hundred survive, so you can afford a model that reads many features).</p>
+<p><strong>Worked example — the ranker reorders.</strong> Retrieval scores Ann’s unseen items by the §6 dot product and keeps the <strong>top 3</strong>: Notebook (<span class="math inline">\(4.13\)</span>), La La Land (<span class="math inline">\(3.27\)</span>), Die Hard (<span class="math inline">\(1.88\)</span>). Now a <strong>ranking</strong> model — a factorization machine (<em>Traditional RecSys</em> §8) — re-scores those three using a <strong>context feature the embedding never saw</strong>: it is <strong>Friday night</strong>, and the FM has learned an interaction <span class="math inline">\(\langle\text{item},\text{Friday-night}\rangle\)</span> (action films do well on Friday nights). Adding that learned interaction to each candidate:</p>
+<table class="caption-top table">
+<caption>Retrieval vs.&nbsp;ranking on the same three candidates. <strong>Die Hard jumps from retrieval-rank 3 to ranking-rank 1</strong>: the cheap embedding stage could not know it is Friday night, but the ranking FM’s learned <span class="math inline">\(\langle\text{item},\text{Friday}\rangle\)</span> interaction (<span class="math inline">\(+2.5\)</span> for the action film) reorders the shortlist. Final top-<span class="math inline">\(2\)</span> = <strong>Die Hard, The Notebook</strong> — different from retrieval’s top-2, and better for the moment.</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Candidate (from retrieval)</th>
+<th style="text-align: right;">Retrieval score</th>
+<th style="text-align: center;">Retrieval rank</th>
+<th style="text-align: right;"><span class="math inline">\(\langle\text{item},\text{Fri}\rangle\)</span></th>
+<th style="text-align: right;">Ranking score</th>
+<th style="text-align: center;"><strong>Final rank</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Die Hard</td>
+<td style="text-align: right;">1.877</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: right;"><span class="math inline">\(+2.5\)</span></td>
+<td style="text-align: right;"><strong>4.377</strong></td>
+<td style="text-align: center;"><strong>1</strong></td>
+</tr>
+<tr class="even">
+<td>The Notebook</td>
+<td style="text-align: right;">4.132</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;"><span class="math inline">\(-0.3\)</span></td>
+<td style="text-align: right;">3.832</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td>La La Land</td>
+<td style="text-align: right;">3.268</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: right;"><span class="math inline">\(+0.2\)</span></td>
+<td style="text-align: right;">3.468</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<p>This is the payoff of the funnel: retrieval used the <strong>collaborative</strong> signal (Ann likes romance) to build a strong shortlist <em>fast</em>; ranking used a <strong>contextual</strong> feature (it’s Friday) to <em>reorder</em> it <em>well</em>. The model chapters of this book mostly improve the <strong>retrieval embeddings</strong>; the feature-rich models (FM, deep CTR, LLM rankers) mostly improve the <strong>ranking</strong> stage. Together they are the system.</p>
+<div id="fig-training-and-serving-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-4.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.4: The two-stage retrieval <span class="math inline">\(\to\)</span> ranking funnel. <strong>Retrieval</strong> (embeddings + ANN, §7) sweeps <span class="math inline">\({\sim}10^{7}\)</span> items down to a few hundred candidates at high <em>recall</em> — it must not drop good items, so it is fast and forgiving. <strong>Ranking</strong> (FM / LLM ranker) reorders that shortlist at high <em>precision</em> — it can afford rich, slow features because it only ever sees a few hundred candidates. The three pools (millions <span class="math inline">\(\to\)</span> hundreds <span class="math inline">\(\to\)</span> <span class="math inline">\(K\)</span>) show the funnel narrowing.
+</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p><strong>Does the latency budget close?</strong> A feed request typically has a <strong>p99 budget around 30 ms</strong> for candidate generation plus ranking. A worked split: <strong>retrieval</strong> (one ANN query, §7) about 5 ms; <strong>feature fetch</strong> for the few-hundred candidates about 10 ms; <strong>ranking</strong> them with a feature-rich model — say <span class="math inline">\(N{=}300\)</span> candidates scored by a factorization machine — about 10 ms; leaving about 5 ms for network and serialization. It sums to budget <em>precisely because the heavy model only ever sees a few hundred items</em> — the whole point of the funnel. Score all <span class="math inline">\(10^{7}\)</span> items with that model and you blow the budget by orders of magnitude (the <span class="math inline">\(O(Md)\)</span> wall of §6). (Order-of-magnitude figures — measure your own stack; tool/QPS numbers live in <em>Implementation Choices</em>.)</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Two serving realities the training loop hides.</strong> <strong>(1) Train–serve skew.</strong> The model is trained on <em>logged, sampled</em> interactions but served over the <em>whole live catalogue</em>, so a sampling choice leaks into production: a uniformly-trained retriever systematically under-ranks the long tail it rarely saw as a positive — part of why the <span class="math inline">\(\text{pop}^{0.75}\)</span> sampler (§3) exists. Keep the training distribution as close to the serving one as you can. <strong>(2) Serving cold-start.</strong> A brand-new user or item has <em>no</em> learned embedding yet — nothing to put in the index. Fall back to <strong>popularity</strong> or <strong>content / LLM features</strong> until interactions accrue, or <strong>explore</strong> with a bandit (<em>Bandits &amp; Online Recommendation</em>; <em>LLM × RecSys</em> for the content-feature route).</p>
+</blockquote>
+<hr>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">9. Exercises</h2>
+<p>Work these by hand — the numbers reuse this chapter’s running pieces (Ann <span class="math inline">\(\mathbf
+p_{\text{Ann}}=[2,0.5]\)</span> before training, <span class="math inline">\([2.018,0.482]\)</span> after the §4 step; Avatar <span class="math inline">\([1,1]\)</span>, Rambo <span class="math inline">\([0,2]\)</span>; <span class="math inline">\(\sigma(1.5)=0.8176\)</span>). Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
+<ol type="1">
+<li><p><strong>(compute)</strong> Ann’s pre-training vector is <span class="math inline">\([2,0.5]\)</span>. Score the triple with positive <strong>Titanic</strong> <span class="math inline">\(\mathbf q^{+}=[2,0]\)</span> and negative <strong>Rambo</strong> <span class="math inline">\(\mathbf q^{-}=[0,2]\)</span>: compute <span class="math inline">\(\hat r^{+}\)</span>, <span class="math inline">\(\hat r^{-}\)</span>, and the gap <span class="math inline">\(d\)</span>. Is the order already correct (is <span class="math inline">\(d&gt;0\)</span>)?</p></li>
+<li><p><strong>(compute)</strong> For the triple in Exercise 1, compute the BPR loss <span class="math inline">\(-\ln\sigma(d)\)</span> and the gradient factor <span class="math inline">\(1-\sigma(d)\)</span>. (Use <span class="math inline">\(\sigma(3.0)=0.953\)</span>.) Compared with §4’s triple (<span class="math inline">\(d=1.5\)</span>), is this triple’s loss larger or smaller, and why does that make sense?</p></li>
+<li><p><strong>(compute)</strong> Do the full update for Exercise 1’s triple on <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span> with <span class="math inline">\(\eta=0.1\)</span>: form <span class="math inline">\(\dfrac{\partial\mathcal L}{\partial\mathbf p}=-(1-\sigma(d))(\mathbf
+q^{+}-\mathbf q^{-})\)</span>, then <span class="math inline">\(\mathbf p\leftarrow\mathbf p-\eta\,\dfrac{\partial\mathcal
+L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that match “Titanic is pure romance”?</p></li>
+<li><p><strong>(concept)</strong> The BPR gradient carries the factor <span class="math inline">\(-(1-\sigma(d))\)</span>. Explain in two sentences why a triple the model already ranks correctly <em>by a wide margin</em> (<span class="math inline">\(d\)</span> large and positive) produces almost <strong>no</strong> update, while a triple it gets <em>wrong</em> (<span class="math inline">\(d&lt;0\)</span>) produces a large one. What property of training does this give you for free?</p></li>
+<li><p><strong>(compute)</strong> Negative sampling. Ann’s three un-clicked candidates have popularities Rambo <span class="math inline">\(=60\)</span>, Die Hard <span class="math inline">\(=30\)</span>, Notebook <span class="math inline">\(=10\)</span>. (a) Give the uniform sampling probabilities. (b) Using <span class="math inline">\(\text{pop}^{0.75}\)</span> (<span class="math inline">\(60^{0.75}=21.56\)</span>, <span class="math inline">\(30^{0.75}=12.82\)</span>, <span class="math inline">\(10^{0.75}=5.62\)</span>), give the popularity-weighted probabilities. (c) By what factor is the blockbuster Rambo more likely to be the sampled negative under popularity-weighting than under uniform?</p></li>
+<li><p><strong>(concept)</strong> <strong>In-batch negatives</strong> reuse the other positives in a mini-batch as negatives.</p>
+<ol type="a">
+<li>If a batch holds positives for <span class="math inline">\(256\)</span> distinct (user, item) pairs, how many negatives does each user get “for free”? (b) Describe the <em>false-negative</em> hazard and say why it is worse for very popular items.</li>
+</ol></li>
+<li><p><strong>(compute)</strong> Inference cost. A catalogue has <span class="math inline">\(M=10^{7}\)</span> items and embeddings of dimension <span class="math inline">\(d=64\)</span>. (a) Roughly how many multiply-adds does an <strong>exact</strong> top-<span class="math inline">\(K\)</span> scan cost for <strong>one</strong> user (<span class="math inline">\(\approx Md\)</span>)? (b) An HNSW index makes the query cost grow like <span class="math inline">\(\log_2 M\)</span> instead of <span class="math inline">\(M\)</span>; roughly what is <span class="math inline">\(\log_2(10^{7})\)</span>, and what does that say about the speed-up?</p></li>
+<li><p><strong>(concept)</strong> A recommender wants <strong>cosine</strong> similarity, but the ANN library only does inner-product (MIPS). State the one preprocessing step that makes the two identical, and explain in one sentence <em>why</em> it works (what is the dot product of two unit vectors?).</p></li>
+<li><p><strong>(apply)</strong> Two-stage funnel. Retrieval returns three candidates with collaborative scores A <span class="math inline">\(=3.0\)</span>, B <span class="math inline">\(=2.6\)</span>, C <span class="math inline">\(=2.2\)</span>. The Friday-night ranker adds interactions <span class="math inline">\(\langle A,\text{Fri}\rangle=-0.5\)</span>, <span class="math inline">\(\langle B,\text{Fri}\rangle=+0.1\)</span>, <span class="math inline">\(\langle C,\text{Fri}\rangle=+1.4\)</span>. (a) Give the final ranking. (b) Which item moved, and in one sentence, why could the retrieval stage <em>not</em> have produced this order itself?</p></li>
+<li><p><strong>(apply)</strong> A teammate proposes dropping retrieval and ranking <strong>all</strong> <span class="math inline">\(10^{7}\)</span> items with the heavy FM ranker on every request, “for accuracy.” Give two distinct reasons (one about <em>latency/cost</em>, one about what retrieval’s <strong>recall</strong> job protects) why the two-stage funnel is used instead — and state what the retrieval stage must <em>not</em> do (the error it cannot afford).</p></li>
+</ol>
+<hr>
+</section>
+<section id="where-this-fits-in-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">10. Where this fits in the book</h2>
+<p>This chapter is the <strong>operational capstone</strong> of Tier 3. The model chapters gave you <em>scoring rules</em> (MF, LightGCN, SSL, the LLM roles); <em>Evaluation Metrics</em> gave you the <em>yardstick</em>; this chapter is the <strong>loop and the funnel</strong> that turn any of those scoring rules into a recommender you can train on clicks and serve at scale. With the concepts (Tiers 1–3), the models, and now the train-and-serve machinery in hand, the only thing left before you build is <strong>choosing concrete tools</strong> — which embedding model, which vector-search index, which framework. That is exactly the <strong>Implementation Choices</strong> appendix, and it is where to go next.</p>
+<hr>
+</section>
+<section id="glossary" class="level2">
+<h2 class="anchored" data-anchor-id="glossary">11. Glossary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Plain meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Negative sampling</strong></td>
+<td>Drawing un-interacted items to serve as (provisional) negatives in a ranking loss, since implicit data has no true negatives.</td>
+</tr>
+<tr class="even">
+<td><strong>Triple <span class="math inline">\((u,i^+,i^-)\)</span></strong></td>
+<td>A training example for pairwise ranking: user <span class="math inline">\(u\)</span> prefers positive <span class="math inline">\(i^+\)</span> over sampled negative <span class="math inline">\(i^-\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Uniform / popularity-weighted / in-batch / hard negatives</strong></td>
+<td>Four sampling distributions for <span class="math inline">\(i^-\)</span>: equal-probability; <span class="math inline">\(\propto\text{pop}^{0.75}\)</span>; reuse the batch’s other positives; pick high-scoring (confusing) items.</td>
+</tr>
+<tr class="even">
+<td><strong>Epoch</strong></td>
+<td>One full pass over all observed positives during training.</td>
+</tr>
+<tr class="odd">
+<td><strong>Mini-batch</strong></td>
+<td>A small group of triples updated together (averaged gradient); also the source of in-batch negatives.</td>
+</tr>
+<tr class="even">
+<td><strong>Inference / serving</strong></td>
+<td>Using the trained embeddings to return a user’s top-<span class="math inline">\(K\)</span> list.</td>
+</tr>
+<tr class="odd">
+<td><strong>Top-<span class="math inline">\(K\)</span></strong></td>
+<td>The <span class="math inline">\(K\)</span> highest-scoring unseen items returned to the user.</td>
+</tr>
+<tr class="even">
+<td><strong>MIPS (Maximum Inner-Product Search)</strong></td>
+<td>Finding the item vectors with the largest dot product against a query — what top-<span class="math inline">\(K\)</span> scoring is.</td>
+</tr>
+<tr class="odd">
+<td><strong>ANN (Approximate Nearest-Neighbour)</strong></td>
+<td>An index that answers MIPS by scanning a small fraction of items, trading exactness for a large speed-up.</td>
+</tr>
+<tr class="even">
+<td><strong>HNSW</strong></td>
+<td>A multi-layer navigable-graph ANN index with <span class="math inline">\({\sim}\log M\)</span> query cost.</td>
+</tr>
+<tr class="odd">
+<td><strong>Retrieval / candidate generation</strong></td>
+<td>The cheap, high-recall first stage that cuts millions of items to a few hundred.</td>
+</tr>
+<tr class="even">
+<td><strong>Ranking</strong></td>
+<td>The expensive, high-precision second stage that reorders the shortlist with a feature-rich model.</td>
+</tr>
+<tr class="odd">
+<td><strong>Two-stage funnel</strong></td>
+<td>Retrieval → ranking: fast-and-forgiving then slow-and-sharp, so a rich model can run on only a few hundred candidates.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">12. References</h2>
+<ul>
+<li><p>Covington, P., Adams, J., &amp; Sargin, E. (2016). <em>Deep neural networks for YouTube recommendations</em>. In <em>Proceedings of the 10th ACM Conference on Recommender Systems (RecSys)</em>, pp.&nbsp;191–198. https://dl.acm.org/doi/10.1145/2959100.2959190</p></li>
+<li><p>Hu, Y., Koren, Y., &amp; Volinsky, C. (2008). <em>Collaborative filtering for implicit feedback datasets</em>. In <em>Proceedings of the 8th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;263–272.</p></li>
+<li><p>Johnson, J., Douze, M., &amp; Jégou, H. (2019). <em>Billion-scale similarity search with GPUs</em>. <em>IEEE Transactions on Big Data</em>, 7(3), 535–547. arXiv:1702.08734</p></li>
+<li><p>Malkov, Y. A., &amp; Yashunin, D. A. (2020). <em>Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs</em>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 42(4), 824–836. arXiv:1603.09320</p></li>
+<li><p>Mikolov, T., Sutskever, I., Chen, K., Corrado, G., &amp; Dean, J. (2013). <em>Distributed representations of words and phrases and their compositionality</em>. In <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 26. arXiv:1310.4546</p></li>
+<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of the 10th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;995–1000.</p></li>
+<li><p>Rendle, S., Freudenthaler, C., Gantner, Z., &amp; Schmidt-Thieme, L. (2009). <em>BPR: Bayesian personalized ranking from implicit feedback</em>. In <em>Proceedings of the 25th Conference on Uncertainty in Artificial Intelligence (UAI)</em>, pp.&nbsp;452–461. arXiv:1205.2618</p></li>
+</ul>
+<p><em>Online sources verified June 2026.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/llm-recsys-survey.html" class="pagination-link" aria-label="LLM × RecSys: the Landscape">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">LLM × RecSys: the Landscape</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/deep-ctr.html" class="pagination-link" aria-label="Click-Through Rate Prediction &amp; Feature Interactions">
+        <span class="nav-page-text"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

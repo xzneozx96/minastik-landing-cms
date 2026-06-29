@@ -24,10 +24,7 @@ const nextConfig = {
   redirects,
   async rewrites() {
     return {
-      beforeFiles: [
-        { source: '/recsys', destination: '/recsys/index.html' },
-        { source: '/recsys/', destination: '/recsys/index.html' },
-      ],
+      beforeFiles: [{ source: '/recsys', destination: '/recsys/index.html' }],
     }
   },
 }
