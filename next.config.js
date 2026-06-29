@@ -22,6 +22,14 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/recsys', destination: '/recsys/index.html' },
+        { source: '/recsys/', destination: '/recsys/index.html' },
+      ],
+    }
+  },
 }
 
 export default withPayload(nextConfig)
