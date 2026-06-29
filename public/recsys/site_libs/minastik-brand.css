@@ -311,22 +311,38 @@
   color: hsl(215, 20%, 60%) !important;
 }
 
-/* Result rows */
-[data-bs-theme="dark"] .search-result-doc,
-[data-bs-theme="dark"] .search-result-section,
+/* "N matching documents" header bar */
+[data-bs-theme="dark"] .search-result-header {
+  background-color: hsl(233, 29%, 13%) !important;
+  color: hsl(215, 20%, 60%) !important;
+}
+
+/* The row is the only element carrying a background; every inner container
+   is transparent so it inherits the row colour (kills the white stripes). */
 [data-bs-theme="dark"] .aa-Item {
   background-color: hsl(233, 29%, 10%) !important;
   color: hsl(210, 40%, 88%) !important;
   border-bottom: 1px solid hsl(233, 29%, 16%) !important;
 }
 
+[data-bs-theme="dark"] .aa-Item .search-result-doc,
+[data-bs-theme="dark"] .aa-Item .search-result-doc-section,
+[data-bs-theme="dark"] .aa-Item .search-result-section,
+[data-bs-theme="dark"] .aa-Item .search-result-more,
+[data-bs-theme="dark"] .aa-Item .search-result-title-container,
+[data-bs-theme="dark"] .aa-Item .search-result-text-container,
+[data-bs-theme="dark"] .aa-Item .search-result-text {
+  background-color: transparent !important;
+}
+
 [data-bs-theme="dark"] .aa-Item[aria-selected="true"],
+[data-bs-theme="dark"] .aa-Item[aria-selected="true"] .search-result-doc,
 [data-bs-theme="dark"] .aa-Item:hover {
-  background-color: hsl(233, 29%, 15%) !important;
+  background-color: hsl(221, 40%, 22%) !important;
 }
 
 [data-bs-theme="dark"] .search-result-title,
-[data-bs-theme="dark"] .search-result-header {
+[data-bs-theme="dark"] .search-result-section {
   color: hsl(210, 40%, 98%) !important;
 }
 
@@ -376,7 +392,7 @@
   body.docked #quarto-content.page-columns.toc-left {
     grid-template-columns:
       [screen-start screen-start-inset page-start page-start-inset body-start-outset] 300px
-      [body-start] 3em
+      [body-start] minmax(2em, 1fr)
       [body-content-start] minmax(0, 760px)
       [body-content-end] minmax(2em, 1fr)
       [body-end body-end-outset] 280px
