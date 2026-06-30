@@ -1,0 +1,3007 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A consolidated, alphabetical glossary of every key term in Recommender Systems from Zero — from linear algebra and probability to LightGCN, contrastive learning and LLM-based recommendation.">
+
+<title>Glossary – Recommender Systems from Zero</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/solutions.html" rel="next">
+<link href="../chapters/federated-recsys.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+     via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
+     and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://minastik.com/recsys/#website",
+      "url": "https://minastik.com/recsys/",
+      "name": "Recommender Systems from Zero",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://minastik.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://minastik.com/#organization",
+      "name": "Minastik Technology JSC",
+      "url": "https://minastik.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://minastik.com/recsys/minastik_logo.svg"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2442-6263",
+      "name": "Duong Tan Nghia",
+      "url": "https://orcid.org/0000-0002-2442-6263",
+      "sameAs": ["https://orcid.org/0000-0002-2442-6263"],
+      "jobTitle": "Chief AI Officer",
+      "affiliation": [
+        { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" },
+        { "@type": "Organization", "name": "Minastik Technology JSC" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-0572-2091",
+      "name": "Tran Manh Hoang",
+      "url": "https://orcid.org/0000-0002-0572-2091",
+      "sameAs": ["https://orcid.org/0000-0002-0572-2091"],
+      "affiliation": { "@type": "Organization", "name": "Hanoi University of Science and Technology (HUST), School of Electrical & Electronic Engineering" }
+    },
+    {
+      "@type": ["Book", "LearningResource"],
+      "@id": "https://minastik.com/recsys/#book",
+      "name": "Recommender Systems from Zero",
+      "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
+      "url": "https://minastik.com/recsys/",
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "author": [
+        { "@id": "https://orcid.org/0000-0002-2442-6263" },
+        { "@id": "https://orcid.org/0000-0002-0572-2091" }
+      ],
+      "publisher": { "@type": "Organization", "name": "Zenodo" },
+      "datePublished": "2026-06-28",
+      "inLanguage": "en",
+      "bookFormat": "https://schema.org/EBook",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "isAccessibleForFree": true,
+      "creativeWorkStatus": "Published",
+      "version": "1.1",
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+      ],
+      "learningResourceType": ["Textbook", "Tutorial"],
+      "educationalLevel": "Advanced undergraduate to graduate",
+      "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+      "about": [
+        "Recommender systems",
+        "Collaborative filtering",
+        "Graph neural networks",
+        "LightGCN",
+        "Large language models",
+        "Contrastive self-supervised learning",
+        "Machine learning",
+        "Linear algebra"
+      ],
+      "abstract": "A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0."
+    }
+  ]
+}
+</script>
+<link rel="canonical" href="https://minastik.com/recsys/chapters/glossary.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/glossary.html"><meta property="og:type" content="article">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Glossary","name":"Glossary","description":"A consolidated, alphabetical glossary of every key term in Recommender Systems from Zero — from linear algebra and probability to LightGCN, contrastive learning and LLM-based recommendation.","url":"https://minastik.com/recsys/chapters/glossary.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Glossary – Recommender Systems from Zero">
+<meta property="og:description" content="A consolidated, alphabetical glossary of every key term in Recommender Systems from Zero — from linear algebra and probability to LightGCN, contrastive learning and LLM-based recommendation.">
+<meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+<meta property="og:site_name" content="Recommender Systems from Zero">
+<meta name="twitter:title" content="Glossary – Recommender Systems from Zero">
+<meta name="twitter:description" content="A consolidated, alphabetical glossary of every key term in Recommender Systems from Zero — from linear algebra and probability to LightGCN, contrastive learning and LLM-based recommendation.">
+<meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+  <!-- minastik-brand -->
+  <script>document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('mnk-theme')||'light');</script>
+  <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
+  <!-- /minastik-brand -->
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="https://minastik.com">
+    <span class="navbar-title">Recommender Systems from Zero</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com"> 
+<span class="menu-text">← Minastik</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com/learn"> 
+<span class="menu-text">Learn</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/glossary.html">Glossary</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mathematical Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine-Learning Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Recommender-System Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequence-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Graph-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">The LLM Era</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Building a Recommender</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Frontiers</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#a" id="toc-a" class="nav-link active" data-scroll-target="#a">A</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b">B</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c">C</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d">D</a></li>
+  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e">E</a></li>
+  <li><a href="#f" id="toc-f" class="nav-link" data-scroll-target="#f">F</a></li>
+  <li><a href="#g" id="toc-g" class="nav-link" data-scroll-target="#g">G</a></li>
+  <li><a href="#h" id="toc-h" class="nav-link" data-scroll-target="#h">H</a></li>
+  <li><a href="#i" id="toc-i" class="nav-link" data-scroll-target="#i">I</a></li>
+  <li><a href="#j" id="toc-j" class="nav-link" data-scroll-target="#j">J</a></li>
+  <li><a href="#k" id="toc-k" class="nav-link" data-scroll-target="#k">K</a></li>
+  <li><a href="#l" id="toc-l" class="nav-link" data-scroll-target="#l">L</a></li>
+  <li><a href="#m" id="toc-m" class="nav-link" data-scroll-target="#m">M</a></li>
+  <li><a href="#n" id="toc-n" class="nav-link" data-scroll-target="#n">N</a></li>
+  <li><a href="#o" id="toc-o" class="nav-link" data-scroll-target="#o">O</a></li>
+  <li><a href="#p" id="toc-p" class="nav-link" data-scroll-target="#p">P</a></li>
+  <li><a href="#q" id="toc-q" class="nav-link" data-scroll-target="#q">Q</a></li>
+  <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
+  <li><a href="#s" id="toc-s" class="nav-link" data-scroll-target="#s">S</a></li>
+  <li><a href="#t" id="toc-t" class="nav-link" data-scroll-target="#t">T</a></li>
+  <li><a href="#u" id="toc-u" class="nav-link" data-scroll-target="#u">U</a></li>
+  <li><a href="#v" id="toc-v" class="nav-link" data-scroll-target="#v">V</a></li>
+  <li><a href="#w" id="toc-w" class="nav-link" data-scroll-target="#w">W</a></li>
+  <li><a href="#x" id="toc-x" class="nav-link" data-scroll-target="#x">X</a></li>
+  <li><a href="#z" id="toc-z" class="nav-link" data-scroll-target="#z">Z</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/glossary.html">Glossary</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Glossary</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A single alphabetical list of every term defined across the book. Each term is defined in full in its home chapter; this page gathers them for quick reference and search.</p>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "DefinedTermSet", "@id": "https://minastik.com/recsys/chapters/glossary.html#glossary", "name": "Glossary — Recommender Systems from Zero", "url": "https://minastik.com/recsys/chapters/glossary.html", "inLanguage": "en", "hasDefinedTerm": [{"@type": "DefinedTerm", "name": "A/B test (online eval)", "description": "Serve two models to live user halves and compare a business metric — the real verdict."}, {"@type": "DefinedTerm", "name": "Activation", "description": "Nonlinear function applied to z (sigmoid, tanh, ReLU)."}, {"@type": "DefinedTerm", "name": "Adjacency matrix A", "description": "The whole graph's connections as a square grid of 0/1."}, {"@type": "DefinedTerm", "name": "Agentic recommender", "description": "An LLM that plans, remembers, and calls tools over multi-turn conversation (§2.4)."}, {"@type": "DefinedTerm", "name": "Alignment", "description": "Positive pairs end up close in space."}, {"@type": "DefinedTerm", "name": "Alignment \u0026 uniformity", "description": "Pull positives together / spread embeddings on the sphere (DirectAU); fights popularity bias."}, {"@type": "DefinedTerm", "name": "Alignment loss (RLMRec)", "description": "Ties LLM semantic vectors to CF embeddings (contrastive -Con or generative -Gen)."}, {"@type": "DefinedTerm", "name": "ANN", "description": "Approximate nearest-neighbour search — fast, slightly-inexact vector retrieval; the candidate-generation engine."}, {"@type": "DefinedTerm", "name": "ANN (approximate nearest neighbour)", "description": "Fast similarity search that makes dot-product retrieval scale to millions of items."}, {"@type": "DefinedTerm", "name": "ANN (approximate nearest-neighbour)", "description": "Fast vector search that returns *almost* the closest vectors to a query, trading a little accuracy for large speed-ups — how embedding retrieval is served (*Implementation Choices*)."}, {"@type": "DefinedTerm", "name": "AP / MAP", "description": "Average Precision (precision averaged over hit positions) / its mean over users."}, {"@type": "DefinedTerm", "name": "Arm", "description": "One choosable option (an item); \"pulling\" it = showing it. From the slot-machine metaphor."}, {"@type": "DefinedTerm", "name": "Attention", "description": "{softmax}(QK^→p/ {d_k})V: each position takes a similarity-weighted blend of all positions' value vectors."}, {"@type": "DefinedTerm", "name": "Attributed / featureless", "description": "Whether nodes carry input feature vectors; recsys nodes are featureless (IDs only)."}, {"@type": "DefinedTerm", "name": "AUC", "description": "Probability a random click outscores a random non-click; grades *ordering*, not calibration."}, {"@type": "DefinedTerm", "name": "AUC / ROC", "description": "Area Under the ROC Curve = P(score of a random relevant \u003e random irrelevant)."}, {"@type": "DefinedTerm", "name": "Autoregressive decoding", "description": "Generate one token, append it, run the model again, repeat — the GPT/SASRec generation loop."}, {"@type": "DefinedTerm", "name": "Auxiliary task", "description": "The extra, label-free objective added alongside the main (BPR) loss."}, {"@type": "DefinedTerm", "name": "Back-propagation", "description": "Computing all weight-gradients by the chain rule, backward through the net."}, {"@type": "DefinedTerm", "name": "Bandit feedback", "description": "You observe the reward only for the action you took, never the alternatives."}, {"@type": "DefinedTerm", "name": "Base-rate effect", "description": "A rare condition (low prior) makes even an accurate test's positives mostly false."}, {"@type": "DefinedTerm", "name": "Batch / Layer Norm", "description": "Re-center/re-scale activations for training stability (LayerNorm powers the Transformer)."}, {"@type": "DefinedTerm", "name": "Bayes' rule", "description": "posterior likelihood prior."}, {"@type": "DefinedTerm", "name": "BCE loss", "description": "Pointwise binary cross-entropy on positive vs. sampled-negative pairs."}, {"@type": "DefinedTerm", "name": "Beam search (decoding)", "description": "Keep the B best partial ID prefixes per step; the completed tuples, ranked, are the top-K recommendations (§2.2)."}, {"@type": "DefinedTerm", "name": "Benchmark framework", "description": "RecBole / Cornac / Elliot / Microsoft Recommenders / LensKit — unified datasets + models + protocol."}, {"@type": "DefinedTerm", "name": "Benchmaxxing", "description": "Training on (or near) benchmark data so a high score reflects recall, not ability — why one leaderboard number is untrustworthy."}, {"@type": "DefinedTerm", "name": "Bernoulli", "description": "One yes/no with parameter p; - → BCE."}, {"@type": "DefinedTerm", "name": "BERT", "description": "Bidirectional Encoder (masked-LM); an *encoder* for understanding text → embeddings (Devlin 2019)."}, {"@type": "DefinedTerm", "name": "BERT4Rec", "description": "A bidirectional Transformer trained with the cloze (masked-item) objective."}, {"@type": "DefinedTerm", "name": "Beta", "description": "Distribution over a probability; conjugate prior for Bernoulli."}, {"@type": "DefinedTerm", "name": "Beta posterior", "description": "Beta(1+s,1+f) for s clicks, f non-clicks; conjugate to the Bernoulli click."}, {"@type": "DefinedTerm", "name": "Bipartite graph", "description": "Nodes in two groups; edges only cross between groups (users ↔ movies)."}, {"@type": "DefinedTerm", "name": "Bonferroni / Holm", "description": "Multiple-comparison fixes for m tests: Bonferroni compares each p to /m; Holm is a uniformly less conservative stepwise version."}, {"@type": "DefinedTerm", "name": "BPR", "description": "Bayesian Personalized Ranking — pairwise ranking loss; \"Bayesian\" = its MAP derivation; default for LightGCN."}, {"@type": "DefinedTerm", "name": "BPR loss", "description": "Pairwise ranking loss: push observed pairs above sampled negatives."}, {"@type": "DefinedTerm", "name": "Candidate generation → ranking", "description": "The production funnel: a cheap recall-stage (MF/kNN) then a precise rank-stage."}, {"@type": "DefinedTerm", "name": "Categorical", "description": "One of K classes; - → cross-entropy; paired with softmax."}, {"@type": "DefinedTerm", "name": "Causal mask", "description": "Lower-triangular mask: position t may attend only to positions ≤ t (no peeking at the future)."}, {"@type": "DefinedTerm", "name": "CDF F(x)", "description": "*Cumulative distribution function* F(x)= (X≤ x) — the running total of probability; a different function describing the *same* distribution."}, {"@type": "DefinedTerm", "name": "Central Limit Theorem", "description": "The average of many noisy pieces is bell-shaped around the truth; basis of the t-curve."}, {"@type": "DefinedTerm", "name": "Chain rule", "description": "Derivative of f(g(x)) = f'(g) g'; the basis of back-propagation."}, {"@type": "DefinedTerm", "name": "Characteristic equation", "description": "(A- I)=0; its roots are the eigenvalues."}, {"@type": "DefinedTerm", "name": "Chebyshev filter", "description": "A numerically stable polynomial filter family (ChebyCF)."}, {"@type": "DefinedTerm", "name": "Client / server", "description": "Devices holding private data / the coordinator that aggregates their updates."}, {"@type": "DefinedTerm", "name": "Closed-form / training-free CF", "description": "Recommenders that apply a fixed filter with no gradient training (GF-CF, PSGE)."}, {"@type": "DefinedTerm", "name": "Cloze objective", "description": "Mask random items and predict each from both-side context (fill-in-the-blank)."}, {"@type": "DefinedTerm", "name": "Cold start", "description": "No history yet for a new user/item; CF cannot act."}, {"@type": "DefinedTerm", "name": "Collaborative filtering (CF)", "description": "Recommend using interaction patterns across users (no content)."}, {"@type": "DefinedTerm", "name": "Collaborative signal", "description": "What can be learned from *who interacted with what* (*From Graphs to LightGCN*, *SSL \u0026 Contrastive Learning*, *The Spectral / Graph-Filter View*), independent of item content."}, {"@type": "DefinedTerm", "name": "Component / entry", "description": "One number inside a vector."}, {"@type": "DefinedTerm", "name": "Conditional probability (A B)", "description": "Probability of A given B occurred = (A B)/ (B)."}, {"@type": "DefinedTerm", "name": "Confidence interval", "description": "d t^{*}s_d/ n; the effect size with its uncertainty — significant when it excludes 0."}, {"@type": "DefinedTerm", "name": "Conjugate prior", "description": "A prior whose posterior is the same family (Beta↔Bernoulli)."}, {"@type": "DefinedTerm", "name": "Content-based filtering", "description": "Recommend items similar (in features) to what the user liked."}, {"@type": "DefinedTerm", "name": "Contextual bandit", "description": "The reward depends on a context (user/item features); LinUCB models it linearly."}, {"@type": "DefinedTerm", "name": "Contrastive learning", "description": "*SSL pretext:* pull a node's two views together, push other nodes apart; needs negatives; discriminative mechanism."}, {"@type": "DefinedTerm", "name": "Convex", "description": "Curves up everywhere; one variable f''≥0, many variables Hessian PSD; bowl-shaped; one global minimum."}, {"@type": "DefinedTerm", "name": "Cosine similarity", "description": "{ {u} {v}}{ {u} {v} } [-1,1]; direction agreement, ignoring length."}, {"@type": "DefinedTerm", "name": "Cost / objective / criterion", "description": "Near-synonyms for loss (cost = total; objective = neutral; criterion = the code object)."}, {"@type": "DefinedTerm", "name": "Coverage", "description": "Fraction of the catalog ever recommended."}, {"@type": "DefinedTerm", "name": "Critical / stationary point", "description": "Where f'(x)=0: peak, valley, or plateau."}, {"@type": "DefinedTerm", "name": "Croissant", "description": "MLCommons machine-readable dataset-metadata standard (2024); required for NeurIPS dataset tracks."}, {"@type": "DefinedTerm", "name": "Cross network (DCN)", "description": "Stacked layers that raise interaction degree by one each, explicitly and with linear cost."}, {"@type": "DefinedTerm", "name": "Cross-entropy / BCE / log loss", "description": "Classification loss; bits to encode truth p with code for prediction q; = −log-likelihood of Bernoulli."}, {"@type": "DefinedTerm", "name": "Cross-entropy H(p,q)", "description": "- p q; surprise of p's outcomes scored by model q — the classification loss."}, {"@type": "DefinedTerm", "name": "Cross-view alignment", "description": "Pulling a node's two embeddings (collaborative e_i and semantic s_i) together with InfoNCE."}, {"@type": "DefinedTerm", "name": "CTR (click-through rate)", "description": "P(click user, item, context); the score the ranking stage predicts."}, {"@type": "DefinedTerm", "name": "Data leakage", "description": "Test-period information seeping into training; silently inflates every metric."}, {"@type": "DefinedTerm", "name": "DCG / IDCG / NDCG", "description": "Discounted Cumulative Gain / its ideal / the normalized ratio in [0,1]."}, {"@type": "DefinedTerm", "name": "DeepFM", "description": "Wide \u0026 Deep with the wide arm replaced by an FM, sharing one embedding layer; no hand-crossing."}, {"@type": "DefinedTerm", "name": "Degree", "description": "How many neighbors a node has."}, {"@type": "DefinedTerm", "name": "Degree matrix D", "description": "Diagonal matrix of degrees; used for normalization."}, {"@type": "DefinedTerm", "name": "Degrees of freedom", "description": "n-1 for the paired test; sets which Student-t curve gives the p-value."}, {"@type": "DefinedTerm", "name": "Demographic parity", "description": "Equal selection / exposure rate across groups."}, {"@type": "DefinedTerm", "name": "Derivative f'(x)", "description": "Instantaneous rate of change = slope of the curve at a point."}, {"@type": "DefinedTerm", "name": "Determinant A", "description": "Area/volume-scaling factor (ad-bc for 2 2); =0 ⇒ collapses a dimension / non-invertible."}, {"@type": "DefinedTerm", "name": "Difference quotient", "description": "{f(x+h)-f(x)}{h} — rise over run before taking h→0."}, {"@type": "DefinedTerm", "name": "Differential privacy", "description": "Add calibrated noise to updates so no single user's data can be inferred."}, {"@type": "DefinedTerm", "name": "Differentiate", "description": "Compute a derivative (limit of differences)."}, {"@type": "DefinedTerm", "name": "Dimension", "description": "How many components a vector has ( {R}^d = all d-vectors)."}, {"@type": "DefinedTerm", "name": "Directed / undirected", "description": "Whether an edge has a direction (A→B B→A) or not."}, {"@type": "DefinedTerm", "name": "Directional derivative", "description": "Rate of change of f along a unit direction { d}: f { d}."}, {"@type": "DefinedTerm", "name": "Discount", "description": "How much a later reward is worth vs. now; →0 is myopic (a bandit), →1 far-sighted."}, {"@type": "DefinedTerm", "name": "Discriminative vs. generative", "description": "*Axis 1* — whether a model learns p(y x) (a boundary; can't generate) or p(x)/p(x,y) (the data; can sample). BPR/LightGCN is discriminative; VAEs/LLMs are generative."}, {"@type": "DefinedTerm", "name": "Distributional hypothesis", "description": "\"A word is known by the company it keeps\" — similar contexts ⟹ similar vectors (Firth 1957)."}, {"@type": "DefinedTerm", "name": "Diversity", "description": "Average dissimilarity within a recommended list."}, {"@type": "DefinedTerm", "name": "Dot / inner / scalar product {u} {v}", "description": "_i u_iv_i; one number measuring agreement."}, {"@type": "DefinedTerm", "name": "Dot product", "description": "Multiply-and-sum two embeddings → a similarity / ranking score."}, {"@type": "DefinedTerm", "name": "Dropout", "description": "Randomly zero units during training; an ensemble-like regularizer; \"edge dropout\" on graphs."}, {"@type": "DefinedTerm", "name": "Early stopping", "description": "Stop when validation stops improving; implicit regularizer."}, {"@type": "DefinedTerm", "name": "Edge", "description": "A connection (user watched movie)."}, {"@type": "DefinedTerm", "name": "Effect size", "description": "The *magnitude* of the difference ( d); report it alongside p (significance size)."}, {"@type": "DefinedTerm", "name": "Eigenbasis", "description": "A symmetric matrix's full set of orthogonal eigenvectors."}, {"@type": "DefinedTerm", "name": "Eigenvalue", "description": "The stretch factor of an eigenvector."}, {"@type": "DefinedTerm", "name": "Eigenvector", "description": "A direction a matrix only stretches, not rotates: A {v}= {v}."}, {"@type": "DefinedTerm", "name": "Eigenvector v", "description": "A special direction a matrix only stretches (not rotates): {A}v= v. The graph's eigenvectors are its \"frequency patterns.\""}, {"@type": "DefinedTerm", "name": "Elastic net", "description": "L1 + L2 combined; \"stretchable net\" keeping correlated features."}, {"@type": "DefinedTerm", "name": "ELBO", "description": "Evidence Lower BOund; the VAE (variational autoencoder) objective = reconstruction loss + β·KL."}, {"@type": "DefinedTerm", "name": "Embedding", "description": "A learned vector representing a user/item as a point in space."}, {"@type": "DefinedTerm", "name": "Embedding layer", "description": "A learnable lookup table; id → its row (= one-hot × matrix); the input side for discrete data."}, {"@type": "DefinedTerm", "name": "Enhancer / reranker", "description": "Recsys LLM roles: generate item/user text features / re-order a candidate list — not chat."}, {"@type": "DefinedTerm", "name": "Enhancer pipeline", "description": "Using an LLM offline to manufacture features for a fast collaborative backbone that serves."}, {"@type": "DefinedTerm", "name": "Entropy H(p)", "description": "- p p; average surprise / uncertainty / bits to encode (maximal at uniform)."}, {"@type": "DefinedTerm", "name": "Epoch", "description": "One full pass over all observed positives during training."}, {"@type": "DefinedTerm", "name": "Epoch / batch", "description": "One full pass over the data / the examples used per update."}, {"@type": "DefinedTerm", "name": "Equal opportunity", "description": "Equal true-positive rate across groups (the truly-relevant are surfaced equally)."}, {"@type": "DefinedTerm", "name": "ERM", "description": "Empirical Risk Minimization — \"fit the training data\" (usually + a regularizer)."}, {"@type": "DefinedTerm", "name": "Euclidean distance {u}- {v}", "description": "Straight-line gap between two arrow-tips; feels magnitude (unlike cosine)."}, {"@type": "DefinedTerm", "name": "Evidence p(D)", "description": "Normalizer; data probability averaged over (a.k.a. *marginal likelihood*)."}, {"@type": "DefinedTerm", "name": "Expectation {E}[X] / mean", "description": "Probability-weighted average value."}, {"@type": "DefinedTerm", "name": "Explicit / implicit feedback", "description": "Stated ratings (likes *and* dislikes) vs. behavioural 0/1 (positives only — no true negatives)."}, {"@type": "DefinedTerm", "name": "Explicit vs. implicit feedback", "description": "Star ratings vs. clicks/plays (positive-only, unlabeled negatives)."}, {"@type": "DefinedTerm", "name": "Explore vs. exploit", "description": "Try an uncertain option to learn (explore) vs. take the best-known one now (exploit)."}, {"@type": "DefinedTerm", "name": "F1@K", "description": "Harmonic mean of precision and recall."}, {"@type": "DefinedTerm", "name": "Factor vector", "description": "A feature's short learned vector v_i; the dot product of two is their interaction strength."}, {"@type": "DefinedTerm", "name": "Factorization machine (FM)", "description": "MF generalized to *any* features: each feature gets a vector, each feature pair interacts via a dot product (Rendle, 2010). MF is the ids-only special case."}, {"@type": "DefinedTerm", "name": "FCF", "description": "Federated collaborative filtering: item factors are global; each user's factor stays on-device."}, {"@type": "DefinedTerm", "name": "Feature interaction", "description": "A pair of features whose *combination* matters (user genre); FM scores it as v_i, v_j ."}, {"@type": "DefinedTerm", "name": "Feature interaction / cross", "description": "The conjunction of two categories (sci-fi ∧ mobile); where the predictive signal lives."}, {"@type": "DefinedTerm", "name": "Feature store", "description": "The table of generated id → (profile, vector) the serving path reads; the LLM is never on the serving path."}, {"@type": "DefinedTerm", "name": "FedAvg", "description": "Aggregate by a data-size-weighted average of clients' local models (McMahan et al., 2017)."}, {"@type": "DefinedTerm", "name": "Federated learning", "description": "Train a shared model across devices that keep their raw data local; only updates are shared."}, {"@type": "DefinedTerm", "name": "Feed-forward (FFN)", "description": "Per-token MLP (0,xW_1{+}b_1)W_2{+}b_2 inside each block; transforms each token (most of the parameters)."}, {"@type": "DefinedTerm", "name": "Feedback loop", "description": "Recommend → click → log → retrain on skewed data → more skew; the \"rich get richer\" spiral that compounds bias."}, {"@type": "DefinedTerm", "name": "Filter response h( )", "description": "The function deciding how much each frequency is kept; defines the filter."}, {"@type": "DefinedTerm", "name": "Focal loss", "description": "Cross-entropy times (1- p)^ to down-weight easy examples; for class imbalance."}, {"@type": "DefinedTerm", "name": "Forward pass", "description": "Running an input through the net to a prediction + loss."}, {"@type": "DefinedTerm", "name": "FPMC", "description": "Factorizing Personalized Markov Chains: MF term + a learned (factorized) transition term."}, {"@type": "DefinedTerm", "name": "Frequency (on a graph)", "description": "An eigenvector pattern; low = smooth over neighbors, high = jagged."}, {"@type": "DefinedTerm", "name": "Frozen text encoder", "description": "Run text once through a fixed pretrained model and keep the output vector — the semantic s_i RecSys aligns/consumes."}, {"@type": "DefinedTerm", "name": "Full vs. sampled ranking", "description": "Rank the true item against the whole catalog vs. a few sampled negatives (the latter is inconsistent)."}, {"@type": "DefinedTerm", "name": "Gaussian (Normal)", "description": "Bell curve ( , ^2); - → squared error (MSE)."}, {"@type": "DefinedTerm", "name": "GCL", "description": "Graph Contrastive Learning — contrastive SSL on a graph recommender."}, {"@type": "DefinedTerm", "name": "GCN", "description": "The *model* built by stacking graph-convolution layers (+ loss, prediction head, and — in vanilla GCN — W and ). Operation vs. architecture."}, {"@type": "DefinedTerm", "name": "Generative learning", "description": "*SSL pretext:* reconstruct the masked/corrupted input; no negatives; generative mechanism."}, {"@type": "DefinedTerm", "name": "Generative recommendation", "description": "Recommend by *generating* an item's Semantic ID token-by-token (§2.2)."}, {"@type": "DefinedTerm", "name": "Gini coefficient", "description": "Concentration of recommendations on few items (0 even … 1 concentrated)."}, {"@type": "DefinedTerm", "name": "GPT", "description": "Generative Pre-trained Transformer (next-token, causal); a *decoder* for generating text (Radford 2018)."}, {"@type": "DefinedTerm", "name": "Gradient f", "description": "Vector of all partials; points in the direction of steepest increase."}, {"@type": "DefinedTerm", "name": "Gradient descent", "description": "≤ftarrow - f: step against the gradient to minimize."}, {"@type": "DefinedTerm", "name": "Graph", "description": "Nodes + edges."}, {"@type": "DefinedTerm", "name": "Graph convolution", "description": "The *operation*: replace each node's embedding with the normalized average of its *neighbors'* (one matrix multiply by the normalized adjacency)."}, {"@type": "DefinedTerm", "name": "Graph Fourier Transform (GFT)", "description": "Projecting a graph signal onto the eigenvectors of the (normalized) adjacency/Laplacian."}, {"@type": "DefinedTerm", "name": "Graph signal", "description": "One value per node (e.g. a user's interaction vector over items)."}, {"@type": "DefinedTerm", "name": "Graph Signal Processing (GSP)", "description": "Treating one-number-per-node data as a \"signal\" and processing it with graph frequencies."}, {"@type": "DefinedTerm", "name": "Graph-CF trio", "description": "Gowalla / Yelp2018 / Amazon-Book — the frozen-split benchmark of graph-CF papers."}, {"@type": "DefinedTerm", "name": "GraphMAE", "description": "A generative (masked-autoencoder) graph SSL method."}, {"@type": "DefinedTerm", "name": "ε-greedy", "description": "Exploit the best estimate with prob 1- ; pull a uniform-random arm with prob ."}, {"@type": "DefinedTerm", "name": "GRU", "description": "Gated Recurrent Unit: a lighter 2-gate LSTM (Cho 2014); GRU4Rec is its session-based recommender."}, {"@type": "DefinedTerm", "name": "GRU4Rec", "description": "A gated RNN for session-based recommendation; session-parallel batches + a ranking loss."}, {"@type": "DefinedTerm", "name": "Harness / orchestration", "description": "The engineering around the LLM call — templates, validation, batching, retries, caching, cost control."}, {"@type": "DefinedTerm", "name": "Hessian H", "description": "Matrix of second partial derivatives (multivariable curvature)."}, {"@type": "DefinedTerm", "name": "Hidden layer", "description": "A layer that is neither input nor output."}, {"@type": "DefinedTerm", "name": "Hinge loss", "description": "SVM loss; flat once correct-with-margin, then a linear ramp — shaped like a hinge."}, {"@type": "DefinedTerm", "name": "Hit Rate (HR@K)", "description": "Fraction of users with ≥ 1 relevant item in the top-K."}, {"@type": "DefinedTerm", "name": "Hit-Rate@K / NDCG@K", "description": "Was the held-out next item in the top K? / how high was it? (*Evaluation Metrics*)."}, {"@type": "DefinedTerm", "name": "HNSW", "description": "A multi-layer navigable-graph ANN index with { } M query cost."}, {"@type": "DefinedTerm", "name": "HNSW / IVF-PQ / DiskANN / CAGRA", "description": "ANN index types: graph (in-RAM default) / inverted-list + compression (memory-thrifty) / on-disk (billion-scale) / GPU graph (batched throughput)."}, {"@type": "DefinedTerm", "name": "Homogeneous / heterogeneous", "description": "One node type, vs. several (users *and* items)."}, {"@type": "DefinedTerm", "name": "Hop", "description": "One step along an edge (distance in the graph); fixed by the graph, not chosen. K layers ⟹ reach K hops."}, {"@type": "DefinedTerm", "name": "Huber loss", "description": "Quadratic near 0, linear far out; robust compromise (after P. Huber)."}, {"@type": "DefinedTerm", "name": "Hybrid", "description": "Combine content-based + collaborative (e.g. LLM features + a CF backbone)."}, {"@type": "DefinedTerm", "name": "Idempotency", "description": "Re-running the pipeline on unchanged input does no new work (hash → cache hit), so you generate each profile once."}, {"@type": "DefinedTerm", "name": "Identity I", "description": "The \"do-nothing\" matrix; I {x}= {x}."}, {"@type": "DefinedTerm", "name": "Impression", "description": "One shown item; the unit of a CTR row, labelled 1 (clicked) or 0 (not)."}, {"@type": "DefinedTerm", "name": "Indefinite", "description": "A symmetric matrix with both positive and negative eigenvalues (curves up some ways, down others) — the Hessian at a saddle."}, {"@type": "DefinedTerm", "name": "Independence", "description": "(A B)= (A) (B); one event tells you nothing about the other."}, {"@type": "DefinedTerm", "name": "Inference / serving", "description": "Using the trained embeddings to return a user's top-K list."}, {"@type": "DefinedTerm", "name": "Inflection point", "description": "Where f'' changes sign (the curve switches between bending up and down)."}, {"@type": "DefinedTerm", "name": "InfoNCE", "description": "The standard contrastive loss (softmax over similarities, temperature )."}, {"@type": "DefinedTerm", "name": "InfoNCE / NT-Xent", "description": "Contrastive loss; Info = mutual-info bound, NCE = Noise-Contrastive Estimation; temperature ."}, {"@type": "DefinedTerm", "name": "Integral", "description": "Area under a curve; the reverse of differentiation; gives probabilities/expectations."}, {"@type": "DefinedTerm", "name": "Interaction matrix R", "description": "Users-×-movies table of 0/1 (who watched what)."}, {"@type": "DefinedTerm", "name": "Invertible / singular", "description": "Invertible = has an inverse A^{-1} ( 0, full rank); *singular* = no inverse ( =0)."}, {"@type": "DefinedTerm", "name": "item2vec", "description": "word2vec applied to user interaction sequences (\"item = word, history = sentence\"); a collaborative item embedding."}, {"@type": "DefinedTerm", "name": "Jaccard similarity", "description": "A B / A B on liked-sets; ignores rating values."}, {"@type": "DefinedTerm", "name": "Jacobian J", "description": "Matrix of partials of a vector-valued function (rows=outputs, cols=inputs)."}, {"@type": "DefinedTerm", "name": "Joint / marginal", "description": "Joint p(A,B)= (A B); marginal p(A)= _B p(A,B) (sum the joint over the other variable)."}, {"@type": "DefinedTerm", "name": "@K", "description": "Evaluated over the top K recommended positions only."}, {"@type": "DefinedTerm", "name": "k-core filter", "description": "Iteratively drop users/items with \u003ck interactions until none remain; stabilizes the data."}, {"@type": "DefinedTerm", "name": "k-NN / neighbourhood", "description": "The k most-similar users/items used for a prediction."}, {"@type": "DefinedTerm", "name": "KL divergence", "description": "Asymmetric \"distance\" between distributions (Kullback–Leibler); a *divergence*, not a metric."}, {"@type": "DefinedTerm", "name": "KL divergence D_{ {KL}}(p q)", "description": "H(p,q)-H(p)≥0; extra surprise from using q not p; asymmetric (a *divergence*, not a distance)."}, {"@type": "DefinedTerm", "name": "KV-cache", "description": "Store past tokens' keys/values so each decode step processes only the new token: O(L) instead of O(L^2)."}, {"@type": "DefinedTerm", "name": "L1 / lasso", "description": "$"}, {"@type": "DefinedTerm", "name": "L2 / ridge / Tikhonov / weight decay", "description": "_k^2 penalty; shrinks weights smoothly toward 0; = Gaussian prior."}, {"@type": "DefinedTerm", "name": "L2 / weight decay", "description": "Regularizer E^{(0)} ^2; LightGCN regularizes only the base embeddings."}, {"@type": "DefinedTerm", "name": "(reg. strength)", "description": "How much we weight the regularizer vs. the loss."}, {"@type": "DefinedTerm", "name": "LambdaRank / LambdaMART", "description": "Listwise loss whose gradient is weighted by each pair's effect on NDCG."}, {"@type": "DefinedTerm", "name": "Laplace", "description": "Peaked/heavy-tailed ( ,b); - → absolute error (MAE)."}, {"@type": "DefinedTerm", "name": "Latent factor", "description": "A hidden, learned dimension of taste/content."}, {"@type": "DefinedTerm", "name": "Law of Large Numbers", "description": "The sample average converges to the expectation as samples accumulate."}, {"@type": "DefinedTerm", "name": "Law of total probability", "description": "p(A)= _B p(A B)p(B); the engine of Bayes' evidence term."}, {"@type": "DefinedTerm", "name": "Layer", "description": "One application of the graph-convolution operation (a computation step in the model); a hyperparameter K you choose."}, {"@type": "DefinedTerm", "name": "Layer / width / depth", "description": "A bank of neurons / neurons-per-layer / number of layers."}, {"@type": "DefinedTerm", "name": "Layer combination", "description": "Averaging embeddings from all layers; LightGCN's fix for over-smoothing."}, {"@type": "DefinedTerm", "name": "Learning rate", "description": "Step size in gradient descent."}, {"@type": "DefinedTerm", "name": "Leave-one-last split", "description": "Hold out each user's chronologically last interaction for test (temporal, leak-free)."}, {"@type": "DefinedTerm", "name": "Likelihood / prior / posterior", "description": "p(data ) / p( ) / p( )."}, {"@type": "DefinedTerm", "name": "Likelihood L( )", "description": "p(data ) read as a function of (data fixed)."}, {"@type": "DefinedTerm", "name": "Limit", "description": "The value a quantity approaches (here as the run h→0)."}, {"@type": "DefinedTerm", "name": "LinUCB", "description": "Ridge-regression reward estimate ^{→p} x plus a feature-space confidence bonus."}, {"@type": "DefinedTerm", "name": "LLM", "description": "A large pretrained Transformer language model; here, demystified as this note's lineage at scale."}, {"@type": "DefinedTerm", "name": "LLM-as-enhancer", "description": "The LLM produces semantic features/profiles offline that feed/align with a classical model (§2.3)."}, {"@type": "DefinedTerm", "name": "LLM-as-recommender", "description": "The LLM directly ranks/selects items from a prompt of the user's history (§2.1)."}, {"@type": "DefinedTerm", "name": "LLM-as-reranker", "description": "The most-deployed sub-pattern: the LLM (often a cross-encoder) re-scores a short top-K shortlist a cheap retriever already fetched, rather than ranking the whole catalogue (§2.1)."}, {"@type": "DefinedTerm", "name": "Local / global minimum", "description": "Local = lowest within a neighbourhood; global = lowest anywhere."}, {"@type": "DefinedTerm", "name": "Log-likelihood", "description": "L( ); products become sums."}, {"@type": "DefinedTerm", "name": "Logistic regression", "description": "Linear score → sigmoid → probability; the CTR baseline and every model's output head."}, {"@type": "DefinedTerm", "name": "Logit (log-odds)", "description": "\\! (p/(1-p) ); maps (0,1)→(- , )."}, {"@type": "DefinedTerm", "name": "LogLoss", "description": "Binary cross-entropy; grades how *calibrated* the predicted probabilities are (lower better)."}, {"@type": "DefinedTerm", "name": "Long tail", "description": "The many low-degree (niche) items; under-trained and under-served."}, {"@type": "DefinedTerm", "name": "Long tail / popularity bias", "description": "A few blockbusters get most interactions; metrics can be gamed by pushing them."}, {"@type": "DefinedTerm", "name": "Loss function", "description": "A single number measuring how wrong the model is; training minimizes it."}, {"@type": "DefinedTerm", "name": "Low-pass filter", "description": "Keep low frequencies (smooth signal), suppress high (noise)."}, {"@type": "DefinedTerm", "name": "LSTM", "description": "Long Short-Term Memory: an RNN with a cell state + forget/input/output gates; the additive cell line stops gradients vanishing."}, {"@type": "DefinedTerm", "name": "MAE / absolute loss", "description": "Mean of absolute errors; from Laplace noise; outlier-robust; targets the median."}, {"@type": "DefinedTerm", "name": "MAE / MSE / RMSE", "description": "Mean Absolute / Mean Squared / Root-Mean-Squared rating error."}, {"@type": "DefinedTerm", "name": "MAP", "description": "Maximum A Posteriori; peak of the posterior = MLE + prior = loss + regularizer."}, {"@type": "DefinedTerm", "name": "MAP estimate", "description": "Maximize posterior ∝ likelihood × prior; ⟹ minimize (−log-lik) + (−log-prior) = loss + regularizer."}, {"@type": "DefinedTerm", "name": "Markov chain (first-order)", "description": "Next item depends only on the last one; transitions estimated by counting."}, {"@type": "DefinedTerm", "name": "Matrix", "description": "A rectangular grid of numbers; also a *linear transformation* of vectors."}, {"@type": "DefinedTerm", "name": "Matrix Factorization (MF)", "description": "r_{ui}=p_u^→p q_i; trained with regularized MSE."}, {"@type": "DefinedTerm", "name": "Matrix–vector product A {x}", "description": "Dot each row of A with {x}; \"n in, m out.\""}, {"@type": "DefinedTerm", "name": "Matryoshka (MRL)", "description": "Truncatable embeddings — a shorter prefix of the vector still works, so you index at a smaller dim to save memory/latency."}, {"@type": "DefinedTerm", "name": "MDP", "description": "Markov Decision Process: state, action, reward, transition, policy — the formalism of RL."}, {"@type": "DefinedTerm", "name": "Memory-based CF", "description": "Predict from similar rows/columns of R at query time (k-NN)."}, {"@type": "DefinedTerm", "name": "Mini-batch", "description": "A small group of triples updated together (averaged gradient); also the source of in-batch negatives."}, {"@type": "DefinedTerm", "name": "MIPS (Maximum Inner-Product Search)", "description": "Finding the item vectors with the largest dot product against a query — what top-K scoring is."}, {"@type": "DefinedTerm", "name": "MLE", "description": "Maximum Likelihood Estimate; that best explains the data."}, {"@type": "DefinedTerm", "name": "MLP", "description": "Multi-layer perceptron — a feedforward stack of fully-connected layers."}, {"@type": "DefinedTerm", "name": "MNAR data", "description": "Missing-Not-At-Random: whether an interaction is observed depends on what the system chose to show — recommender logs are the textbook case."}, {"@type": "DefinedTerm", "name": "Model-based CF", "description": "Learn a compact model first (e.g. matrix factorization)."}, {"@type": "DefinedTerm", "name": "MoE (mixture-of-experts)", "description": "A model that holds many parameters but activates only a few per token — inference cheaper than total size."}, {"@type": "DefinedTerm", "name": "Momentum / Adam", "description": "SGD upgrades: a velocity term / per-parameter adaptive step (Adam = the default optimizer)."}, {"@type": "DefinedTerm", "name": "MRR", "description": "Mean Reciprocal Rank — 1/rank of the first relevant item, averaged."}, {"@type": "DefinedTerm", "name": "MSE / squared loss", "description": "Mean of squared errors; from Gaussian noise; outlier-sensitive."}, {"@type": "DefinedTerm", "name": "MTEB / ann-benchmarks / LMArena / CoNLL", "description": "The standard leaderboards for embeddings / vector indexes / chat-LLMs / NER. Priors, not verdicts."}, {"@type": "DefinedTerm", "name": "Multi-head", "description": "Several attentions in parallel with different learned projections, then concatenated."}, {"@type": "DefinedTerm", "name": "Mutual-information maximization", "description": "The framing RLMRec uses for aligning the collaborative and semantic views."}, {"@type": "DefinedTerm", "name": "Nabla / del ( )", "description": "The symbol for the gradient operator."}, {"@type": "DefinedTerm", "name": "Negative sampling", "description": "Drawing un-interacted items to act as negatives."}, {"@type": "DefinedTerm", "name": "Neuron / unit", "description": "A weighted sum of inputs + bias, passed through an activation."}, {"@type": "DefinedTerm", "name": "Next-item prediction", "description": "The core task: given (i_1, ,i_{t-1}), score every item for being i_t."}, {"@type": "DefinedTerm", "name": "NLL", "description": "Negative log-likelihood =- L; minimizing it = MLE; *this is a loss*."}, {"@type": "DefinedTerm", "name": "Node", "description": "A thing (a user, a movie)."}, {"@type": "DefinedTerm", "name": "Non-IID data", "description": "Each client's data is small and unrepresentative of the whole — the core difficulty of federation."}, {"@type": "DefinedTerm", "name": "Norm / length {u}", "description": "The arrow's length; default L2 { _i u_i^2}. L1 = _i u_i (used in lasso)."}, {"@type": "DefinedTerm", "name": "Novelty", "description": "Non-obviousness, often - _2(popularity)."}, {"@type": "DefinedTerm", "name": "Null hypothesis H_0", "description": "The skeptical default \"no real difference\"; a test tries to disprove it."}, {"@type": "DefinedTerm", "name": "Odds", "description": "p/(1-p)."}, {"@type": "DefinedTerm", "name": "Off-policy", "description": "Learning from data collected by a different (older) policy than the one being trained."}, {"@type": "DefinedTerm", "name": "Offline replay", "description": "Unbiased evaluation of a bandit policy on a log of randomly-served actions (Li et al. 2011)."}, {"@type": "DefinedTerm", "name": "One- vs two-sided test", "description": "*Two-sided* asks \"A B\" (the default); *one-sided* asks \"A \u003e B\" and halves p — valid only if the direction was pre-registered."}, {"@type": "DefinedTerm", "name": "One-hot vector", "description": "A length-V vector, 1 in one slot, 0 elsewhere; encodes identity but no similarity (all pairs orthogonal)."}, {"@type": "DefinedTerm", "name": "Open weights / open source / open data", "description": "Released *weights only* / weights + permissive code license / + training data too. They are different and often confused."}, {"@type": "DefinedTerm", "name": "Orthogonal", "description": "Perpendicular; dot product 0."}, {"@type": "DefinedTerm", "name": "Orthonormal basis", "description": "A full set of axes that are mutually orthogonal *and* each unit length; a coordinate is then just a dot product (U,V in §6)."}, {"@type": "DefinedTerm", "name": "Outer product {u} {v}^{→p}", "description": "A column times a row = a whole rank-1 matrix."}, {"@type": "DefinedTerm", "name": "Over-smoothing", "description": "Too many layers make all embeddings collapse to one blurry point."}, {"@type": "DefinedTerm", "name": "Overfitting", "description": "Memorizing training noise; great on train, poor on new data."}, {"@type": "DefinedTerm", "name": "p-value", "description": "Probability of a gap this large *if H_0 were true*; small = significant. NOT (H_0 true)."}, {"@type": "DefinedTerm", "name": "Paired t-test", "description": "Tests whether the mean of per-pair differences d differs from 0: t= d/(s_d/ n)."}, {"@type": "DefinedTerm", "name": "Partial derivative f/ x", "description": "Derivative wrt one variable, others held fixed."}, {"@type": "DefinedTerm", "name": "Pearson correlation", "description": "A similarity measure (centred cosine) for ratings — removes each user's rating bias."}, {"@type": "DefinedTerm", "name": "PMF / PDF", "description": "Probability *mass* (discrete) / *density* (continuous) function; sums/integrates to 1."}, {"@type": "DefinedTerm", "name": "Pointwise / pairwise / listwise", "description": "Score each pair / a pair's order / the whole list."}, {"@type": "DefinedTerm", "name": "Policy (a s)", "description": "The learned rule mapping a state to an action; what RL optimizes."}, {"@type": "DefinedTerm", "name": "Polynomial filter", "description": "A filter that is a polynomial in {A} (what LightGCN layers compute)."}, {"@type": "DefinedTerm", "name": "Popularity bias", "description": "Tendency to over-recommend high-degree (blockbuster) items (§13)."}, {"@type": "DefinedTerm", "name": "Popularity bias (in eval)", "description": "Popular items dominate the test set, so pushing them inflates accuracy metrics."}, {"@type": "DefinedTerm", "name": "Position bias", "description": "Higher-ranked slots draw more clicks regardless of true relevance."}, {"@type": "DefinedTerm", "name": "Positional embedding", "description": "A learned per-position vector added to item embeddings so attention can see order."}, {"@type": "DefinedTerm", "name": "Positional encoding", "description": "A per-position signal added to embeddings so order-blind attention can see order (sinusoidal or learned)."}, {"@type": "DefinedTerm", "name": "Positive / negative pair", "description": "Positive = two views of the *same* node; negative = views of *different* nodes."}, {"@type": "DefinedTerm", "name": "Positive semidefinite (PSD)", "description": "A symmetric matrix with x^{\\!→p}\\!H x≥0 for all x (all eigenvalues ≥0); the multivariable \"≥0\" that makes a Hessian convex."}, {"@type": "DefinedTerm", "name": "Positive-semidefinite (PSD)", "description": "A symmetric matrix with all eigenvalues ≥0 (equivalently {x}^{→p}A {x}≥0 always); every M^{→p}M is PSD since {x}^{→p}M^{→p}M {x}= M {x} ^{2}."}, {"@type": "DefinedTerm", "name": "Posterior p( D)", "description": "Updated belief after data."}, {"@type": "DefinedTerm", "name": "Pre-activation z (logit)", "description": "The raw score {w} {x}+b before the activation."}, {"@type": "DefinedTerm", "name": "Precision@K", "description": "Of the K shown, the fraction relevant."}, {"@type": "DefinedTerm", "name": "Predictive learning", "description": "*SSL pretext:* predict a property *derived from the data* (e.g. a masked item/attribute); one correct answer, no negatives; discriminative mechanism."}, {"@type": "DefinedTerm", "name": "Pretraining", "description": "Train a big Transformer on a huge corpus with a self-supervised objective, then reuse it."}, {"@type": "DefinedTerm", "name": "Prior p( )", "description": "Belief about before data."}, {"@type": "DefinedTerm", "name": "Profile", "description": "A short LLM-written description of a user's taste or an item's character, used as input to an embedder."}, {"@type": "DefinedTerm", "name": "Projection {proj}_{ {v}} {u}", "description": "The shadow of {u} on {v}'s line, { {u} {v}}{ {v} ^{2}} {v}; in an orthonormal basis a coordinate is just a dot product."}, {"@type": "DefinedTerm", "name": "Propensity / IPS", "description": "Propensity = probability an item was shown; IPS re-weights each interaction by 1/propensity to undo exposure bias."}, {"@type": "DefinedTerm", "name": "Provider vs. consumer fairness", "description": "Comparable *exposure* across item creators (provider) vs. comparable *quality* across user groups (consumer)."}, {"@type": "DefinedTerm", "name": "Quantization", "description": "Storing weights/vectors in fewer bits (4/8-bit, int8/binary) to shrink memory and speed inference, at a small quality cost."}, {"@type": "DefinedTerm", "name": "Query / Key / Value", "description": "Soft database lookup: a query is matched (dot product) against keys to retrieve a blend of values."}, {"@type": "DefinedTerm", "name": "Random split", "description": "Hold out a random fraction of interactions — leaks the future for time-ordered data."}, {"@type": "DefinedTerm", "name": "Random variable", "description": "A quantity whose value is uncertain (coin, die, temperature)."}, {"@type": "DefinedTerm", "name": "Rank", "description": "The matrix's number of independent directions: independent rows/columns (§2) = nonzero singular values (§6)."}, {"@type": "DefinedTerm", "name": "Rank / latent dimension d", "description": "Width of the factor vectors; the dial between under- and over-fitting."}, {"@type": "DefinedTerm", "name": "Ranking", "description": "The expensive, high-precision second stage that reorders the shortlist with a feature-rich model."}, {"@type": "DefinedTerm", "name": "Recall vs QPS", "description": "The ANN trade-off: fraction of true neighbours found vs queries-per-second. Always compare at a *fixed* recall."}, {"@type": "DefinedTerm", "name": "Recall@K", "description": "Of all relevant items, the fraction in the top-K."}, {"@type": "DefinedTerm", "name": "Regret", "description": "_t( ^{*}- _{a_t}): reward lost versus always pulling the best arm."}, {"@type": "DefinedTerm", "name": "Regularization", "description": "Making an ill-posed solution \"regular\" (well-behaved); from Hadamard/Tikhonov."}, {"@type": "DefinedTerm", "name": "Regularizer", "description": "A term/procedure that discourages complex solutions to improve generalization."}, {"@type": "DefinedTerm", "name": "Relevant item", "description": "A ground-truth item the user actually likes."}, {"@type": "DefinedTerm", "name": "ReLU", "description": "(0,z) — Rectified Linear Unit; the default activation."}, {"@type": "DefinedTerm", "name": "Representation learning", "description": "The network learning useful features by itself."}, {"@type": "DefinedTerm", "name": "Residual connection", "description": "A sub-layer computes x+f(x); the +1 in its derivative is a gradient highway for deep stacks."}, {"@type": "DefinedTerm", "name": "Retrieval / candidate generation", "description": "The cheap, high-recall first stage that cuts millions of items to a few hundred."}, {"@type": "DefinedTerm", "name": "Return G", "description": "Cumulative discounted reward _t ^t r_t — the long-term objective."}, {"@type": "DefinedTerm", "name": "Risk / empirical risk", "description": "Expected loss over the true distribution / its average on the training sample."}, {"@type": "DefinedTerm", "name": "RLMRec", "description": "An enhancer that aligns an LLM-written semantic embedding with a CF embedding via contrastive/generative alignment (§3)."}, {"@type": "DefinedTerm", "name": "RLMRec-Con / -Gen", "description": "RLMRec's contrastive / generative variants for aligning LLM semantics with GNN embeddings."}, {"@type": "DefinedTerm", "name": "RMSE / Recall@K / NDCG@K", "description": "Rating-error / top-K ranking-quality metrics."}, {"@type": "DefinedTerm", "name": "RNN", "description": "Recurrent Neural Network: one shared cell that updates a hidden-state \"memory\" h_t= (Wh_{t-1}+Ux_t+b) along a sequence."}, {"@type": "DefinedTerm", "name": "RNN / hidden state h_t", "description": "A net that folds each item into a running fixed-length summary of the session."}, {"@type": "DefinedTerm", "name": "RQ-VAE", "description": "The residual-quantized *variational* autoencoder that *learns* the Semantic-ID codebooks by reconstructing the content embedding (§2.2)."}, {"@type": "DefinedTerm", "name": "Saddle point", "description": "Critical point that is a min in some directions, a max in others (indefinite Hessian)."}, {"@type": "DefinedTerm", "name": "Sample space / event", "description": "The set of possible outcomes / a subset of them."}, {"@type": "DefinedTerm", "name": "Sampled softmax (SSM)", "description": "Listwise cross-entropy over a positive + many sampled negatives; structurally = InfoNCE."}, {"@type": "DefinedTerm", "name": "SASRec", "description": "Self-Attentive Sequential Recommendation: a causal Transformer over the item sequence."}, {"@type": "DefinedTerm", "name": "SASRec / BERT4Rec", "description": "Sequential recommenders: a causal (left-to-right) / bidirectional (masked) Transformer over the item history."}, {"@type": "DefinedTerm", "name": "Second derivative f''", "description": "Rate of change of the slope = curvature."}, {"@type": "DefinedTerm", "name": "Secure aggregation", "description": "The server sees only the *sum* of client updates, never any individual one."}, {"@type": "DefinedTerm", "name": "Selection / exposure bias", "description": "Only items the system showed can get feedback; un-shown items look \"disliked\" by silence."}, {"@type": "DefinedTerm", "name": "Self-attention", "description": "Attention of a sequence to itself (Q, K, V all from the same tokens)."}, {"@type": "DefinedTerm", "name": "Self-loop", "description": "An artificial edge from a node to itself; present in GCN, absent in LightGCN."}, {"@type": "DefinedTerm", "name": "Semantic embedding", "description": "A fixed-length vector encoding the *meaning* of the profile text (from a frozen sentence encoder), distinct from the CF latent space."}, {"@type": "DefinedTerm", "name": "Semantic ID", "description": "A short sequence of content-derived codewords identifying an item (quantized text embedding)."}, {"@type": "DefinedTerm", "name": "Sequential recommendation", "description": "Predict the next item from a user's ordered history."}, {"@type": "DefinedTerm", "name": "Serendipity", "description": "Relevant and surprising."}, {"@type": "DefinedTerm", "name": "Session-based recommendation", "description": "Same, but from a short, often anonymous current session (no user id)."}, {"@type": "DefinedTerm", "name": "SGD", "description": "Stochastic Gradient Descent — gradient steps on random mini-batches."}, {"@type": "DefinedTerm", "name": "SGL / SimGCL / XSimGCL / LightGCL", "description": "GCL methods differing in how the two views are built (edge-drop / noise / cross-layer noise / SVD)."}, {"@type": "DefinedTerm", "name": "Shape m n", "description": "m rows by n columns."}, {"@type": "DefinedTerm", "name": "(nonlinearity)", "description": "Activation (e.g. ReLU) in GCN/NGCF; removed in LightGCN."}, {"@type": "DefinedTerm", "name": "Sigmoid (z)", "description": "1/(1+e^{-z}); inverse of the logit; score → probability."}, {"@type": "DefinedTerm", "name": "Significance (paired t-test)", "description": "Is a gain bigger than run-to-run seed noise? Report mean std and a p-value."}, {"@type": "DefinedTerm", "name": "Significance level", "description": "The pre-set bar (usually 0.05); reject H_0 if p\u003c ."}, {"@type": "DefinedTerm", "name": "Singular value", "description": "The strength of an SVD pattern; ≥0, biggest first."}, {"@type": "DefinedTerm", "name": "Slate", "description": "A whole page/list of recommended items — the (combinatorial) action in slate RL."}, {"@type": "DefinedTerm", "name": "SlateQ", "description": "Decomposes a slate's value into per-item Q-values, making value-based slate RL tractable."}, {"@type": "DefinedTerm", "name": "SLM", "description": "Small language model (≈ 0.5–9B) — cheap, high-throughput; the recsys feature-generation workhorse."}, {"@type": "DefinedTerm", "name": "Smooth", "description": "Has a derivative everywhere — no kinks or jumps; looks straight up close."}, {"@type": "DefinedTerm", "name": "Softmax", "description": "Multi-class sigmoid; scores → a probability distribution."}, {"@type": "DefinedTerm", "name": "Softmax output", "description": "Multi-class output head: K scores → a probability distribution, paired with cross-entropy."}, {"@type": "DefinedTerm", "name": "Sparse / one-hot feature", "description": "A category encoded as all-zeros with a single 1; CTR rows stack millions of these."}, {"@type": "DefinedTerm", "name": "Sparsity", "description": "Most of R is unknown (real matrices { }99.5\\% empty); the core difficulty."}, {"@type": "DefinedTerm", "name": "SSL (self-supervised learning)", "description": "Training on an auxiliary task that needs no labels; supervision is manufactured from the data's own structure."}, {"@type": "DefinedTerm", "name": "Standard error", "description": "s_d/ n — how much an estimate wobbles across repeats; shrinks with more data."}, {"@type": "DefinedTerm", "name": "State s", "description": "A summary of the current situation; the ingredient bandits lack (actions change it)."}, {"@type": "DefinedTerm", "name": "Static vs contextual", "description": "word2vec gives one fixed vector per word; a Transformer gives a different vector per *occurrence* (context-dependent)."}, {"@type": "DefinedTerm", "name": "Stochastic gradient descent (SGD)", "description": "Gradient descent on a noisy gradient estimated from a random minibatch, not the full dataset."}, {"@type": "DefinedTerm", "name": "Structured output", "description": "Forcing an LLM to emit schema-valid JSON via constrained decoding — valid shape, not guaranteed-correct values."}, {"@type": "DefinedTerm", "name": "Structured output / JSON mode", "description": "Forcing the LLM to emit schema-valid JSON, so the result is reliably parseable."}, {"@type": "DefinedTerm", "name": "Subgradient", "description": "A stand-in slope at a kink where the true derivative is undefined (e.g. any value in [0,1] for ReLU at 0)."}, {"@type": "DefinedTerm", "name": "Subword tokenization (BPE)", "description": "Split text into reusable sub-word pieces by greedily merging the most frequent adjacent pair; fixed vocabulary, no \u003cUNK\u003e (WordPiece/SentencePiece are cousins)."}, {"@type": "DefinedTerm", "name": "Surprise / self-information", "description": "- p(x); how surprising an outcome is (0 if certain, → if rare)."}, {"@type": "DefinedTerm", "name": "SVD (M=U V^→p)", "description": "Factorizes a (rectangular) matrix into patterns U,V and strengths ; keeping the top-q = an ideal low-pass (PSGE, LightGCL)."}, {"@type": "DefinedTerm", "name": "SVD M=U V^{→p}", "description": "Factor any matrix into orthonormal patterns (U,V) scaled by singular values ( )."}, {"@type": "DefinedTerm", "name": "Symmetric", "description": "A=A^{→p}; clean orthogonal eigenvectors."}, {"@type": "DefinedTerm", "name": "Taylor / linear approximation", "description": "f(x+ )≈ f(x)+f'(x) ; a curve looks straight up close."}, {"@type": "DefinedTerm", "name": "Temperature", "description": "Scales the contrast sharpness in InfoNCE; a sensitive hyperparameter."}, {"@type": "DefinedTerm", "name": "Temporal / leave-one-last split", "description": "Hold out each user's chronologically last interaction; the honest, leak-free default."}, {"@type": "DefinedTerm", "name": "TF-IDF", "description": "A way to turn text into a feature vector (term frequency × inverse document frequency)."}, {"@type": "DefinedTerm", "name": "The recsys leak", "description": "Sending an update for item i reveals the user touched i; FedRec masks this with decoy items."}, {"@type": "DefinedTerm", "name": "Thompson sampling", "description": "Keep a posterior per arm; sample one value from each and pull the largest sample."}, {"@type": "DefinedTerm", "name": "Top-K", "description": "The K highest-scoring unseen items returned to the user."}, {"@type": "DefinedTerm", "name": "Trace", "description": "Sum of a square matrix's diagonal entries; equals the sum of its eigenvalues."}, {"@type": "DefinedTerm", "name": "Train/test split", "description": "How held-out test data is chosen: random, leave-one-out (LOO), or temporal (by timestamp)."}, {"@type": "DefinedTerm", "name": "Transformer", "description": "A stack of (self-attention + add\u0026norm + feed-forward + add\u0026norm) blocks; no recurrence, fully parallel (Vaswani 2017)."}, {"@type": "DefinedTerm", "name": "Transition probability", "description": "P(next=j =i) — count of i\\!→\\!j over count of i-as-from."}, {"@type": "DefinedTerm", "name": "Transpose A^{→p}", "description": "The matrix mirrored across its diagonal (rows ↔ columns)."}, {"@type": "DefinedTerm", "name": "Triple (u,i^+,i^-)", "description": "A training example for pairwise ranking: user u prefers positive i^+ over sampled negative i^-."}, {"@type": "DefinedTerm", "name": "Truncated SVD", "description": "Keep the top-q singular components = best low-rank approximation (least-squares / Frobenius sense)."}, {"@type": "DefinedTerm", "name": "Two-stage funnel", "description": "Retrieval → ranking: fast-and-forgiving then slow-and-sharp, so a rich model can run on only a few hundred candidates."}, {"@type": "DefinedTerm", "name": "Two-tower LLM-embedding retrieval", "description": "A hybrid: embed users and items with an LLM-grade encoder *offline*, then retrieve by ANN over those vectors at serve time — enhancer-class cost, LLM semantics on the retrieval path (§4)."}, {"@type": "DefinedTerm", "name": "Type I / II error", "description": "False positive (reject true H_0) / false negative (miss a real effect)."}, {"@type": "DefinedTerm", "name": "UCB", "description": "Pull _i [ _i + {2 t / n_i} ]: highest *upper bound* — optimism under uncertainty."}, {"@type": "DefinedTerm", "name": "Uniform / popularity-weighted / in-batch / hard negatives", "description": "Four sampling distributions for i^-: equal-probability; ^{0.75}; reuse the batch's other positives; pick high-scoring (confusing) items."}, {"@type": "DefinedTerm", "name": "Uniformity", "description": "Embeddings spread evenly over the sphere; fights popularity bias / collapse."}, {"@type": "DefinedTerm", "name": "Unit vector", "description": "A vector of length 1; \"normalizing\" = dividing by your own length."}, {"@type": "DefinedTerm", "name": "Universal approximation", "description": "A wide enough net can approximate any continuous function."}, {"@type": "DefinedTerm", "name": "User–item matrix R", "description": "Rows = users, cols = items, entries = ratings/clicks (mostly unknown)."}, {"@type": "DefinedTerm", "name": "Value / Q-value", "description": "Expected return from a state (V) or a state–action pair (Q)."}, {"@type": "DefinedTerm", "name": "Vanishing gradient", "description": "Back-prop through many steps multiplies many small factors → gradient decays → long-range dependencies unlearnable."}, {"@type": "DefinedTerm", "name": "Variance ^2", "description": "Expected squared distance from the mean; spread."}, {"@type": "DefinedTerm", "name": "Vector", "description": "An ordered list of numbers; equivalently, an arrow from the origin to a point."}, {"@type": "DefinedTerm", "name": "View", "description": "One augmented version of a node's representation; contrastive learning needs two per node."}, {"@type": "DefinedTerm", "name": "W (weight matrix)", "description": "Learnable feature transform in GCN/NGCF; removed in LightGCN."}, {"@type": "DefinedTerm", "name": "Weight / bias", "description": "Learned multiplier per input / learned constant offset."}, {"@type": "DefinedTerm", "name": "Weighted / unweighted", "description": "Whether edges carry a number (rating/count) or are just 0/1."}, {"@type": "DefinedTerm", "name": "Wide \u0026 Deep", "description": "Joint linear-with-hand-crosses (memorize) + MLP-over-embeddings (generalize) model."}, {"@type": "DefinedTerm", "name": "Wilcoxon signed-rank", "description": "Non-parametric paired test (ranks, not values); use when differences aren't normal."}, {"@type": "DefinedTerm", "name": "word2vec", "description": "Predict-based word embeddings trained so a word predicts its context (skip-gram / CBOW), Mikolov 2013."}, {"@type": "DefinedTerm", "name": "WRMF / ALS", "description": "Weighted Regularized MF / Alternating Least Squares (implicit-feedback, squared error)."}, {"@type": "DefinedTerm", "name": "xDeepFM / AutoInt / DIN", "description": "Vector-wise crosses (CIN) / attention-learned interactions / per-candidate behavior attention."}, {"@type": "DefinedTerm", "name": "Zero-shot NER", "description": "Extracting arbitrary entity types with no task-specific training (GLiNER, NuNER)."}]}
+</script>
+<section id="a" class="level2">
+<h2 class="anchored" data-anchor-id="a">A</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A/B test (online eval)</strong></td>
+<td>Serve two models to live user halves and compare a business metric — the real verdict.</td>
+</tr>
+<tr class="even">
+<td><strong>Activation <span class="math inline">\(\phi\)</span></strong></td>
+<td>Nonlinear function applied to <span class="math inline">\(z\)</span> (sigmoid, tanh, ReLU).</td>
+</tr>
+<tr class="odd">
+<td><strong>Adjacency matrix <span class="math inline">\(A\)</span></strong></td>
+<td>The whole graph’s connections as a square grid of 0/1.</td>
+</tr>
+<tr class="even">
+<td><strong>Agentic recommender</strong></td>
+<td>An LLM that plans, remembers, and calls tools over multi-turn conversation (§2.4).</td>
+</tr>
+<tr class="odd">
+<td><strong>Alignment</strong></td>
+<td>Positive pairs end up close in space.</td>
+</tr>
+<tr class="even">
+<td><strong>Alignment &amp; uniformity</strong></td>
+<td>Pull positives together / spread embeddings on the sphere (DirectAU); fights popularity bias.</td>
+</tr>
+<tr class="odd">
+<td><strong>Alignment loss (RLMRec)</strong></td>
+<td>Ties LLM semantic vectors to CF embeddings (contrastive -Con or generative -Gen).</td>
+</tr>
+<tr class="even">
+<td><strong>ANN</strong></td>
+<td>Approximate nearest-neighbour search — fast, slightly-inexact vector retrieval; the candidate-generation engine.</td>
+</tr>
+<tr class="odd">
+<td><strong>ANN (approximate nearest neighbour)</strong></td>
+<td>Fast similarity search that makes dot-product retrieval scale to millions of items.</td>
+</tr>
+<tr class="even">
+<td><strong>ANN (approximate nearest-neighbour)</strong></td>
+<td>Fast vector search that returns <em>almost</em> the closest vectors to a query, trading a little accuracy for large speed-ups — how embedding retrieval is served (<em>Implementation Choices</em>).</td>
+</tr>
+<tr class="odd">
+<td><strong>AP / MAP</strong></td>
+<td>Average Precision (precision averaged over hit positions) / its mean over users.</td>
+</tr>
+<tr class="even">
+<td><strong>Arm</strong></td>
+<td>One choosable option (an item); “pulling” it = showing it. From the slot-machine metaphor.</td>
+</tr>
+<tr class="odd">
+<td><strong>Attention</strong></td>
+<td><span class="math inline">\(\mathrm{softmax}(QK^\top/\sqrt{d_k})V\)</span>: each position takes a similarity-weighted blend of all positions’ value vectors.</td>
+</tr>
+<tr class="even">
+<td><strong>Attributed / featureless</strong></td>
+<td>Whether nodes carry input feature vectors; recsys nodes are featureless (IDs only).</td>
+</tr>
+<tr class="odd">
+<td><strong>AUC</strong></td>
+<td>Probability a random click outscores a random non-click; grades <em>ordering</em>, not calibration.</td>
+</tr>
+<tr class="even">
+<td><strong>AUC / ROC</strong></td>
+<td>Area Under the ROC Curve = P(score of a random relevant &gt; random irrelevant).</td>
+</tr>
+<tr class="odd">
+<td><strong>Autoregressive decoding</strong></td>
+<td>Generate one token, append it, run the model again, repeat — the GPT/SASRec generation loop.</td>
+</tr>
+<tr class="even">
+<td><strong>Auxiliary task</strong></td>
+<td>The extra, label-free objective added alongside the main (BPR) loss.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b" class="level2">
+<h2 class="anchored" data-anchor-id="b">B</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Back-propagation</strong></td>
+<td>Computing all weight-gradients by the chain rule, backward through the net.</td>
+</tr>
+<tr class="even">
+<td><strong>Bandit feedback</strong></td>
+<td>You observe the reward only for the action you took, never the alternatives.</td>
+</tr>
+<tr class="odd">
+<td><strong>Base-rate effect</strong></td>
+<td>A rare condition (low prior) makes even an accurate test’s positives mostly false.</td>
+</tr>
+<tr class="even">
+<td><strong>Batch / Layer Norm</strong></td>
+<td>Re-center/re-scale activations for training stability (LayerNorm powers the Transformer).</td>
+</tr>
+<tr class="odd">
+<td><strong>Bayes’ rule</strong></td>
+<td>posterior <span class="math inline">\(\propto\)</span> likelihood <span class="math inline">\(\times\)</span> prior.</td>
+</tr>
+<tr class="even">
+<td><strong>BCE loss</strong></td>
+<td>Pointwise binary cross-entropy on positive vs.&nbsp;sampled-negative pairs.</td>
+</tr>
+<tr class="odd">
+<td><strong>Beam search (decoding)</strong></td>
+<td>Keep the <span class="math inline">\(B\)</span> best partial ID prefixes per step; the completed tuples, ranked, are the top-<span class="math inline">\(K\)</span> recommendations (§2.2).</td>
+</tr>
+<tr class="even">
+<td><strong>Benchmark framework</strong></td>
+<td>RecBole / Cornac / Elliot / Microsoft Recommenders / LensKit — unified datasets + models + protocol.</td>
+</tr>
+<tr class="odd">
+<td><strong>Benchmaxxing</strong></td>
+<td>Training on (or near) benchmark data so a high score reflects recall, not ability — why one leaderboard number is untrustworthy.</td>
+</tr>
+<tr class="even">
+<td><strong>Bernoulli</strong></td>
+<td>One yes/no with parameter <span class="math inline">\(p\)</span>; <span class="math inline">\(-\log\)</span> → BCE.</td>
+</tr>
+<tr class="odd">
+<td><strong>BERT</strong></td>
+<td>Bidirectional Encoder (masked-LM); an <em>encoder</em> for understanding text → embeddings (Devlin 2019).</td>
+</tr>
+<tr class="even">
+<td><strong>BERT4Rec</strong></td>
+<td>A <strong>bidirectional</strong> Transformer trained with the <strong>cloze</strong> (masked-item) objective.</td>
+</tr>
+<tr class="odd">
+<td><strong>Beta</strong></td>
+<td>Distribution over a probability; conjugate prior for Bernoulli.</td>
+</tr>
+<tr class="even">
+<td><strong>Beta posterior</strong></td>
+<td><span class="math inline">\(\text{Beta}(1+s,1+f)\)</span> for <span class="math inline">\(s\)</span> clicks, <span class="math inline">\(f\)</span> non-clicks; conjugate to the Bernoulli click.</td>
+</tr>
+<tr class="odd">
+<td><strong>Bipartite graph</strong></td>
+<td>Nodes in two groups; edges only cross between groups (users ↔︎ movies).</td>
+</tr>
+<tr class="even">
+<td><strong>Bonferroni / Holm</strong></td>
+<td>Multiple-comparison fixes for <span class="math inline">\(m\)</span> tests: Bonferroni compares each <span class="math inline">\(p\)</span> to <span class="math inline">\(\alpha/m\)</span>; Holm is a uniformly less conservative stepwise version.</td>
+</tr>
+<tr class="odd">
+<td><strong>BPR</strong></td>
+<td>Bayesian Personalized Ranking — pairwise ranking loss; “Bayesian” = its MAP derivation; default for LightGCN.</td>
+</tr>
+<tr class="even">
+<td><strong>BPR loss</strong></td>
+<td>Pairwise ranking loss: push observed pairs above sampled negatives.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="c" class="level2">
+<h2 class="anchored" data-anchor-id="c">C</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Candidate generation → ranking</strong></td>
+<td>The production funnel: a cheap recall-stage (MF/<span class="math inline">\(k\)</span>NN) then a precise rank-stage.</td>
+</tr>
+<tr class="even">
+<td><strong>Categorical</strong></td>
+<td>One of <span class="math inline">\(K\)</span> classes; <span class="math inline">\(-\log\)</span> → cross-entropy; paired with softmax.</td>
+</tr>
+<tr class="odd">
+<td><strong>Causal mask</strong></td>
+<td>Lower-triangular mask: position <span class="math inline">\(t\)</span> may attend only to positions <span class="math inline">\(\le t\)</span> (no peeking at the future).</td>
+</tr>
+<tr class="even">
+<td><strong>CDF</strong> <span class="math inline">\(F(x)\)</span></td>
+<td><em>Cumulative distribution function</em> <span class="math inline">\(F(x)=\Pr(X\le x)\)</span> — the running total of probability; a different function describing the <em>same</em> distribution.</td>
+</tr>
+<tr class="odd">
+<td><strong>Central Limit Theorem</strong></td>
+<td>The average of many noisy pieces is bell-shaped around the truth; basis of the <span class="math inline">\(t\)</span>-curve.</td>
+</tr>
+<tr class="even">
+<td><strong>Chain rule</strong></td>
+<td>Derivative of <span class="math inline">\(f(g(x))\)</span> = <span class="math inline">\(f'(g)\cdot g'\)</span>; the basis of back-propagation.</td>
+</tr>
+<tr class="odd">
+<td><strong>Characteristic equation</strong></td>
+<td><span class="math inline">\(\det(A-\lambda I)=0\)</span>; its roots are the eigenvalues.</td>
+</tr>
+<tr class="even">
+<td><strong>Chebyshev filter</strong></td>
+<td>A numerically stable polynomial filter family (ChebyCF).</td>
+</tr>
+<tr class="odd">
+<td><strong>Client / server</strong></td>
+<td>Devices holding private data / the coordinator that aggregates their updates.</td>
+</tr>
+<tr class="even">
+<td><strong>Closed-form / training-free CF</strong></td>
+<td>Recommenders that apply a fixed filter with no gradient training (GF-CF, PSGE).</td>
+</tr>
+<tr class="odd">
+<td><strong>Cloze objective</strong></td>
+<td>Mask random items and predict each from both-side context (fill-in-the-blank).</td>
+</tr>
+<tr class="even">
+<td><strong>Cold start</strong></td>
+<td>No history yet for a new user/item; CF cannot act.</td>
+</tr>
+<tr class="odd">
+<td><strong>Collaborative filtering (CF)</strong></td>
+<td>Recommend using interaction patterns across users (no content).</td>
+</tr>
+<tr class="even">
+<td><strong>Collaborative signal</strong></td>
+<td>What can be learned from <em>who interacted with what</em> (<em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive Learning</em>, <em>The Spectral / Graph-Filter View</em>), independent of item content.</td>
+</tr>
+<tr class="odd">
+<td><strong>Component / entry</strong></td>
+<td>One number inside a vector.</td>
+</tr>
+<tr class="even">
+<td><strong>Conditional probability <span class="math inline">\(\Pr(A\mid B)\)</span></strong></td>
+<td>Probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> occurred <span class="math inline">\(=\Pr(A\cap B)/\Pr(B)\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Confidence interval</strong></td>
+<td><span class="math inline">\(\bar d \pm t^{*}s_d/\sqrt n\)</span>; the effect size with its uncertainty — significant when it excludes <span class="math inline">\(0\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Conjugate prior</strong></td>
+<td>A prior whose posterior is the same family (Beta↔︎Bernoulli).</td>
+</tr>
+<tr class="odd">
+<td><strong>Content-based filtering</strong></td>
+<td>Recommend items similar (in features) to what the user liked.</td>
+</tr>
+<tr class="even">
+<td><strong>Contextual bandit</strong></td>
+<td>The reward depends on a context (user/item features); LinUCB models it linearly.</td>
+</tr>
+<tr class="odd">
+<td><strong>Contrastive learning</strong></td>
+<td><em>SSL pretext:</em> pull a node’s two views together, push other nodes apart; needs negatives; discriminative mechanism.</td>
+</tr>
+<tr class="even">
+<td><strong>Convex</strong></td>
+<td>Curves up everywhere; one variable <span class="math inline">\(f''\ge0\)</span>, many variables Hessian PSD; bowl-shaped; one global minimum.</td>
+</tr>
+<tr class="odd">
+<td><strong>Cosine similarity</strong></td>
+<td><span class="math inline">\(\dfrac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{u}\rVert\lVert\mathbf{v}\rVert}\in[-1,1]\)</span>; direction agreement, ignoring length.</td>
+</tr>
+<tr class="even">
+<td><strong>Cost / objective / criterion</strong></td>
+<td>Near-synonyms for loss (cost = total; objective = neutral; criterion = the code object).</td>
+</tr>
+<tr class="odd">
+<td><strong>Coverage</strong></td>
+<td>Fraction of the catalog ever recommended.</td>
+</tr>
+<tr class="even">
+<td><strong>Critical / stationary point</strong></td>
+<td>Where <span class="math inline">\(f'(x)=0\)</span>: peak, valley, or plateau.</td>
+</tr>
+<tr class="odd">
+<td><strong>Croissant</strong></td>
+<td>MLCommons machine-readable dataset-metadata standard (2024); required for NeurIPS dataset tracks.</td>
+</tr>
+<tr class="even">
+<td><strong>Cross network (DCN)</strong></td>
+<td>Stacked layers that raise interaction degree by one each, explicitly and with linear cost.</td>
+</tr>
+<tr class="odd">
+<td><strong>Cross-entropy / BCE / log loss</strong></td>
+<td>Classification loss; bits to encode truth <span class="math inline">\(p\)</span> with code for prediction <span class="math inline">\(q\)</span>; = −log-likelihood of Bernoulli.</td>
+</tr>
+<tr class="even">
+<td><strong>Cross-entropy <span class="math inline">\(H(p,q)\)</span></strong></td>
+<td><span class="math inline">\(-\sum p\log q\)</span>; surprise of <span class="math inline">\(p\)</span>’s outcomes scored by model <span class="math inline">\(q\)</span> — the classification loss.</td>
+</tr>
+<tr class="odd">
+<td><strong>Cross-view alignment</strong></td>
+<td>Pulling a node’s two embeddings (collaborative <span class="math inline">\(e_i\)</span> and semantic <span class="math inline">\(s_i\)</span>) together with InfoNCE.</td>
+</tr>
+<tr class="even">
+<td><strong>CTR (click-through rate)</strong></td>
+<td><span class="math inline">\(P(\text{click}\mid \text{user, item, context})\)</span>; the score the ranking stage predicts.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="d" class="level2">
+<h2 class="anchored" data-anchor-id="d">D</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Data leakage</strong></td>
+<td>Test-period information seeping into training; silently inflates every metric.</td>
+</tr>
+<tr class="even">
+<td><strong>DCG / IDCG / NDCG</strong></td>
+<td>Discounted Cumulative Gain / its ideal / the normalized ratio in <span class="math inline">\([0,1]\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>DeepFM</strong></td>
+<td>Wide &amp; Deep with the wide arm replaced by an FM, sharing one embedding layer; no hand-crossing.</td>
+</tr>
+<tr class="even">
+<td><strong>Degree</strong></td>
+<td>How many neighbors a node has.</td>
+</tr>
+<tr class="odd">
+<td><strong>Degree matrix <span class="math inline">\(D\)</span></strong></td>
+<td>Diagonal matrix of degrees; used for normalization.</td>
+</tr>
+<tr class="even">
+<td><strong>Degrees of freedom</strong></td>
+<td><span class="math inline">\(n-1\)</span> for the paired test; sets which Student-<span class="math inline">\(t\)</span> curve gives the <span class="math inline">\(p\)</span>-value.</td>
+</tr>
+<tr class="odd">
+<td><strong>Demographic parity</strong></td>
+<td>Equal selection / exposure rate across groups.</td>
+</tr>
+<tr class="even">
+<td><strong>Derivative <span class="math inline">\(f'(x)\)</span></strong></td>
+<td>Instantaneous rate of change = slope of the curve at a point.</td>
+</tr>
+<tr class="odd">
+<td><strong>Determinant</strong> <span class="math inline">\(\det A\)</span></td>
+<td>Area/volume-scaling factor (<span class="math inline">\(ad-bc\)</span> for <span class="math inline">\(2\times2\)</span>); <span class="math inline">\(\det=0\)</span> ⇒ collapses a dimension / non-invertible.</td>
+</tr>
+<tr class="even">
+<td><strong>Difference quotient</strong></td>
+<td><span class="math inline">\(\frac{f(x+h)-f(x)}{h}\)</span> — rise over run before taking <span class="math inline">\(h\to0\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Differential privacy</strong></td>
+<td>Add calibrated noise to updates so no single user’s data can be inferred.</td>
+</tr>
+<tr class="even">
+<td><strong>Differentiate</strong></td>
+<td>Compute a derivative (limit of differences).</td>
+</tr>
+<tr class="odd">
+<td><strong>Dimension</strong></td>
+<td>How many components a vector has (<span class="math inline">\(\mathbb{R}^d\)</span> = all <span class="math inline">\(d\)</span>-vectors).</td>
+</tr>
+<tr class="even">
+<td><strong>Directed / undirected</strong></td>
+<td>Whether an edge has a direction (A→B <span class="math inline">\(\ne\)</span> B→A) or not.</td>
+</tr>
+<tr class="odd">
+<td><strong>Directional derivative</strong></td>
+<td>Rate of change of <span class="math inline">\(f\)</span> along a unit direction <span class="math inline">\(\hat{\mathbf d}\)</span>: <span class="math inline">\(\nabla f\cdot\hat{\mathbf d}\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Discount <span class="math inline">\(\gamma\)</span></strong></td>
+<td>How much a later reward is worth vs.&nbsp;now; <span class="math inline">\(\gamma\to0\)</span> is myopic (a bandit), <span class="math inline">\(\gamma\to1\)</span> far-sighted.</td>
+</tr>
+<tr class="odd">
+<td><strong>Discriminative vs.&nbsp;generative</strong></td>
+<td><em>Axis 1</em> — whether a model learns <span class="math inline">\(p(y\mid x)\)</span> (a boundary; can’t generate) or <span class="math inline">\(p(x)\)</span>/<span class="math inline">\(p(x,y)\)</span> (the data; can sample). BPR/LightGCN is discriminative; VAEs/LLMs are generative.</td>
+</tr>
+<tr class="even">
+<td><strong>Distributional hypothesis</strong></td>
+<td>“A word is known by the company it keeps” — similar contexts ⟹ similar vectors (Firth 1957).</td>
+</tr>
+<tr class="odd">
+<td><strong>Diversity</strong></td>
+<td>Average dissimilarity within a recommended list.</td>
+</tr>
+<tr class="even">
+<td><strong>Dot / inner / scalar product</strong> <span class="math inline">\(\mathbf{u}\cdot\mathbf{v}\)</span></td>
+<td><span class="math inline">\(\sum_i u_iv_i\)</span>; one number measuring agreement.</td>
+</tr>
+<tr class="odd">
+<td><strong>Dot product</strong></td>
+<td>Multiply-and-sum two embeddings → a similarity / ranking score.</td>
+</tr>
+<tr class="even">
+<td><strong>Dropout</strong></td>
+<td>Randomly zero units during training; an ensemble-like regularizer; “edge dropout” on graphs.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="e" class="level2">
+<h2 class="anchored" data-anchor-id="e">E</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Early stopping</strong></td>
+<td>Stop when validation stops improving; implicit regularizer.</td>
+</tr>
+<tr class="even">
+<td><strong>Edge</strong></td>
+<td>A connection (user watched movie).</td>
+</tr>
+<tr class="odd">
+<td><strong>Effect size</strong></td>
+<td>The <em>magnitude</em> of the difference (<span class="math inline">\(\bar d\)</span>); report it alongside <span class="math inline">\(p\)</span> (significance <span class="math inline">\(\ne\)</span> size).</td>
+</tr>
+<tr class="even">
+<td><strong>Eigenbasis</strong></td>
+<td>A symmetric matrix’s full set of orthogonal eigenvectors.</td>
+</tr>
+<tr class="odd">
+<td><strong>Eigenvalue <span class="math inline">\(\lambda\)</span></strong></td>
+<td>The stretch factor of an eigenvector.</td>
+</tr>
+<tr class="even">
+<td><strong>Eigenvector</strong></td>
+<td>A direction a matrix only stretches, not rotates: <span class="math inline">\(A\mathbf{v}=\lambda\mathbf{v}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Eigenvector <span class="math inline">\(v\)</span></strong></td>
+<td>A special direction a matrix only stretches (not rotates): <span class="math inline">\(\tilde{A}v=\lambda v\)</span>. The graph’s eigenvectors are its “frequency patterns.”</td>
+</tr>
+<tr class="even">
+<td><strong>Elastic net</strong></td>
+<td>L1 + L2 combined; “stretchable net” keeping correlated features.</td>
+</tr>
+<tr class="odd">
+<td><strong>ELBO</strong></td>
+<td>Evidence Lower BOund; the <strong>VAE</strong> (variational autoencoder) objective = reconstruction loss + β·KL.</td>
+</tr>
+<tr class="even">
+<td><strong>Embedding</strong></td>
+<td>A learned vector representing a user/item as a point in space.</td>
+</tr>
+<tr class="odd">
+<td><strong>Embedding layer</strong></td>
+<td>A learnable lookup table; id → its row (= one-hot × matrix); the input side for discrete data.</td>
+</tr>
+<tr class="even">
+<td><strong>Enhancer / reranker</strong></td>
+<td>Recsys LLM roles: generate item/user text features / re-order a candidate list — not chat.</td>
+</tr>
+<tr class="odd">
+<td><strong>Enhancer pipeline</strong></td>
+<td>Using an LLM <strong>offline</strong> to manufacture features for a fast collaborative backbone that serves.</td>
+</tr>
+<tr class="even">
+<td><strong>Entropy <span class="math inline">\(H(p)\)</span></strong></td>
+<td><span class="math inline">\(-\sum p\log p\)</span>; average surprise / uncertainty / bits to encode (maximal at uniform).</td>
+</tr>
+<tr class="odd">
+<td><strong>Epoch</strong></td>
+<td>One full pass over all observed positives during training.</td>
+</tr>
+<tr class="even">
+<td><strong>Epoch / batch</strong></td>
+<td>One full pass over the data / the examples used per update.</td>
+</tr>
+<tr class="odd">
+<td><strong>Equal opportunity</strong></td>
+<td>Equal true-positive rate across groups (the truly-relevant are surfaced equally).</td>
+</tr>
+<tr class="even">
+<td><strong>ERM</strong></td>
+<td>Empirical Risk Minimization — “fit the training data” (usually + a regularizer).</td>
+</tr>
+<tr class="odd">
+<td><strong>Euclidean distance</strong> <span class="math inline">\(\lVert\mathbf{u}-\mathbf{v}\rVert\)</span></td>
+<td>Straight-line gap between two arrow-tips; feels magnitude (unlike cosine).</td>
+</tr>
+<tr class="even">
+<td><strong>Evidence <span class="math inline">\(p(D)\)</span></strong></td>
+<td>Normalizer; data probability averaged over <span class="math inline">\(\theta\)</span> (a.k.a. <em>marginal likelihood</em>).</td>
+</tr>
+<tr class="odd">
+<td><strong>Expectation <span class="math inline">\(\mathbb{E}[X]\)</span> / mean <span class="math inline">\(\mu\)</span></strong></td>
+<td>Probability-weighted average value.</td>
+</tr>
+<tr class="even">
+<td><strong>Explicit / implicit feedback</strong></td>
+<td>Stated ratings (likes <em>and</em> dislikes) vs.&nbsp;behavioural <span class="math inline">\(0/1\)</span> (positives only — no true negatives).</td>
+</tr>
+<tr class="odd">
+<td><strong>Explicit vs.&nbsp;implicit feedback</strong></td>
+<td>Star ratings vs.&nbsp;clicks/plays (positive-only, unlabeled negatives).</td>
+</tr>
+<tr class="even">
+<td><strong>Explore vs.&nbsp;exploit</strong></td>
+<td>Try an uncertain option to learn (explore) vs.&nbsp;take the best-known one now (exploit).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="f" class="level2">
+<h2 class="anchored" data-anchor-id="f">F</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>F1@K</strong></td>
+<td>Harmonic mean of precision and recall.</td>
+</tr>
+<tr class="even">
+<td><strong>Factor vector</strong></td>
+<td>A feature’s short learned vector <span class="math inline">\(\mathbf v_i\)</span>; the dot product of two is their interaction strength.</td>
+</tr>
+<tr class="odd">
+<td><strong>Factorization machine (FM)</strong></td>
+<td>MF generalized to <em>any</em> features: each feature gets a vector, each feature pair interacts via a dot product (Rendle, 2010). MF is the ids-only special case.</td>
+</tr>
+<tr class="even">
+<td><strong>FCF</strong></td>
+<td>Federated collaborative filtering: item factors are global; each user’s factor stays on-device.</td>
+</tr>
+<tr class="odd">
+<td><strong>Feature interaction</strong></td>
+<td>A pair of features whose <em>combination</em> matters (user <span class="math inline">\(\times\)</span> genre); FM scores it as <span class="math inline">\(\langle\mathbf v_i,\mathbf v_j\rangle\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Feature interaction / cross</strong></td>
+<td>The conjunction of two categories (<code>sci-fi ∧ mobile</code>); where the predictive signal lives.</td>
+</tr>
+<tr class="odd">
+<td><strong>Feature store</strong></td>
+<td>The table of generated <code>id → (profile, vector)</code> the serving path reads; the LLM is never on the serving path.</td>
+</tr>
+<tr class="even">
+<td><strong>FedAvg</strong></td>
+<td>Aggregate by a <strong>data-size-weighted average</strong> of clients’ local models (McMahan et al., 2017).</td>
+</tr>
+<tr class="odd">
+<td><strong>Federated learning</strong></td>
+<td>Train a shared model across devices that keep their raw data local; only updates are shared.</td>
+</tr>
+<tr class="even">
+<td><strong>Feed-forward (FFN)</strong></td>
+<td>Per-token MLP <span class="math inline">\(\max(0,xW_1{+}b_1)W_2{+}b_2\)</span> inside each block; transforms each token (most of the parameters).</td>
+</tr>
+<tr class="odd">
+<td><strong>Feedback loop</strong></td>
+<td>Recommend → click → log → retrain on skewed data → more skew; the “rich get richer” spiral that compounds bias.</td>
+</tr>
+<tr class="even">
+<td><strong>Filter response <span class="math inline">\(h(\lambda)\)</span></strong></td>
+<td>The function deciding how much each frequency is kept; defines the filter.</td>
+</tr>
+<tr class="odd">
+<td><strong>Focal loss</strong></td>
+<td>Cross-entropy times <span class="math inline">\((1-\hat p)^\gamma\)</span> to down-weight easy examples; for class imbalance.</td>
+</tr>
+<tr class="even">
+<td><strong>Forward pass</strong></td>
+<td>Running an input through the net to a prediction + loss.</td>
+</tr>
+<tr class="odd">
+<td><strong>FPMC</strong></td>
+<td>Factorizing Personalized Markov Chains: MF term <span class="math inline">\(+\)</span> a <strong>learned</strong> (factorized) transition term.</td>
+</tr>
+<tr class="even">
+<td><strong>Frequency (on a graph)</strong></td>
+<td>An eigenvector pattern; low = smooth over neighbors, high = jagged.</td>
+</tr>
+<tr class="odd">
+<td><strong>Frozen text encoder</strong></td>
+<td>Run text once through a fixed pretrained model and keep the output vector — the semantic <span class="math inline">\(s_i\)</span> RecSys aligns/consumes.</td>
+</tr>
+<tr class="even">
+<td><strong>Full vs.&nbsp;sampled ranking</strong></td>
+<td>Rank the true item against the whole catalog vs.&nbsp;a few sampled negatives (the latter is inconsistent).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="g" class="level2">
+<h2 class="anchored" data-anchor-id="g">G</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Gaussian (Normal)</strong></td>
+<td>Bell curve <span class="math inline">\((\mu,\sigma^2)\)</span>; <span class="math inline">\(-\log\)</span> → squared error (MSE).</td>
+</tr>
+<tr class="even">
+<td><strong>GCL</strong></td>
+<td>Graph Contrastive Learning — contrastive SSL on a graph recommender.</td>
+</tr>
+<tr class="odd">
+<td><strong>GCN</strong></td>
+<td>The <em>model</em> built by stacking graph-convolution layers (+ loss, prediction head, and — in vanilla GCN — <span class="math inline">\(W\)</span> and <span class="math inline">\(\sigma\)</span>). Operation vs.&nbsp;architecture.</td>
+</tr>
+<tr class="even">
+<td><strong>Generative learning</strong></td>
+<td><em>SSL pretext:</em> reconstruct the masked/corrupted input; no negatives; generative mechanism.</td>
+</tr>
+<tr class="odd">
+<td><strong>Generative recommendation</strong></td>
+<td>Recommend by <em>generating</em> an item’s <strong>Semantic ID</strong> token-by-token (§2.2).</td>
+</tr>
+<tr class="even">
+<td><strong>Gini coefficient</strong></td>
+<td>Concentration of recommendations on few items (<span class="math inline">\(0\)</span> even … <span class="math inline">\(1\)</span> concentrated).</td>
+</tr>
+<tr class="odd">
+<td><strong>GPT</strong></td>
+<td>Generative Pre-trained Transformer (next-token, causal); a <em>decoder</em> for generating text (Radford 2018).</td>
+</tr>
+<tr class="even">
+<td><strong>Gradient <span class="math inline">\(\nabla f\)</span></strong></td>
+<td>Vector of all partials; points in the direction of steepest increase.</td>
+</tr>
+<tr class="odd">
+<td><strong>Gradient descent</strong></td>
+<td><span class="math inline">\(\theta\leftarrow\theta-\eta\nabla f\)</span>: step against the gradient to minimize.</td>
+</tr>
+<tr class="even">
+<td><strong>Graph</strong></td>
+<td>Nodes + edges.</td>
+</tr>
+<tr class="odd">
+<td><strong>Graph convolution</strong></td>
+<td>The <em>operation</em>: replace each node’s embedding with the normalized average of its <em>neighbors’</em> (one matrix multiply by the normalized adjacency).</td>
+</tr>
+<tr class="even">
+<td><strong>Graph Fourier Transform (GFT)</strong></td>
+<td>Projecting a graph signal onto the eigenvectors of the (normalized) adjacency/Laplacian.</td>
+</tr>
+<tr class="odd">
+<td><strong>Graph signal</strong></td>
+<td>One value per node (e.g.&nbsp;a user’s interaction vector over items).</td>
+</tr>
+<tr class="even">
+<td><strong>Graph Signal Processing (GSP)</strong></td>
+<td>Treating one-number-per-node data as a “signal” and processing it with graph frequencies.</td>
+</tr>
+<tr class="odd">
+<td><strong>Graph-CF trio</strong></td>
+<td>Gowalla / Yelp2018 / Amazon-Book — the frozen-split benchmark of graph-CF papers.</td>
+</tr>
+<tr class="even">
+<td><strong>GraphMAE</strong></td>
+<td>A generative (masked-autoencoder) graph SSL method.</td>
+</tr>
+<tr class="odd">
+<td><strong>ε-greedy</strong></td>
+<td>Exploit the best estimate with prob <span class="math inline">\(1-\varepsilon\)</span>; pull a uniform-random arm with prob <span class="math inline">\(\varepsilon\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>GRU</strong></td>
+<td>Gated Recurrent Unit: a lighter 2-gate LSTM (Cho 2014); <strong>GRU4Rec</strong> is its session-based recommender.</td>
+</tr>
+<tr class="odd">
+<td><strong>GRU4Rec</strong></td>
+<td>A <strong>gated</strong> RNN for session-based recommendation; session-parallel batches + a ranking loss.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="h" class="level2">
+<h2 class="anchored" data-anchor-id="h">H</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Harness / orchestration</strong></td>
+<td>The engineering around the LLM call — templates, validation, batching, retries, caching, cost control.</td>
+</tr>
+<tr class="even">
+<td><strong>Hessian <span class="math inline">\(H\)</span></strong></td>
+<td>Matrix of second partial derivatives (multivariable curvature).</td>
+</tr>
+<tr class="odd">
+<td><strong>Hidden layer</strong></td>
+<td>A layer that is neither input nor output.</td>
+</tr>
+<tr class="even">
+<td><strong>Hinge loss</strong></td>
+<td>SVM loss; flat once correct-with-margin, then a linear ramp — shaped like a hinge.</td>
+</tr>
+<tr class="odd">
+<td><strong>Hit Rate (HR@K)</strong></td>
+<td>Fraction of users with <span class="math inline">\(\ge 1\)</span> relevant item in the top-<span class="math inline">\(K\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Hit-Rate@K / NDCG@K</strong></td>
+<td>Was the held-out next item in the top <span class="math inline">\(K\)</span>? / how high was it? (<em>Evaluation Metrics</em>).</td>
+</tr>
+<tr class="odd">
+<td><strong>HNSW</strong></td>
+<td>A multi-layer navigable-graph ANN index with <span class="math inline">\({\sim}\log M\)</span> query cost.</td>
+</tr>
+<tr class="even">
+<td><strong>HNSW / IVF-PQ / DiskANN / CAGRA</strong></td>
+<td>ANN index types: graph (in-RAM default) / inverted-list + compression (memory-thrifty) / on-disk (billion-scale) / GPU graph (batched throughput).</td>
+</tr>
+<tr class="odd">
+<td><strong>Homogeneous / heterogeneous</strong></td>
+<td>One node type, vs.&nbsp;several (users <em>and</em> items).</td>
+</tr>
+<tr class="even">
+<td><strong>Hop</strong></td>
+<td>One step along an edge (distance in the graph); fixed by the graph, not chosen. <span class="math inline">\(K\)</span> layers ⟹ reach <span class="math inline">\(K\)</span> hops.</td>
+</tr>
+<tr class="odd">
+<td><strong>Huber loss</strong></td>
+<td>Quadratic near 0, linear far out; robust compromise (after P. Huber).</td>
+</tr>
+<tr class="even">
+<td><strong>Hybrid</strong></td>
+<td>Combine content-based + collaborative (e.g.&nbsp;LLM features + a CF backbone).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="i" class="level2">
+<h2 class="anchored" data-anchor-id="i">I</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Idempotency</strong></td>
+<td>Re-running the pipeline on unchanged input does no new work (hash → cache hit), so you generate each profile once.</td>
+</tr>
+<tr class="even">
+<td><strong>Identity</strong> <span class="math inline">\(I\)</span></td>
+<td>The “do-nothing” matrix; <span class="math inline">\(I\mathbf{x}=\mathbf{x}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Impression</strong></td>
+<td>One shown item; the unit of a CTR row, labelled <span class="math inline">\(1\)</span> (clicked) or <span class="math inline">\(0\)</span> (not).</td>
+</tr>
+<tr class="even">
+<td><strong>Indefinite</strong></td>
+<td>A symmetric matrix with both positive and negative eigenvalues (curves up some ways, down others) — the Hessian at a saddle.</td>
+</tr>
+<tr class="odd">
+<td><strong>Independence</strong></td>
+<td><span class="math inline">\(\Pr(A\cap B)=\Pr(A)\Pr(B)\)</span>; one event tells you nothing about the other.</td>
+</tr>
+<tr class="even">
+<td><strong>Inference / serving</strong></td>
+<td>Using the trained embeddings to return a user’s top-<span class="math inline">\(K\)</span> list.</td>
+</tr>
+<tr class="odd">
+<td><strong>Inflection point</strong></td>
+<td>Where <span class="math inline">\(f''\)</span> changes sign (the curve switches between bending up and down).</td>
+</tr>
+<tr class="even">
+<td><strong>InfoNCE</strong></td>
+<td>The standard contrastive loss (softmax over similarities, temperature <span class="math inline">\(\tau\)</span>).</td>
+</tr>
+<tr class="odd">
+<td><strong>InfoNCE / NT-Xent</strong></td>
+<td>Contrastive loss; Info = mutual-info bound, NCE = Noise-Contrastive Estimation; temperature <span class="math inline">\(\tau\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Integral <span class="math inline">\(\int\)</span></strong></td>
+<td>Area under a curve; the reverse of differentiation; gives probabilities/expectations.</td>
+</tr>
+<tr class="odd">
+<td><strong>Interaction matrix <span class="math inline">\(R\)</span></strong></td>
+<td>Users-×-movies table of 0/1 (who watched what).</td>
+</tr>
+<tr class="even">
+<td><strong>Invertible / singular</strong></td>
+<td>Invertible = has an inverse <span class="math inline">\(A^{-1}\)</span> (<span class="math inline">\(\det\neq0\)</span>, full rank); <em>singular</em> = no inverse (<span class="math inline">\(\det=0\)</span>).</td>
+</tr>
+<tr class="odd">
+<td><strong>item2vec</strong></td>
+<td>word2vec applied to user interaction sequences (“item = word, history = sentence”); a collaborative item embedding.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="j" class="level2">
+<h2 class="anchored" data-anchor-id="j">J</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Jaccard similarity</strong></td>
+<td><span class="math inline">\(\lvert A\cap B\rvert/\lvert A\cup B\rvert\)</span> on liked-sets; ignores rating values.</td>
+</tr>
+<tr class="even">
+<td><strong>Jacobian <span class="math inline">\(J\)</span></strong></td>
+<td>Matrix of partials of a vector-valued function (rows=outputs, cols=inputs).</td>
+</tr>
+<tr class="odd">
+<td><strong>Joint / marginal</strong></td>
+<td>Joint <span class="math inline">\(p(A,B)=\Pr(A\cap B)\)</span>; marginal <span class="math inline">\(p(A)=\sum_B p(A,B)\)</span> (sum the joint over the other variable).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="k" class="level2">
+<h2 class="anchored" data-anchor-id="k">K</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="citation" data-cites="K">@K</span></strong></td>
+<td>Evaluated over the top <span class="math inline">\(K\)</span> recommended positions only.</td>
+</tr>
+<tr class="even">
+<td><strong>k-core filter</strong></td>
+<td>Iteratively drop users/items with <span class="math inline">\(&lt;k\)</span> interactions until none remain; stabilizes the data.</td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(k\)</span>-NN / neighbourhood</strong></td>
+<td>The <span class="math inline">\(k\)</span> most-similar users/items used for a prediction.</td>
+</tr>
+<tr class="even">
+<td><strong>KL divergence</strong></td>
+<td>Asymmetric “distance” between distributions (Kullback–Leibler); a <em>divergence</em>, not a metric.</td>
+</tr>
+<tr class="odd">
+<td><strong>KL divergence <span class="math inline">\(D_{\mathrm{KL}}(p\Vert q)\)</span></strong></td>
+<td><span class="math inline">\(H(p,q)-H(p)\ge0\)</span>; extra surprise from using <span class="math inline">\(q\)</span> not <span class="math inline">\(p\)</span>; asymmetric (a <em>divergence</em>, not a distance).</td>
+</tr>
+<tr class="even">
+<td><strong>KV-cache</strong></td>
+<td>Store past tokens’ keys/values so each decode step processes only the new token: <span class="math inline">\(O(L)\)</span> instead of <span class="math inline">\(O(L^2)\)</span>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="l" class="level2">
+<h2 class="anchored" data-anchor-id="l">L</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>L1 / lasso</strong></td>
+<td>$</td>
+</tr>
+<tr class="even">
+<td><strong>L2 / ridge / Tikhonov / weight decay</strong></td>
+<td><span class="math inline">\(\sum\theta_k^2\)</span> penalty; shrinks weights smoothly toward 0; = Gaussian prior.</td>
+</tr>
+<tr class="odd">
+<td><strong>L2 / weight decay</strong></td>
+<td>Regularizer <span class="math inline">\(\lambda\lVert E^{(0)}\rVert^2\)</span>; LightGCN regularizes only the base embeddings.</td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(\lambda\)</span> (reg. strength)</strong></td>
+<td>How much we weight the regularizer vs.&nbsp;the loss.</td>
+</tr>
+<tr class="odd">
+<td><strong>LambdaRank / LambdaMART</strong></td>
+<td>Listwise loss whose gradient is weighted by each pair’s effect on NDCG.</td>
+</tr>
+<tr class="even">
+<td><strong>Laplace</strong></td>
+<td>Peaked/heavy-tailed <span class="math inline">\((\mu,b)\)</span>; <span class="math inline">\(-\log\)</span> → absolute error (MAE).</td>
+</tr>
+<tr class="odd">
+<td><strong>Latent factor</strong></td>
+<td>A hidden, learned dimension of taste/content.</td>
+</tr>
+<tr class="even">
+<td><strong>Law of Large Numbers</strong></td>
+<td>The sample average converges to the expectation as samples accumulate.</td>
+</tr>
+<tr class="odd">
+<td><strong>Law of total probability</strong></td>
+<td><span class="math inline">\(p(A)=\sum_B p(A\mid B)p(B)\)</span>; the engine of Bayes’ evidence term.</td>
+</tr>
+<tr class="even">
+<td><strong>Layer</strong></td>
+<td>One application of the graph-convolution operation (a computation step in the model); a hyperparameter <span class="math inline">\(K\)</span> you choose.</td>
+</tr>
+<tr class="odd">
+<td><strong>Layer / width / depth</strong></td>
+<td>A bank of neurons / neurons-per-layer / number of layers.</td>
+</tr>
+<tr class="even">
+<td><strong>Layer combination</strong></td>
+<td>Averaging embeddings from all layers; LightGCN’s fix for over-smoothing.</td>
+</tr>
+<tr class="odd">
+<td><strong>Learning rate <span class="math inline">\(\eta\)</span></strong></td>
+<td>Step size in gradient descent.</td>
+</tr>
+<tr class="even">
+<td><strong>Leave-one-last split</strong></td>
+<td>Hold out each user’s chronologically <strong>last</strong> interaction for test (temporal, leak-free).</td>
+</tr>
+<tr class="odd">
+<td><strong>Likelihood / prior / posterior</strong></td>
+<td><span class="math inline">\(p(\text{data}\mid\theta)\)</span> / <span class="math inline">\(p(\theta)\)</span> / <span class="math inline">\(p(\theta\mid\text{data})\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Likelihood <span class="math inline">\(L(\theta)\)</span></strong></td>
+<td><span class="math inline">\(p(\text{data}\mid\theta)\)</span> read as a function of <span class="math inline">\(\theta\)</span> (data fixed).</td>
+</tr>
+<tr class="odd">
+<td><strong>Limit</strong></td>
+<td>The value a quantity approaches (here as the run <span class="math inline">\(h\to0\)</span>).</td>
+</tr>
+<tr class="even">
+<td><strong>LinUCB</strong></td>
+<td>Ridge-regression reward estimate <span class="math inline">\(\boldsymbol\theta^{\top}\mathbf x\)</span> plus a feature-space confidence bonus.</td>
+</tr>
+<tr class="odd">
+<td><strong>LLM</strong></td>
+<td>A large pretrained Transformer language model; here, demystified as this note’s lineage at scale.</td>
+</tr>
+<tr class="even">
+<td><strong>LLM-as-enhancer</strong></td>
+<td>The LLM produces semantic features/profiles offline that feed/align with a classical model (§2.3).</td>
+</tr>
+<tr class="odd">
+<td><strong>LLM-as-recommender</strong></td>
+<td>The LLM directly ranks/selects items from a prompt of the user’s history (§2.1).</td>
+</tr>
+<tr class="even">
+<td><strong>LLM-as-reranker</strong></td>
+<td>The most-deployed sub-pattern: the LLM (often a cross-encoder) <strong>re-scores a short top-<span class="math inline">\(K\)</span> shortlist</strong> a cheap retriever already fetched, rather than ranking the whole catalogue (§2.1).</td>
+</tr>
+<tr class="odd">
+<td><strong>Local / global minimum</strong></td>
+<td>Local = lowest within a neighbourhood; global = lowest anywhere.</td>
+</tr>
+<tr class="even">
+<td><strong>Log-likelihood</strong></td>
+<td><span class="math inline">\(\log L(\theta)\)</span>; products become sums.</td>
+</tr>
+<tr class="odd">
+<td><strong>Logistic regression</strong></td>
+<td>Linear score <span class="math inline">\(\to\)</span> sigmoid <span class="math inline">\(\to\)</span> probability; the CTR baseline and every model’s output head.</td>
+</tr>
+<tr class="even">
+<td><strong>Logit (log-odds)</strong></td>
+<td><span class="math inline">\(\ln\!\big(p/(1-p)\big)\)</span>; maps <span class="math inline">\((0,1)\to(-\infty,\infty)\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>LogLoss</strong></td>
+<td>Binary cross-entropy; grades how <em>calibrated</em> the predicted probabilities are (lower better).</td>
+</tr>
+<tr class="even">
+<td><strong>Long tail</strong></td>
+<td>The many low-degree (niche) items; under-trained and under-served.</td>
+</tr>
+<tr class="odd">
+<td><strong>Long tail / popularity bias</strong></td>
+<td>A few blockbusters get most interactions; metrics can be gamed by pushing them.</td>
+</tr>
+<tr class="even">
+<td><strong>Loss function</strong></td>
+<td>A single number measuring how wrong the model is; training minimizes it.</td>
+</tr>
+<tr class="odd">
+<td><strong>Low-pass filter</strong></td>
+<td>Keep low frequencies (smooth signal), suppress high (noise).</td>
+</tr>
+<tr class="even">
+<td><strong>LSTM</strong></td>
+<td>Long Short-Term Memory: an RNN with a cell state + forget/input/output gates; the additive cell line stops gradients vanishing.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="m" class="level2">
+<h2 class="anchored" data-anchor-id="m">M</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MAE / absolute loss</strong></td>
+<td>Mean of absolute errors; from Laplace noise; outlier-robust; targets the median.</td>
+</tr>
+<tr class="even">
+<td><strong>MAE / MSE / RMSE</strong></td>
+<td>Mean Absolute / Mean Squared / Root-Mean-Squared rating error.</td>
+</tr>
+<tr class="odd">
+<td><strong>MAP</strong></td>
+<td>Maximum A Posteriori; peak of the posterior <span class="math inline">\(=\)</span> MLE <span class="math inline">\(+\)</span> prior <span class="math inline">\(=\)</span> loss <span class="math inline">\(+\)</span> regularizer.</td>
+</tr>
+<tr class="even">
+<td><strong>MAP estimate</strong></td>
+<td>Maximize posterior ∝ likelihood × prior; ⟹ minimize (−log-lik) + (−log-prior) = loss + regularizer.</td>
+</tr>
+<tr class="odd">
+<td><strong>Markov chain (first-order)</strong></td>
+<td>Next item depends only on the <strong>last</strong> one; transitions estimated by counting.</td>
+</tr>
+<tr class="even">
+<td><strong>Matrix</strong></td>
+<td>A rectangular grid of numbers; also a <em>linear transformation</em> of vectors.</td>
+</tr>
+<tr class="odd">
+<td><strong>Matrix Factorization (MF)</strong></td>
+<td><span class="math inline">\(\hat r_{ui}=p_u^\top q_i\)</span>; trained with regularized MSE.</td>
+</tr>
+<tr class="even">
+<td><strong>Matrix–vector product</strong> <span class="math inline">\(A\mathbf{x}\)</span></td>
+<td>Dot each row of <span class="math inline">\(A\)</span> with <span class="math inline">\(\mathbf{x}\)</span>; “<span class="math inline">\(n\)</span> in, <span class="math inline">\(m\)</span> out.”</td>
+</tr>
+<tr class="odd">
+<td><strong>Matryoshka (MRL)</strong></td>
+<td>Truncatable embeddings — a shorter prefix of the vector still works, so you index at a smaller dim to save memory/latency.</td>
+</tr>
+<tr class="even">
+<td><strong>MDP</strong></td>
+<td>Markov Decision Process: state, action, reward, transition, policy — the formalism of RL.</td>
+</tr>
+<tr class="odd">
+<td><strong>Memory-based CF</strong></td>
+<td>Predict from similar rows/columns of <span class="math inline">\(R\)</span> at query time (<span class="math inline">\(k\)</span>-NN).</td>
+</tr>
+<tr class="even">
+<td><strong>Mini-batch</strong></td>
+<td>A small group of triples updated together (averaged gradient); also the source of in-batch negatives.</td>
+</tr>
+<tr class="odd">
+<td><strong>MIPS (Maximum Inner-Product Search)</strong></td>
+<td>Finding the item vectors with the largest dot product against a query — what top-<span class="math inline">\(K\)</span> scoring is.</td>
+</tr>
+<tr class="even">
+<td><strong>MLE</strong></td>
+<td>Maximum Likelihood Estimate; <span class="math inline">\(\theta\)</span> that best explains the data.</td>
+</tr>
+<tr class="odd">
+<td><strong>MLP</strong></td>
+<td>Multi-layer perceptron — a feedforward stack of fully-connected layers.</td>
+</tr>
+<tr class="even">
+<td><strong>MNAR data</strong></td>
+<td>Missing-Not-At-Random: whether an interaction is observed depends on what the system chose to show — recommender logs are the textbook case.</td>
+</tr>
+<tr class="odd">
+<td><strong>Model-based CF</strong></td>
+<td>Learn a compact model first (e.g.&nbsp;matrix factorization).</td>
+</tr>
+<tr class="even">
+<td><strong>MoE (mixture-of-experts)</strong></td>
+<td>A model that holds many parameters but activates only a few per token — inference cheaper than total size.</td>
+</tr>
+<tr class="odd">
+<td><strong>Momentum / Adam</strong></td>
+<td>SGD upgrades: a velocity term / per-parameter adaptive step (Adam = the default optimizer).</td>
+</tr>
+<tr class="even">
+<td><strong>MRR</strong></td>
+<td>Mean Reciprocal Rank — <span class="math inline">\(1/\)</span>rank of the first relevant item, averaged.</td>
+</tr>
+<tr class="odd">
+<td><strong>MSE / squared loss</strong></td>
+<td>Mean of squared errors; from Gaussian noise; outlier-sensitive.</td>
+</tr>
+<tr class="even">
+<td><strong>MTEB / ann-benchmarks / LMArena / CoNLL</strong></td>
+<td>The standard leaderboards for embeddings / vector indexes / chat-LLMs / NER. Priors, not verdicts.</td>
+</tr>
+<tr class="odd">
+<td><strong>Multi-head</strong></td>
+<td>Several attentions in parallel with different learned projections, then concatenated.</td>
+</tr>
+<tr class="even">
+<td><strong>Mutual-information maximization</strong></td>
+<td>The framing RLMRec uses for aligning the collaborative and semantic views.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="n" class="level2">
+<h2 class="anchored" data-anchor-id="n">N</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Nabla / del (<span class="math inline">\(\nabla\)</span>)</strong></td>
+<td>The symbol for the gradient operator.</td>
+</tr>
+<tr class="even">
+<td><strong>Negative sampling</strong></td>
+<td>Drawing un-interacted items to act as negatives.</td>
+</tr>
+<tr class="odd">
+<td><strong>Neuron / unit</strong></td>
+<td>A weighted sum of inputs + bias, passed through an activation.</td>
+</tr>
+<tr class="even">
+<td><strong>Next-item prediction</strong></td>
+<td>The core task: given <span class="math inline">\((i_1,\dots,i_{t-1})\)</span>, score every item for being <span class="math inline">\(i_t\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>NLL</strong></td>
+<td>Negative log-likelihood <span class="math inline">\(=-\log L\)</span>; minimizing it = MLE; <em>this is a loss</em>.</td>
+</tr>
+<tr class="even">
+<td><strong>Node</strong></td>
+<td>A thing (a user, a movie).</td>
+</tr>
+<tr class="odd">
+<td><strong>Non-IID data</strong></td>
+<td>Each client’s data is small and unrepresentative of the whole — the core difficulty of federation.</td>
+</tr>
+<tr class="even">
+<td><strong>Norm / length</strong> <span class="math inline">\(\lVert\mathbf{u}\rVert\)</span></td>
+<td>The arrow’s length; default <strong>L2</strong> <span class="math inline">\(\sqrt{\sum_i u_i^2}\)</span>. <strong>L1</strong> <span class="math inline">\(=\sum_i\lvert u_i\rvert\)</span> (used in lasso).</td>
+</tr>
+<tr class="odd">
+<td><strong>Novelty</strong></td>
+<td>Non-obviousness, often <span class="math inline">\(-\log_2(\text{popularity})\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Null hypothesis <span class="math inline">\(H_0\)</span></strong></td>
+<td>The skeptical default “no real difference”; a test tries to disprove it.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="o" class="level2">
+<h2 class="anchored" data-anchor-id="o">O</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Odds</strong></td>
+<td><span class="math inline">\(p/(1-p)\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Off-policy</strong></td>
+<td>Learning from data collected by a different (older) policy than the one being trained.</td>
+</tr>
+<tr class="odd">
+<td><strong>Offline replay</strong></td>
+<td>Unbiased evaluation of a bandit policy on a log of randomly-served actions (Li et al.&nbsp;2011).</td>
+</tr>
+<tr class="even">
+<td><strong>One- vs two-sided test</strong></td>
+<td><em>Two-sided</em> asks “A <span class="math inline">\(\ne\)</span> B” (the default); <em>one-sided</em> asks “A <span class="math inline">\(&gt;\)</span> B” and halves <span class="math inline">\(p\)</span> — valid <strong>only</strong> if the direction was pre-registered.</td>
+</tr>
+<tr class="odd">
+<td><strong>One-hot vector</strong></td>
+<td>A length-<span class="math inline">\(V\)</span> vector, <span class="math inline">\(1\)</span> in one slot, <span class="math inline">\(0\)</span> elsewhere; encodes identity but no similarity (all pairs orthogonal).</td>
+</tr>
+<tr class="even">
+<td><strong>Open weights / open source / open data</strong></td>
+<td>Released <em>weights only</em> / weights + permissive code license / + training data too. They are different and often confused.</td>
+</tr>
+<tr class="odd">
+<td><strong>Orthogonal</strong></td>
+<td>Perpendicular; dot product <span class="math inline">\(0\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Orthonormal basis</strong></td>
+<td>A full set of axes that are mutually orthogonal <em>and</em> each unit length; a coordinate is then just a dot product (<span class="math inline">\(U,V\)</span> in §6).</td>
+</tr>
+<tr class="odd">
+<td><strong>Outer product</strong> <span class="math inline">\(\mathbf{u}\mathbf{v}^{\top}\)</span></td>
+<td>A column times a row = a whole rank-1 matrix.</td>
+</tr>
+<tr class="even">
+<td><strong>Over-smoothing</strong></td>
+<td>Too many layers make all embeddings collapse to one blurry point.</td>
+</tr>
+<tr class="odd">
+<td><strong>Overfitting</strong></td>
+<td>Memorizing training noise; great on train, poor on new data.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="p" class="level2">
+<h2 class="anchored" data-anchor-id="p">P</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(p\)</span>-value</strong></td>
+<td>Probability of a gap this large <em>if <span class="math inline">\(H_0\)</span> were true</em>; small = significant. NOT <span class="math inline">\(\Pr(H_0\text{ true})\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Paired <span class="math inline">\(t\)</span>-test</strong></td>
+<td>Tests whether the mean of per-pair differences <span class="math inline">\(\bar d\)</span> differs from 0: <span class="math inline">\(t=\bar d/(s_d/\sqrt n)\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Partial derivative <span class="math inline">\(\partial f/\partial x\)</span></strong></td>
+<td>Derivative wrt one variable, others held fixed.</td>
+</tr>
+<tr class="even">
+<td><strong>Pearson correlation</strong></td>
+<td>A similarity measure (centred cosine) for ratings — removes each user’s rating bias.</td>
+</tr>
+<tr class="odd">
+<td><strong>PMF / PDF</strong></td>
+<td>Probability <em>mass</em> (discrete) / <em>density</em> (continuous) function; sums/integrates to 1.</td>
+</tr>
+<tr class="even">
+<td><strong>Pointwise / pairwise / listwise</strong></td>
+<td>Score each pair / a pair’s order / the whole list.</td>
+</tr>
+<tr class="odd">
+<td><strong>Policy <span class="math inline">\(\pi(a\mid s)\)</span></strong></td>
+<td>The learned rule mapping a state to an action; what RL optimizes.</td>
+</tr>
+<tr class="even">
+<td><strong>Polynomial filter</strong></td>
+<td>A filter that is a polynomial in <span class="math inline">\(\tilde{A}\)</span> (what LightGCN layers compute).</td>
+</tr>
+<tr class="odd">
+<td><strong>Popularity bias</strong></td>
+<td>Tendency to over-recommend high-degree (blockbuster) items (§13).</td>
+</tr>
+<tr class="even">
+<td><strong>Popularity bias (in eval)</strong></td>
+<td>Popular items dominate the test set, so pushing them inflates accuracy metrics.</td>
+</tr>
+<tr class="odd">
+<td><strong>Position bias</strong></td>
+<td>Higher-ranked slots draw more clicks regardless of true relevance.</td>
+</tr>
+<tr class="even">
+<td><strong>Positional embedding</strong></td>
+<td>A learned per-position vector added to item embeddings so attention can see <strong>order</strong>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Positional encoding</strong></td>
+<td>A per-position signal added to embeddings so order-blind attention can see order (sinusoidal or learned).</td>
+</tr>
+<tr class="even">
+<td><strong>Positive / negative pair</strong></td>
+<td>Positive = two views of the <em>same</em> node; negative = views of <em>different</em> nodes.</td>
+</tr>
+<tr class="odd">
+<td><strong>Positive semidefinite (PSD)</strong></td>
+<td>A symmetric matrix with <span class="math inline">\(\mathbf x^{\!\top}\!H\mathbf x\ge0\)</span> for all <span class="math inline">\(\mathbf x\)</span> (all eigenvalues <span class="math inline">\(\ge0\)</span>); the multivariable “<span class="math inline">\(\ge0\)</span>” that makes a Hessian convex.</td>
+</tr>
+<tr class="even">
+<td><strong>Positive-semidefinite (PSD)</strong></td>
+<td>A symmetric matrix with all eigenvalues <span class="math inline">\(\ge0\)</span> (equivalently <span class="math inline">\(\mathbf{x}^{\top}A\mathbf{x}\ge0\)</span> always); every <span class="math inline">\(M^{\top}M\)</span> is PSD since <span class="math inline">\(\mathbf{x}^{\top}M^{\top}M\mathbf{x}=\lVert M\mathbf{x}\rVert^{2}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Posterior <span class="math inline">\(p(\theta\mid D)\)</span></strong></td>
+<td>Updated belief after data.</td>
+</tr>
+<tr class="even">
+<td><strong>Pre-activation <span class="math inline">\(z\)</span> (logit)</strong></td>
+<td>The raw score <span class="math inline">\(\mathbf{w}\cdot\mathbf{x}+b\)</span> before the activation.</td>
+</tr>
+<tr class="odd">
+<td><strong>Precision@K</strong></td>
+<td>Of the <span class="math inline">\(K\)</span> shown, the fraction relevant.</td>
+</tr>
+<tr class="even">
+<td><strong>Predictive learning</strong></td>
+<td><em>SSL pretext:</em> predict a property <em>derived from the data</em> (e.g.&nbsp;a masked item/attribute); one correct answer, no negatives; discriminative mechanism.</td>
+</tr>
+<tr class="odd">
+<td><strong>Pretraining</strong></td>
+<td>Train a big Transformer on a huge corpus with a self-supervised objective, then reuse it.</td>
+</tr>
+<tr class="even">
+<td><strong>Prior <span class="math inline">\(p(\theta)\)</span></strong></td>
+<td>Belief about <span class="math inline">\(\theta\)</span> before data.</td>
+</tr>
+<tr class="odd">
+<td><strong>Profile</strong></td>
+<td>A short LLM-written description of a user’s taste or an item’s character, used as input to an embedder.</td>
+</tr>
+<tr class="even">
+<td><strong>Projection</strong> <span class="math inline">\(\mathrm{proj}_{\mathbf{v}}\mathbf{u}\)</span></td>
+<td>The shadow of <span class="math inline">\(\mathbf{u}\)</span> on <span class="math inline">\(\mathbf{v}\)</span>’s line, <span class="math inline">\(\frac{\mathbf{u}\cdot\mathbf{v}}{\lVert\mathbf{v}\rVert^{2}}\mathbf{v}\)</span>; in an orthonormal basis a coordinate is just a dot product.</td>
+</tr>
+<tr class="odd">
+<td><strong>Propensity / IPS</strong></td>
+<td>Propensity = probability an item was shown; IPS re-weights each interaction by <span class="math inline">\(1/\)</span>propensity to undo exposure bias.</td>
+</tr>
+<tr class="even">
+<td><strong>Provider vs.&nbsp;consumer fairness</strong></td>
+<td>Comparable <em>exposure</em> across item creators (provider) vs.&nbsp;comparable <em>quality</em> across user groups (consumer).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="q" class="level2">
+<h2 class="anchored" data-anchor-id="q">Q</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Quantization</strong></td>
+<td>Storing weights/vectors in fewer bits (4/8-bit, int8/binary) to shrink memory and speed inference, at a small quality cost.</td>
+</tr>
+<tr class="even">
+<td><strong>Query / Key / Value</strong></td>
+<td>Soft database lookup: a query is matched (dot product) against keys to retrieve a blend of values.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="r" class="level2">
+<h2 class="anchored" data-anchor-id="r">R</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Random split</strong></td>
+<td>Hold out a random fraction of interactions — <strong>leaks the future</strong> for time-ordered data.</td>
+</tr>
+<tr class="even">
+<td><strong>Random variable</strong></td>
+<td>A quantity whose value is uncertain (coin, die, temperature).</td>
+</tr>
+<tr class="odd">
+<td><strong>Rank</strong></td>
+<td>The matrix’s number of independent directions: independent rows/columns (§2) = nonzero singular values (§6).</td>
+</tr>
+<tr class="even">
+<td><strong>Rank / latent dimension <span class="math inline">\(d\)</span></strong></td>
+<td>Width of the factor vectors; the dial between under- and over-fitting.</td>
+</tr>
+<tr class="odd">
+<td><strong>Ranking</strong></td>
+<td>The expensive, high-precision second stage that reorders the shortlist with a feature-rich model.</td>
+</tr>
+<tr class="even">
+<td><strong>Recall vs QPS</strong></td>
+<td>The ANN trade-off: fraction of true neighbours found vs queries-per-second. Always compare at a <em>fixed</em> recall.</td>
+</tr>
+<tr class="odd">
+<td><strong>Recall@K</strong></td>
+<td>Of all relevant items, the fraction in the top-<span class="math inline">\(K\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Regret</strong></td>
+<td><span class="math inline">\(\sum_t(\mu^{*}-\mu_{a_t})\)</span>: reward lost versus always pulling the best arm.</td>
+</tr>
+<tr class="odd">
+<td><strong>Regularization</strong></td>
+<td>Making an ill-posed solution “regular” (well-behaved); from Hadamard/Tikhonov.</td>
+</tr>
+<tr class="even">
+<td><strong>Regularizer</strong></td>
+<td>A term/procedure that discourages complex solutions to improve generalization.</td>
+</tr>
+<tr class="odd">
+<td><strong>Relevant item</strong></td>
+<td>A ground-truth item the user actually likes.</td>
+</tr>
+<tr class="even">
+<td><strong>ReLU</strong></td>
+<td><span class="math inline">\(\max(0,z)\)</span> — Rectified Linear Unit; the default activation.</td>
+</tr>
+<tr class="odd">
+<td><strong>Representation learning</strong></td>
+<td>The network learning useful features by itself.</td>
+</tr>
+<tr class="even">
+<td><strong>Residual connection</strong></td>
+<td>A sub-layer computes <span class="math inline">\(x+f(x)\)</span>; the <span class="math inline">\(+1\)</span> in its derivative is a gradient highway for deep stacks.</td>
+</tr>
+<tr class="odd">
+<td><strong>Retrieval / candidate generation</strong></td>
+<td>The cheap, high-recall first stage that cuts millions of items to a few hundred.</td>
+</tr>
+<tr class="even">
+<td><strong>Return <span class="math inline">\(G\)</span></strong></td>
+<td>Cumulative discounted reward <span class="math inline">\(\sum_t \gamma^t r_t\)</span> — the long-term objective.</td>
+</tr>
+<tr class="odd">
+<td><strong>Risk / empirical risk</strong></td>
+<td>Expected loss over the true distribution / its average on the training sample.</td>
+</tr>
+<tr class="even">
+<td><strong>RLMRec</strong></td>
+<td>An enhancer that aligns an LLM-written semantic embedding with a CF embedding via contrastive/generative alignment (§3).</td>
+</tr>
+<tr class="odd">
+<td><strong>RLMRec-Con / -Gen</strong></td>
+<td>RLMRec’s contrastive / generative variants for aligning LLM semantics with GNN embeddings.</td>
+</tr>
+<tr class="even">
+<td><strong>RMSE / Recall@K / NDCG@K</strong></td>
+<td>Rating-error / top-<span class="math inline">\(K\)</span> ranking-quality metrics.</td>
+</tr>
+<tr class="odd">
+<td><strong>RNN</strong></td>
+<td>Recurrent Neural Network: one shared cell that updates a hidden-state “memory” <span class="math inline">\(h_t=\tanh(Wh_{t-1}+Ux_t+b)\)</span> along a sequence.</td>
+</tr>
+<tr class="even">
+<td><strong>RNN / hidden state <span class="math inline">\(\mathbf h_t\)</span></strong></td>
+<td>A net that folds each item into a running fixed-length <strong>summary</strong> of the session.</td>
+</tr>
+<tr class="odd">
+<td><strong>RQ-VAE</strong></td>
+<td>The residual-quantized <em>variational</em> autoencoder that <em>learns</em> the Semantic-ID codebooks by reconstructing the content embedding (§2.2).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="s" class="level2">
+<h2 class="anchored" data-anchor-id="s">S</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Saddle point</strong></td>
+<td>Critical point that is a min in some directions, a max in others (indefinite Hessian).</td>
+</tr>
+<tr class="even">
+<td><strong>Sample space / event</strong></td>
+<td>The set of possible outcomes / a subset of them.</td>
+</tr>
+<tr class="odd">
+<td><strong>Sampled softmax (SSM)</strong></td>
+<td>Listwise cross-entropy over a positive + many sampled negatives; structurally = InfoNCE.</td>
+</tr>
+<tr class="even">
+<td><strong>SASRec</strong></td>
+<td>Self-Attentive Sequential Recommendation: a <strong>causal</strong> Transformer over the item sequence.</td>
+</tr>
+<tr class="odd">
+<td><strong>SASRec / BERT4Rec</strong></td>
+<td>Sequential recommenders: a causal (left-to-right) / bidirectional (masked) Transformer over the item history.</td>
+</tr>
+<tr class="even">
+<td><strong>Second derivative <span class="math inline">\(f''\)</span></strong></td>
+<td>Rate of change of the slope = curvature.</td>
+</tr>
+<tr class="odd">
+<td><strong>Secure aggregation</strong></td>
+<td>The server sees only the <em>sum</em> of client updates, never any individual one.</td>
+</tr>
+<tr class="even">
+<td><strong>Selection / exposure bias</strong></td>
+<td>Only items the system <strong>showed</strong> can get feedback; un-shown items look “disliked” by silence.</td>
+</tr>
+<tr class="odd">
+<td><strong>Self-attention</strong></td>
+<td>Attention of a sequence to itself (Q, K, V all from the same tokens).</td>
+</tr>
+<tr class="even">
+<td><strong>Self-loop</strong></td>
+<td>An artificial edge from a node to itself; present in GCN, absent in LightGCN.</td>
+</tr>
+<tr class="odd">
+<td><strong>Semantic embedding</strong></td>
+<td>A fixed-length vector encoding the <em>meaning</em> of the profile text (from a frozen sentence encoder), distinct from the CF latent space.</td>
+</tr>
+<tr class="even">
+<td><strong>Semantic ID</strong></td>
+<td>A short sequence of content-derived codewords identifying an item (quantized text embedding).</td>
+</tr>
+<tr class="odd">
+<td><strong>Sequential recommendation</strong></td>
+<td>Predict the next item from a user’s <strong>ordered</strong> history.</td>
+</tr>
+<tr class="even">
+<td><strong>Serendipity</strong></td>
+<td>Relevant <strong>and</strong> surprising.</td>
+</tr>
+<tr class="odd">
+<td><strong>Session-based recommendation</strong></td>
+<td>Same, but from a short, often <strong>anonymous</strong> current session (no user id).</td>
+</tr>
+<tr class="even">
+<td><strong>SGD</strong></td>
+<td>Stochastic Gradient Descent — gradient steps on random mini-batches.</td>
+</tr>
+<tr class="odd">
+<td><strong>SGL / SimGCL / XSimGCL / LightGCL</strong></td>
+<td>GCL methods differing in how the two views are built (edge-drop / noise / cross-layer noise / SVD).</td>
+</tr>
+<tr class="even">
+<td><strong>Shape</strong> <span class="math inline">\(m\times n\)</span></td>
+<td><span class="math inline">\(m\)</span> rows by <span class="math inline">\(n\)</span> columns.</td>
+</tr>
+<tr class="odd">
+<td><strong><span class="math inline">\(\sigma\)</span> (nonlinearity)</strong></td>
+<td>Activation (e.g.&nbsp;ReLU) in GCN/NGCF; removed in LightGCN.</td>
+</tr>
+<tr class="even">
+<td><strong>Sigmoid <span class="math inline">\(\sigma(z)\)</span></strong></td>
+<td><span class="math inline">\(1/(1+e^{-z})\)</span>; inverse of the logit; score → probability.</td>
+</tr>
+<tr class="odd">
+<td><strong>Significance (paired <span class="math inline">\(t\)</span>-test)</strong></td>
+<td>Is a gain bigger than run-to-run seed noise? Report mean <span class="math inline">\(\pm\)</span> std and a <span class="math inline">\(p\)</span>-value.</td>
+</tr>
+<tr class="even">
+<td><strong>Significance level <span class="math inline">\(\alpha\)</span></strong></td>
+<td>The pre-set bar (usually <span class="math inline">\(0.05\)</span>); reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(p&lt;\alpha\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Singular value <span class="math inline">\(\sigma\)</span></strong></td>
+<td>The strength of an SVD pattern; <span class="math inline">\(\sigma\ge0\)</span>, biggest first.</td>
+</tr>
+<tr class="even">
+<td><strong>Slate</strong></td>
+<td>A whole page/list of recommended items — the (combinatorial) action in slate RL.</td>
+</tr>
+<tr class="odd">
+<td><strong>SlateQ</strong></td>
+<td>Decomposes a slate’s value into per-item <span class="math inline">\(Q\)</span>-values, making value-based slate RL tractable.</td>
+</tr>
+<tr class="even">
+<td><strong>SLM</strong></td>
+<td>Small language model (<span class="math inline">\(\approx 0.5\)</span>–9B) — cheap, high-throughput; the recsys feature-generation workhorse.</td>
+</tr>
+<tr class="odd">
+<td><strong>Smooth</strong></td>
+<td>Has a derivative everywhere — no kinks or jumps; looks straight up close.</td>
+</tr>
+<tr class="even">
+<td><strong>Softmax</strong></td>
+<td>Multi-class sigmoid; scores → a probability distribution.</td>
+</tr>
+<tr class="odd">
+<td><strong>Softmax output</strong></td>
+<td>Multi-class output head: <span class="math inline">\(K\)</span> scores → a probability distribution, paired with cross-entropy.</td>
+</tr>
+<tr class="even">
+<td><strong>Sparse / one-hot feature</strong></td>
+<td>A category encoded as all-zeros with a single <span class="math inline">\(1\)</span>; CTR rows stack millions of these.</td>
+</tr>
+<tr class="odd">
+<td><strong>Sparsity</strong></td>
+<td>Most of <span class="math inline">\(R\)</span> is unknown (real matrices <span class="math inline">\({\sim}99.5\%\)</span> empty); the core difficulty.</td>
+</tr>
+<tr class="even">
+<td><strong>SSL (self-supervised learning)</strong></td>
+<td>Training on an auxiliary task that needs no labels; supervision is manufactured from the data’s own structure.</td>
+</tr>
+<tr class="odd">
+<td><strong>Standard error</strong></td>
+<td><span class="math inline">\(s_d/\sqrt n\)</span> — how much an estimate wobbles across repeats; shrinks with more data.</td>
+</tr>
+<tr class="even">
+<td><strong>State <span class="math inline">\(s\)</span></strong></td>
+<td>A summary of the current situation; the ingredient bandits lack (actions change it).</td>
+</tr>
+<tr class="odd">
+<td><strong>Static vs contextual</strong></td>
+<td>word2vec gives one fixed vector per word; a Transformer gives a different vector per <em>occurrence</em> (context-dependent).</td>
+</tr>
+<tr class="even">
+<td><strong>Stochastic gradient descent (SGD)</strong></td>
+<td>Gradient descent on a noisy gradient estimated from a random minibatch, not the full dataset.</td>
+</tr>
+<tr class="odd">
+<td><strong>Structured output</strong></td>
+<td>Forcing an LLM to emit schema-valid JSON via constrained decoding — valid shape, not guaranteed-correct values.</td>
+</tr>
+<tr class="even">
+<td><strong>Structured output / JSON mode</strong></td>
+<td>Forcing the LLM to emit schema-valid JSON, so the result is reliably parseable.</td>
+</tr>
+<tr class="odd">
+<td><strong>Subgradient</strong></td>
+<td>A stand-in slope at a kink where the true derivative is undefined (e.g.&nbsp;any value in <span class="math inline">\([0,1]\)</span> for ReLU at <span class="math inline">\(0\)</span>).</td>
+</tr>
+<tr class="even">
+<td><strong>Subword tokenization (BPE)</strong></td>
+<td>Split text into reusable sub-word pieces by greedily merging the most frequent adjacent pair; fixed vocabulary, no <code>&lt;UNK&gt;</code> (WordPiece/SentencePiece are cousins).</td>
+</tr>
+<tr class="odd">
+<td><strong>Surprise / self-information</strong></td>
+<td><span class="math inline">\(-\log p(x)\)</span>; how surprising an outcome is (<span class="math inline">\(0\)</span> if certain, <span class="math inline">\(\to\infty\)</span> if rare).</td>
+</tr>
+<tr class="even">
+<td><strong>SVD (<span class="math inline">\(M=U\Sigma V^\top\)</span>)</strong></td>
+<td>Factorizes a (rectangular) matrix into patterns <span class="math inline">\(U,V\)</span> and strengths <span class="math inline">\(\Sigma\)</span>; keeping the top-<span class="math inline">\(q\)</span> = an ideal low-pass (PSGE, LightGCL).</td>
+</tr>
+<tr class="odd">
+<td><strong>SVD</strong> <span class="math inline">\(M=U\Sigma V^{\top}\)</span></td>
+<td>Factor any matrix into orthonormal patterns (<span class="math inline">\(U,V\)</span>) scaled by singular values (<span class="math inline">\(\Sigma\)</span>).</td>
+</tr>
+<tr class="even">
+<td><strong>Symmetric</strong></td>
+<td><span class="math inline">\(A=A^{\top}\)</span>; clean orthogonal eigenvectors.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="t" class="level2">
+<h2 class="anchored" data-anchor-id="t">T</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Taylor / linear approximation</strong></td>
+<td><span class="math inline">\(f(x+\delta)\approx f(x)+f'(x)\delta\)</span>; a curve looks straight up close.</td>
+</tr>
+<tr class="even">
+<td><strong>Temperature <span class="math inline">\(\tau\)</span></strong></td>
+<td>Scales the contrast sharpness in InfoNCE; a sensitive hyperparameter.</td>
+</tr>
+<tr class="odd">
+<td><strong>Temporal / leave-one-last split</strong></td>
+<td>Hold out each user’s chronologically last interaction; the honest, leak-free default.</td>
+</tr>
+<tr class="even">
+<td><strong>TF-IDF</strong></td>
+<td>A way to turn text into a feature vector (term frequency × inverse document frequency).</td>
+</tr>
+<tr class="odd">
+<td><strong>The recsys leak</strong></td>
+<td>Sending an update for item <span class="math inline">\(i\)</span> reveals the user touched <span class="math inline">\(i\)</span>; FedRec masks this with decoy items.</td>
+</tr>
+<tr class="even">
+<td><strong>Thompson sampling</strong></td>
+<td>Keep a posterior per arm; sample one value from each and pull the largest sample.</td>
+</tr>
+<tr class="odd">
+<td><strong>Top-<span class="math inline">\(K\)</span></strong></td>
+<td>The <span class="math inline">\(K\)</span> highest-scoring unseen items returned to the user.</td>
+</tr>
+<tr class="even">
+<td><strong>Trace</strong></td>
+<td>Sum of a square matrix’s diagonal entries; equals the sum of its eigenvalues.</td>
+</tr>
+<tr class="odd">
+<td><strong>Train/test split</strong></td>
+<td>How held-out test data is chosen: random, leave-one-out (LOO), or temporal (by timestamp).</td>
+</tr>
+<tr class="even">
+<td><strong>Transformer</strong></td>
+<td>A stack of (self-attention + add&amp;norm + feed-forward + add&amp;norm) blocks; no recurrence, fully parallel (Vaswani 2017).</td>
+</tr>
+<tr class="odd">
+<td><strong>Transition probability</strong></td>
+<td><span class="math inline">\(P(\text{next}=j\mid\text{last}=i)\)</span> — count of <span class="math inline">\(i\!\to\!j\)</span> over count of <span class="math inline">\(i\)</span>-as-from.</td>
+</tr>
+<tr class="even">
+<td><strong>Transpose</strong> <span class="math inline">\(A^{\top}\)</span></td>
+<td>The matrix mirrored across its diagonal (rows ↔︎ columns).</td>
+</tr>
+<tr class="odd">
+<td><strong>Triple <span class="math inline">\((u,i^+,i^-)\)</span></strong></td>
+<td>A training example for pairwise ranking: user <span class="math inline">\(u\)</span> prefers positive <span class="math inline">\(i^+\)</span> over sampled negative <span class="math inline">\(i^-\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Truncated SVD</strong></td>
+<td>Keep the top-<span class="math inline">\(q\)</span> singular components = best low-rank approximation (least-squares / Frobenius sense).</td>
+</tr>
+<tr class="odd">
+<td><strong>Two-stage funnel</strong></td>
+<td>Retrieval → ranking: fast-and-forgiving then slow-and-sharp, so a rich model can run on only a few hundred candidates.</td>
+</tr>
+<tr class="even">
+<td><strong>Two-tower LLM-embedding retrieval</strong></td>
+<td>A hybrid: embed users and items with an LLM-grade encoder <em>offline</em>, then retrieve by <strong>ANN</strong> over those vectors at serve time — enhancer-class cost, LLM semantics on the retrieval path (§4).</td>
+</tr>
+<tr class="odd">
+<td><strong>Type I / II error</strong></td>
+<td>False positive (reject true <span class="math inline">\(H_0\)</span>) / false negative (miss a real effect).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="u" class="level2">
+<h2 class="anchored" data-anchor-id="u">U</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>UCB</strong></td>
+<td>Pull <span class="math inline">\(\arg\max_i\,[\hat\mu_i + \sqrt{2\ln t / n_i}\,]\)</span>: highest <em>upper bound</em> — optimism under uncertainty.</td>
+</tr>
+<tr class="even">
+<td><strong>Uniform / popularity-weighted / in-batch / hard negatives</strong></td>
+<td>Four sampling distributions for <span class="math inline">\(i^-\)</span>: equal-probability; <span class="math inline">\(\propto\text{pop}^{0.75}\)</span>; reuse the batch’s other positives; pick high-scoring (confusing) items.</td>
+</tr>
+<tr class="odd">
+<td><strong>Uniformity</strong></td>
+<td>Embeddings spread evenly over the sphere; fights popularity bias / collapse.</td>
+</tr>
+<tr class="even">
+<td><strong>Unit vector</strong></td>
+<td>A vector of length <span class="math inline">\(1\)</span>; “normalizing” = dividing by your own length.</td>
+</tr>
+<tr class="odd">
+<td><strong>Universal approximation</strong></td>
+<td>A wide enough net can approximate any continuous function.</td>
+</tr>
+<tr class="even">
+<td><strong>User–item matrix <span class="math inline">\(R\)</span></strong></td>
+<td>Rows = users, cols = items, entries = ratings/clicks (mostly unknown).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="v" class="level2">
+<h2 class="anchored" data-anchor-id="v">V</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Value / <span class="math inline">\(Q\)</span>-value</strong></td>
+<td>Expected return from a state (<span class="math inline">\(V\)</span>) or a state–action pair (<span class="math inline">\(Q\)</span>).</td>
+</tr>
+<tr class="even">
+<td><strong>Vanishing gradient</strong></td>
+<td>Back-prop through many steps multiplies many small factors → gradient decays → long-range dependencies unlearnable.</td>
+</tr>
+<tr class="odd">
+<td><strong>Variance <span class="math inline">\(\sigma^2\)</span></strong></td>
+<td>Expected squared distance from the mean; spread.</td>
+</tr>
+<tr class="even">
+<td><strong>Vector</strong></td>
+<td>An ordered list of numbers; equivalently, an arrow from the origin to a point.</td>
+</tr>
+<tr class="odd">
+<td><strong>View</strong></td>
+<td>One augmented version of a node’s representation; contrastive learning needs two per node.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="w" class="level2">
+<h2 class="anchored" data-anchor-id="w">W</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">\(W\)</span> (weight matrix)</strong></td>
+<td>Learnable feature transform in GCN/NGCF; removed in LightGCN.</td>
+</tr>
+<tr class="even">
+<td><strong>Weight / bias</strong></td>
+<td>Learned multiplier per input / learned constant offset.</td>
+</tr>
+<tr class="odd">
+<td><strong>Weighted / unweighted</strong></td>
+<td>Whether edges carry a number (rating/count) or are just 0/1.</td>
+</tr>
+<tr class="even">
+<td><strong>Wide &amp; Deep</strong></td>
+<td>Joint linear-with-hand-crosses (memorize) <span class="math inline">\(+\)</span> MLP-over-embeddings (generalize) model.</td>
+</tr>
+<tr class="odd">
+<td><strong>Wilcoxon signed-rank</strong></td>
+<td>Non-parametric paired test (ranks, not values); use when differences aren’t normal.</td>
+</tr>
+<tr class="even">
+<td><strong>word2vec</strong></td>
+<td>Predict-based word embeddings trained so a word predicts its context (skip-gram / CBOW), Mikolov 2013.</td>
+</tr>
+<tr class="odd">
+<td><strong>WRMF / ALS</strong></td>
+<td>Weighted Regularized MF / Alternating Least Squares (implicit-feedback, squared error).</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="x" class="level2">
+<h2 class="anchored" data-anchor-id="x">X</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>xDeepFM / AutoInt / DIN</strong></td>
+<td>Vector-wise crosses (CIN) / attention-learned interactions / per-candidate behavior attention.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="z" class="level2">
+<h2 class="anchored" data-anchor-id="z">Z</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Zero-shot NER</strong></td>
+<td>Extracting arbitrary entity types with no task-specific training (GLiNER, NuNER).</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/federated-recsys.html" class="pagination-link" aria-label="Federated &amp; Privacy-Preserving Recommendation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/solutions.html" class="pagination-link" aria-label="Solutions to Exercises">
+        <span class="nav-page-text"><span class="chapter-title">Solutions to Exercises</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+  <!-- minastik-brand-js -->
+  <script src="/recsys/site_libs/minastik-brand.js"></script>
+  <!-- /minastik-brand-js -->
+</body></html>
