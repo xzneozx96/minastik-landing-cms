@@ -47,5 +47,6 @@ Authors: Duong Tan Nghia (HUST · Minastik) and Tran Manh Hoang (HUST). Open acc
 - [Appendix F — Solutions to Exercises](https://minastik.com/recsys/chapters/solutions.html): Worked solutions to the book's exercises.
 
 ## Reference and citation
+- [Glossary](https://minastik.com/recsys/chapters/glossary.html): every key term used in the book, defined alphabetically in one place.
 - [Download & cite — Zenodo record (DOI 10.5281/zenodo.20952963)](https://doi.org/10.5281/zenodo.20952963): canonical PDF and citation metadata. Cite the concept DOI; it resolves to the latest version.
 - License: Creative Commons Attribution 4.0 (CC BY 4.0) — free to read, share and adapt with attribution.
