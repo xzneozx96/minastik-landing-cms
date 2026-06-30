@@ -1,79 +1,52 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<head>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
 
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
 
-  <meta name="description"
-    content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
-
-  <title>Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero</title>
-  <style>
-    /* Default styles provided by pandoc.
+<title>Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero</title>
+<style>
+/* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-    code {
-      white-space: pre-wrap;
-    }
-
-    span.smallcaps {
-      font-variant: small-caps;
-    }
-
-    div.columns {
-      display: flex;
-      gap: min(4vw, 1.5em);
-    }
-
-    div.column {
-      flex: auto;
-      overflow-x: auto;
-    }
-
-    div.hanging-indent {
-      margin-left: 1.5em;
-      text-indent: -1.5em;
-    }
-
-    ul.task-list {
-      list-style: none;
-    }
-
-    ul.task-list li input[type="checkbox"] {
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1em;
-      /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
-      vertical-align: middle;
-    }
-  </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
 
 
-  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="../site_libs/clipboard/clipboard.min.js"></script>
-  <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="../site_libs/quarto-search/fuse.min.js"></script>
-  <script src="../site_libs/quarto-search/quarto-search.js"></script>
-  <meta name="quarto:offset" content="../">
-  <link href="../chapters/bandits.html" rel="next">
-  <link href="../chapters/training-and-serving.html" rel="prev">
-  <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-  <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-  <script src="../site_libs/quarto-html/popper.min.js"></script>
-  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="../site_libs/quarto-html/anchor.min.js"></script>
-  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet"
-    id="quarto-text-highlighting-styles">
-  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet"
-    append-hash="true" id="quarto-bootstrap" data-mode="light">
-  <script id="quarto-search-options" type="application/json">{
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/bandits.html" rel="next">
+<link href="../chapters/training-and-serving.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1cf3c288c81ce35f3d0cfe900da6499b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -100,10 +73,10 @@
     "search-label": "Search"
   }
 }</script>
-  <!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
+<!-- Site-wide structured data for SEO / AEO / GEO. Injected into every page's <head>
      via _quarto.yml (format.html.include-in-header). Per-page Article schema, canonical
      and unique descriptions are added by seo-perpage.lua. Keep IDs stable. -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
@@ -185,1359 +158,964 @@
   ]
 }
 </script>
-  <link rel="canonical" href="https://minastik.com/recsys/chapters/deep-ctr.html">
-  <meta property="og:url" content="https://minastik.com/recsys/chapters/deep-ctr.html">
-  <meta property="og:type" content="article">
-  <script
-    type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Click-Through Rate Prediction & Feature Interactions","name":"Click-Through Rate Prediction & Feature Interactions","description":"Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.","url":"https://minastik.com/recsys/chapters/deep-ctr.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<link rel="canonical" href="https://minastik.com/recsys/chapters/deep-ctr.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/deep-ctr.html"><meta property="og:type" content="article">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Click-Through Rate Prediction & Feature Interactions","name":"Click-Through Rate Prediction & Feature Interactions","description":"Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.","url":"https://minastik.com/recsys/chapters/deep-ctr.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script type="text/javascript">
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
       }
     }
-    window.Quarto = {
-      typesetMath
-    };
-  </script>
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
-  <meta property="og:title"
-    content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
-  <meta property="og:description"
-    content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
-  <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
-  <meta property="og:site_name" content="Recommender Systems from Zero">
-  <meta name="twitter:title"
-    content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
-  <meta name="twitter:description"
-    content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
-  <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
-  <meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
+<meta property="og:description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
+<meta property="og:image" content="https://minastik.com/recsys/social-card.png">
+<meta property="og:site_name" content="Recommender Systems from Zero">
+<meta name="twitter:title" content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
+<meta name="twitter:description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
+<meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
   <!-- minastik-brand -->
-  <script>document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('mnk-theme') || 'light');</script>
+  <script>document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('mnk-theme')||'light');</script>
   <link rel="stylesheet" href="/recsys/site_libs/minastik-brand.css">
   <!-- /minastik-brand -->
 </head>
 
 <body class="nav-sidebar docked nav-fixed quarto-light">
 
-  <div id="quarto-search-results"></div>
+<div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-        <div class="navbar-brand-container mx-auto">
-          <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
-            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
-            <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
-          </a>
-          <a class="navbar-brand" href="https://minastik.com">
-            <span class="navbar-title">Recommender Systems from Zero</span>
-          </a>
-        </div>
-        <div id="quarto-search" class="" title="Search"></div>
-
-        <span class=""></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav navbar-nav-scroll me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="https://minastik.com">
-                <span class="menu-text">← Minastik</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://minastik.com/learn">
-                <span class="menu-text">Learn</span></a>
-            </li>
-          </ul>
-        </div> <!-- /navcollapse -->
-        <div class="quarto-navbar-tools">
-
-        </div>
+      <div class="navbar-brand-container mx-auto">
+    <a href="https://minastik.com" class="navbar-brand navbar-brand-logo">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo light-content">
+    <img src="../minastik_logo.svg" alt="Minastik — back to minastik.com" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="https://minastik.com">
+    <span class="navbar-title">Recommender Systems from Zero</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com"> 
+<span class="menu-text">← Minastik</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://minastik.com/learn"> 
+<span class="menu-text">Learn</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
       </div> <!-- /container-fluid -->
     </nav>
-    <nav class="quarto-secondary-nav">
-      <div class="container-fluid d-flex">
-        <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button"
-          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
-          aria-label="Toggle sidebar navigation"
-          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-          <i class="bi bi-layout-text-sidebar-reverse"></i>
-        </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li>
-            <li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through
-                  Rate Prediction &amp; Feature Interactions</span></a></li>
-          </ol>
-        </nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse"
-          data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false"
-          aria-label="Toggle sidebar navigation"
-          onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-        <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </nav>
-  </header>
-  <!-- content -->
-  <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
-    <!-- sidebar -->
-    <nav id="quarto-sidebar"
-      class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-      <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-          <div id="quarto-search" class="" title="Search"></div>
-        </div>
-      </div>
-      <div class="sidebar-menu-container">
-        <ul class="list-unstyled mt-1">
-          <li class="sidebar-item">
-            <div class="sidebar-item-container">
-              <a href="../index.html" class="sidebar-item-text sidebar-link">
-                <span class="menu-text">Preface</span></a>
-            </div>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
-                <span class="menu-text">Mathematical Foundations</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Linear Algebra for ML</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Calculus for ML</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Probability &amp; Statistics for ML</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
-                <span class="menu-text">Machine-Learning Fundamentals</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Loss Functions &amp; Regularizers</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Representation Learning &amp; the Transformer</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
-                <span class="menu-text">Recommender-System Foundations</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Traditional Recommender Systems</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Evaluation Metrics</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
-                <span class="menu-text">Sequence-Based Recommenders</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
-                <span class="menu-text">Graph-Based Recommenders</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">From Graphs to LightGCN</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">SSL &amp; Contrastive Learning</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">The Spectral / Graph-Filter View</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
-                <span class="menu-text">The LLM Era</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">LLM × RecSys: the Landscape</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
-                <span class="menu-text">Building a Recommender</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Training and Serving a Recommender</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
-                <span class="menu-text">Frontiers</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link active"><span
-                      class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Bandits &amp; Online Recommendation</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li class="sidebar-item sidebar-item-section">
-            <div class="sidebar-item-container">
-              <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
-                <span class="menu-text">Appendices</span></a>
-              <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse"
-                data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true"
-                aria-label="Toggle section">
-                <i class="bi bi-chevron-right ms-2"></i>
-              </a>
-            </div>
-            <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Datasets &amp; Benchmarks</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Generating Features with LLMs</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Reinforcement Learning for Recommendation</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span
-                      class="chapter-title">Solutions to Exercises</span></a>
-                </div>
-              </li>
-              <li class="sidebar-item">
-                <div class="sidebar-item-container">
-                  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
-                    <span class="menu-text">About the Authors</span></a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse"
-      data-bs-target=".quarto-sidebar-collapse-item"></div>
-    <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-      <nav id="TOC" role="doc-toc" class="toc-active">
-        <h2 id="toc-title">Table of contents</h2>
-
-        <ul class="collapse">
-          <li><a href="#the-ctr-task-a-click-as-a-label" id="toc-the-ctr-task-a-click-as-a-label"
-              class="nav-link active" data-scroll-target="#the-ctr-task-a-click-as-a-label">1. The CTR task: a click as
-              a label</a></li>
-          <li><a href="#the-data-sparse-features-and-why-interactions-are-everything"
-              id="toc-the-data-sparse-features-and-why-interactions-are-everything" class="nav-link"
-              data-scroll-target="#the-data-sparse-features-and-why-interactions-are-everything">2. The data: sparse
-              features, and why interactions are everything</a></li>
-          <li><a href="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc"
-              id="toc-the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="nav-link"
-              data-scroll-target="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The baseline and
-              the scoreboard: logistic regression, LogLoss, AUC</a></li>
-          <li><a href="#the-springboard-factorization-machines-one-recap"
-              id="toc-the-springboard-factorization-machines-one-recap" class="nav-link"
-              data-scroll-target="#the-springboard-factorization-machines-one-recap">4. The springboard: factorization
-              machines (one recap)</a></li>
-          <li><a href="#wide-deep-memorization-plus-generalization" id="toc-wide-deep-memorization-plus-generalization"
-              class="nav-link" data-scroll-target="#wide-deep-memorization-plus-generalization">5. Wide &amp; Deep:
-              memorization plus generalization</a></li>
-          <li><a href="#deepfm-kill-the-hand-engineering-share-the-embeddings"
-              id="toc-deepfm-kill-the-hand-engineering-share-the-embeddings" class="nav-link"
-              data-scroll-target="#deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the
-              hand-engineering, share the embeddings</a></li>
-          <li><a href="#deep-cross-dcn-explicit-bounded-degree-crosses"
-              id="toc-deep-cross-dcn-explicit-bounded-degree-crosses" class="nav-link"
-              data-scroll-target="#deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN): explicit,
-              bounded-degree crosses</a></li>
-          <li><a href="#the-rest-of-the-lineage-in-one-line-each" id="toc-the-rest-of-the-lineage-in-one-line-each"
-              class="nav-link" data-scroll-target="#the-rest-of-the-lineage-in-one-line-each">8. The rest of the
-              lineage, in one line each</a></li>
-          <li><a href="#training-and-serving-a-ctr-model" id="toc-training-and-serving-a-ctr-model" class="nav-link"
-              data-scroll-target="#training-and-serving-a-ctr-model">9. Training and serving a CTR model</a></li>
-          <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link"
-              data-scroll-target="#where-this-fits-in-the-book">10. Where this fits in the book</a></li>
-          <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">11. Exercises</a>
-          </li>
-          <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">12. Glossary</a>
-          </li>
-          <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">13.
-              References</a></li>
-        </ul>
-      </nav>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
-    <!-- main -->
-    <main class="content" id="quarto-document-content">
-
-      <header id="title-block-header" class="quarto-title-block default">
-        <nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li>
-            <li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through
-                  Rate Prediction &amp; Feature Interactions</span></a></li>
-          </ol>
-        </nav>
-        <div class="quarto-title">
-          <h1 class="title"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span>
-          </h1>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
-
-
-
-        <div class="quarto-title-meta">
-
-
-
-
         </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mathematical Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine-Learning Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Recommender-System Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequence-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Graph-Based Recommenders</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">The LLM Era</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Building a Recommender</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Frontiers</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/about-the-authors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#the-ctr-task-a-click-as-a-label" id="toc-the-ctr-task-a-click-as-a-label" class="nav-link active" data-scroll-target="#the-ctr-task-a-click-as-a-label">1. The CTR task: a click as a label</a></li>
+  <li><a href="#the-data-sparse-features-and-why-interactions-are-everything" id="toc-the-data-sparse-features-and-why-interactions-are-everything" class="nav-link" data-scroll-target="#the-data-sparse-features-and-why-interactions-are-everything">2. The data: sparse features, and why interactions are everything</a></li>
+  <li><a href="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" id="toc-the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="nav-link" data-scroll-target="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC</a></li>
+  <li><a href="#the-springboard-factorization-machines-one-recap" id="toc-the-springboard-factorization-machines-one-recap" class="nav-link" data-scroll-target="#the-springboard-factorization-machines-one-recap">4. The springboard: factorization machines (one recap)</a></li>
+  <li><a href="#wide-deep-memorization-plus-generalization" id="toc-wide-deep-memorization-plus-generalization" class="nav-link" data-scroll-target="#wide-deep-memorization-plus-generalization">5. Wide &amp; Deep: memorization plus generalization</a></li>
+  <li><a href="#deepfm-kill-the-hand-engineering-share-the-embeddings" id="toc-deepfm-kill-the-hand-engineering-share-the-embeddings" class="nav-link" data-scroll-target="#deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the hand-engineering, share the embeddings</a></li>
+  <li><a href="#deep-cross-dcn-explicit-bounded-degree-crosses" id="toc-deep-cross-dcn-explicit-bounded-degree-crosses" class="nav-link" data-scroll-target="#deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN): explicit, bounded-degree crosses</a></li>
+  <li><a href="#the-rest-of-the-lineage-in-one-line-each" id="toc-the-rest-of-the-lineage-in-one-line-each" class="nav-link" data-scroll-target="#the-rest-of-the-lineage-in-one-line-each">8. The rest of the lineage, in one line each</a></li>
+  <li><a href="#training-and-serving-a-ctr-model" id="toc-training-and-serving-a-ctr-model" class="nav-link" data-scroll-target="#training-and-serving-a-ctr-model">9. Training and serving a CTR model</a></li>
+  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">10. Where this fits in the book</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">11. Exercises</a></li>
+  <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">12. Glossary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">13. References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></h1>
+</div>
 
 
 
-      </header>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-      <section id="the-ctr-task-a-click-as-a-label" class="level2">
-        <h2 class="anchored" data-anchor-id="the-ctr-task-a-click-as-a-label">1. The CTR task: a click as a label</h2>
-        <p>Retrieval models a user and an item as vectors and scores the pair by a <strong>dot product</strong> — good
-          for fishing a few hundred plausible items out of millions, fast. But the dot product is blind to
-          <strong>context</strong> (the time of day, the device, the slot on the page) and treats every user–item pair
-          through one low-dimensional lens. The <em>ranking</em> stage re-scores that short list with a much richer
-          model and a different target:
-        </p>
-        <p><span class="math display">\[
-            \widehat{\text{CTR}} \;=\; P(\text{click}=1 \mid \text{user},\ \text{item},\ \text{context}).
-            \]</span></p>
-        <p>The label is <strong>implicit and binary</strong>: a logged impression that was clicked is a <span
-            class="math inline">\(1\)</span>, one that was shown-but-not-clicked is a <span
-            class="math inline">\(0\)</span>. This is the <strong>click-through rate</strong> — literally the rate at
-          which shown items are <em>clicked through</em> — and predicting it well is worth billions in ad and feed
-          revenue, which is why this corner of recommendation has its own dense literature and its own benchmarks (the
-          <strong>Criteo</strong> and <strong>Avazu</strong> logs of the <em>Datasets &amp; Benchmarks</em> appendix).
-        </p>
-        <blockquote class="blockquote">
-          <p><strong>Where it sits.</strong> CTR prediction is the <strong>ranker</strong> in the two-stage
-            <em>retrieval → ranking</em> funnel built in <em>Training and Serving a Recommender</em>: retrieval (a dot
-            product over the whole catalog) proposes a few hundred candidates; the CTR model, free to be slow and
-            feature-rich, re-orders them. Retrieval answers <em>“which items are even worth considering?”</em>; ranking
-            answers <em>“of those, which will this user click right now?”</em>
-          </p>
-        </blockquote>
-        <hr>
-      </section>
-      <section id="the-data-sparse-features-and-why-interactions-are-everything" class="level2">
-        <h2 class="anchored" data-anchor-id="the-data-sparse-features-and-why-interactions-are-everything">2. The data:
-          sparse features, and why interactions are everything</h2>
-        <p>A CTR training row is not two embeddings — it is a long list of <strong>categorical fields</strong>, each
-          <strong>one-hot encoded</strong> (a vector of zeros with a single <span class="math inline">\(1\)</span>
-          marking the active category):
-        </p>
-        <table class="caption-top table">
-          <thead>
-            <tr class="header">
-              <th>Field</th>
-              <th>Example value</th>
-              <th>Encoding</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="odd">
-              <td>user_id</td>
-              <td><code>Ann</code></td>
-              <td>one-hot over millions of users</td>
-            </tr>
-            <tr class="even">
-              <td>item_id</td>
-              <td><code>Matrix</code></td>
-              <td>one-hot over millions of items</td>
-            </tr>
-            <tr class="odd">
-              <td>genre</td>
-              <td><code>sci-fi</code></td>
-              <td>one-hot over ~20 genres</td>
-            </tr>
-            <tr class="even">
-              <td>device</td>
-              <td><code>mobile</code></td>
-              <td>one-hot over a few devices</td>
-            </tr>
-            <tr class="odd">
-              <td>daypart</td>
-              <td><code>evening</code></td>
-              <td>one-hot over a few buckets</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>Concatenated, a single row is a vector with <strong>millions of dimensions and a handful of ones</strong> —
-          extremely <strong>sparse</strong> (mostly zero) and extremely <strong>high-dimensional</strong>. Two
-          consequences shape every model in this chapter:</p>
-        <ol type="1">
-          <li><strong>A linear model underfits.</strong> Logistic regression on these features learns one weight per
-            category — “sci-fi is <span class="math inline">\(+0.2\)</span> predictive of a click” — and then just
-            <em>adds</em> them. It can never represent <strong>“sci-fi is predictive <em>for teenagers on
-                mobile</em>”</strong>, because that is a property of a <strong>combination</strong> of categories, not
-            of any one. The predictive signal is in the <strong>feature interactions</strong> (also called
-            <strong>feature crosses</strong>): the conjunction <code>genre=sci-fi ∧ device=mobile</code>.
-          </li>
-          <li><strong>You cannot cross them by hand.</strong> With <span class="math inline">\(n\)</span> categories
-            there are <span class="math inline">\(\binom{n}{2}\)</span> possible pairwise crosses — billions — and
-            almost all are never observed. Hand-engineering the few useful ones (the original “wide” approach) is
-            exactly the manual labor the deep-CTR lineage was invented to remove. <strong>The entire chapter is one
-              question: how do you learn which feature interactions matter, automatically?</strong></li>
-        </ol>
-        <blockquote class="blockquote">
-          <p><strong>Why “cross”.</strong> A <em>crossed feature</em> (or <em>cross-product feature</em>) is literally
-            the product of two one-hot indicators: it equals <span class="math inline">\(1\)</span> only when
-            <em>both</em> categories are active, i.e.&nbsp;on their intersection. “Cross” = the conjunction; learning a
-            weight for it = learning that the combination, specifically, predicts clicks.
-          </p>
-        </blockquote>
-        <hr>
-      </section>
-      <section id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="level2">
-        <h2 class="anchored" data-anchor-id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The
-          baseline and the scoreboard: logistic regression, LogLoss, AUC</h2>
-        <p>The simplest CTR model is <strong>logistic regression (LR)</strong>: score the row with a linear function,
-          then squash the score to a probability with the <strong>sigmoid</strong>:</p>
-        <p><span class="math display">\[
-            \hat p \;=\; \sigma(z), \qquad z = w_0 + \sum_i w_i x_i, \qquad \sigma(z)=\frac{1}{1+e^{-z}}.
-            \]</span></p>
-        <p>Decoding each piece: <span class="math inline">\(x_i\)</span> is the (mostly-zero) feature vector; <span
-            class="math inline">\(w_i\)</span> is the learned weight for category <span class="math inline">\(i\)</span>
-          (only the active categories contribute, since the rest are <span class="math inline">\(0\)</span>); <span
-            class="math inline">\(w_0\)</span> is a bias; and <span class="math inline">\(\sigma\)</span> — the
-          <strong>sigmoid</strong> (“S-shaped”), built in <em>Loss Functions &amp; Regularizers</em> — maps any real
-          number to <span class="math inline">\((0,1)\)</span> so it reads as a probability. This is the same logistic
-          head every model below ends with; the models differ only in <strong>what they feed into <span
-              class="math inline">\(z\)</span></strong>.
-        </p>
-        <p><strong>How CTR is scored.</strong> Two metrics dominate (both owned by <em>Evaluation Metrics</em>; here we
-          put a number on them):</p>
-        <ul>
-          <li><strong>LogLoss</strong> (binary cross-entropy) — how <em>calibrated</em> the probabilities are: <span
-              class="math display">\[
-              \text{LogLoss} = -\frac{1}{N}\sum_{n=1}^{N}\Big[\,y_n\ln \hat p_n + (1-y_n)\ln(1-\hat p_n)\,\Big].
-              \]</span> For a clicked row (<span class="math inline">\(y=1\)</span>) only <span
-              class="math inline">\(\ln\hat p\)</span> survives — it rewards a <em>high</em> predicted probability; for
-            a non-click (<span class="math inline">\(y=0\)</span>) only <span class="math inline">\(\ln(1-\hat
-              p)\)</span> survives — it rewards a <em>low</em> one. Lower is better; a confident wrong prediction (<span
-              class="math inline">\(\hat p\to 0\)</span> when <span class="math inline">\(y=1\)</span>) is punished
-            without bound.</li>
-          <li><strong>AUC</strong> (area under the ROC curve) — how well the model <em>ranks</em> clicks above
-            non-clicks, ignoring calibration. It has a clean combinatorial reading: <strong>the probability that a
-              randomly chosen clicked impression is scored above a randomly chosen non-clicked one</strong> —
-            equivalently, the fraction of (click, non-click) pairs the model orders correctly.</li>
-        </ul>
-        <p><strong>Worked example — LogLoss and AUC by hand.</strong> Four impressions, with the model’s predicted <span
-            class="math inline">\(\hat p\)</span> and the true label <span class="math inline">\(y\)</span>:</p>
-        <table class="caption-top table">
-          <thead>
-            <tr class="header">
-              <th>Impression</th>
-              <th style="text-align: center;"><span class="math inline">\(\hat p\)</span></th>
-              <th style="text-align: center;"><span class="math inline">\(y\)</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="odd">
-              <td>(Ann, Matrix)</td>
-              <td style="text-align: center;">0.8</td>
-              <td style="text-align: center;">1</td>
-            </tr>
-            <tr class="even">
-              <td>(Ann, Titanic)</td>
-              <td style="text-align: center;">0.5</td>
-              <td style="text-align: center;">0</td>
-            </tr>
-            <tr class="odd">
-              <td>(Bob, Matrix)</td>
-              <td style="text-align: center;">0.4</td>
-              <td style="text-align: center;">1</td>
-            </tr>
-            <tr class="even">
-              <td>(Bob, Comedy)</td>
-              <td style="text-align: center;">0.3</td>
-              <td style="text-align: center;">0</td>
-            </tr>
-          </tbody>
-        </table>
-        <p><em>LogLoss.</em> Keep the term each label selects: <span class="math inline">\(\ln 0.8,\ \ln(1-0.5),\ \ln
-            0.4,\ \ln(1-0.3)\)</span> <span class="math inline">\(= -0.2231,\,-0.6931,\,-0.9163,\,-0.3567\)</span>. Sum
-          <span class="math inline">\(=-2.1892\)</span>; divide by <span class="math inline">\(N=4\)</span> and negate:
-          <span class="math display">\[
-            \text{LogLoss} = -\tfrac{1}{4}(-2.1892) = \mathbf{0.5473}.
-            \]</span>
-        </p>
-        <p><em>AUC.</em> The clicks scored <span class="math inline">\(\{0.8,\,0.4\}\)</span>; the non-clicks scored
-          <span class="math inline">\(\{0.5,\,0.3\}\)</span>. Form all <span class="math inline">\(2\times 2 =
-            4\)</span> (click, non-click) pairs and count how many the model orders correctly: <span
-            class="math inline">\((0.8&gt;0.5)\ \checkmark\)</span>, <span class="math inline">\((0.8&gt;0.3)\
-            \checkmark\)</span>, <span class="math inline">\((0.4&gt;0.5)\ \times\)</span>, <span
-            class="math inline">\((0.4&gt;0.3)\ \checkmark\)</span> — <strong>3 of 4</strong>, so <span
-            class="math display">\[
-            \text{AUC} = \tfrac{3}{4} = \mathbf{0.75}.
-            \]</span> The one misranked pair — Bob’s <em>clicked</em> Matrix (<span class="math inline">\(0.4\)</span>)
-          scored below Ann’s <em>un-clicked</em> Titanic (<span class="math inline">\(0.5\)</span>) — is exactly the
-          error AUC measures and LogLoss only feels indirectly. Two complementary lenses: LogLoss grades the
-          <em>probabilities</em>, AUC grades the <em>ordering</em>.
-        </p>
-        <p><strong>Why calibration is money, not neatness.</strong> In ads the click probability is <em>spent</em>: a
-          bid is often <span class="math inline">\(\text{value}\times\hat p(\text{click})\)</span>, so a model with
-          great AUC but <strong>miscalibrated</strong> <span class="math inline">\(\hat p\)</span> — right
-          <em>ordering</em>, wrong <em>magnitudes</em> — systematically over- or under-bids real currency. That is why
-          CTR models are graded on <strong>LogLoss (calibration), not only AUC (ranking)</strong>, and why production
-          pipelines often add a <strong>calibration</strong> step (isotonic or Platt scaling) on top of the trained
-          scorer.
-        </p>
-        <hr>
-      </section>
-      <section id="the-springboard-factorization-machines-one-recap" class="level2">
-        <h2 class="anchored" data-anchor-id="the-springboard-factorization-machines-one-recap">4. The springboard:
-          factorization machines (one recap)</h2>
-        <p>The first model to learn interactions <em>without</em> hand-crossing is the <strong>factorization machine
-            (FM)</strong>, built in full in <em>Traditional Recommender Systems</em> §8. The one idea we build on: give
-          every category <span class="math inline">\(i\)</span> a small <strong>latent vector</strong> <span
-            class="math inline">\(\mathbf v_i\)</span>, and model the strength of the interaction between categories
-          <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> as the <strong>dot
-            product</strong> <span class="math inline">\(\langle \mathbf v_i,\mathbf
-            v_j\rangle\)</span> — not a free per-pair weight:
-        </p>
-        <p><span class="math display">\[
-            \hat y = w_0 + \sum_i w_i x_i + \sum_{i&lt;j}\langle \mathbf v_i,\mathbf v_j\rangle\,x_i x_j .
-            \]</span></p>
-        <p>This is the trick that makes interactions learnable on sparse data: a pair <code>(sci-fi, mobile)</code> that
-          <strong>never co-occurred</strong> in training still gets a sensible interaction strength, because <span
-            class="math inline">\(\mathbf v_{\text{sci-fi}}\)</span> and <span class="math inline">\(\mathbf
-            v_{\text{mobile}}\)</span> were each trained on their <em>other</em> co-occurrences. And the double sum,
-          which looks like <span class="math inline">\(O(n^2)\)</span>, collapses to <strong><span
-              class="math inline">\(O(kn)\)</span></strong> (linear in the number of active features, with <span
-            class="math inline">\(k\)</span> the latent size) via a squared-sum identity — on the tiny three-feature
-          example of <em>Traditional RecSys</em> §8 both forms agree on the same pairwise total <strong><span
-              class="math inline">\(2.5\)</span></strong>, which you can re-check there.
-        </p>
-        <p>FM has a ceiling, though: it models <strong>second-order</strong> interactions only, and all with the
-          <em>same</em> fixed form. The deep-CTR models lift exactly that ceiling — keeping FM’s “factorize the
-          interaction” idea and adding <strong>higher-order</strong> and <strong>learned-shape</strong> interactions on
-          top.
-        </p>
-        <hr>
-      </section>
-      <section id="wide-deep-memorization-plus-generalization" class="level2">
-        <h2 class="anchored" data-anchor-id="wide-deep-memorization-plus-generalization">5. Wide &amp; Deep:
-          memorization plus generalization</h2>
-        <p>Google’s <strong>Wide &amp; Deep</strong> (2016) makes the ceiling explicit by training <strong>two arms at
-            once</strong> and summing their scores before the sigmoid:</p>
-        <p><span class="math display">\[
-            \hat p = \sigma\big(\underbrace{\mathbf w_{\text{wide}}^{\top}[\mathbf x,\ \phi(\mathbf x)]}_{\text{wide:
-            memorize}}
-            \;+\;\underbrace{\mathbf w_{\text{deep}}^{\top}\,\mathbf a^{(L)}}_{\text{deep: generalize}}\;+\;b\big).
-            \]</span></p>
-        <ul>
-          <li>The <strong>wide</strong> arm is a linear model over the raw features <strong>and a few hand-crafted cross
-              features</strong> <span class="math inline">\(\phi(\mathbf x)\)</span>
-            (e.g.&nbsp;<code>genre=sci-fi ∧ device=mobile</code>). It <strong>memorizes</strong>: it can nail frequent,
-            specific combinations seen often in the logs.</li>
-          <li>The <strong>deep</strong> arm embeds each sparse field into a dense vector, concatenates them, and passes
-            them through a multi-layer perceptron (MLP, the feed-forward net of <em>Neural Networks &amp;
-              Back-propagation</em>) to produce <span class="math inline">\(\mathbf a^{(L)}\)</span>. It
-            <strong>generalizes</strong>: dense embeddings let it score combinations it has <em>never</em> seen, the way
-            FM does.
-          </li>
-        </ul>
-        <p>The names say the design: <strong>memorization</strong> (wide, exact, brittle) and
-          <strong>generalization</strong> (deep, smooth, fuzzy) are different failure modes, so the model keeps both and
-          lets training balance them. Its one weakness is honest: the wide arm <strong>still needs a human to pick the
-            crosses</strong> <span class="math inline">\(\phi(\mathbf x)\)</span>. The next two models remove that.
-        </p>
-        <div id="fig-deep-ctr-1" class="quarto-float quarto-figure quarto-figure-center anchored">
-          <figure class="quarto-float quarto-float-fig figure">
-            <div aria-describedby="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-              <img src="../figs/deep-ctr-1.svg" class="img-fluid figure-img">
-            </div>
-            <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig"
-              id="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-              Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> Sparse fields are
-              embedded, then fed to two parallel towers: an <em>explicit-interaction</em> tower that models low-order
-              crosses in a named, structured way, and a <em>deep</em> MLP tower that models high-order interactions
-              implicitly; their outputs are concatenated into one logistic head scored by LogLoss / AUC (§3). The models
-              differ only in the <em>left</em> tower: <strong>Wide &amp; Deep</strong> uses a hand-crossed linear arm,
-              <strong>DeepFM</strong> an FM (§6), <strong>DCN</strong> a cross network (§7), <strong>xDeepFM</strong> a
-              CIN (§8).
-            </figcaption>
-          </figure>
-        </div>
-        <hr>
-      </section>
-      <section id="deepfm-kill-the-hand-engineering-share-the-embeddings" class="level2">
-        <h2 class="anchored" data-anchor-id="deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the
-          hand-engineering, share the embeddings</h2>
-        <p><strong>DeepFM</strong> (2017) replaces Wide &amp; Deep’s hand-crafted wide arm with an <strong>FM
-            component</strong> — and makes one elegant move: the FM arm and the deep arm <strong>share the same
-            embedding layer</strong>. The prediction sums the two:</p>
-        <p><span class="math display">\[
-            \hat p = \sigma\big(\,y_{\text{FM}}(\mathbf e) + y_{\text{DNN}}(\mathbf e)\,\big),
-            \]</span></p>
-        <p>where <span class="math inline">\(\mathbf e\)</span> are the shared field embeddings. The <strong>FM
-            arm</strong> (<span class="math inline">\(y_{\text{FM}}\)</span>) reads those embeddings as FM latent
-          vectors and computes all <strong>second-order</strong> interactions automatically (no human picks them, unlike
-          Wide &amp; Deep). The <strong>DNN arm</strong> (<span class="math inline">\(y_{\text{DNN}}\)</span>) runs the
-          <em>same</em> embeddings through an MLP for <strong>higher-order</strong> interactions. Two payoffs from
-          sharing:
-        </p>
-        <ul>
-          <li><strong>No feature engineering.</strong> The FM arm learns the low-order crosses Wide &amp; Deep made a
-            human supply.</li>
-          <li><strong>One embedding, trained by both signals.</strong> Each field’s vector is pulled by <em>both</em>
-            the explicit second-order loss and the deep loss, so it is better estimated — especially for rare
-            categories.</li>
-        </ul>
-        <p>DeepFM is the cleanest expression of the §5 figure’s template: <strong>left tower = FM, right tower = MLP,
-            shared embeddings, one sigmoid.</strong></p>
-        <hr>
-      </section>
-      <section id="deep-cross-dcn-explicit-bounded-degree-crosses" class="level2">
-        <h2 class="anchored" data-anchor-id="deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN):
-          explicit, bounded-degree crosses</h2>
-        <p>FM and DeepFM stop at second order. The <strong>Deep &amp; Cross Network (DCN, 2017)</strong> asks: can we
-          get <em>third-, fourth-, …-order</em> interactions <strong>explicitly</strong> (not just hoped-for inside an
-          MLP), cheaply, with no hand-engineering? Its answer is the <strong>cross network</strong>, a stack of layers
-          each defined by</p>
-        <p><span class="math display">\[
-            \mathbf x_{l+1} \;=\; \mathbf x_0\,\mathbf x_l^{\top}\mathbf w_l \;+\; \mathbf b_l \;+\; \mathbf x_l .
-            \]</span></p>
-        <p>Decode it left to right: <span class="math inline">\(\mathbf x_0\)</span> is the original input vector (the
-          stacked embeddings); <span class="math inline">\(\mathbf x_l\)</span> is the current layer’s vector; <span
-            class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> is a <strong>scalar</strong> (a learned
-          weighted summary of the current features); multiplying <span class="math inline">\(\mathbf x_0\)</span> by
-          that scalar <strong>multiplies every original feature against the current ones</strong> — i.e.&nbsp;it raises
-          the interaction <strong>degree by exactly one per layer</strong>; <span class="math inline">\(\mathbf
-            b_l\)</span> is a bias; and the trailing <span class="math inline">\(+\,\mathbf x_l\)</span> is a
-          <strong>residual</strong> (the skip-connection introduced in <em>Representation Learning &amp; the
-            Transformer</em>), which keeps every lower-order term alive so a stack of <span
-            class="math inline">\(L\)</span> layers holds <em>all</em> interaction degrees up to <span
-            class="math inline">\(L+1\)</span>. Crucially each layer adds only one weight vector <span
-            class="math inline">\(\mathbf w_l\)</span> — so explicit high-order crossing costs <strong>linear</strong>,
-          not exponential, parameters.
-        </p>
-        <p><strong>Worked example — one cross layer by hand.</strong> Take a tiny two-dimensional input <span
-            class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, layer weights <span class="math inline">\(\mathbf w_0
-            = [0.5,\,-0.5]\)</span>, bias <span class="math inline">\(\mathbf b_0 = [0,\,0]\)</span>, and (first layer)
-          <span class="math inline">\(\mathbf x_0 = \mathbf x_l\)</span>. Step through the formula:
-        </p>
-        <ol type="1">
-          <li><strong>The scalar summary:</strong> <span class="math inline">\(\mathbf x_0^{\top}\mathbf w_0 = (1)(0.5)
-              + (2)(-0.5) = 0.5 - 1.0 = -0.5.\)</span></li>
-          <li><strong>Cross it back onto <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span
-              class="math inline">\(\mathbf x_0 \cdot (-0.5) = [-0.5,\,-1.0].\)</span></li>
-          <li><strong>Add bias and the residual <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span
-              class="math inline">\([-0.5,\,-1.0] + [0,0] + [1,\,2] = \mathbf{[0.5,\,1.0]}.\)</span></li>
-        </ol>
-        <p>So <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span>. Every entry of <span
-            class="math inline">\(\mathbf x_1\)</span> now contains a <strong>product of two original features</strong>
-          (a degree-2 cross), and one more layer would push it to degree-3 — explicit, hand-checkable, and cheap. The
-          <strong>deep</strong> arm of DCN runs in parallel (an ordinary MLP), and the two are concatenated into the §3
-          logistic head, exactly as in the §5 figure.
-        </p>
-        <p><strong>DCNv2 — the cross at web scale (2021).</strong> The cross above squeezes all interaction through a
-          single <strong>scalar</strong> <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> — cheap, but
-          a capacity bottleneck. <strong>DCNv2</strong> (Wang et al., WWW 2021) replaces that weight <em>vector</em>
-          with a weight <strong>matrix</strong> <span class="math inline">\(W_l\)</span>, so each layer learns a far
-          richer cross, <span class="math inline">\(\mathbf x_{l+1}=\mathbf x_0\odot(W_l\mathbf x_l+\mathbf b_l)+\mathbf
-            x_l\)</span>; and to keep it affordable at serving time it factorizes <span
-            class="math inline">\(W_l\)</span> into <strong>low-rank</strong> factors routed through a <strong>mixture
-            of experts</strong>. It is the version actually deployed at web scale, and the one to reach for over the
-          2017 DCN.</p>
-        <hr>
-      </section>
-      <section id="the-rest-of-the-lineage-in-one-line-each" class="level2">
-        <h2 class="anchored" data-anchor-id="the-rest-of-the-lineage-in-one-line-each">8. The rest of the lineage, in
-          one line each</h2>
-        <p>The same template (§5 figure) accounts for the models that followed; each one re-engineers the
-          <strong>explicit-interaction tower</strong>:
-        </p>
-        <ul>
-          <li><strong>xDeepFM</strong> (2018) — its <strong>Compressed Interaction Network (CIN)</strong> learns
-            explicit high-order crosses at the <strong>vector level</strong> (Hadamard products between feature-map
-            vectors), where DCN crosses at the bit/scalar level; runs alongside an MLP.</li>
-          <li><strong>AutoInt</strong> (2019) — uses <strong>multi-head self-attention</strong> (the mechanism of
-            <em>Representation Learning &amp; the Transformer</em>) over the field embeddings, so the model <em>learns
-              which features to interact</em> rather than fixing the form; interactions become attention weights.
-          </li>
-          <li><strong>DIN — Deep Interest Network</strong> (2018) — for feeds with a <strong>user behavior
-              sequence</strong>, applies <strong>attention</strong> to weight each past behavior by its relevance to the
-            <strong>candidate</strong> item, so a user’s “interest” is computed <em>per candidate</em> rather than as
-            one static vector. It is the CTR cousin of the sequential models in <em>Sequential &amp; Session-Based
-              Recommendation</em>.
-          </li>
-        </ul>
-        <p>The throughline: <strong>every advance is a better answer to “which feature interactions matter, and of what
-            order?”</strong> — from FM’s fixed second order, to DCN’s explicit bounded degree, to AutoInt’s
-          attention-learned interactions.</p>
-        <hr>
-      </section>
-      <section id="training-and-serving-a-ctr-model" class="level2">
-        <h2 class="anchored" data-anchor-id="training-and-serving-a-ctr-model">9. Training and serving a CTR model</h2>
-        <p>Three operational facts, each owned elsewhere and only pointed to here:</p>
-        <ul>
-          <li><strong>Objective.</strong> CTR models train by <strong>pointwise LogLoss</strong> (§3) over logged
-            impressions — a per-row binary classification, not the pairwise BPR ranking loss of the retrieval models.
-            The general negative-sampling and training-loop machinery is in <em>Training and Serving a Recommender</em>.
-          </li>
-          <li><strong>Where it runs.</strong> As the <strong>ranking stage</strong> (§1), the CTR model scores only the
-            few hundred candidates retrieval proposed, so it can afford its feature richness; the funnel itself is built
-            in <em>Training and Serving a Recommender</em>.</li>
-          <li><strong>Evaluation.</strong> Offline, report <strong>AUC and LogLoss</strong> (§3); the field’s rule of
-            thumb is that an <strong>AUC lift of <span class="math inline">\(0.001\)</span> is practically
-              significant</strong> at industrial scale. Which offline metric predicts which online outcome (CTR, dwell,
-            conversion) — and the standard <strong>Criteo / Avazu</strong> split — are in <em>Evaluation Metrics</em>
-            §11 and the <em>Datasets &amp; Benchmarks</em> appendix.</li>
-        </ul>
-        <blockquote class="blockquote">
-          <p><strong>Are the deep-CTR gains real? (Read before trusting a leaderboard.)</strong> The <strong>FuxiCTR /
-              BARS</strong> benchmark (Zhu et al., 2021) re-ran this whole lineage under <em>equal tuning</em> —
-            thousands of runs, thousands of GPU-hours — and found a sobering result: once each model is tuned fairly,
-            <strong>most differ by less than the <span class="math inline">\(0.001\)</span> AUC</strong> the rule above
-            calls “significant.” A well-tuned <strong>FinalMLP</strong> (Mao et al., AAAI 2023) — two MLP streams with
-            feature gating, <em>no</em> explicit cross network at all — matches or beats the elaborate explicit-cross
-            models. The honest reading: architecture often matters less than careful tuning and a strong embedding
-            table, so treat every “new SOTA CTR model” as a <em>prior</em> (<em>Implementation Choices</em> §1) and
-            <strong>re-tune the baselines yourself</strong> before believing the delta.
-          </p>
-        </blockquote>
-        <hr>
-      </section>
-      <section id="where-this-fits-in-the-book" class="level2">
-        <h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">10. Where this fits in the book</h2>
-        <p>This chapter is the <strong>ranking</strong> counterpart to everything that came before it on the
-          <strong>retrieval</strong> side. <em>Traditional Recommender Systems</em> gave you matrix factorization and
-          FM; this chapter shows what the field built <em>on</em> FM once features and context entered — the deep-CTR
-          lineage that powers the <strong>ranking stage</strong> of <em>Training and Serving a Recommender</em>. It also
-          closes a loop with the <em>Datasets &amp; Benchmarks</em> appendix, whose <strong>CTR regime</strong> (Criteo,
-          Avazu; AUC / LogLoss; random split) is precisely the protocol these models compete under, and with
-          <em>Sequential &amp; Session-Based Recommendation</em>, whose attention machinery reappears here as DIN and
-          AutoInt. As the first <strong>Frontiers</strong> chapter, it marks the turn from the book’s core ladder to the
-          edges where recommendation meets the wider ML frontier; the next, <em>Bandits &amp; Online
-            Recommendation</em>, takes up what happens when the model must <strong>choose what to show and learn from
-            the click it gets back</strong>.
-        </p>
-        <hr>
-      </section>
-      <section id="exercises" class="level2">
-        <h2 class="anchored" data-anchor-id="exercises">11. Exercises</h2>
-        <p>Ten problems on the chapter’s own four-impression example and tiny vectors. Solutions in the back-matter
-          <em>Solutions</em> appendix.
-        </p>
-        <p><strong>E1.</strong> <em>(compute)</em> For a single clicked impression (<span
-            class="math inline">\(y=1\)</span>) with predicted <span class="math inline">\(\hat p = 0.5\)</span>,
-          compute its LogLoss contribution <span class="math inline">\(-\ln \hat p\)</span>. Then redo it for <span
-            class="math inline">\(\hat p = 0.9\)</span>. Which is smaller, and why does that match “lower LogLoss is
-          better”? <em>(Answer in Appendix B.)</em></p>
-        <p><strong>E2.</strong> <em>(compute)</em> Using the §3 table, recompute LogLoss after the model improves Bob’s
-          clicked Matrix from <span class="math inline">\(\hat p = 0.4\)</span> to <span class="math inline">\(\hat p =
-            0.7\)</span> (all else unchanged). Show the four terms. <em>(Answer in Appendix B.)</em></p>
-        <p><strong>E3.</strong> <em>(compute)</em> With the same improvement (Bob/Matrix <span class="math inline">\(0.4
-            \to 0.7\)</span>), recompute AUC. Did the misranked pair get fixed? <em>(Answer in Appendix B.)</em></p>
-        <p><strong>E4.</strong> <em>(compute)</em> A model predicts the <em>same</em> <span class="math inline">\(\hat p
-            = 0.5\)</span> for all four §3 impressions. Compute its AUC. (Hint: count tied pairs as half.) <em>(Answer
-            in Appendix B.)</em></p>
-        <p><strong>E5.</strong> <em>(compute)</em> Run a second DCN cross layer: starting from the §7 result <span
-            class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span> with <span class="math inline">\(\mathbf x_0 =
-            [1,\,2]\)</span>, <span class="math inline">\(\mathbf w_1 = [1,\,0]\)</span>, <span
-            class="math inline">\(\mathbf b_1 = [0,\,0]\)</span>, compute <span class="math inline">\(\mathbf x_2 =
-            \mathbf x_0\,\mathbf x_1^{\top}\mathbf w_1 +
-            \mathbf b_1 + \mathbf x_1\)</span>. <em>(Answer in Appendix B.)</em></p>
-        <p><strong>E6.</strong> <em>(concept)</em> A linear logistic-regression CTR model gives
-          <code>genre=sci-fi</code> weight <span class="math inline">\(+0.3\)</span> and <code>device=mobile</code>
-          weight <span class="math inline">\(+0.1\)</span>. Explain why it must predict the <em>same</em> extra log-odds
-          for <code>(sci-fi, mobile)</code> as the sum <span class="math inline">\(+0.4\)</span>, and why that makes it
-          blind to a genuine sci-fi-on-mobile interaction. <em>(Answer in Appendix B.)</em>
-        </p>
-        <p><strong>E7.</strong> <em>(concept)</em> DeepFM and Wide &amp; Deep have the same two-tower shape. State the
-          one concrete thing DeepFM removes, and the one thing it adds (sharing). <em>(Answer in Appendix B.)</em></p>
-        <p><strong>E8.</strong> <em>(concept)</em> Why does the residual term <span class="math inline">\(+\,\mathbf
-            x_l\)</span> in the DCN cross layer matter? What interaction degrees would an <span
-            class="math inline">\(L\)</span>-layer cross network <em>lose</em> if you dropped it? <em>(Answer in
-            Appendix B.)</em></p>
-        <p><strong>E9.</strong> <em>(extend)</em> FM gives a never-co-occurred pair <code>(sci-fi, mobile)</code> a
-          non-zero interaction <span class="math inline">\(\langle \mathbf v_{\text{sci-fi}}, \mathbf
-            v_{\text{mobile}}\rangle\)</span>. Explain, in terms of where those two vectors got their gradients,
-          <em>how</em> FM can do this when a free per-pair weight <span class="math inline">\(w_{ij}\)</span> cannot.
-          <em>(Answer in Appendix B.)</em>
-        </p>
-        <p><strong>E10.</strong> <em>(apply)</em> You are the ranking stage and retrieval hands you 200 candidates for
-          Ann on mobile in the evening. Sketch, in three steps, how a DeepFM model turns those 200 rows into a ranked
-          list, naming the feature fields, the embedding step, and the scoring metric you would log offline. <em>(Answer
-            in Appendix B.)</em></p>
-        <hr>
-      </section>
-      <section id="glossary" class="level2">
-        <h2 class="anchored" data-anchor-id="glossary">12. Glossary</h2>
-        <table class="caption-top table">
-          <colgroup>
-            <col style="width: 50%">
-            <col style="width: 50%">
-          </colgroup>
-          <thead>
-            <tr class="header">
-              <th>Term</th>
-              <th>Plain meaning</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="odd">
-              <td><strong>CTR (click-through rate)</strong></td>
-              <td><span class="math inline">\(P(\text{click}\mid \text{user, item, context})\)</span>; the score the
-                ranking stage predicts.</td>
-            </tr>
-            <tr class="even">
-              <td><strong>Impression</strong></td>
-              <td>One shown item; the unit of a CTR row, labelled <span class="math inline">\(1\)</span> (clicked) or
-                <span class="math inline">\(0\)</span> (not).
-              </td>
-            </tr>
-            <tr class="odd">
-              <td><strong>Sparse / one-hot feature</strong></td>
-              <td>A category encoded as all-zeros with a single <span class="math inline">\(1\)</span>; CTR rows stack
-                millions of these.</td>
-            </tr>
-            <tr class="even">
-              <td><strong>Feature interaction / cross</strong></td>
-              <td>The conjunction of two categories (<code>sci-fi ∧ mobile</code>); where the predictive signal lives.
-              </td>
-            </tr>
-            <tr class="odd">
-              <td><strong>Logistic regression</strong></td>
-              <td>Linear score <span class="math inline">\(\to\)</span> sigmoid <span class="math inline">\(\to\)</span>
-                probability; the CTR baseline and every model’s output head.</td>
-            </tr>
-            <tr class="even">
-              <td><strong>LogLoss</strong></td>
-              <td>Binary cross-entropy; grades how <em>calibrated</em> the predicted probabilities are (lower better).
-              </td>
-            </tr>
-            <tr class="odd">
-              <td><strong>AUC</strong></td>
-              <td>Probability a random click outscores a random non-click; grades <em>ordering</em>, not calibration.
-              </td>
-            </tr>
-            <tr class="even">
-              <td><strong>Factorization machine (FM)</strong></td>
-              <td>Models a pairwise interaction as <span class="math inline">\(\langle\mathbf v_i,\mathbf
-                  v_j\rangle\)</span>; learns crosses on sparse data (<span class="math inline">\(O(kn)\)</span>).</td>
-            </tr>
-            <tr class="odd">
-              <td><strong>Wide &amp; Deep</strong></td>
-              <td>Joint linear-with-hand-crosses (memorize) <span class="math inline">\(+\)</span> MLP-over-embeddings
-                (generalize) model.</td>
-            </tr>
-            <tr class="even">
-              <td><strong>DeepFM</strong></td>
-              <td>Wide &amp; Deep with the wide arm replaced by an FM, sharing one embedding layer; no hand-crossing.
-              </td>
-            </tr>
-            <tr class="odd">
-              <td><strong>Cross network (DCN)</strong></td>
-              <td>Stacked layers that raise interaction degree by one each, explicitly and with linear cost.</td>
-            </tr>
-            <tr class="even">
-              <td><strong>xDeepFM / AutoInt / DIN</strong></td>
-              <td>Vector-wise crosses (CIN) / attention-learned interactions / per-candidate behavior attention.</td>
-            </tr>
-          </tbody>
-        </table>
-        <hr>
-      </section>
-      <section id="references" class="level2">
-        <h2 class="anchored" data-anchor-id="references">13. References</h2>
-        <ul>
-          <li>
-            <p>He, X., et al.&nbsp;(2017). <em>Neural collaborative filtering</em>. In <em>Proceedings of WWW</em>.
-              arXiv:1708.05031 <em>(the implicit-feedback / sigmoid-head lineage CTR ranking shares).</em></p>
-          </li>
-          <li>
-            <p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of IEEE ICDM</em>.
-              https://doi.org/10.1109/ICDM.2010.127 <em>(the FM springboard; full treatment in Traditional RecSys
-                §8).</em></p>
-          </li>
-          <li>
-            <p>Cheng, H.-T., et al.&nbsp;(2016). <em>Wide &amp; Deep learning for recommender systems</em>. In
-              <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS @ RecSys)</em>.
-              arXiv:1606.07792
-            </p>
-          </li>
-          <li>
-            <p>Guo, H., Tang, R., Ye, Y., Li, Z., &amp; He, X. (2017). <em>DeepFM: A factorization-machine based neural
-                network for CTR prediction</em>. In <em>Proceedings of IJCAI</em>. arXiv:1703.04247</p>
-          </li>
-          <li>
-            <p>Wang, R., Fu, B., Fu, G., &amp; Wang, M. (2017). <em>Deep &amp; Cross Network for ad click
-                predictions</em>. In <em>Proceedings of ADKDD @ KDD</em>. arXiv:1708.05123</p>
-          </li>
-          <li>
-            <p>Wang, R., Shivanna, R., Cheng, D. Z., Jain, S., Lin, D., Hong, L., &amp; Chi, E. H. (2021). <em>DCN V2:
-                Improved deep &amp; cross network and practical lessons for web-scale learning to rank systems</em>. In
-              <em>Proceedings of the Web Conference (WWW)</em>. arXiv:2008.13535
-            </p>
-          </li>
-          <li>
-            <p>Lian, J., Zhou, X., Zhang, F., Chen, Z., Xie, X., &amp; Sun, G. (2018). <em>xDeepFM: Combining explicit
-                and implicit feature interactions for recommender systems</em>. In <em>Proceedings of KDD</em>.
-              arXiv:1803.05170</p>
-          </li>
-          <li>
-            <p>Song, W., et al.&nbsp;(2019). <em>AutoInt: Automatic feature interaction learning via self-attentive
-                neural networks</em>. In <em>Proceedings of CIKM</em>. arXiv:1810.11921</p>
-          </li>
-          <li>
-            <p>Zhou, G., et al.&nbsp;(2018). <em>Deep Interest Network for click-through rate prediction</em>. In
-              <em>Proceedings of KDD</em>. arXiv:1706.06978
-            </p>
-          </li>
-          <li>
-            <p>Mao, K., Zhu, J., Su, L., Cai, G., Li, Y., &amp; Dong, Z. (2023). <em>FinalMLP: An enhanced two-stream
-                MLP model for CTR prediction</em>. In <em>Proceedings of the AAAI Conference on Artificial
-                Intelligence</em>. arXiv:2304.00902</p>
-          </li>
-          <li>
-            <p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate
-                prediction (FuxiCTR)</em>. In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(the Criteo / Avazu
-                8:1:1 split + AUC / LogLoss protocol).</em></p>
-          </li>
-        </ul>
-        <p><em>Online sources verified June 2026.</em></p>
+</header>
 
 
-      </section>
+<section id="the-ctr-task-a-click-as-a-label" class="level2">
+<h2 class="anchored" data-anchor-id="the-ctr-task-a-click-as-a-label">1. The CTR task: a click as a label</h2>
+<p>Retrieval models a user and an item as vectors and scores the pair by a <strong>dot product</strong> — good for fishing a few hundred plausible items out of millions, fast. But the dot product is blind to <strong>context</strong> (the time of day, the device, the slot on the page) and treats every user–item pair through one low-dimensional lens. The <em>ranking</em> stage re-scores that short list with a much richer model and a different target:</p>
+<p><span class="math display">\[
+\widehat{\text{CTR}} \;=\; P(\text{click}=1 \mid \text{user},\ \text{item},\ \text{context}).
+\]</span></p>
+<p>The label is <strong>implicit and binary</strong>: a logged impression that was clicked is a <span class="math inline">\(1\)</span>, one that was shown-but-not-clicked is a <span class="math inline">\(0\)</span>. This is the <strong>click-through rate</strong> — literally the rate at which shown items are <em>clicked through</em> — and predicting it well is worth billions in ad and feed revenue, which is why this corner of recommendation has its own dense literature and its own benchmarks (the <strong>Criteo</strong> and <strong>Avazu</strong> logs of the <em>Datasets &amp; Benchmarks</em> appendix).</p>
+<blockquote class="blockquote">
+<p><strong>Where it sits.</strong> CTR prediction is the <strong>ranker</strong> in the two-stage <em>retrieval → ranking</em> funnel built in <em>Training and Serving a Recommender</em>: retrieval (a dot product over the whole catalog) proposes a few hundred candidates; the CTR model, free to be slow and feature-rich, re-orders them. Retrieval answers <em>“which items are even worth considering?”</em>; ranking answers <em>“of those, which will this user click right now?”</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="the-data-sparse-features-and-why-interactions-are-everything" class="level2">
+<h2 class="anchored" data-anchor-id="the-data-sparse-features-and-why-interactions-are-everything">2. The data: sparse features, and why interactions are everything</h2>
+<p>A CTR training row is not two embeddings — it is a long list of <strong>categorical fields</strong>, each <strong>one-hot encoded</strong> (a vector of zeros with a single <span class="math inline">\(1\)</span> marking the active category):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Example value</th>
+<th>Encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>user_id</td>
+<td><code>Ann</code></td>
+<td>one-hot over millions of users</td>
+</tr>
+<tr class="even">
+<td>item_id</td>
+<td><code>Matrix</code></td>
+<td>one-hot over millions of items</td>
+</tr>
+<tr class="odd">
+<td>genre</td>
+<td><code>sci-fi</code></td>
+<td>one-hot over ~20 genres</td>
+</tr>
+<tr class="even">
+<td>device</td>
+<td><code>mobile</code></td>
+<td>one-hot over a few devices</td>
+</tr>
+<tr class="odd">
+<td>daypart</td>
+<td><code>evening</code></td>
+<td>one-hot over a few buckets</td>
+</tr>
+</tbody>
+</table>
+<p>Concatenated, a single row is a vector with <strong>millions of dimensions and a handful of ones</strong> — extremely <strong>sparse</strong> (mostly zero) and extremely <strong>high-dimensional</strong>. Two consequences shape every model in this chapter:</p>
+<ol type="1">
+<li><strong>A linear model underfits.</strong> Logistic regression on these features learns one weight per category — “sci-fi is <span class="math inline">\(+0.2\)</span> predictive of a click” — and then just <em>adds</em> them. It can never represent <strong>“sci-fi is predictive <em>for teenagers on mobile</em>”</strong>, because that is a property of a <strong>combination</strong> of categories, not of any one. The predictive signal is in the <strong>feature interactions</strong> (also called <strong>feature crosses</strong>): the conjunction <code>genre=sci-fi ∧ device=mobile</code>.</li>
+<li><strong>You cannot cross them by hand.</strong> With <span class="math inline">\(n\)</span> categories there are <span class="math inline">\(\binom{n}{2}\)</span> possible pairwise crosses — billions — and almost all are never observed. Hand-engineering the few useful ones (the original “wide” approach) is exactly the manual labor the deep-CTR lineage was invented to remove. <strong>The entire chapter is one question: how do you learn which feature interactions matter, automatically?</strong></li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Why “cross”.</strong> A <em>crossed feature</em> (or <em>cross-product feature</em>) is literally the product of two one-hot indicators: it equals <span class="math inline">\(1\)</span> only when <em>both</em> categories are active, i.e.&nbsp;on their intersection. “Cross” = the conjunction; learning a weight for it = learning that the combination, specifically, predicts clicks.</p>
+</blockquote>
+<hr>
+</section>
+<section id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="level2">
+<h2 class="anchored" data-anchor-id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC</h2>
+<p>The simplest CTR model is <strong>logistic regression (LR)</strong>: score the row with a linear function, then squash the score to a probability with the <strong>sigmoid</strong>:</p>
+<p><span class="math display">\[
+\hat p \;=\; \sigma(z), \qquad z = w_0 + \sum_i w_i x_i, \qquad \sigma(z)=\frac{1}{1+e^{-z}}.
+\]</span></p>
+<p>Decoding each piece: <span class="math inline">\(x_i\)</span> is the (mostly-zero) feature vector; <span class="math inline">\(w_i\)</span> is the learned weight for category <span class="math inline">\(i\)</span> (only the active categories contribute, since the rest are <span class="math inline">\(0\)</span>); <span class="math inline">\(w_0\)</span> is a bias; and <span class="math inline">\(\sigma\)</span> — the <strong>sigmoid</strong> (“S-shaped”), built in <em>Loss Functions &amp; Regularizers</em> — maps any real number to <span class="math inline">\((0,1)\)</span> so it reads as a probability. This is the same logistic head every model below ends with; the models differ only in <strong>what they feed into <span class="math inline">\(z\)</span></strong>.</p>
+<p><strong>How CTR is scored.</strong> Two metrics dominate (both owned by <em>Evaluation Metrics</em>; here we put a number on them):</p>
+<ul>
+<li><strong>LogLoss</strong> (binary cross-entropy) — how <em>calibrated</em> the probabilities are: <span class="math display">\[
+\text{LogLoss} = -\frac{1}{N}\sum_{n=1}^{N}\Big[\,y_n\ln \hat p_n + (1-y_n)\ln(1-\hat p_n)\,\Big].
+\]</span> For a clicked row (<span class="math inline">\(y=1\)</span>) only <span class="math inline">\(\ln\hat p\)</span> survives — it rewards a <em>high</em> predicted probability; for a non-click (<span class="math inline">\(y=0\)</span>) only <span class="math inline">\(\ln(1-\hat p)\)</span> survives — it rewards a <em>low</em> one. Lower is better; a confident wrong prediction (<span class="math inline">\(\hat p\to 0\)</span> when <span class="math inline">\(y=1\)</span>) is punished without bound.</li>
+<li><strong>AUC</strong> (area under the ROC curve) — how well the model <em>ranks</em> clicks above non-clicks, ignoring calibration. It has a clean combinatorial reading: <strong>the probability that a randomly chosen clicked impression is scored above a randomly chosen non-clicked one</strong> — equivalently, the fraction of (click, non-click) pairs the model orders correctly.</li>
+</ul>
+<p><strong>Worked example — LogLoss and AUC by hand.</strong> Four impressions, with the model’s predicted <span class="math inline">\(\hat p\)</span> and the true label <span class="math inline">\(y\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Impression</th>
+<th style="text-align: center;"><span class="math inline">\(\hat p\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Ann, Matrix)</td>
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td>(Ann, Titanic)</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td>(Bob, Matrix)</td>
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td>(Bob, Comedy)</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<p><em>LogLoss.</em> Keep the term each label selects: <span class="math inline">\(\ln 0.8,\ \ln(1-0.5),\ \ln 0.4,\ \ln(1-0.3)\)</span> <span class="math inline">\(= -0.2231,\,-0.6931,\,-0.9163,\,-0.3567\)</span>. Sum <span class="math inline">\(=-2.1892\)</span>; divide by <span class="math inline">\(N=4\)</span> and negate: <span class="math display">\[
+\text{LogLoss} = -\tfrac{1}{4}(-2.1892) = \mathbf{0.5473}.
+\]</span></p>
+<p><em>AUC.</em> The clicks scored <span class="math inline">\(\{0.8,\,0.4\}\)</span>; the non-clicks scored <span class="math inline">\(\{0.5,\,0.3\}\)</span>. Form all <span class="math inline">\(2\times 2 = 4\)</span> (click, non-click) pairs and count how many the model orders correctly: <span class="math inline">\((0.8&gt;0.5)\ \checkmark\)</span>, <span class="math inline">\((0.8&gt;0.3)\ \checkmark\)</span>, <span class="math inline">\((0.4&gt;0.5)\ \times\)</span>, <span class="math inline">\((0.4&gt;0.3)\ \checkmark\)</span> — <strong>3 of 4</strong>, so <span class="math display">\[
+\text{AUC} = \tfrac{3}{4} = \mathbf{0.75}.
+\]</span> The one misranked pair — Bob’s <em>clicked</em> Matrix (<span class="math inline">\(0.4\)</span>) scored below Ann’s <em>un-clicked</em> Titanic (<span class="math inline">\(0.5\)</span>) — is exactly the error AUC measures and LogLoss only feels indirectly. Two complementary lenses: LogLoss grades the <em>probabilities</em>, AUC grades the <em>ordering</em>.</p>
+<p><strong>Why calibration is money, not neatness.</strong> In ads the click probability is <em>spent</em>: a bid is often <span class="math inline">\(\text{value}\times\hat p(\text{click})\)</span>, so a model with great AUC but <strong>miscalibrated</strong> <span class="math inline">\(\hat p\)</span> — right <em>ordering</em>, wrong <em>magnitudes</em> — systematically over- or under-bids real currency. That is why CTR models are graded on <strong>LogLoss (calibration), not only AUC (ranking)</strong>, and why production pipelines often add a <strong>calibration</strong> step (isotonic or Platt scaling) on top of the trained scorer.</p>
+<hr>
+</section>
+<section id="the-springboard-factorization-machines-one-recap" class="level2">
+<h2 class="anchored" data-anchor-id="the-springboard-factorization-machines-one-recap">4. The springboard: factorization machines (one recap)</h2>
+<p>The first model to learn interactions <em>without</em> hand-crossing is the <strong>factorization machine (FM)</strong>, built in full in <em>Traditional Recommender Systems</em> §8. The one idea we build on: give every category <span class="math inline">\(i\)</span> a small <strong>latent vector</strong> <span class="math inline">\(\mathbf v_i\)</span>, and model the strength of the interaction between categories <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> as the <strong>dot product</strong> <span class="math inline">\(\langle \mathbf v_i,\mathbf
+v_j\rangle\)</span> — not a free per-pair weight:</p>
+<p><span class="math display">\[
+\hat y = w_0 + \sum_i w_i x_i + \sum_{i&lt;j}\langle \mathbf v_i,\mathbf v_j\rangle\,x_i x_j .
+\]</span></p>
+<p>This is the trick that makes interactions learnable on sparse data: a pair <code>(sci-fi, mobile)</code> that <strong>never co-occurred</strong> in training still gets a sensible interaction strength, because <span class="math inline">\(\mathbf v_{\text{sci-fi}}\)</span> and <span class="math inline">\(\mathbf v_{\text{mobile}}\)</span> were each trained on their <em>other</em> co-occurrences. And the double sum, which looks like <span class="math inline">\(O(n^2)\)</span>, collapses to <strong><span class="math inline">\(O(kn)\)</span></strong> (linear in the number of active features, with <span class="math inline">\(k\)</span> the latent size) via a squared-sum identity — on the tiny three-feature example of <em>Traditional RecSys</em> §8 both forms agree on the same pairwise total <strong><span class="math inline">\(2.5\)</span></strong>, which you can re-check there.</p>
+<p>FM has a ceiling, though: it models <strong>second-order</strong> interactions only, and all with the <em>same</em> fixed form. The deep-CTR models lift exactly that ceiling — keeping FM’s “factorize the interaction” idea and adding <strong>higher-order</strong> and <strong>learned-shape</strong> interactions on top.</p>
+<hr>
+</section>
+<section id="wide-deep-memorization-plus-generalization" class="level2">
+<h2 class="anchored" data-anchor-id="wide-deep-memorization-plus-generalization">5. Wide &amp; Deep: memorization plus generalization</h2>
+<p>Google’s <strong>Wide &amp; Deep</strong> (2016) makes the ceiling explicit by training <strong>two arms at once</strong> and summing their scores before the sigmoid:</p>
+<p><span class="math display">\[
+\hat p = \sigma\big(\underbrace{\mathbf w_{\text{wide}}^{\top}[\mathbf x,\ \phi(\mathbf x)]}_{\text{wide: memorize}}
+\;+\;\underbrace{\mathbf w_{\text{deep}}^{\top}\,\mathbf a^{(L)}}_{\text{deep: generalize}}\;+\;b\big).
+\]</span></p>
+<ul>
+<li>The <strong>wide</strong> arm is a linear model over the raw features <strong>and a few hand-crafted cross features</strong> <span class="math inline">\(\phi(\mathbf x)\)</span> (e.g.&nbsp;<code>genre=sci-fi ∧ device=mobile</code>). It <strong>memorizes</strong>: it can nail frequent, specific combinations seen often in the logs.</li>
+<li>The <strong>deep</strong> arm embeds each sparse field into a dense vector, concatenates them, and passes them through a multi-layer perceptron (MLP, the feed-forward net of <em>Neural Networks &amp; Back-propagation</em>) to produce <span class="math inline">\(\mathbf a^{(L)}\)</span>. It <strong>generalizes</strong>: dense embeddings let it score combinations it has <em>never</em> seen, the way FM does.</li>
+</ul>
+<p>The names say the design: <strong>memorization</strong> (wide, exact, brittle) and <strong>generalization</strong> (deep, smooth, fuzzy) are different failure modes, so the model keeps both and lets training balance them. Its one weakness is honest: the wide arm <strong>still needs a human to pick the crosses</strong> <span class="math inline">\(\phi(\mathbf x)\)</span>. The next two models remove that.</p>
+<div id="fig-deep-ctr-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/deep-ctr-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> Sparse fields are embedded, then fed to two parallel towers: an <em>explicit-interaction</em> tower that models low-order crosses in a named, structured way, and a <em>deep</em> MLP tower that models high-order interactions implicitly; their outputs are concatenated into one logistic head scored by LogLoss / AUC (§3). The models differ only in the <em>left</em> tower: <strong>Wide &amp; Deep</strong> uses a hand-crossed linear arm, <strong>DeepFM</strong> an FM (§6), <strong>DCN</strong> a cross network (§7), <strong>xDeepFM</strong> a CIN (§8).
+</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="deepfm-kill-the-hand-engineering-share-the-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the hand-engineering, share the embeddings</h2>
+<p><strong>DeepFM</strong> (2017) replaces Wide &amp; Deep’s hand-crafted wide arm with an <strong>FM component</strong> — and makes one elegant move: the FM arm and the deep arm <strong>share the same embedding layer</strong>. The prediction sums the two:</p>
+<p><span class="math display">\[
+\hat p = \sigma\big(\,y_{\text{FM}}(\mathbf e) + y_{\text{DNN}}(\mathbf e)\,\big),
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf e\)</span> are the shared field embeddings. The <strong>FM arm</strong> (<span class="math inline">\(y_{\text{FM}}\)</span>) reads those embeddings as FM latent vectors and computes all <strong>second-order</strong> interactions automatically (no human picks them, unlike Wide &amp; Deep). The <strong>DNN arm</strong> (<span class="math inline">\(y_{\text{DNN}}\)</span>) runs the <em>same</em> embeddings through an MLP for <strong>higher-order</strong> interactions. Two payoffs from sharing:</p>
+<ul>
+<li><strong>No feature engineering.</strong> The FM arm learns the low-order crosses Wide &amp; Deep made a human supply.</li>
+<li><strong>One embedding, trained by both signals.</strong> Each field’s vector is pulled by <em>both</em> the explicit second-order loss and the deep loss, so it is better estimated — especially for rare categories.</li>
+</ul>
+<p>DeepFM is the cleanest expression of the §5 figure’s template: <strong>left tower = FM, right tower = MLP, shared embeddings, one sigmoid.</strong></p>
+<hr>
+</section>
+<section id="deep-cross-dcn-explicit-bounded-degree-crosses" class="level2">
+<h2 class="anchored" data-anchor-id="deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN): explicit, bounded-degree crosses</h2>
+<p>FM and DeepFM stop at second order. The <strong>Deep &amp; Cross Network (DCN, 2017)</strong> asks: can we get <em>third-, fourth-, …-order</em> interactions <strong>explicitly</strong> (not just hoped-for inside an MLP), cheaply, with no hand-engineering? Its answer is the <strong>cross network</strong>, a stack of layers each defined by</p>
+<p><span class="math display">\[
+\mathbf x_{l+1} \;=\; \mathbf x_0\,\mathbf x_l^{\top}\mathbf w_l \;+\; \mathbf b_l \;+\; \mathbf x_l .
+\]</span></p>
+<p>Decode it left to right: <span class="math inline">\(\mathbf x_0\)</span> is the original input vector (the stacked embeddings); <span class="math inline">\(\mathbf x_l\)</span> is the current layer’s vector; <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> is a <strong>scalar</strong> (a learned weighted summary of the current features); multiplying <span class="math inline">\(\mathbf x_0\)</span> by that scalar <strong>multiplies every original feature against the current ones</strong> — i.e.&nbsp;it raises the interaction <strong>degree by exactly one per layer</strong>; <span class="math inline">\(\mathbf b_l\)</span> is a bias; and the trailing <span class="math inline">\(+\,\mathbf x_l\)</span> is a <strong>residual</strong> (the skip-connection introduced in <em>Representation Learning &amp; the Transformer</em>), which keeps every lower-order term alive so a stack of <span class="math inline">\(L\)</span> layers holds <em>all</em> interaction degrees up to <span class="math inline">\(L+1\)</span>. Crucially each layer adds only one weight vector <span class="math inline">\(\mathbf w_l\)</span> — so explicit high-order crossing costs <strong>linear</strong>, not exponential, parameters.</p>
+<p><strong>Worked example — one cross layer by hand.</strong> Take a tiny two-dimensional input <span class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, layer weights <span class="math inline">\(\mathbf w_0 = [0.5,\,-0.5]\)</span>, bias <span class="math inline">\(\mathbf b_0 = [0,\,0]\)</span>, and (first layer) <span class="math inline">\(\mathbf x_0 = \mathbf x_l\)</span>. Step through the formula:</p>
+<ol type="1">
+<li><strong>The scalar summary:</strong> <span class="math inline">\(\mathbf x_0^{\top}\mathbf w_0 = (1)(0.5) + (2)(-0.5) = 0.5 - 1.0 = -0.5.\)</span></li>
+<li><strong>Cross it back onto <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span class="math inline">\(\mathbf x_0 \cdot (-0.5) = [-0.5,\,-1.0].\)</span></li>
+<li><strong>Add bias and the residual <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span class="math inline">\([-0.5,\,-1.0] + [0,0] + [1,\,2] = \mathbf{[0.5,\,1.0]}.\)</span></li>
+</ol>
+<p>So <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span>. Every entry of <span class="math inline">\(\mathbf x_1\)</span> now contains a <strong>product of two original features</strong> (a degree-2 cross), and one more layer would push it to degree-3 — explicit, hand-checkable, and cheap. The <strong>deep</strong> arm of DCN runs in parallel (an ordinary MLP), and the two are concatenated into the §3 logistic head, exactly as in the §5 figure.</p>
+<p><strong>DCNv2 — the cross at web scale (2021).</strong> The cross above squeezes all interaction through a single <strong>scalar</strong> <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> — cheap, but a capacity bottleneck. <strong>DCNv2</strong> (Wang et al., WWW 2021) replaces that weight <em>vector</em> with a weight <strong>matrix</strong> <span class="math inline">\(W_l\)</span>, so each layer learns a far richer cross, <span class="math inline">\(\mathbf x_{l+1}=\mathbf x_0\odot(W_l\mathbf x_l+\mathbf b_l)+\mathbf x_l\)</span>; and to keep it affordable at serving time it factorizes <span class="math inline">\(W_l\)</span> into <strong>low-rank</strong> factors routed through a <strong>mixture of experts</strong>. It is the version actually deployed at web scale, and the one to reach for over the 2017 DCN.</p>
+<hr>
+</section>
+<section id="the-rest-of-the-lineage-in-one-line-each" class="level2">
+<h2 class="anchored" data-anchor-id="the-rest-of-the-lineage-in-one-line-each">8. The rest of the lineage, in one line each</h2>
+<p>The same template (§5 figure) accounts for the models that followed; each one re-engineers the <strong>explicit-interaction tower</strong>:</p>
+<ul>
+<li><strong>xDeepFM</strong> (2018) — its <strong>Compressed Interaction Network (CIN)</strong> learns explicit high-order crosses at the <strong>vector level</strong> (Hadamard products between feature-map vectors), where DCN crosses at the bit/scalar level; runs alongside an MLP.</li>
+<li><strong>AutoInt</strong> (2019) — uses <strong>multi-head self-attention</strong> (the mechanism of <em>Representation Learning &amp; the Transformer</em>) over the field embeddings, so the model <em>learns which features to interact</em> rather than fixing the form; interactions become attention weights.</li>
+<li><strong>DIN — Deep Interest Network</strong> (2018) — for feeds with a <strong>user behavior sequence</strong>, applies <strong>attention</strong> to weight each past behavior by its relevance to the <strong>candidate</strong> item, so a user’s “interest” is computed <em>per candidate</em> rather than as one static vector. It is the CTR cousin of the sequential models in <em>Sequential &amp; Session-Based Recommendation</em>.</li>
+</ul>
+<p>The throughline: <strong>every advance is a better answer to “which feature interactions matter, and of what order?”</strong> — from FM’s fixed second order, to DCN’s explicit bounded degree, to AutoInt’s attention-learned interactions.</p>
+<hr>
+</section>
+<section id="training-and-serving-a-ctr-model" class="level2">
+<h2 class="anchored" data-anchor-id="training-and-serving-a-ctr-model">9. Training and serving a CTR model</h2>
+<p>Three operational facts, each owned elsewhere and only pointed to here:</p>
+<ul>
+<li><strong>Objective.</strong> CTR models train by <strong>pointwise LogLoss</strong> (§3) over logged impressions — a per-row binary classification, not the pairwise BPR ranking loss of the retrieval models. The general negative-sampling and training-loop machinery is in <em>Training and Serving a Recommender</em>.</li>
+<li><strong>Where it runs.</strong> As the <strong>ranking stage</strong> (§1), the CTR model scores only the few hundred candidates retrieval proposed, so it can afford its feature richness; the funnel itself is built in <em>Training and Serving a Recommender</em>.</li>
+<li><strong>Evaluation.</strong> Offline, report <strong>AUC and LogLoss</strong> (§3); the field’s rule of thumb is that an <strong>AUC lift of <span class="math inline">\(0.001\)</span> is practically significant</strong> at industrial scale. Which offline metric predicts which online outcome (CTR, dwell, conversion) — and the standard <strong>Criteo / Avazu</strong> split — are in <em>Evaluation Metrics</em> §11 and the <em>Datasets &amp; Benchmarks</em> appendix.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Are the deep-CTR gains real? (Read before trusting a leaderboard.)</strong> The <strong>FuxiCTR / BARS</strong> benchmark (Zhu et al., 2021) re-ran this whole lineage under <em>equal tuning</em> — thousands of runs, thousands of GPU-hours — and found a sobering result: once each model is tuned fairly, <strong>most differ by less than the <span class="math inline">\(0.001\)</span> AUC</strong> the rule above calls “significant.” A well-tuned <strong>FinalMLP</strong> (Mao et al., AAAI 2023) — two MLP streams with feature gating, <em>no</em> explicit cross network at all — matches or beats the elaborate explicit-cross models. The honest reading: architecture often matters less than careful tuning and a strong embedding table, so treat every “new SOTA CTR model” as a <em>prior</em> (<em>Implementation Choices</em> §1) and <strong>re-tune the baselines yourself</strong> before believing the delta.</p>
+</blockquote>
+<hr>
+</section>
+<section id="where-this-fits-in-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">10. Where this fits in the book</h2>
+<p>This chapter is the <strong>ranking</strong> counterpart to everything that came before it on the <strong>retrieval</strong> side. <em>Traditional Recommender Systems</em> gave you matrix factorization and FM; this chapter shows what the field built <em>on</em> FM once features and context entered — the deep-CTR lineage that powers the <strong>ranking stage</strong> of <em>Training and Serving a Recommender</em>. It also closes a loop with the <em>Datasets &amp; Benchmarks</em> appendix, whose <strong>CTR regime</strong> (Criteo, Avazu; AUC / LogLoss; random split) is precisely the protocol these models compete under, and with <em>Sequential &amp; Session-Based Recommendation</em>, whose attention machinery reappears here as DIN and AutoInt. As the first <strong>Frontiers</strong> chapter, it marks the turn from the book’s core ladder to the edges where recommendation meets the wider ML frontier; the next, <em>Bandits &amp; Online Recommendation</em>, takes up what happens when the model must <strong>choose what to show and learn from the click it gets back</strong>.</p>
+<hr>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">11. Exercises</h2>
+<p>Ten problems on the chapter’s own four-impression example and tiny vectors. Solutions in the back-matter <em>Solutions</em> appendix.</p>
+<p><strong>E1.</strong> <em>(compute)</em> For a single clicked impression (<span class="math inline">\(y=1\)</span>) with predicted <span class="math inline">\(\hat p = 0.5\)</span>, compute its LogLoss contribution <span class="math inline">\(-\ln \hat p\)</span>. Then redo it for <span class="math inline">\(\hat p = 0.9\)</span>. Which is smaller, and why does that match “lower LogLoss is better”? <em>(Answer in Appendix B.)</em></p>
+<p><strong>E2.</strong> <em>(compute)</em> Using the §3 table, recompute LogLoss after the model improves Bob’s clicked Matrix from <span class="math inline">\(\hat p = 0.4\)</span> to <span class="math inline">\(\hat p = 0.7\)</span> (all else unchanged). Show the four terms. <em>(Answer in Appendix B.)</em></p>
+<p><strong>E3.</strong> <em>(compute)</em> With the same improvement (Bob/Matrix <span class="math inline">\(0.4 \to 0.7\)</span>), recompute AUC. Did the misranked pair get fixed? <em>(Answer in Appendix B.)</em></p>
+<p><strong>E4.</strong> <em>(compute)</em> A model predicts the <em>same</em> <span class="math inline">\(\hat p = 0.5\)</span> for all four §3 impressions. Compute its AUC. (Hint: count tied pairs as half.) <em>(Answer in Appendix B.)</em></p>
+<p><strong>E5.</strong> <em>(compute)</em> Run a second DCN cross layer: starting from the §7 result <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span> with <span class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, <span class="math inline">\(\mathbf w_1 = [1,\,0]\)</span>, <span class="math inline">\(\mathbf b_1 = [0,\,0]\)</span>, compute <span class="math inline">\(\mathbf x_2 = \mathbf x_0\,\mathbf x_1^{\top}\mathbf w_1 +
+\mathbf b_1 + \mathbf x_1\)</span>. <em>(Answer in Appendix B.)</em></p>
+<p><strong>E6.</strong> <em>(concept)</em> A linear logistic-regression CTR model gives <code>genre=sci-fi</code> weight <span class="math inline">\(+0.3\)</span> and <code>device=mobile</code> weight <span class="math inline">\(+0.1\)</span>. Explain why it must predict the <em>same</em> extra log-odds for <code>(sci-fi, mobile)</code> as the sum <span class="math inline">\(+0.4\)</span>, and why that makes it blind to a genuine sci-fi-on-mobile interaction. <em>(Answer in Appendix B.)</em></p>
+<p><strong>E7.</strong> <em>(concept)</em> DeepFM and Wide &amp; Deep have the same two-tower shape. State the one concrete thing DeepFM removes, and the one thing it adds (sharing). <em>(Answer in Appendix B.)</em></p>
+<p><strong>E8.</strong> <em>(concept)</em> Why does the residual term <span class="math inline">\(+\,\mathbf x_l\)</span> in the DCN cross layer matter? What interaction degrees would an <span class="math inline">\(L\)</span>-layer cross network <em>lose</em> if you dropped it? <em>(Answer in Appendix B.)</em></p>
+<p><strong>E9.</strong> <em>(extend)</em> FM gives a never-co-occurred pair <code>(sci-fi, mobile)</code> a non-zero interaction <span class="math inline">\(\langle \mathbf v_{\text{sci-fi}}, \mathbf v_{\text{mobile}}\rangle\)</span>. Explain, in terms of where those two vectors got their gradients, <em>how</em> FM can do this when a free per-pair weight <span class="math inline">\(w_{ij}\)</span> cannot. <em>(Answer in Appendix B.)</em></p>
+<p><strong>E10.</strong> <em>(apply)</em> You are the ranking stage and retrieval hands you 200 candidates for Ann on mobile in the evening. Sketch, in three steps, how a DeepFM model turns those 200 rows into a ranked list, naming the feature fields, the embedding step, and the scoring metric you would log offline. <em>(Answer in Appendix B.)</em></p>
+<hr>
+</section>
+<section id="glossary" class="level2">
+<h2 class="anchored" data-anchor-id="glossary">12. Glossary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Plain meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>CTR (click-through rate)</strong></td>
+<td><span class="math inline">\(P(\text{click}\mid \text{user, item, context})\)</span>; the score the ranking stage predicts.</td>
+</tr>
+<tr class="even">
+<td><strong>Impression</strong></td>
+<td>One shown item; the unit of a CTR row, labelled <span class="math inline">\(1\)</span> (clicked) or <span class="math inline">\(0\)</span> (not).</td>
+</tr>
+<tr class="odd">
+<td><strong>Sparse / one-hot feature</strong></td>
+<td>A category encoded as all-zeros with a single <span class="math inline">\(1\)</span>; CTR rows stack millions of these.</td>
+</tr>
+<tr class="even">
+<td><strong>Feature interaction / cross</strong></td>
+<td>The conjunction of two categories (<code>sci-fi ∧ mobile</code>); where the predictive signal lives.</td>
+</tr>
+<tr class="odd">
+<td><strong>Logistic regression</strong></td>
+<td>Linear score <span class="math inline">\(\to\)</span> sigmoid <span class="math inline">\(\to\)</span> probability; the CTR baseline and every model’s output head.</td>
+</tr>
+<tr class="even">
+<td><strong>LogLoss</strong></td>
+<td>Binary cross-entropy; grades how <em>calibrated</em> the predicted probabilities are (lower better).</td>
+</tr>
+<tr class="odd">
+<td><strong>AUC</strong></td>
+<td>Probability a random click outscores a random non-click; grades <em>ordering</em>, not calibration.</td>
+</tr>
+<tr class="even">
+<td><strong>Factorization machine (FM)</strong></td>
+<td>Models a pairwise interaction as <span class="math inline">\(\langle\mathbf v_i,\mathbf v_j\rangle\)</span>; learns crosses on sparse data (<span class="math inline">\(O(kn)\)</span>).</td>
+</tr>
+<tr class="odd">
+<td><strong>Wide &amp; Deep</strong></td>
+<td>Joint linear-with-hand-crosses (memorize) <span class="math inline">\(+\)</span> MLP-over-embeddings (generalize) model.</td>
+</tr>
+<tr class="even">
+<td><strong>DeepFM</strong></td>
+<td>Wide &amp; Deep with the wide arm replaced by an FM, sharing one embedding layer; no hand-crossing.</td>
+</tr>
+<tr class="odd">
+<td><strong>Cross network (DCN)</strong></td>
+<td>Stacked layers that raise interaction degree by one each, explicitly and with linear cost.</td>
+</tr>
+<tr class="even">
+<td><strong>xDeepFM / AutoInt / DIN</strong></td>
+<td>Vector-wise crosses (CIN) / attention-learned interactions / per-candidate behavior attention.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">13. References</h2>
+<ul>
+<li><p>He, X., et al.&nbsp;(2017). <em>Neural collaborative filtering</em>. In <em>Proceedings of WWW</em>. arXiv:1708.05031 <em>(the implicit-feedback / sigmoid-head lineage CTR ranking shares).</em></p></li>
+<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of IEEE ICDM</em>. https://doi.org/10.1109/ICDM.2010.127 <em>(the FM springboard; full treatment in Traditional RecSys §8).</em></p></li>
+<li><p>Cheng, H.-T., et al.&nbsp;(2016). <em>Wide &amp; Deep learning for recommender systems</em>. In <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS @ RecSys)</em>. arXiv:1606.07792</p></li>
+<li><p>Guo, H., Tang, R., Ye, Y., Li, Z., &amp; He, X. (2017). <em>DeepFM: A factorization-machine based neural network for CTR prediction</em>. In <em>Proceedings of IJCAI</em>. arXiv:1703.04247</p></li>
+<li><p>Wang, R., Fu, B., Fu, G., &amp; Wang, M. (2017). <em>Deep &amp; Cross Network for ad click predictions</em>. In <em>Proceedings of ADKDD @ KDD</em>. arXiv:1708.05123</p></li>
+<li><p>Wang, R., Shivanna, R., Cheng, D. Z., Jain, S., Lin, D., Hong, L., &amp; Chi, E. H. (2021). <em>DCN V2: Improved deep &amp; cross network and practical lessons for web-scale learning to rank systems</em>. In <em>Proceedings of the Web Conference (WWW)</em>. arXiv:2008.13535</p></li>
+<li><p>Lian, J., Zhou, X., Zhang, F., Chen, Z., Xie, X., &amp; Sun, G. (2018). <em>xDeepFM: Combining explicit and implicit feature interactions for recommender systems</em>. In <em>Proceedings of KDD</em>. arXiv:1803.05170</p></li>
+<li><p>Song, W., et al.&nbsp;(2019). <em>AutoInt: Automatic feature interaction learning via self-attentive neural networks</em>. In <em>Proceedings of CIKM</em>. arXiv:1810.11921</p></li>
+<li><p>Zhou, G., et al.&nbsp;(2018). <em>Deep Interest Network for click-through rate prediction</em>. In <em>Proceedings of KDD</em>. arXiv:1706.06978</p></li>
+<li><p>Mao, K., Zhu, J., Su, L., Cai, G., Li, Y., &amp; Dong, Z. (2023). <em>FinalMLP: An enhanced two-stream MLP model for CTR prediction</em>. In <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>. arXiv:2304.00902</p></li>
+<li><p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate prediction (FuxiCTR)</em>. In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(the Criteo / Avazu 8:1:1 split + AUC / LogLoss protocol).</em></p></li>
+</ul>
+<p><em>Online sources verified June 2026.</em></p>
 
-    </main> <!-- /main -->
-    <script id="quarto-html-after-body" type="application/javascript">
-      window.document.addEventListener("DOMContentLoaded", function (event) {
-        const icon = "";
-        const anchorJS = new window.AnchorJS();
-        anchorJS.options = {
-          placement: 'right',
-          icon: icon
-        };
-        anchorJS.add('.anchored');
-        const isCodeAnnotation = (el) => {
-          for (const clz of el.classList) {
-            if (clz.startsWith('code-annotation-')) {
-              return true;
-            }
-          }
-          return false;
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
-        const onCopySuccess = function (e) {
-          // button target
-          const button = e.trigger;
-          // don't keep focus
-          button.blur();
-          // flash "checked"
-          button.classList.add('code-copy-button-checked');
-          var currentTitle = button.getAttribute("title");
-          button.setAttribute("title", "Copied!");
-          let tooltip;
-          if (window.bootstrap) {
-            button.setAttribute("data-bs-toggle", "tooltip");
-            button.setAttribute("data-bs-placement", "left");
-            button.setAttribute("data-bs-title", "Copied!");
-            tooltip = new bootstrap.Tooltip(button,
-              {
-                trigger: "manual",
-                customClass: "code-copy-button-tooltip",
-                offset: [0, -8]
-              });
-            tooltip.show();
-          }
-          setTimeout(function () {
-            if (tooltip) {
-              tooltip.hide();
-              button.removeAttribute("data-bs-title");
-              button.removeAttribute("data-bs-toggle");
-              button.removeAttribute("data-bs-placement");
-            }
-            button.setAttribute("title", currentTitle);
-            button.classList.remove('code-copy-button-checked');
-          }, 1000);
-          // clear code selection
-          e.clearSelection();
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
         }
-        const getTextToCopy = function (trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-          text: getTextToCopy
-        });
-        clipboard.on('success', onCopySuccess);
-        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-            text: getTextToCopy,
-            container: window.document.getElementById('quarto-embedded-source-code-modal')
-          });
-          clipboardModal.on('success', onCopySuccess);
-        }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
         var filterRegex = new RegExp("https:\/\/minastik\.com\/recsys\/");
-        var isInternal = (href) => {
+      var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-        var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i = 0; i < links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
-            }
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
             // target, if specified
             link.setAttribute("target", "_blank");
             if (link.getAttribute("rel") === null) {
               link.setAttribute("rel", "noopener");
             }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
           }
         }
-        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-          const config = {
-            allowHTML: true,
-            maxWidth: 500,
-            delay: 100,
-            arrow: false,
-            appendTo: function (el) {
-              return el.parentElement;
-            },
-            interactive: true,
-            interactiveBorder: 10,
-            theme: 'quarto',
-            placement: 'bottom-start',
-          };
-          if (contentFn) {
-            config.content = contentFn;
-          }
-          if (onTriggerFn) {
-            config.onTrigger = onTriggerFn;
-          }
-          if (onUntriggerFn) {
-            config.onUntrigger = onUntriggerFn;
-          }
-          window.tippy(el, config);
-        }
-        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-        for (var i = 0; i < noterefs.length; i++) {
-          const ref = noterefs[i];
-          tippyHover(ref, function () {
-            // use id or data attribute instead here
-            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-            try { href = new URL(href).hash; } catch { }
-            const id = href.replace(/^#\/?/, "");
-            const note = window.document.getElementById(id);
-            if (note) {
-              return note.innerHTML;
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
             } else {
-              return "";
-            }
-          });
-        }
-        const xrefs = window.document.querySelectorAll('a.quarto-xref');
-        const processXRef = (id, note) => {
-          // Strip column container classes
-          const stripColumnClz = (el) => {
-            el.classList.remove("page-full", "page-columns");
-            if (el.children) {
-              for (const child of el.children) {
-                stripColumnClz(child);
-              }
+              container.appendChild(child.cloneNode(true));
+              break;
             }
           }
-          stripColumnClz(note)
-          if (id === null || id.startsWith('sec-')) {
-            // Special case sections, only their first couple elements
-            const container = document.createElement("div");
-            if (note.children && note.children.length > 2) {
-              container.appendChild(note.children[0].cloneNode(true));
-              for (let i = 1; i < note.children.length; i++) {
-                const child = note.children[i];
-                if (child.tagName === "P" && child.innerText === "") {
-                  continue;
-                } else {
-                  container.appendChild(child.cloneNode(true));
-                  break;
-                }
-              }
-              if (window.Quarto?.typesetMath) {
-                window.Quarto.typesetMath(container);
-              }
-              return container.innerHTML
-            } else {
-              if (window.Quarto?.typesetMath) {
-                window.Quarto.typesetMath(note);
-              }
-              return note.innerHTML;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
             }
           } else {
-            // Remove any anchor links if they are present
-            const anchorLink = note.querySelector('a.anchorjs-link');
-            if (anchorLink) {
-              anchorLink.remove();
-            }
-            if (window.Quarto?.typesetMath) {
-              window.Quarto.typesetMath(note);
-            }
-            if (note.classList.contains("callout")) {
-              return note.outerHTML;
-            } else {
-              return note.innerHTML;
-            }
-          }
-        }
-        for (var i = 0; i < xrefs.length; i++) {
-          const xref = xrefs[i];
-          tippyHover(xref, undefined, function (instance) {
-            instance.disable();
-            let url = xref.getAttribute('href');
-            let hash = undefined;
-            if (url.startsWith('#')) {
-              hash = url;
-            } else {
-              try { hash = new URL(url).hash; } catch { }
-            }
-            if (hash) {
-              const id = hash.replace(/^#\/?/, "");
-              const note = window.document.getElementById(id);
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
               if (note !== null) {
-                try {
-                  const html = processXRef(id, note.cloneNode(true));
-                  instance.setContent(html);
-                } finally {
-                  instance.enable();
-                  instance.show();
-                }
-              } else {
-                // See if we can fetch this
-                fetch(url.split('#')[0])
-                  .then(res => res.text())
-                  .then(html => {
-                    const parser = new DOMParser();
-                    const htmlDoc = parser.parseFromString(html, "text/html");
-                    const note = htmlDoc.getElementById(id);
-                    if (note !== null) {
-                      const html = processXRef(id, note);
-                      instance.setContent(html);
-                    }
-                  }).finally(() => {
-                    instance.enable();
-                    instance.show();
-                  });
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
               }
-            } else {
-              // See if we can fetch a full url (with no hash to target)
-              // This is a special case and we should probably do some content thinning / targeting
-              fetch(url)
-                .then(res => res.text())
-                .then(html => {
-                  const parser = new DOMParser();
-                  const htmlDoc = parser.parseFromString(html, "text/html");
-                  const note = htmlDoc.querySelector('main.content');
-                  if (note !== null) {
-                    // This should only happen for chapter cross references
-                    // (since there is no id in the URL)
-                    // remove the first header
-                    if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                      note.children[0].remove();
-                    }
-                    const html = processXRef(null, note);
-                    instance.setContent(html);
-                  }
-                }).finally(() => {
-                  instance.enable();
-                  instance.show();
-                });
-            }
-          }, function (instance) {
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
           });
         }
+      }, function(instance) {
+      });
+    }
         let selectedAnnoteEl;
-        const selectorForAnnotation = (cell, annotation) => {
+        const selectorForAnnotation = ( cell, annotation) => {
           let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' + annotation + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
           const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
           return selector;
         }
@@ -1554,11 +1132,11 @@
           let height = null;
           let parent = null;
           if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
             if (lineIds.length > 1) {
               const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
               const bottom = lastEl.offsetTop + lastEl.offsetHeight;
@@ -1601,32 +1179,32 @@
           });
           selectedAnnoteEl = undefined;
         };
-        // Handle positioning of the toggle
-        window.addEventListener(
-          "resize",
-          throttle(() => {
-            elRect = undefined;
-            if (selectedAnnoteEl) {
-              selectCodeLines(selectedAnnoteEl);
-            }
-          }, 10)
-        );
-        function throttle(fn, ms) {
-          let throttle = false;
-          let timer;
-          return (...args) => {
-            if (!throttle) { // first call gets through
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
               fn.apply(this, args);
               throttle = true;
-            } else { // all the others get throttled
-              if (timer) clearTimeout(timer); // cancel #2
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
               timer = setTimeout(() => {
                 fn.apply(this, args);
                 timer = throttle = false;
               }, ms);
-            }
-          };
-        }
+          }
+        };
+      }
         // Attach click handler to the DT
         const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
         for (const annoteDlNode of annoteDls) {
@@ -1647,75 +1225,71 @@
             }
           });
         }
-        const findCites = (el) => {
-          const parentEl = el.parentElement;
-          if (parentEl) {
-            const cites = parentEl.dataset.cites;
-            if (cites) {
-              return {
-                el,
-                cites: cites.split(' ')
-              };
-            } else {
-              return findCites(el.parentElement)
-            }
-          } else {
-            return undefined;
-          }
-        };
-        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-        for (var i = 0; i < bibliorefs.length; i++) {
-          const ref = bibliorefs[i];
-          const citeInfo = findCites(ref);
-          if (citeInfo) {
-            tippyHover(citeInfo.el, function () {
-              var popup = window.document.createElement('div');
-              citeInfo.cites.forEach(function (cite) {
-                var citeDiv = window.document.createElement('div');
-                citeDiv.classList.add('hanging-indent');
-                citeDiv.classList.add('csl-entry');
-                var biblioDiv = window.document.getElementById('ref-' + cite);
-                if (biblioDiv) {
-                  citeDiv.innerHTML = biblioDiv.innerHTML;
-                }
-                popup.appendChild(citeDiv);
-              });
-              return popup.innerHTML;
-            });
-          }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
         }
-      });
-    </script>
-    <nav class="page-navigation">
-      <div class="nav-page nav-page-previous">
-        <a href="../chapters/training-and-serving.html" class="pagination-link"
-          aria-label="Training and Serving a Recommender">
-          <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Training and
-              Serving a Recommender</span></span>
-        </a>
-      </div>
-      <div class="nav-page nav-page-next">
-        <a href="../chapters/bandits.html" class="pagination-link" aria-label="Bandits &amp; Online Recommendation">
-          <span class="nav-page-text"><span class="chapter-title">Bandits &amp; Online Recommendation</span></span> <i
-            class="bi bi-arrow-right-short"></i>
-        </a>
-      </div>
-    </nav>
-  </div> <!-- /content -->
-  <footer class="footer">
-    <div class="nav-footer">
-      <div class="nav-footer-left">
-        <p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
-      </div>
-      <div class="nav-footer-center">
-        &nbsp;
-      </div>
-      <div class="nav-footer-right">
-        <p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI
-            10.5281/zenodo.20952963)</a></p>
-      </div>
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/training-and-serving.html" class="pagination-link" aria-label="Training and Serving a Recommender">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Training and Serving a Recommender</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/bandits.html" class="pagination-link" aria-label="Bandits &amp; Online Recommendation">
+        <span class="nav-page-text"><span class="chapter-title">Bandits &amp; Online Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Duong Tan Nghia &amp; Tran Manh Hoang · <strong>Minastik × HUST</strong> · licensed CC BY 4.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
     </div>
-  </footer>
+    <div class="nav-footer-right">
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+</div>
+  </div>
+</footer>
 
 
 
@@ -1723,6 +1297,4 @@
   <!-- minastik-brand-js -->
   <script src="/recsys/site_libs/minastik-brand.js"></script>
   <!-- /minastik-brand-js -->
-</body>
-
-</html>
+</body></html>
