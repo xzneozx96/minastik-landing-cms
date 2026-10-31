@@ -8,7 +8,7 @@
 
 <meta name="description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
 
-<title>Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero</title>
+<title>9&nbsp; Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,21 +124,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -159,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/sequential-recsys.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/sequential-recsys.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Sequential & Session-Based Recommendation","name":"Sequential & Session-Based Recommendation","description":"Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.","url":"https://minastik.com/recsys/chapters/sequential-recsys.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"9  Sequential & Session-Based Recommendation","name":"9  Sequential & Session-Based Recommendation","description":"Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.","url":"https://minastik.com/recsys/chapters/sequential-recsys.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -191,11 +192,11 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
+<meta property="og:title" content="9&nbsp; Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
 <meta property="og:description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
+<meta name="twitter:title" content="9&nbsp; Sequential &amp; Session-Based Recommendation – Recommender Systems from Zero">
 <meta name="twitter:description" content="Modeling a user’s history as a sequence to predict the next item — session- and sequence-based recommenders explained from zero.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -250,7 +251,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,17 +288,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,17 +317,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,12 +346,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +369,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,17 +386,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -394,7 +407,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -402,7 +415,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,7 +432,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -434,12 +449,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -455,27 +472,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -486,7 +508,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -513,8 +548,8 @@ window.Quarto = {
   <li><a href="#attention-over-the-session-sasrec" id="toc-attention-over-the-session-sasrec" class="nav-link" data-scroll-target="#attention-over-the-session-sasrec">4. Attention over the session: SASRec</a></li>
   <li><a href="#looking-both-ways-bert4rec" id="toc-looking-both-ways-bert4rec" class="nav-link" data-scroll-target="#looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</a></li>
   <li><a href="#training-and-evaluating-a-sequence-model" id="toc-training-and-evaluating-a-sequence-model" class="nav-link" data-scroll-target="#training-and-evaluating-a-sequence-model">6. Training and evaluating a sequence model</a></li>
-  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">7. Where this fits in the book</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">8. Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">7. Exercises</a></li>
+  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">8. Where this fits in the book</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">9. Glossary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">10. References</a></li>
   </ul>
@@ -523,9 +558,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html">Sequence-Based Recommenders</a></li><li class="breadcrumb-item"><a href="../chapters/sequential-recsys.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></h1>
 </div>
 
 
@@ -542,174 +577,428 @@ window.Quarto = {
 </header>
 
 
+<p><em>Traditional Recommender Systems</em> modeled recommendation as <strong>filling in a user–item matrix</strong>. That view quietly threw away something every real log carries: <strong>order</strong>. Bob did not just <em>watch</em> Titanic and Vendetta — he watched Titanic <strong>then</strong> Vendetta, and what he reaches for <em>next</em> can depend more on what he reached for <em>last</em> (a claim from practice, not tested here). This chapter builds the <strong>order-aware</strong> recommenders from zero: the data is now a <strong>sequence</strong>, the task is <strong>predict the next item</strong>, and the models climb from a one-step <strong>Markov chain</strong> (guess the next film from the last one alone) to <strong>self-attention</strong> (each film in the session looking at the other films), in two models called SASRec and BERT4Rec — the same machinery the Transformer chapter built, now reading a session instead of a sentence.</p>
+<p><strong>What this chapter assumes.</strong> Four things from earlier chapters, each explained again where it is used; nothing else is assumed.</p>
+<ul>
+<li>The dot product (Linear-Algebra primer), and conditional probability and the softmax (Probability primer §1, §3).</li>
+<li>From the Transformer chapter (<em>Representation Learning &amp; the Transformer</em>): the self-attention mechanism for §4–§5; the plain recurrent cell with its tanh (§3.1 there), which §3 of this chapter steps again; and the BERT (Bidirectional Encoder Representations from Transformers) recipe of hiding words and predicting them, which §5 reuses.</li>
+<li>The embeddings of <em>Traditional Recommender Systems</em> §5, and from <em>Evaluation Metrics</em> the leave-one-out (LOO) evaluation (hold out each user’s chronologically last interaction), the hit rate and the normalized discounted cumulative gain (NDCG).</li>
+<li>The Bayesian Personalized Ranking (BPR) loss of <em>Loss Functions &amp; Regularizers</em> §9.</li>
+</ul>
+<p>This chapter is the on-ramp to the era of large language models (LLMs): SASRec and BERT4Rec are the Transformer applied to item sequences, and an LLM is itself a sequence model.</p>
 <section id="from-a-matrix-to-a-sequence-what-order-adds" class="level2">
 <h2 class="anchored" data-anchor-id="from-a-matrix-to-a-sequence-what-order-adds">1. From a matrix to a sequence: what order adds</h2>
-<p>Traditional CF asks <em>“what rating goes in this empty cell?”</em> — a question about a <strong>static</strong> matrix in which the rows could be shuffled and nothing would change. But a recommendation log is a <strong>stream of events in time</strong>:</p>
-<p><span class="math display">\[
-\text{Ann's history} = (\ \text{Titanic},\ \text{Avatar},\ \underbrace{?}_{\text{next}}\ ).
+<p>Bob rated Titanic 4 and Vendetta 5, and the site must pick his next film. A table of ratings cannot say which film he watched first, yet the order may matter more than the stars. This section turns the table into a time-ordered list and names the task the rest of the chapter solves.</p>
+<p>Collaborative filtering (CF) — the central approach of <em>Traditional Recommender Systems</em>, which fills a user’s blanks from other users’ ratings — asks <em>“what rating goes in this empty cell?”</em> — a question about a <strong>static</strong> matrix in which the rows could be shuffled and nothing would change. But a recommendation log is a <strong>stream of events in time</strong>. Take <strong>Bob</strong> from that chapter’s running example: his row of the user–item matrix holds Titanic 4, Vendetta 5 and a blank for Matrix (three films this chapter abbreviates T, V and M). In a log, those two ratings arrive as two events, one after the other: <span class="math display">\[
+\text{Bob's history} = (\ \text{Titanic},\ \text{Vendetta},\ \underbrace{?}_{\text{next}}\ ).
 \]</span></p>
-<p>Two facts the matrix cannot see: the events have an <strong>order</strong> (Titanic came before Avatar), and the <strong>most recent</strong> ones matter most (what you watched an hour ago predicts your next click far better than what you watched a year ago). <strong>Sequential recommendation</strong> is the problem of using that order.</p>
+<p>Two facts the matrix cannot see: the events have an <strong>order</strong> (Titanic came before Vendetta), and the <strong>most recent</strong> ones usually matter most (what you watched an hour ago says more about your next click than what you watched a year ago: a claim from practice, not tested here).</p>
+<p>The order is real information. Bob’s two films can arrive in <span class="math inline">\(2\times1=2\)</span> orders, (Titanic, Vendetta) or (Vendetta, Titanic), and the matrix stores both the same way; a session of three films can arrive in <span class="math inline">\(3\times2\times1=6\)</span> orders, and the matrix keeps none of them. (The models in this chapter see only the <em>order</em> of events — 1st, 2nd, 3rd — not the clock time between them, so time is not modelled here; time-aware variants add the gaps as an extra input, beyond our scope. Time returns in §6, where the test split must respect it.) <strong>Sequential recommendation</strong> is the problem of using that order.</p>
+<p>A note on the cast. The viewing logs in this chapter are sessions with their own histories: what each person watched, in order, over a longer time than the ratings snapshot of <em>Traditional Recommender Systems</em>. They are not that matrix. So Ann’s and Cara’s logs in later sections need not match their rows there (in that matrix Ann has not rated Vendetta, and Cara has not rated Titanic); only Bob’s two ratings above are taken from it. Likewise the exercise logs, and the sessions of §5 and §6 (where Bob watches Matrix although his matrix cell is “?”), are their own logs, not the ratings table.</p>
 <p><strong>Two settings, one task.</strong> The literature splits on <em>how much you know about the user</em>:</p>
 <ul>
 <li><strong>Sequential recommendation</strong> — you have a <strong>long, identified</strong> history for each user (their whole watch list), and predict the next item in it.</li>
-<li><strong>Session-based recommendation</strong> — you have only the <strong>current, short, often anonymous session</strong> (the handful of clicks since the page loaded), with <em>no user id</em> at all. This is the harder, very common e-commerce case: a logged-out visitor with three clicks.</li>
+<li><strong>Session-based recommendation</strong> — you have only the <strong>current, short, often anonymous session</strong> (the handful of clicks since the page loaded), with <em>no user id</em> at all — nothing that ties this visit to an earlier one. This is the harder case, said to be very common in e-commerce (a claim from practice, not tested here): a logged-out visitor with three clicks (Wang et al., 2021, survey the methods built for it). §6 shows how a raw log is cut into such sessions.</li>
 </ul>
+<p>(The literature uses “sequential recommendation” both for the umbrella problem and, narrowly, for the long-history setting of the first bullet; this chapter means the umbrella unless it says “long-history”.)</p>
 <p>Both reduce to the same core question — <strong>next-item prediction</strong>:</p>
 <blockquote class="blockquote">
-<p>Given the items seen so far, <span class="math inline">\((i_1, i_2, \dots, i_{t-1})\)</span>, score every catalog item for being the <strong>next</strong> one, <span class="math inline">\(i_t\)</span>, and recommend the top-<span class="math inline">\(K\)</span>.</p>
+<p>Given the items seen so far, <span class="math inline">\((i_1, i_2, \dots, i_{t-1})\)</span> — <span class="math inline">\(i_1\)</span> is the first item, <span class="math inline">\(i_2\)</span> the second, and so on; such a beginning of a list is called a <strong>prefix</strong> — score every item of the <strong>catalog</strong> (all the items the site offers) for being the <strong>next</strong> one, <span class="math inline">\(i_t\)</span>, and recommend the top-<span class="math inline">\(K\)</span> (the <span class="math inline">\(K\)</span> highest-scoring items).</p>
 </blockquote>
-<p>Notice the shape of the answer is unchanged from Traditional RecSys: a <strong>score per item</strong>, ranked. What changes is the <em>input</em> — an <strong>ordered prefix</strong> instead of a user id — and so what the model must capture: <strong>which earlier items, in which order, predict what comes next.</strong></p>
-<div id="fig-sequential-recsys-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The shape of the answer is unchanged from <em>Traditional Recommender Systems</em>: a <strong>score per item</strong>, ranked. What changes is the <em>input</em> — an <strong>ordered prefix</strong> instead of a user id — and so what the model must capture: <strong>which earlier items, in which order, predict what comes next.</strong></p>
+<div id="fig-sequential-recsys-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Three views of the same interactions. Traditional Recommender Systems reads them as a static matrix (rows can be shuffled — no order).">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-1.svg" class="img-fluid figure-img">
+<img src="../figs/sequential-recsys-1.svg" class="img-fluid figure-img" alt="Three views of the same interactions. Traditional Recommender Systems reads them as a static matrix (rows can be shuffled — no order).">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.1: <strong>Three views of the same interactions.</strong> <em>Traditional RecSys</em> reads them as a static <strong>matrix</strong> (rows can be shuffled — no order). <em>This chapter</em> reads one user’s history as an ordered <strong>sequence</strong> and predicts the <strong>next</strong> item. The <em>next</em> chapter reads them as a <strong>graph</strong> of who-touched-what. Same data, three lenses; sequence is the order-aware one.
+Figure&nbsp;9.1: <strong>Three views of the same interactions.</strong> <em>Traditional Recommender Systems</em> reads them as a static <strong>matrix</strong> (rows can be shuffled — no order). <em>This chapter</em> reads one user’s history as an ordered <strong>sequence</strong> and predicts the <strong>next</strong> item. The <em>next</em> chapter reads them as a <strong>graph</strong> of who-touched-what. Bob’s data appear in all three (T <span class="math inline">\(=\)</span> Titanic, V <span class="math inline">\(=\)</span> Vendetta, M <span class="math inline">\(=\)</span> Matrix): his matrix row (outlined: T 4, V 5, M blank), his history Titanic then Vendetta then the unknown next item, and his two graph edges. Ann’s and Cara’s logs in later sections are separate sessions, not these rows.
 </figcaption>
 </figure>
 </div>
 <blockquote class="blockquote">
 <p><strong>Why “sequential” and “session.”</strong> <em>Sequential</em> = the model consumes an ordered <strong>sequence</strong> of past items. <em>Session</em> = one unbroken visit (the clicks between arriving and leaving); session-based models work from that short window alone, with no long-term profile.</p>
 </blockquote>
+<p><strong>Next-item prediction on Bob.</strong> The catalog here is the three films Titanic, Vendetta and Matrix. Bob’s prefix is (Titanic, Vendetta), so the model must score all <span class="math inline">\(3\)</span> films for the next slot, and with <span class="math inline">\(K=2\)</span> the site shows the <span class="math inline">\(2\)</span> highest of the <span class="math inline">\(3\)</span>. Whether the true next film (suppose it is Matrix, as §5 will) lands in that short list is what §6 grades (at <span class="math inline">\(K=1\)</span>; one aside there uses <span class="math inline">\(K=2\)</span>).</p>
+<p><strong>In one line:</strong> a matrix keeps Bob’s two ratings but not their order, which has <span class="math inline">\(2\times1=2\)</span> possibilities; a sequence model keeps the order and scores all <span class="math inline">\(3\)</span> films of the catalog for the next slot.</p>
 <hr>
 </section>
 <section id="the-simplest-sequence-model-markov-chains" class="level2">
 <h2 class="anchored" data-anchor-id="the-simplest-sequence-model-markov-chains">2. The simplest sequence model: Markov chains</h2>
-<p>Start with the crudest possible use of order: <strong>the next item depends only on the last one.</strong> A <strong>(first-order) Markov chain</strong> models the sequence by a table of <strong>transition probabilities</strong> <span class="math inline">\(P(\text{next}=j \mid \text{last}=i)\)</span> — “after <span class="math inline">\(i\)</span>, how often does <span class="math inline">\(j\)</span> follow?” — estimated by <strong>counting</strong> in the log.</p>
+<p>Ann has just finished Titanic. Which film will she press play on next? The cheapest guess is to look at what other viewers pressed after Titanic, and count. This section turns that counting into a table of odds, and then shows what the table cannot do.</p>
+<p>Start with the crudest possible use of order: <strong>the next item depends only on the last one.</strong> A <strong>(first-order) Markov chain</strong> models the sequence by a table of <strong>transition probabilities</strong> <span class="math inline">\(P(\text{next}=i \mid \text{last}=l)\)</span> — “after <span class="math inline">\(l\)</span>, how often does <span class="math inline">\(i\)</span> follow?” (read the bar <span class="math inline">\(\mid\)</span> as “given”; <span class="math inline">\(l\)</span> is the last item, <span class="math inline">\(i\)</span> a candidate next item) — estimated by <strong>counting</strong> in the log.</p>
 <blockquote class="blockquote">
 <p><strong>Why “Markov.”</strong> After Andrey <strong>Markov</strong>, who studied processes with the <em>memoryless</em> property: the next state depends only on the <strong>current</strong> state, not the full history. A first-order chain remembers exactly <strong>one</strong> step back.</p>
 </blockquote>
-<p><strong>Worked example — transitions by counting.</strong> Take four tiny sessions over three movies — Titanic (T), Avatar (A), Matrix (M):</p>
-<p><span class="math display">\[
-\text{T}\!\to\!\text{A}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{A},\qquad \text{A}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{M}.
+<p><strong>Worked example — transitions by counting.</strong> Take four tiny sessions over our three movies — Titanic (T), Vendetta (V), Matrix (M); the second one is Bob’s session so far: <span class="math display">\[
+\text{T}\!\to\!\text{V}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{V},\qquad \text{V}\!\to\!\text{M},\qquad \text{T}\!\to\!\text{M}.
 \]</span></p>
-<p>Count every adjacent <strong>(from <span class="math inline">\(\to\)</span> to)</strong> pair. From <strong>T</strong> we see <span class="math inline">\(\text{T}\!\to\!\text{A}\)</span> <strong>twice</strong> and <span class="math inline">\(\text{T}\!\to\!\text{M}\)</span> <strong>once</strong> (<span class="math inline">\(3\)</span> transitions out of T); from <strong>A</strong> we see <span class="math inline">\(\text{A}\!\to\!\text{M}\)</span> <strong>twice</strong> (<span class="math inline">\(2\)</span> out of A). Dividing each count by its row total gives the transition probabilities:</p>
-<p><span class="math display">\[
-P(\text{A}\mid\text{T})=\tfrac{2}{3}\approx0.667,\quad
+<p>Count every adjacent <strong>(from <span class="math inline">\(\to\)</span> to)</strong> pair, and file each count in a table whose rows are the <em>last</em> item and whose columns are the <em>next</em> item:</p>
+<div id="tbl-sequential-recsys-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.1: Counts of each adjacent (from, to) pair in the four sessions; rows are the last item, columns the next item.
+</figcaption>
+<div aria-describedby="tbl-sequential-recsys-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>last item (row) / next item (column)</th>
+<th style="text-align: center;">T</th>
+<th style="text-align: center;">V</th>
+<th style="text-align: center;">M</th>
+<th style="text-align: center;">row total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td>V</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td>M</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>From <strong>T</strong> we see <span class="math inline">\(\text{T}\!\to\!\text{V}\)</span> <strong>twice</strong> and <span class="math inline">\(\text{T}\!\to\!\text{M}\)</span> <strong>once</strong> (<span class="math inline">\(3\)</span> transitions out of T); from <strong>V</strong> we see <span class="math inline">\(\text{V}\!\to\!\text{M}\)</span> <strong>twice</strong> (<span class="math inline">\(2\)</span> out of V); from <strong>M</strong> we see nothing, because Matrix ended every session it appeared in. Dividing each count by its row total gives the transition probabilities: <span class="math display">\[
+P(\text{V}\mid\text{T})=\tfrac{2}{3}\approx0.667,\quad
 P(\text{M}\mid\text{T})=\tfrac{1}{3}\approx0.333,\quad
-P(\text{M}\mid\text{A})=\tfrac{2}{2}=1.0.
+P(\text{M}\mid\text{V})=\tfrac{2}{2}=1.0.
 \]</span></p>
-<p>Per component: the <strong>numerator</strong> is how often that specific pair occurred; the <strong>denominator</strong> is how often the <em>from</em>-item appeared as a “from” at all — so each row is a normalized vote that sums to <span class="math inline">\(1\)</span>. Reading it: a user whose last movie was <strong>Titanic</strong> is predicted to watch <strong>Avatar</strong> next (probability <span class="math inline">\(0.667\)</span>, the bigger count); a user whose last was <strong>Avatar</strong> is sent to <strong>Matrix</strong> (<span class="math inline">\(1.0\)</span>). The whole “model” is a counted table.</p>
-<div id="fig-sequential-recsys-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Per component: the <strong>numerator</strong> is how often that specific pair occurred; the <strong>denominator</strong> is how often the <em>from</em>-item appeared as a “from” at all — so every row that has any outgoing transitions becomes a normalized vote that sums to <span class="math inline">\(1\)</span> (the T row: <span class="math inline">\(0+0.667+0.333=1\)</span>).</p>
+<p>Two gaps show in the table. Matrix’s row is empty — nobody moved on from Matrix in our log — so the chain has no prediction after it at all (<span class="math inline">\(\tfrac00\)</span> is undefined); and in any row that <em>does</em> have transitions, it gives every pair it never saw probability <span class="math inline">\(0\)</span> (Titanic after Vendetta, for instance). The factorized model below is built to fix both gaps.</p>
+<p>Reading the table: a user whose last movie was <strong>Titanic</strong> is predicted to watch <strong>Vendetta</strong> next (probability <span class="math inline">\(0.667\)</span>, the bigger count); a user whose last was <strong>Vendetta</strong> is sent to <strong>Matrix</strong> (<span class="math inline">\(1.0\)</span>) — so Bob, whose session so far ends in Vendetta, is sent to Matrix, the very blank in his rating-matrix row. (Bob’s own session T<span class="math inline">\(\to\)</span>V is one of the four we counted, which is harmless in a toy and would not be allowed in a real test, §6.) The whole “model” is a counted table.</p>
+<div id="fig-sequential-recsys-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A first-order Markov chain counted from four sessions.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-2.svg" class="img-fluid figure-img">
+<img src="../figs/sequential-recsys-2.svg" class="img-fluid figure-img" alt="A first-order Markov chain counted from four sessions.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.2: <strong>A first-order Markov chain counted from four sessions.</strong> Each arrow is <span class="math inline">\(P(\text{next}\mid\text{last})\)</span>, estimated by dividing the transition count by the row total. After <em>Titanic</em>, <em>Avatar</em> is the likely next watch (<span class="math inline">\(0.667\)</span>, <strong>thick</strong>) over <em>Matrix</em> (<span class="math inline">\(0.333\)</span>, <strong>thin</strong>); after <em>Avatar</em>, <em>Matrix</em> is certain in this toy (<span class="math inline">\(1.0\)</span>). The model is just this table of counts.
+Figure&nbsp;9.2: <strong>A first-order Markov chain counted from four sessions.</strong> Each arrow is <span class="math inline">\(P(\text{next}\mid\text{last})\)</span>, estimated by dividing the transition count by the row total. After <em>Titanic</em>, <em>Vendetta</em> is the likely next watch (<span class="math inline">\(0.667\)</span>, <strong>thick</strong>) over <em>Matrix</em> (<span class="math inline">\(0.333\)</span>, <strong>thin</strong>); after <em>Vendetta</em>, <em>Matrix</em> is certain in this toy (<span class="math inline">\(1.0\)</span>) — so Bob, whose session ends in <em>Vendetta</em>, is sent to <em>Matrix</em>. <em>Matrix</em> has no outgoing arrow: nobody moved on from it in the four sessions. The model is just these counted, row-normalized arrows.
 </figcaption>
 </figure>
 </div>
-<p><strong>The two limits — and the fix.</strong> A plain Markov chain has no <strong>memory</strong> beyond the last item (it cannot learn “users who saw <em>both</em> Titanic and Avatar like Inception”), and it is <strong>not personalized</strong> (everyone shares one transition table). The classic remedy is <strong>FPMC — Factorizing Personalized Markov Chains</strong> (Rendle et al., 2010), which scores the next item as a <strong>sum of two dot products</strong>:</p>
+<p><strong>The two limits — and the fix.</strong> A plain Markov chain has no <strong>memory</strong> beyond the last item (it cannot learn “users who saw <em>both</em> Titanic and Vendetta like Inception”), and it is <strong>not personalized</strong> (everyone shares one transition table).</p>
+<p>The classic remedy for the second limit is <strong>Factorizing Personalized Markov Chains (FPMC)</strong> (Rendle et al., 2010), which scores the next item as a <strong>sum of two dot products</strong> (a dot product multiplies two vectors entry by entry and adds: <span class="math inline">\([a,b]\cdot[c,d]=ac+bd\)</span> — Linear-Algebra primer §4): one from <strong>matrix factorization (MF)</strong>, the user-meets-item score of <em>Traditional Recommender Systems</em> §5, and one from a learned Markov step. (The first limit — memory of more than one step — is what the recurrent network of §3 and the attention model of §4 remove.)</p>
 <p><span class="math display">\[
 \hat s(u,\,\text{last}=l,\,\text{next}=i)\;=\;\underbrace{\mathbf p_u\cdot\mathbf q_i}_{\text{matrix factorization: does }u\text{ like }i?}\;+\;\underbrace{\mathbf q'_l\cdot\mathbf q''_i}_{\text{Markov: does }i\text{ follow }l?}.
 \]</span></p>
-<p>Decoded: the <strong>first</strong> term is exactly the matrix-factorization score of Traditional RecSys §5 (user taste meets item traits); the <strong>second</strong> replaces the <em>counted</em> transition table with a <strong>learned</strong> one — each item gets vectors so that “<span class="math inline">\(i\)</span> tends to follow <span class="math inline">\(l\)</span>” becomes a dot product <span class="math inline">\(\mathbf q'_l\cdot\mathbf q''_i\)</span>, which <strong>generalizes</strong> to pairs never seen together (the same low-rank trick that let MF fill blank cells). FPMC is, in one line, <strong>MF plus a factorized Markov step</strong> — the hinge between the static matrix and the deep sequence models below.</p>
+<p>Every symbol, in words:</p>
+<ul>
+<li><span class="math inline">\(\hat s\)</span> — the predicted <strong>score</strong> (the hat marks an estimate, as in the <span class="math inline">\(\hat r\)</span> of <em>Traditional Recommender Systems</em>); FPMC ranks the candidates by it. It is a score, not a probability.</li>
+<li><span class="math inline">\(u\)</span> — the user; <span class="math inline">\(l\)</span> — the <strong>last</strong> item they interacted with; <span class="math inline">\(i\)</span> — a candidate <strong>next</strong> item.</li>
+<li><span class="math inline">\(\mathbf p_u\)</span> — user <span class="math inline">\(u\)</span>’s <strong>taste vector</strong>, and <span class="math inline">\(\mathbf q_i\)</span> — item <span class="math inline">\(i\)</span>’s <strong>trait vector</strong>: vectors of the kind <em>Traditional Recommender Systems</em> §5 builds (this chapter’s own toy numbers are below), whose dot product is a “does <span class="math inline">\(u\)</span> like <span class="math inline">\(i\)</span>?” score.</li>
+<li><span class="math inline">\(\mathbf q'_l\)</span> — a second vector of item <span class="math inline">\(l\)</span>, used when it is the item <strong>just watched</strong> (the “from” side of a transition); <span class="math inline">\(\mathbf q''_i\)</span> — a third vector of item <span class="math inline">\(i\)</span>, used when it is the <strong>candidate next</strong> item (the “to” side). The primes are only labels (read “q-prime” and “q-double-prime”), <strong>not derivatives</strong>.</li>
+</ul>
+<p>So every item carries <strong>three</strong> vectors: <span class="math inline">\(\mathbf q\)</span> for its traits, <span class="math inline">\(\mathbf q'\)</span> for when it is the item just watched, and <span class="math inline">\(\mathbf q''\)</span> for when it is a candidate next item. Why two transition vectors instead of reusing <span class="math inline">\(\mathbf q\)</span>? A dot product is <strong>symmetric</strong> — <span class="math inline">\(\mathbf q_{\text{T}}\cdot\mathbf q_{\text{V}}=\mathbf q_{\text{V}}\cdot\mathbf q_{\text{T}}\)</span> — so one vector per item would force “Vendetta after Titanic” and “Titanic after Vendetta” to score the same, yet in our log T→V happened twice and V→T never. Transitions have a direction; separate “from” and “to” vectors give them one.</p>
+<p>What the two terms do: the <strong>first</strong> is exactly the MF score of <em>Traditional Recommender Systems</em> §5 (user taste meets item traits); the <strong>second</strong> replaces the <em>counted</em> transition table with a <strong>learned</strong> one — “<span class="math inline">\(i\)</span> tends to follow <span class="math inline">\(l\)</span>” becomes the dot product <span class="math inline">\(\mathbf q'_l\cdot\mathbf q''_i\)</span>, which can score pairs never seen together (the same low-rank trick that let MF fill blank cells). FPMC is, in one line, <strong>MF plus a factorized Markov step</strong> — the hinge between the static matrix and the deep sequence models below. (Rendle et al.&nbsp;average the second term over a whole <em>basket</em> of last items; with a single last item it is exactly the formula above.)</p>
+<p><strong>Worked example — FPMC scores Bob’s next film.</strong> FPMC needs learned vectors, so suppose training on a larger log (our four sessions are a sample of it) produced the <span class="math inline">\(d=2\)</span> vectors below — two numbers each. For the trait vectors <span class="math inline">\(\mathbf q\)</span> we use this chapter’s own toy item <strong>embeddings</strong> (learned item vectors of the kind <em>Traditional Recommender Systems</em> §5 builds, but a fresh set: there Titanic is <span class="math inline">\([2,0]\)</span>), which every later section reuses so that only the mechanism changes: Titanic <span class="math inline">\(=[1,0]\)</span>, Vendetta <span class="math inline">\(=[0,1]\)</span>, Matrix <span class="math inline">\(=[1,1]\)</span>. Bob’s taste vector is <span class="math inline">\(\mathbf p_{\text{Bob}}=[0.4,\,0.5]\)</span> (he leans a little more to Vendetta’s feature, as his 5 for Vendetta against 4 for Titanic suggests).</p>
+<div id="tbl-sequential-recsys-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.2: The toy vectors of each item: traits <span class="math inline">\(\mathbf q\)</span> (matrix factorization), <span class="math inline">\(\mathbf q'\)</span> when just watched, <span class="math inline">\(\mathbf q''\)</span> as the candidate next item.
+</figcaption>
+<div aria-describedby="tbl-sequential-recsys-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>item</th>
+<th style="text-align: center;">traits <span class="math inline">\(\mathbf q\)</span> (MF)</th>
+<th style="text-align: center;">from <span class="math inline">\(\mathbf q'\)</span> (just watched)</th>
+<th style="text-align: center;">to <span class="math inline">\(\mathbf q''\)</span> (candidate next)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Titanic (T)</td>
+<td style="text-align: center;"><span class="math inline">\([1,0]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([1,0]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([0.2,\,0.1]\)</span></td>
+</tr>
+<tr class="even">
+<td>Vendetta (V)</td>
+<td style="text-align: center;"><span class="math inline">\([0,1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([0,1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([0.6,\,0.1]\)</span></td>
+</tr>
+<tr class="odd">
+<td>Matrix (M)</td>
+<td style="text-align: center;"><span class="math inline">\([1,1]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([1,0]\)</span></td>
+<td style="text-align: center;"><span class="math inline">\([0.3,\,0.9]\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Bob’s session so far ends in Vendetta, so <span class="math inline">\(l=\text{V}\)</span> and the Markov term uses <span class="math inline">\(\mathbf q'_{\text{V}}=[0,1]\)</span>. Score each candidate — MF term plus Markov term: <span class="math display">\[
+\begin{aligned}
+\hat s(\text{Bob},\text{V},\text{T}) &amp;= [0.4,0.5]\cdot[1,0]+[0,1]\cdot[0.2,0.1] = 0.4+0.1 = 0.5,\\
+\hat s(\text{Bob},\text{V},\text{V}) &amp;= [0.4,0.5]\cdot[0,1]+[0,1]\cdot[0.6,0.1] = 0.5+0.1 = 0.6,\\
+\hat s(\text{Bob},\text{V},\text{M}) &amp;= [0.4,0.5]\cdot[1,1]+[0,1]\cdot[0.3,0.9] = 0.9+0.9 = \boxed{1.8}.
+\end{aligned}
+\]</span></p>
+<p>Matrix wins: Bob’s taste and the “what follows Vendetta” signal both point to it. (We score all three films, including the two he has already seen, to compare with the later sections; a real system usually drops items already in the session, a claim from practice, not tested here.) Two more readings show what the extra vectors buy:</p>
+<ul>
+<li><strong>Direction.</strong> “Vendetta after Titanic” scores <span class="math inline">\(\mathbf q'_{\text{T}}\cdot\mathbf q''_{\text{V}}=[1,0]\cdot[0.6,0.1]=0.6\)</span>, while “Titanic after Vendetta” scores <span class="math inline">\(\mathbf q'_{\text{V}}\cdot\mathbf q''_{\text{T}}=[0,1]\cdot[0.2,0.1]=0.1\)</span> — matching a log with T→V twice and V→T never. With one vector per item, both would be <span class="math inline">\(\mathbf q_{\text{T}}\cdot\mathbf q_{\text{V}}=[1,0]\cdot[0,1]=0\)</span>.</li>
+<li><strong>Pairs never seen.</strong> The counted table has no Matrix row, so it cannot say anything after Matrix. FPMC can: in the larger log, what people watch after Matrix resembles what they watch after Titanic, so Matrix’s “from” vector came out equal to Titanic’s, <span class="math inline">\(\mathbf q'_{\text{M}}=[1,0]\)</span>. After Matrix, Vendetta then scores <span class="math inline">\([1,0]\cdot[0.6,0.1]=0.6\)</span> — the largest <strong>transition</strong> term of the three (M→M <span class="math inline">\(0.3\)</span>, M→T <span class="math inline">\(0.2\)</span>) — for a pair (M→V) that never occurred in our four sessions. (Adding Bob’s MF term puts Matrix itself on top overall, <span class="math inline">\(1.2\)</span> against Vendetta’s <span class="math inline">\(1.1\)</span> and Titanic’s <span class="math inline">\(0.6\)</span>; it is the transition half that has learned where to go after Matrix.)</li>
+</ul>
+<p>The learned transition scores echo the counted table without copying it: after Titanic, Vendetta <span class="math inline">\(0.6\)</span> against Matrix <span class="math inline">\(0.3\)</span> (counted: <span class="math inline">\(0.667\)</span> against <span class="math inline">\(0.333\)</span>); after Vendetta, Matrix <span class="math inline">\(0.9\)</span> (counted: <span class="math inline">\(1.0\)</span>). They are scores, not probabilities — only their order matters.</p>
+<blockquote class="blockquote">
+<p>The toy embeddings are <strong>learned</strong> — each model in this chapter fits its own from the log, and we simply give them all the same values — so they are <em>not</em> the hand-made genre vectors of <em>Traditional Recommender Systems</em> §2, where the same three films sat in a 3-D (action, sci-fi, romance) genre space. Same cast, different space: what carries over is the <em>mechanism</em> (a dot product), not the coordinates.</p>
+</blockquote>
 <blockquote class="blockquote">
 <p><strong>Why “FPMC.”</strong> <strong>F</strong>actorizing <strong>P</strong>ersonalized <strong>M</strong>arkov <strong>C</strong>hains: it <em>factorizes</em> the transition table into item vectors (so it generalizes), and makes it <em>personalized</em> by adding the per-user MF term.</p>
 </blockquote>
+<p><strong>In one line:</strong> counting four sessions gives <span class="math inline">\(P(\text{V}\mid\text{T})=2/3\approx0.667\)</span> and sends Bob from Vendetta to Matrix with probability <span class="math inline">\(1.0\)</span>; FPMC replaces the counts by vectors, and scores Bob’s three candidates <span class="math inline">\(0.5\)</span>, <span class="math inline">\(0.6\)</span> and <span class="math inline">\(1.8\)</span>, so Matrix wins and a pair the log never showed (Matrix then Vendetta) still gets a score, <span class="math inline">\(0.6\)</span>.</p>
 <hr>
 </section>
 <section id="reading-the-whole-session-gru4rec" class="level2">
 <h2 class="anchored" data-anchor-id="reading-the-whole-session-gru4rec">3. Reading the whole session: GRU4Rec</h2>
-<p>A Markov chain forgets everything but the last click. To use the <strong>whole</strong> session we need a model that carries a <strong>running summary</strong> of it. A <strong>recurrent neural network (RNN)</strong> does exactly that: it reads the items left-to-right, and after each one updates a <strong>hidden state</strong> <span class="math inline">\(\mathbf h_t\)</span> — a fixed-length vector meant to encode “everything relevant so far”:</p>
-<p><span class="math display">\[
+<p>Bob has watched two films in a row, and the site must guess the third. A guess that looks only at his last film throws half of his evening away. This section builds a running note that is updated after every film, so that the whole evening counts.</p>
+<p>A Markov chain forgets everything but the last click. To use the <strong>whole</strong> session we need a model that carries a <strong>running summary</strong> of it. A <strong>recurrent neural network (RNN)</strong> does exactly that: it reads the items left-to-right, and after each one updates a <strong>hidden state</strong> <span class="math inline">\(\mathbf h_t\)</span> — a fixed-length vector meant to encode “everything relevant so far” — then scores every candidate next item against it: <span class="math display">\[
 \mathbf h_t \;=\; f\big(\mathbf h_{t-1},\ \text{embed}(i_t)\big),\qquad
-\hat{\mathbf y}_t \;=\; \text{scores over all items, from } \mathbf h_t .
+\hat s_{t+1}(i) \;=\; \mathbf h_t\cdot\text{embed}(i).
 \]</span></p>
-<p>Decoded: <span class="math inline">\(\text{embed}(i_t)\)</span> is the current item’s vector (Traditional RecSys §5); <span class="math inline">\(f\)</span> folds it into the previous summary <span class="math inline">\(\mathbf h_{t-1}\)</span> to produce the new summary <span class="math inline">\(\mathbf h_t\)</span>; and the next-item scores are read off <span class="math inline">\(\mathbf h_t\)</span>. The state is the memory — unlike the Markov chain, it can in principle carry information from <strong>any</strong> earlier position.</p>
-<p><strong>GRU4Rec</strong> (Hidasi et al., 2016) was the model that brought this to session-based recommendation. Its <span class="math inline">\(f\)</span> is a <strong>GRU</strong> — a <em>gated recurrent unit</em>, a cell (built in the RNN/LSTM/GRU family of <em>Representation Learning &amp; the Transformer</em> §3) whose <strong>gates</strong> learn what to <strong>keep</strong> versus <strong>forget</strong> from the running state, which is what lets it hold useful context over a longer session without the signal washing out. Two engineering ideas made it work on real logs: <strong>session-parallel mini-batches</strong> (process many short sessions side by side so the GPU stays busy) and a <strong>ranking loss</strong> over the next item (a pairwise BPR-style or TOP1 loss — <em>Losses &amp; Regularizers</em> §9 — rather than a full softmax over a huge catalog).</p>
+<p>Decoded: <span class="math inline">\(\text{embed}(i_t)\)</span> is the <strong>embedding</strong> of the item at position <span class="math inline">\(t\)</span> — its learned vector (§2’s toy embeddings); <span class="math inline">\(f\)</span> folds it into the previous summary <span class="math inline">\(\mathbf h_{t-1}\)</span> to produce the new summary <span class="math inline">\(\mathbf h_t\)</span>; and <span class="math inline">\(\hat s_{t+1}(i)\)</span>, the score of a candidate item <span class="math inline">\(i\)</span> for the <strong>next</strong> position, <span class="math inline">\(t+1\)</span>, is the dot product of that summary with <span class="math inline">\(i\)</span>’s embedding — the same dot-product idea as §2 and §4. So after reading <span class="math inline">\(i_1,\dots,i_t\)</span> the state <span class="math inline">\(\mathbf h_t\)</span> predicts <span class="math inline">\(i_{t+1}\)</span> — §1’s convention (read <span class="math inline">\(i_1,\dots,i_{t-1}\)</span>, predict <span class="math inline">\(i_t\)</span>) moved one step along. The state is the memory — unlike the Markov chain, it can in principle carry information from <strong>any</strong> earlier position. A case of one number: after Bob’s Titanic the first entry of the summary is <span class="math inline">\(0.76\)</span>; after his Vendetta it has shrunk to <span class="math inline">\(0.36\)</span> and a second entry has appeared (both worked out below).</p>
+<p><strong>GRU4Rec</strong> (Hidasi et al., 2016) brought this idea to session-based recommendation. Its <span class="math inline">\(f\)</span> is a <strong>gated recurrent unit (GRU)</strong>, a cell of the recurrent family. The family has three members, the plain recurrent network, the long short-term memory (LSTM) network and the GRU, and <em>Representation Learning &amp; the Transformer</em> §3 builds all three. The <strong>gates</strong> of a GRU learn what to <strong>keep</strong> and what to <strong>forget</strong> from the running state. A gate is a number between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> that the cell computes at each step: a gate of <span class="math inline">\(0.2\)</span>, for instance, lets the cell keep <span class="math inline">\(80\%\)</span> of the old value and take <span class="math inline">\(20\%\)</span> from the newest item (the second worked example below follows one number).</p>
+<p><strong>Worked example — a recurrent summary of Bob’s session.</strong> To keep the numbers calculator-sized, we use the plain recurrent cell that <em>Representation Learning &amp; the Transformer</em> §3.1 steps by hand, in place of the GRU (the gates would change how much of the old summary is kept, not the shape of the computation), and apply it to each of the two numbers of the vector separately: <span class="math display">\[
+\mathbf h_t=\tanh\!\big(0.5\,\mathbf h_{t-1}+\text{embed}(i_t)\big),\qquad \mathbf h_0=[0,0],
+\]</span></p>
+<p>where <span class="math inline">\(\tanh\)</span> (the hyperbolic tangent) squashes each number into the range <span class="math inline">\((-1,1)\)</span> — <span class="math inline">\(\tanh 0=0\)</span>, <span class="math inline">\(\tanh 1=0.7616\)</span> — and <span class="math inline">\(0.5\)</span> is how much of the old summary carries forward (the same recurrent weight as that chapter’s example). Bob’s session is Titanic <span class="math inline">\(=[1,0]\)</span>, then Vendetta <span class="math inline">\(=[0,1]\)</span>: <span class="math display">\[
+\begin{aligned}
+\mathbf h_1 &amp;= \tanh\big(0.5\,[0,0]+[1,0]\big)=[\tanh 1,\ \tanh 0]=[0.7616,\ 0],\\
+\mathbf h_2 &amp;= \tanh\big(0.5\,[0.7616,\ 0]+[0,1]\big)=[\tanh 0.3808,\ \tanh 1]=[0.3634,\ 0.7616].
+\end{aligned}
+\]</span></p>
+<p>Score the candidates with <span class="math inline">\(\hat s_3(i)=\mathbf h_2\cdot\text{embed}(i)\)</span>: Titanic <span class="math inline">\(0.363\)</span>, Vendetta <span class="math inline">\(0.762\)</span>, and Matrix <span class="math inline">\(0.3634+0.7616=\boxed{1.125}\)</span> — Matrix again. Watch Titanic’s trace: <span class="math inline">\(0.7616\)</span> right after it was read, <span class="math inline">\(0.3634\)</span> one step later (halved by the <span class="math inline">\(0.5\)</span>, then squashed), while Vendetta enters at full strength. With this cell’s recurrent weight of <span class="math inline">\(0.5\)</span>, the recurrence makes the newer item count more: reverse the session to (Vendetta, Titanic) and <span class="math inline">\(\mathbf h_2=[0.7616,\ 0.3634]\)</span>, tilting toward Titanic instead. Order is built into a recurrent net; §4 shows that attention needs help to see it.</p>
+<p><strong>Worked example — what a gate does.</strong> In the common form of the GRU, the new state is <span class="math inline">\(\mathbf h_t=(1-z_t)\,\mathbf h_{t-1}+z_t\,\tilde{\mathbf h}_t\)</span>, where <span class="math inline">\(\tilde{\mathbf h}_t\)</span> is a <em>candidate</em> state built from the newest item and <span class="math inline">\(z_t\)</span> is the <strong>update gate</strong>. Follow one number, the Titanic entry of Bob’s summary, which stood at <span class="math inline">\(0.7616\)</span> after the first film. Suppose the next two films add nothing to that entry (candidate <span class="math inline">\(\tilde h=0\)</span>, set by hand here).</p>
+<p>With a gate <span class="math inline">\(z=0.2\)</span> the cell keeps <span class="math inline">\(80\%\)</span> of the old value each step: <span class="math inline">\(0.7616\to0.609\to0.487\)</span>. With <span class="math inline">\(z=0.9\)</span> it almost overwrites: <span class="math inline">\(0.7616\to0.076\to0.008\)</span>. The plain cell above, which has no gate, leaves <span class="math inline">\(0.7616\to0.363\to0.180\)</span> over the same two steps. Each step shrinks the old value by nearly the same factor (exactly <span class="math inline">\(0.8\)</span> and <span class="math inline">\(0.1\)</span> for the two gates, about one half for the plain cell), so two steps show the pattern a longer session would repeat. The plain cell is not a fair rival for the gate, since it differs by more than a gate (an arbitrary weight of <span class="math inline">\(0.5\)</span> and a squashing <span class="math inline">\(\tanh\)</span>), and the gate values are hand-picked: the example shows what a gate can do, and that trained GRUs learn to hold useful context this way over a long session is a claim from practice, not tested here.</p>
 <blockquote class="blockquote">
 <p><strong>Why “GRU4Rec.”</strong> It is a <strong>GRU</strong> recurrent network <strong>for Rec</strong>ommendation; “4” is the internet’s “for.” The point of the name is the cell: a <em>gated</em> RNN reading a session.</p>
 </blockquote>
-<p>The recurrent view has one structural weakness, though: it must <strong>compress the entire past into one vector</strong> and process strictly left-to-right, step by step. Long-range dependencies fade, and the sequential computation is hard to parallelize. Both complaints are answered by letting each position look <strong>directly</strong> at every earlier one — <strong>attention</strong>.</p>
+<p>The recurrent view has one structural weakness, though: it must <strong>compress the entire past into one vector</strong> and process strictly left-to-right, step by step. Long-range dependencies fade (Titanic’s trace above more than halved in a single step — the fade the GRU’s gates are there to slow), and within one session the computation is strictly sequential — step <span class="math inline">\(t\)</span> must wait for step <span class="math inline">\(t-1\)</span> — so it cannot be parallelized along the sequence; the session-parallel mini-batches of the box below only parallelize across <em>different</em> sessions. Both complaints are answered by letting each position look <strong>directly</strong> at every earlier one — <strong>attention</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Side issue: two engineering ideas behind GRU4Rec.</strong> The paper presents them as the modifications that make a recurrent network viable for session data (a claim from practice, not tested here), and neither changes the arithmetic above.</p>
+<ul>
+<li><strong>Session-parallel mini-batches.</strong> A <em>mini-batch</em> is the handful of examples processed together in one training step. GRU4Rec fills it with many short sessions side by side, so that the <strong>graphics processing unit (GPU)</strong> — a chip that runs many simple computations at once — always has work to do.</li>
+<li><strong>A ranking loss.</strong> The loss is a pairwise one in the style of <strong>Bayesian Personalized Ranking (BPR)</strong>: it pushes the true next item above a sampled item that did not come next (<em>Loss Functions &amp; Regularizers</em> §9), rather than computing a full <strong>softmax</strong> over a huge catalog (a softmax turns a score for every item into probabilities that sum to <span class="math inline">\(1\)</span>; §4 computes a small one).</li>
+</ul>
+</blockquote>
+<p><strong>In one line:</strong> a recurrent net folds Bob’s session into one running summary, <span class="math inline">\([0.3634,\ 0.7616]\)</span> after Titanic then Vendetta, which scores Matrix <span class="math inline">\(1.125\)</span> against Vendetta <span class="math inline">\(0.762\)</span> and Titanic <span class="math inline">\(0.363\)</span>; a gate near <span class="math inline">\(0\)</span> keeps the old value and a gate near <span class="math inline">\(1\)</span> overwrites it (Titanic’s trace is <span class="math inline">\(0.487\)</span> two films later for <span class="math inline">\(z=0.2\)</span> and <span class="math inline">\(0.008\)</span> for <span class="math inline">\(z=0.9\)</span>).</p>
 <hr>
 </section>
 <section id="attention-over-the-session-sasrec" class="level2">
 <h2 class="anchored" data-anchor-id="attention-over-the-session-sasrec">4. Attention over the session: SASRec</h2>
-<p>The Transformer chapter built <strong>self-attention</strong>: a mechanism where each position forms a <strong>query</strong>, compares it (by dot product) against a <strong>key</strong> at every position, turns those similarities into softmax <strong>weights</strong>, and reads out a weighted average of the <strong>values</strong>. <strong>SASRec — Self-Attentive Sequential Recommendation</strong> (Kang &amp; McAuley, 2018) — is that mechanism applied to a session: stack the item embeddings of the prefix, run self-attention, and the output at the <strong>last</strong> position is the summary used to score the next item.</p>
+<p>Bob’s evening so far is two films, and the guess for the third should lean on both, though perhaps not equally. How much should each earlier film count? This section computes those weights from the films themselves, by hand, and uses them to score the next film.</p>
+<p><em>Representation Learning &amp; the Transformer</em> built the <strong>Transformer</strong> — the attention-based neural network behind today’s large language models — and at its heart <strong>self-attention</strong>: a mechanism where each position forms a <strong>query</strong> (the question it asks of the other positions; Vendetta, Bob’s last film, asks “which earlier films are like me?”), compares it, by dot product, against the <strong>key</strong> each position holds (a label saying what that position is about), turns those similarities into softmax <strong>weights</strong>, and reads out a weighted average of the <strong>values</strong> (what each position hands over when it is matched). <strong>Self-Attentive Sequential Recommendation (SASRec)</strong> (Kang &amp; McAuley, 2018) is that mechanism applied to a session: stack the item embeddings of the prefix, run self-attention, and the output at the <strong>last</strong> position is the summary used to score the next item.</p>
 <p>Two adaptations make attention fit recommendation:</p>
 <ul>
-<li>A <strong>causal mask</strong>: when predicting the item at position <span class="math inline">\(t\)</span>, a position may attend only to positions <span class="math inline">\(\le t\)</span> — never to the future it is trying to predict. (Same lower-triangular mask the Transformer chapter used for left-to-right language models.)</li>
-<li><strong>Positional embeddings</strong>: raw attention is order-blind (permute the inputs and the weighted average is unchanged), so SASRec <strong>adds a learned position vector</strong> to each item embedding, re-injecting “this was the 1st / 2nd / … click.” (We fold this in below and flag it.)</li>
+<li>A <strong>causal mask</strong>. A <em>mask</em> is a grid of yes/no entries that says which position may look at which; the causal one lets the output at position <span class="math inline">\(t\)</span> attend only to positions <span class="math inline">\(\le t\)</span> — itself and earlier ones — and that output is used to predict the item at the <em>next</em> position, <span class="math inline">\(t+1\)</span>, so the model never sees the item it is trying to predict. (Same lower-triangular mask the Transformer chapter used for left-to-right language models.) In a three-item session, position <span class="math inline">\(2\)</span> may look at positions <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> but not at <span class="math inline">\(3\)</span>.</li>
+<li><strong>Positional embeddings</strong>: raw attention is order-blind (hold the query fixed, permute the keys and values, and the weighted average is unchanged), so SASRec <strong>adds a learned position vector</strong> to each item embedding, re-injecting “this was the 1st / 2nd / … click,” so that the same film at position <span class="math inline">\(1\)</span> and at position <span class="math inline">\(3\)</span> gets two different vectors. A case, with the toy embeddings and the last film Titanic as the query: the sessions (Vendetta, Matrix, Titanic) and (Matrix, Vendetta, Titanic) give the same context (the attention-weighted average of the values, here just the embeddings, set up below) <span class="math inline">\([0.802,\,0.599]\)</span> without positions (weights <span class="math inline">\(0.198,\,0.401,\,0.401\)</span> on Vendetta, Matrix, Titanic); adding <span class="math inline">\([0,0.5]\)</span> to the first film’s key and value turns them into <span class="math inline">\([0.802,\,0.698]\)</span> and <span class="math inline">\([0.802,\,0.799]\)</span>, so order now shows. (The worked example below leaves positional vectors out — so it is blind to the order of the earlier films — and says so where it matters.)</li>
 </ul>
-<p><strong>Worked example — one self-attention step, by hand.</strong> Ann’s session so far is <span class="math inline">\((\text{Titanic},\ \text{Avatar})\)</span>; predict the next item. Use <span class="math inline">\(d=2\)</span> embeddings</p>
-<p><span class="math display">\[
-\text{Titanic}=[1,0],\quad \text{Avatar}=[0,1],\quad \text{Matrix}=[1,1],
+<p><strong>Worked example — one self-attention step, by hand.</strong> Bob’s session so far is <span class="math inline">\((\text{Titanic},\ \text{Vendetta})\)</span>; predict the next item. Use the chapter’s toy embeddings (§2), <span class="math inline">\(d=2\)</span> numbers each: <span class="math display">\[
+\text{Titanic}=[1,0],\quad \text{Vendetta}=[0,1],\quad \text{Matrix}=[1,1].
 \]</span></p>
-<p>and — to keep every number checkable — take the query/key/value projections to be the <strong>identity</strong> (real SASRec <em>learns</em> these matrices and adds positional vectors; here we expose the bare mechanism, exactly as the Transformer chapter first did). The query is the <strong>last</strong> position, Avatar <span class="math inline">\(=[0,1]\)</span>. Self-attention scores it against the two keys (Titanic, Avatar), scaled by <span class="math inline">\(\sqrt d=\sqrt2\approx1.414\)</span>:</p>
-<p><span class="math display">\[
-\frac{q\cdot k_{\text{Ti}}}{\sqrt d}=\frac{[0,1]\cdot[1,0]}{1.414}=\frac{0}{1.414}=0,
+<p>(This bold <span class="math inline">\(\mathbf q_j\)</span> is an attention query, not the trait vector <span class="math inline">\(\mathbf q_i\)</span> of §2; the two only share a letter.) Normally each item’s query, key and value are made from its embedding by three learned matrices: for the item <span class="math inline">\(i_j\)</span> at position <span class="math inline">\(j\)</span>, <span class="math inline">\(\mathbf q_j=\text{embed}(i_j)\,W_Q\)</span>, <span class="math inline">\(\mathbf k_j=\text{embed}(i_j)\,W_K\)</span> and <span class="math inline">\(\mathbf v_j=\text{embed}(i_j)\,W_V\)</span> (a row vector times a matrix, as in the Transformer chapter §4.1). These multiplications are called <strong>projections</strong> — machine-learning jargon for multiplying by a learned matrix, not the “shadow” projection of the Linear-Algebra primer. To keep every number checkable, set all three matrices to the <strong>identity</strong> <span class="math inline">\(I\)</span> (the matrix that leaves a vector unchanged), so query, key and value all equal the embedding. Real SASRec <em>learns</em> the matrices and adds positional vectors; here we expose the bare mechanism, exactly as the Transformer chapter first did.</p>
+<p>The general step, for the query at the last position <span class="math inline">\(t\)</span> attending to positions <span class="math inline">\(j=1,\dots,t\)</span>: <span class="math display">\[
+\alpha_{tj}=\frac{e^{\,\mathbf q_t\cdot\mathbf k_j/\sqrt d}}{e^{\,\mathbf q_t\cdot\mathbf k_1/\sqrt d}+\dots+e^{\,\mathbf q_t\cdot\mathbf k_t/\sqrt d}},\qquad
+\mathbf c=\alpha_{t1}\mathbf v_1+\dots+\alpha_{tt}\mathbf v_t,\qquad
+\hat s(i)=\mathbf c\cdot\text{embed}(i).
+\]</span></p>
+<p>Decoded: <span class="math inline">\(\mathbf q_t\cdot\mathbf k_j\)</span> is how well position <span class="math inline">\(j\)</span>’s key matches the query, and dividing it by <span class="math inline">\(\sqrt d\)</span> keeps the scores from growing with the number of entries <span class="math inline">\(d\)</span> (large scores would make the softmax put nearly all the weight on one item; the Transformer chapter §4.1 shows why <span class="math inline">\(\sqrt d\)</span> is the right size); <span class="math inline">\(\alpha_{tj}\)</span>, the <strong>attention weight</strong> — how much position <span class="math inline">\(t\)</span> attends to position <span class="math inline">\(j\)</span> — is the <strong>softmax</strong> of those scores (<span class="math inline">\(e\approx2.718\)</span> is Euler’s number; the weights are positive and sum to <span class="math inline">\(1\)</span>); the <strong>context vector</strong> <span class="math inline">\(\mathbf c\)</span> is the weighted average of the values; and each candidate <span class="math inline">\(i\)</span> is scored by the dot product of <span class="math inline">\(\mathbf c\)</span> with its embedding.</p>
+<p>Now the numbers. The query sits at the last position, <span class="math inline">\(t=2\)</span>: <span class="math inline">\(\mathbf q_2=\)</span> Vendetta <span class="math inline">\(=[0,1]\)</span>. Score it against the two keys (Titanic at position 1, Vendetta at position 2), scaled by <span class="math inline">\(\sqrt d=\sqrt2\approx1.414\)</span>: <span class="math display">\[
+\frac{\mathbf q_2\cdot\mathbf k_{\text{T}}}{\sqrt d}=\frac{[0,1]\cdot[1,0]}{1.414}=\frac{0}{1.414}=0,
 \qquad
-\frac{q\cdot k_{\text{Av}}}{\sqrt d}=\frac{[0,1]\cdot[0,1]}{1.414}=\frac{1}{1.414}=0.707.
+\frac{\mathbf q_2\cdot\mathbf k_{\text{V}}}{\sqrt d}=\frac{[0,1]\cdot[0,1]}{1.414}=\frac{1}{1.414}=0.707.
 \]</span></p>
-<p>(Both positions are <span class="math inline">\(\le\)</span> the last, so the causal mask blocks nothing here.) Softmax turns the two scores <span class="math inline">\([0,\,0.707]\)</span> into weights — <span class="math inline">\(e^{0}=1\)</span>, <span class="math inline">\(e^{0.707}=2.028\)</span>, sum <span class="math inline">\(=3.028\)</span>:</p>
-<p><span class="math display">\[
-\alpha_{\text{Ti}}=\tfrac{1}{3.028}=0.330,\qquad \alpha_{\text{Av}}=\tfrac{2.028}{3.028}=0.670.
+<p>(Both keys sit at positions <span class="math inline">\(\le 2\)</span>, the query’s own position, so the causal mask blocks nothing here.) Softmax turns the two scores <span class="math inline">\([0,\,0.707]\)</span> into weights — <span class="math inline">\(e^{0}=1\)</span>, <span class="math inline">\(e^{0.707}=2.028\)</span>, sum <span class="math inline">\(=3.028\)</span>: <span class="math display">\[
+\alpha_{\text{T}}=\tfrac{1}{3.028}=0.330,\qquad \alpha_{\text{V}}=\tfrac{2.028}{3.028}=0.670
 \]</span></p>
-<p>The <strong>context vector</strong> is the weighted average of the values (here the embeddings):</p>
-<p><span class="math display">\[
+<p>(short for <span class="math inline">\(\alpha_{21}\)</span> and <span class="math inline">\(\alpha_{22}\)</span>: how much position 2 attends to positions 1 and 2).</p>
+<p>The <strong>context vector</strong> is the weighted average of the values (here the embeddings): <span class="math display">\[
 \mathbf c = 0.330\,[1,0] + 0.670\,[0,1] = [\,0.330,\ 0.670\,].
 \]</span></p>
-<p>Finally, score each candidate next item by its dot product with <span class="math inline">\(\mathbf c\)</span> (the same “embedding <span class="math inline">\(\cdot\)</span> summary” head as everywhere else in the book):</p>
-<p><span class="math display">\[
-\text{Titanic}: [0.330,0.670]\cdot[1,0]=0.330,\quad
-\text{Avatar}: 0.670,\quad
+<p>Finally, score each candidate next item by its dot product with <span class="math inline">\(\mathbf c\)</span> (the same “embedding <span class="math inline">\(\cdot\)</span> summary” scoring rule as everywhere else in the book): <span class="math display">\[
+\begin{gathered}
+\text{Titanic}: [0.330,0.670]\cdot[1,0]=0.330,\qquad
+\text{Vendetta}: 0.670,\\[6pt]
 \text{Matrix}: [0.330,0.670]\cdot[1,1]=\boxed{1.000}.
+\end{gathered}
 \]</span></p>
-<p>Reading it: attention put <strong>more weight on the most recent item</strong> (Avatar, <span class="math inline">\(0.670\)</span>) but did not ignore Titanic (<span class="math inline">\(0.330\)</span>); the resulting context blends both tastes, and <strong>Matrix</strong> — which shares a feature with each — scores highest (<span class="math inline">\(1.000\)</span>) and is recommended next. The whole step is dot products and one softmax, no different from the Transformer chapter — only the <em>input</em> (a session) and the <em>read-out</em> (next-item scores) are new.</p>
-<div id="fig-sequential-recsys-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Reading it: attention gave Vendetta the larger weight (<span class="math inline">\(0.670\)</span>) but did not ignore Titanic (<span class="math inline">\(0.330\)</span>); the context blends both, and <strong>Matrix</strong> — which shares a feature with each — scores highest (<span class="math inline">\(1.000\)</span>) and is recommended next. Three notes qualify this reading:</p>
+<ul>
+<li><strong>The larger weight is not recency.</strong> This bare step cannot see the order of the earlier films: it has no positional vectors, and attention on its own is order-blind: a film keeps its weight wherever it sits among the keys. It does see which film is <em>last</em>, because the last film is the query (reverse the session and the query changes, as exercise 3 shows).</li>
+<li><strong>Why Vendetta wins.</strong> Vendetta gets <span class="math inline">\(0.670\)</span> because it <em>is</em> the query, and with identity projections each of these toy films matches itself at least as well as any other (<span class="math inline">\(\mathbf q_2\cdot\mathbf k_{\text{V}}=1\)</span> against <span class="math inline">\(\mathbf q_2\cdot\mathbf k_{\text{T}}=0\)</span>); in a session (Matrix, Vendetta) the most recent item would get only <span class="math inline">\(0.5\)</span>. Recency enters SASRec only through the positional embeddings, which a trained model can use to prefer recent items.</li>
+<li><strong>Matrix’s <span class="math inline">\(1.000\)</span> is built into the toy.</strong> Matrix <span class="math inline">\(=[1,1]\)</span> is Titanic <span class="math inline">\(+\)</span> Vendetta, and the weights sum to <span class="math inline">\(1\)</span>, so Matrix scores exactly <span class="math inline">\(\alpha_{\text{T}}+\alpha_{\text{V}}=0.330+0.670=1.000\)</span> whatever the weights are. To see the weights <em>matter</em>, score two other candidates: a Vendetta-like film <span class="math inline">\([0.2,\,0.9]\)</span> gets <span class="math inline">\(0.330(0.2)+0.670(0.9)=0.669\)</span>, and a Titanic-like film <span class="math inline">\([0.9,\,0.2]\)</span> gets <span class="math inline">\(0.330(0.9)+0.670(0.2)=0.431\)</span> — the tilt toward Vendetta decides between them; with equal weights both would tie at <span class="math inline">\(0.55\)</span>.</li>
+</ul>
+<p>The whole step is dot products and one softmax, no different from the Transformer chapter — only the <em>input</em> (a session) and the <em>read-out</em> (next-item scores) are new.</p>
+<div id="fig-sequential-recsys-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="One causal self-attention step (SASRec), reproducing the worked numbers.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-3.svg" class="img-fluid figure-img">
+<img src="../figs/sequential-recsys-3.svg" class="img-fluid figure-img" alt="One causal self-attention step (SASRec), reproducing the worked numbers.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.3: <strong>One causal self-attention step (SASRec), reproducing the worked numbers.</strong> The <strong>query</strong> (the last item, <em>Avatar</em>) attends to the session: a <strong>thick</strong> edge to <em>Avatar</em> (<span class="math inline">\(\alpha{=}0.670\)</span>) and a <strong>thin</strong> one to <em>Titanic</em> (<span class="math inline">\(\alpha{=}0.330\)</span>). Their weighted average is the <strong>context</strong> <span class="math inline">\([0.330,0.670]\)</span>, which scores each candidate by a dot product — <em>Matrix</em> wins at <span class="math inline">\(1.000\)</span>. Recency dominates the weights, but earlier items still contribute.
+Figure&nbsp;9.3: <strong>One causal self-attention step (SASRec), reproducing the worked numbers.</strong> The <strong>query</strong> is the session’s last item, <em>Vendetta</em>, reused; it is compared with the <strong>keys</strong> of the session’s two items, which also serve as the <strong>values</strong>. The last item, acting as the query, matches itself most, so the <strong>thick</strong> edge to <em>Vendetta</em> carries <span class="math inline">\(\alpha{=}0.670\)</span> and the <strong>thin</strong> one to <em>Titanic</em> <span class="math inline">\(\alpha{=}0.330\)</span> — a match, not recency: this bare step has no positional vectors and cannot see the order of the earlier films. The weighted average of the values is the <strong>context</strong> <span class="math inline">\([0.330,0.670]\)</span>, which scores each candidate by a dot product — <em>Matrix</em> wins at <span class="math inline">\(1.000\)</span>.
 </figcaption>
 </figure>
 </div>
 <blockquote class="blockquote">
-<p><strong>Why “SASRec.”</strong> <strong>S</strong>elf-<strong>A</strong>ttentive <strong>S</strong>equential <strong>Rec</strong>ommendation: it drops the RNN for the Transformer’s self-attention, so every position reads every earlier one directly — capturing long-range “what predicts what” in one parallel layer.</p>
+<p><strong>Why “SASRec.”</strong> <strong>S</strong>elf-<strong>A</strong>ttentive <strong>S</strong>equential <strong>Rec</strong>ommendation: it drops the RNN for the Transformer’s self-attention, so every position reads every earlier one directly — capturing long-range “what predicts what” in one parallel layer (a claim from practice, not tested here).</p>
 </blockquote>
 <blockquote class="blockquote">
-<p><strong>In practice.</strong> Real SASRec stacks a few masked self-attention + feed-forward blocks (Transformer chapter), adds learned positional embeddings, and trains with a binary next-item loss over sampled negatives. Don’t hand-roll it: <strong>RecBole</strong> and the authors’ released code provide tuned implementations, and SASRec remains one of the <strong>strongest, hardest-to-beat baselines</strong> in sequential recommendation — always run it before claiming a new model wins.</p>
+<p><strong>In practice.</strong> The claims in this box come from the cited papers and the library’s own description; we have not tested them here. Real SASRec (Kang &amp; McAuley, 2018) stacks a few blocks of masked self-attention, each followed by a small feed-forward network (two ordinary layers applied to each position separately; Transformer chapter), adds learned positional embeddings, and trains with a <strong>binary loss</strong>: a yes/no score that pushes the true next item up and pushes one randomly drawn item that did <em>not</em> come next, a <strong>negative</strong>, down (on the scores above: Matrix’s <span class="math inline">\(1.000\)</span> up, and Titanic’s <span class="math inline">\(0.330\)</span> down if Titanic is the one drawn).</p>
+<p>Rather than coding it from scratch, you can start from <strong>RecBole</strong> (Zhao et al., 2021), an open-source library whose paper lists 73 recommender models (94 when the book was checked), SASRec and BERT4Rec among them, with shared evaluation code and automatic parameter tuning.</p>
+<p>In 2023 Klenitskiy and Vasilev described SASRec and BERT4Rec as the two state-of-the-art baselines. Run SASRec before claiming that a new model wins.</p>
 </blockquote>
+<p><strong>In one line:</strong> for Bob’s session the attention weights are <span class="math inline">\(0.330\)</span> (Titanic) and <span class="math inline">\(0.670\)</span> (Vendetta), which sum to <span class="math inline">\(1\)</span>; the context is <span class="math inline">\([0.330,\ 0.670]\)</span>, and Matrix scores <span class="math inline">\(1.000\)</span> against Vendetta <span class="math inline">\(0.670\)</span> and Titanic <span class="math inline">\(0.330\)</span>. The larger weight comes from a self-match, not from recency.</p>
 <hr>
 </section>
 <section id="looking-both-ways-bert4rec" class="level2">
 <h2 class="anchored" data-anchor-id="looking-both-ways-bert4rec">5. Looking both ways: BERT4Rec</h2>
-<p>SASRec reads strictly <strong>left-to-right</strong>: when scoring position <span class="math inline">\(t\)</span> it may use only the past. That is the right constraint at <em>inference</em> (the future genuinely is unknown), but it makes <em>training</em> one-directional — each item is predicted from its left context only. The Transformer chapter showed a different pretraining recipe: <strong>BERT’s masked-language model</strong>, which <strong>hides</strong> random tokens and predicts each from <strong>both</strong> sides at once.</p>
-<p><strong>BERT4Rec</strong> (Sun et al., 2019) applies that recipe to sequences. It uses <strong>bidirectional</strong> self-attention (no causal mask) and trains with the <strong>cloze</strong> objective: randomly <strong>mask</strong> a fraction of items in the session and predict each masked item from everything around it — left <em>and</em> right. At inference, it appends a <code>[mask]</code> token to the end of the session and predicts <em>that</em>, recovering next-item recommendation.</p>
+<p>Ann covers one film in her watch list with a sticky label and asks Bob to guess it. Seeing the films before and after the label makes the guess easier. This section trains a model the same way, and asks what that really gains when a real recommendation has no films after it.</p>
+<p>SASRec reads strictly <strong>left-to-right</strong>: the output at position <span class="math inline">\(t\)</span> may use only positions up to <span class="math inline">\(t\)</span>. That is the right constraint at <em>inference</em> — when the trained model is used to make a live recommendation, and the future genuinely is unknown — but it makes <em>training</em> one-directional: each item is predicted from its left context only. The Transformer chapter showed a different pretraining recipe (learning from unlabelled data before the real task), from <strong>BERT</strong> (Bidirectional Encoder Representations from Transformers, a text model): its <strong>masked-language model</strong> <strong>hides</strong> random <strong>tokens</strong> — the words, or pieces of words, of a sentence — and predicts each from <strong>both</strong> sides at once.</p>
+<p><strong>BERT4Rec</strong> (Sun et al., 2019) applies that recipe to sequences. It uses <strong>bidirectional</strong> self-attention (no causal attention mask) and trains with the <strong>cloze</strong> objective (hide Vendetta in (Titanic, [mask], Matrix) and ask the model to restore it): randomly <strong>hide</strong> a fraction of the items in the session — replace each with a special <code>[mask]</code> token, whose embedding is one more learned vector meaning “unknown item” — and predict each hidden item from everything around it, left <em>and</em> right. At inference, it appends a <code>[mask]</code> token to the end of the session and predicts <em>that</em>, recovering next-item recommendation.</p>
+<p><strong>What does looking both ways buy, if the <code>[mask]</code> sits at the end?</strong> At recommendation time the appended <code>[mask]</code> has nothing to its right, so the gain is not there. It comes from two places. <em>In training</em>, every hidden item is learned from both of its sides, and one session yields many different training examples, because a different set of items can be hidden each time (Sun et al.&nbsp;also add examples that hide only the last item — exactly the recommendation-time situation).</p>
+<p><em>At recommendation time</em>, the model is a stack of several attention layers, and in each one every item already in the session — all of them in the past, so nothing leaks — rebuilds its vector from the items on both sides of it; the <code>[mask]</code> at the end then reads summaries formed in both directions, where a left-to-right model’s earlier positions saw only their own past. That this helps is a claim from practice, not tested here.</p>
 <blockquote class="blockquote">
-<p><strong>Why “BERT4Rec” and “cloze.”</strong> It ports <strong>BERT</strong> (the bidirectional Transformer encoder) to <strong>Rec</strong>ommendation. <em>Cloze</em> (from “closure,” Taylor, 1953) is the fill-in-the-blank task from language testing — delete a word and have the reader restore it from context; BERT4Rec deletes an item and restores it from the surrounding session.</p>
+<p><strong>Why “BERT4Rec” and “cloze.”</strong> It ports <strong>BERT</strong> — <strong>B</strong>idirectional <strong>E</strong>ncoder <strong>R</strong>epresentations from <strong>T</strong>ransformers, the bidirectional Transformer text model of the Transformer chapter — to <strong>Rec</strong>ommendation. <em>Cloze</em> (from “closure,” Taylor, 1953) is the fill-in-the-blank task from language testing — delete a word and have the reader restore it from context; BERT4Rec deletes an item and restores it from the surrounding session.</p>
 </blockquote>
-<p>The contrast with SASRec is exactly the <strong>mask</strong>, and it is the cleanest way to see the two designs:</p>
-<div id="fig-sequential-recsys-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>SASRec and BERT4Rec differ in two choices that usually travel together but are independent, and both involve something called a mask. One is the <strong>attention mask</strong> — which positions may look at which: SASRec forbids looking right, BERT4Rec allows it. The other is the <strong>training task</strong> — SASRec predicts the next item, while BERT4Rec hides random items behind <code>[mask]</code> tokens (<strong>masking items</strong>) and restores them.</p>
+<p>The two are separate choices: the grids in the figure below show the first, the input rows the second. With no attention mask, every position can look at every other position, including the one whose own item is hidden behind <code>[mask]</code>.</p>
+<div id="fig-sequential-recsys-4" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Causal vs. cloze. Each grid is an attention mask: a row is the position doing the looking (its query), a column the position looked at (its key), and a filled cell means “may attend”.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/sequential-recsys-4.svg" class="img-fluid figure-img">
+<img src="../figs/sequential-recsys-4.svg" class="img-fluid figure-img" alt="Causal vs. cloze. Each grid is an attention mask: a row is the position doing the looking (its query), a column the position looked at (its key), and a filled cell means “may attend”.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sequential-recsys-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) uses a <strong>lower-triangular</strong> mask — position <span class="math inline">\(t\)</span> attends only to positions <span class="math inline">\(\le t\)</span>, so it is trained to predict the next item from the past alone. <em>BERT4Rec</em> (right) attends <strong>both ways</strong> and is trained by masking an item (the <code>[m]</code> cell) and reconstructing it from the whole surrounding session. The mask is the entire design difference.
+Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> Each grid is an <strong>attention mask</strong>: a row is the position doing the looking (its query), a column the position looked at (its key), and a filled cell means “may attend”. <em>SASRec</em> (left) is <strong>lower-triangular</strong> — the output at position <span class="math inline">\(t\)</span> attends only to positions <span class="math inline">\(\le t\)</span> and predicts the item at <span class="math inline">\(t+1\)</span>, so it learns to predict the next item from the past alone. <em>BERT4Rec</em> (right) lets every position attend <strong>both ways</strong>, and is trained by hiding an input item behind the <code>[mask]</code> token (here position 2, <em>Vendetta</em>, in the session <em>Titanic</em>, <em>Vendetta</em>, <em>Matrix</em> that the worked example of this section supposes for Bob) and restoring it from the rest. The grids show which positions may attend; the input rows show which items are hidden.
 </figcaption>
 </figure>
 </div>
-<p>Which wins is <strong>dataset-dependent</strong> — bidirectional context helps when sessions are long and the signal is not purely “most recent,” while the causal SASRec is simpler and often as strong; careful re-evaluations have found the two close once both are tuned. Report both, and tune them equally (the reproducibility caution of the <em>Datasets &amp; Benchmarks</em> appendix applies here too).</p>
+<p><strong>Worked example — one hidden item, read both ways.</strong> Suppose Bob did go on to watch Matrix, so his session is (Titanic, Vendetta, Matrix). For one cloze training step, hide Vendetta: the input becomes (Titanic, <code>[mask]</code>, Matrix). Use §4’s embeddings and identity projections, and give the untrained <code>[mask]</code> the vector <span class="math inline">\([0,0]\)</span>. The query at the hidden position is then <span class="math inline">\([0,0]\)</span>, so every scaled score is <span class="math inline">\(0/1.414=0\)</span> and the softmax spreads the weight equally:</p>
+<ul>
+<li><strong>Bidirectional (BERT4Rec):</strong> all three positions are visible, weights <span class="math inline">\(\tfrac13\)</span> each: <span class="math inline">\(\mathbf c=\tfrac13\big([1,0]+[0,0]+[1,1]\big)=[0.667,\ 0.333]\)</span>, and the hidden item Vendetta scores <span class="math inline">\(\mathbf c\cdot[0,1]=0.333\)</span>.</li>
+<li><strong>Causal (SASRec’s attention mask, for contrast only):</strong> SASRec itself never hides items, and its output at position 2 would predict position 3; here we only ask what position 2 could see under that mask on the same input. It may see only positions 1 and 2, weights <span class="math inline">\(\tfrac12\)</span> each: <span class="math inline">\(\mathbf c=\tfrac12\big([1,0]+[0,0]\big)=[0.5,\ 0]\)</span>, and Vendetta scores <span class="math inline">\(0\)</span>.</li>
+</ul>
+<p>The item to the right, Matrix, is what lifts the true hidden item from <span class="math inline">\(0\)</span> to <span class="math inline">\(0.333\)</span>. (Neither bare step ranks Vendetta first — under the bidirectional context Titanic scores <span class="math inline">\(0.667\)</span> and Matrix <span class="math inline">\(1.000\)</span> — and training adjusts the vectors until the hidden item wins; the numbers only show what each attention mask lets the hidden position see.)</p>
+<p>Which model wins is not settled. Petrov and Macdonald (2022) reviewed the papers that compare the two and found their results inconsistent; BERT4Rec matched the strength first reported for it only when trained for much longer than its default settings (up to <span class="math inline">\(30\)</span> times). Klenitskiy and Vasilev (2023) found that SASRec, trained with the same full-softmax loss (a softmax over the whole catalog, see §6) as BERT4Rec, clearly beat it. Both studies use a few public datasets; that the same holds on yours is a claim from practice, not tested here.</p>
+<p>So report both models, tune them with equal effort (the same amount of trial and error spent on how long each vector is, how big each training step is and how many layers there are), and say what budget each got (the reproducibility caution of the <em>Datasets &amp; Benchmarks</em> appendix applies here too).</p>
+<p><strong>In one line:</strong> with Vendetta hidden in (Titanic, <code>[mask]</code>, Matrix), looking both ways gives the hidden position weights <span class="math inline">\(\tfrac13\)</span> each and scores Vendetta <span class="math inline">\(0.333\)</span>, where a left-only mask gives <span class="math inline">\(0\)</span>; which of SASRec and BERT4Rec wins overall is disputed in the literature.</p>
 <hr>
 </section>
 <section id="training-and-evaluating-a-sequence-model" class="level2">
 <h2 class="anchored" data-anchor-id="training-and-evaluating-a-sequence-model">6. Training and evaluating a sequence model</h2>
-<p><strong>Training — every prefix is an example.</strong> A single session of length <span class="math inline">\(n\)</span> is not one training example but <span class="math inline">\(n-1\)</span>: from each prefix <span class="math inline">\((i_1,\dots,i_{t-1})\)</span> predict <span class="math inline">\(i_t\)</span>. The loss on each is the usual next-item objective — a <strong>softmax / sampled-softmax</strong> over the catalog, or a pairwise <strong>BPR</strong> ranking loss (<em>Losses &amp; Regularizers</em> §9–§10) — with <strong>negative sampling</strong> to avoid scoring millions of items every step (<em>Training and Serving</em>). BERT4Rec instead optimizes the <strong>cloze</strong> loss (predict the masked positions). Either way the model learns <em>embeddings</em> and <em>attention/recurrence weights</em> by gradient descent (Calculus primer).</p>
-<p><strong>Evaluation — split by time, not at random.</strong> A sequence model must be graded the way it will be used: <strong>predict the future from the past</strong>. The standard protocol is the <strong>leave-one-last</strong> split — for each user, hold out their <strong>chronologically last</strong> interaction as the test target, the second-last for validation, and train on the rest — then report <strong>Hit-Rate@<span class="math inline">\(K\)</span></strong> and <strong>NDCG@<span class="math inline">\(K\)</span></strong> (<em>Evaluation Metrics</em>). A <strong>random</strong> train/test split would let the model train on interactions that occurred <strong>after</strong> the test item — leaking the future and badly inflating the score. This temporal-split discipline, and the leakage trap it avoids, is detailed in the <em>Datasets &amp; Benchmarks</em> appendix.</p>
-<blockquote class="blockquote">
-<p><strong>One-sentence takeaway.</strong> Slice each session into prefix→next examples, train the attention/recurrence with a sampled ranking loss, and <strong>evaluate by holding out each user’s last interaction</strong> — never a random split, which leaks the future a sequence model exists to predict.</p>
-</blockquote>
+<p>A recommender must be graded on films it has not seen, but which ones do we hide? Hide Bob’s last film and the test copies real life; hide a random one and the model may already know what he watched afterwards. This section sets up the training examples and a fair test.</p>
+<p><strong>From a log to sessions.</strong> A raw log is rows of (user, time, film); a new session starts after a long enough pause, often a fixed inactivity gap such as <span class="math inline">\(30\)</span> minutes, or at a logout. Take a one-off user, Dan, whose rows are 20:02 Titanic, 20:15 Vendetta, 20:31 Matrix, then 09:10 next day Inception. The gaps are <span class="math inline">\(13\)</span>, <span class="math inline">\(16\)</span> and <span class="math inline">\(759\)</span> minutes, so the rows form two sessions, (T, V, M) and (Inception). Clock time cuts the log here; the models afterwards see only order. A film watched twice stays in the list twice; the chapter’s toys have no repeats.</p>
+<p><strong>Training — every prefix is an example.</strong> A single session of length <span class="math inline">\(n\)</span> is not one training example but <span class="math inline">\(n-1\)</span>: from each prefix <span class="math inline">\((i_1,\dots,i_{t-1})\)</span> predict <span class="math inline">\(i_t\)</span>. Take Ann’s four-item history — Titanic, Vendetta, Matrix, then a fourth film, <em>Inception</em>. It gives <span class="math inline">\(n-1=3\)</span> training examples: <span class="math inline">\((\text{T})\!\to\!\text{V}\)</span>, then <span class="math inline">\((\text{T},\text{V})\!\to\!\text{M}\)</span>, then <span class="math inline">\((\text{T},\text{V},\text{M})\!\to\!\)</span> <em>Inception</em> — the same history, read at three different lengths.</p>
+<p><strong>The loss.</strong> On each example the usual next-item objective is a softmax over the catalog, or a <strong>sampled softmax</strong> (the same formula evaluated over just the true next item plus a handful of randomly drawn others, instead of the whole catalog), or a pairwise BPR ranking loss (<em>Loss Functions &amp; Regularizers</em> §9–§10), or SASRec’s own binary loss (§4). The randomly drawn others are negatives (see §4), items the user did not pick next, and <strong>negative sampling</strong> means scoring only a few of them rather than millions of items at every step (<em>Training and Serving a Recommender</em>). BERT4Rec instead optimizes the <strong>cloze</strong> loss (predict the masked positions). Either way the model learns <em>embeddings</em> and <em>attention/recurrence weights</em> by gradient descent (Calculus primer).</p>
+<p>A small case on §4’s scores for Bob’s session: Titanic <span class="math inline">\(0.330\)</span>, Vendetta <span class="math inline">\(0.670\)</span>, Matrix <span class="math inline">\(1.000\)</span>, true next item Matrix. The full softmax gives Matrix <span class="math inline">\(e^{1.000}/(e^{0.330}+e^{0.670}+e^{1.000})=0.448\)</span> and a loss of <span class="math inline">\(-\ln 0.448=0.802\)</span>. Sampling one negative, say Titanic, gives <span class="math inline">\(e^{1.000}/(e^{1.000}+e^{0.330})=0.662\)</span> and a loss of <span class="math inline">\(0.413\)</span>, which is also the BPR loss <span class="math inline">\(-\ln\sigma(1.000-0.330)\)</span> (<span class="math inline">\(\sigma(x)=1/(1+e^{-x})\)</span> the logistic function), since with one negative the two coincide. SASRec’s binary loss scores the true item and the negative separately: <span class="math inline">\(-\ln\sigma(1.000)-\ln\big(1-\sigma(0.330)\big)=0.313+0.872=1.185\)</span>. For the cloze step of §5 (hidden Vendetta, scores Titanic <span class="math inline">\(0.667\)</span>, Vendetta <span class="math inline">\(0.333\)</span>, Matrix <span class="math inline">\(1.000\)</span>) the softmax gives Vendetta <span class="math inline">\(0.230\)</span> and a cloze loss of <span class="math inline">\(1.469\)</span>, and training pushes that probability up.</p>
+<p><strong>Evaluation — split by time, not at random.</strong> A sequence model must be graded the way it will be used: <strong>predict the future from the past</strong>. A common protocol, used for SASRec by Kang and McAuley (2018), is the <strong>leave-one-out (LOO)</strong> split. For each user, hold out their <strong>chronologically last</strong> interaction as the test target, the second-last for validation (used to choose settings), and train on the rest. Here is the split for two users of this chapter, Bob (the three films of §5) and Ann (the four-item history above):</p>
+<div id="tbl-sequential-recsys-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.3: Each user’s history cut into training films, one validation example and one test example.
+</figcaption>
+<div aria-describedby="tbl-sequential-recsys-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>user</th>
+<th style="text-align: center;">history, in time order</th>
+<th style="text-align: center;">train</th>
+<th style="text-align: center;">validation example</th>
+<th style="text-align: center;">test example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bob</td>
+<td style="text-align: center;">T, V, M</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"><span class="math inline">\((\text{T})\to\text{V}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((\text{T},\text{V})\to\text{M}\)</span></td>
+</tr>
+<tr class="even">
+<td>Ann</td>
+<td style="text-align: center;">T, V, M, Inception</td>
+<td style="text-align: center;">T, V</td>
+<td style="text-align: center;"><span class="math inline">\((\text{T},\text{V})\to\text{M}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\((\text{T},\text{V},\text{M})\to\)</span> Inception</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Bob’s three films leave one film, Titanic, for training, and one film makes no prefix-to-next pair (<span class="math inline">\(n-1=0\)</span> examples), so Bob teaches the model nothing directly. Ann’s four films leave two for training, which make one pair, <span class="math inline">\((\text{T})\to\text{V}\)</span>. A pair needs a prefix and a next film both inside the training part, so a user needs at least four films to give one under this protocol. In this chapter’s protocol the model may <em>read</em> the validation film as part of the test input (it lies in the past) but is never trained on it or on the test film.</p>
+<p>The ranked list is then scored with two measures from <em>Evaluation Metrics</em>: the <strong>hit rate (HR)</strong>, which asks only whether the held-out item made the top <span class="math inline">\(K\)</span> at all, and the <strong>normalized discounted cumulative gain (NDCG)</strong>, which asks the same question but pays more the higher up the list the item sits. Written with the cut-off <span class="math inline">\(K\)</span> they are <span class="math inline">\(\text{HR}@K\)</span> and <span class="math inline">\(\text{NDCG}@K\)</span>.</p>
+<p>This chapter ranks the held-out film against the whole catalog. Many sequential-recommendation papers instead rank it against about a hundred sampled negatives, a protocol that can distort HR and NDCG, so numbers from the two protocols should not be compared (a claim from practice, not tested here).</p>
+<p><strong>Grading §4’s step.</strong> Bob’s test example is <span class="math inline">\((\text{T},\text{V})\to\text{M}\)</span>, exactly the session §4 scored. That step ranked Matrix <span class="math inline">\(1.000\)</span> above Vendetta <span class="math inline">\(0.670\)</span> above Titanic <span class="math inline">\(0.330\)</span>, so the held-out item came <strong>first</strong>: <span class="math inline">\(\text{HR}@1=1\)</span> and <span class="math inline">\(\text{NDCG}@1=1\)</span>, a perfect grade on this one user. Had it landed at rank <span class="math inline">\(2\)</span> instead, <span class="math inline">\(\text{HR}@1=0\)</span>, <span class="math inline">\(\text{HR}@2=1\)</span> and <span class="math inline">\(\text{NDCG}@2=1/\log_2(2+1)=1/1.585=0.631\)</span>: the discount is what makes rank <span class="math inline">\(1\)</span> worth more than rank <span class="math inline">\(2\)</span>.</p>
+<p><strong>Why not a random split.</strong> A random split could put Bob’s Matrix in training and hide his Vendetta, so the model would train on an event that happened <em>after</em> the one it is tested on. A small case shows the effect. Use an order-blind taste model: a user’s profile is the average of the film vectors in their training data, and a film scores by its dot product with the profile. The films are Titanic <span class="math inline">\([1,0]\)</span>, Vendetta <span class="math inline">\([0,1]\)</span>, Matrix <span class="math inline">\([1,1]\)</span> and a decoy, <em>Frozen</em> <span class="math inline">\([0.4,0]\)</span>, which Bob never watched. The test hides Bob’s Vendetta (his second film) and asks which of Vendetta and the decoy scores higher.</p>
+<ul>
+<li><strong>Fair, past only.</strong> Train on Titanic: profile <span class="math inline">\([1,0]\)</span>. Vendetta scores <span class="math inline">\(0\)</span> and the decoy <span class="math inline">\(0.4\)</span>, so the decoy wins and <span class="math inline">\(\text{HR}@1=0\)</span>.</li>
+<li><strong>Leaky, random split.</strong> Train on Titanic and the later Matrix: profile <span class="math inline">\(\tfrac12\big([1,0]+[1,1]\big)=[1,\ 0.5]\)</span>. Vendetta scores <span class="math inline">\(0.5\)</span> and the decoy <span class="math inline">\(0.4\)</span>, so Vendetta wins and <span class="math inline">\(\text{HR}@1=1\)</span>.</li>
+</ul>
+<p>With the same model and the same hidden film, the score went from <span class="math inline">\(0\)</span> to <span class="math inline">\(0.5\)</span> and the rank from second to first, only because a film Bob watched <em>afterwards</em> was in training. Matrix shares Vendetta’s second feature, so the future gave the answer away. This split discipline, and the leakage trap it avoids, is detailed in the <em>Datasets &amp; Benchmarks</em> appendix.</p>
+<p><strong>Two ways to cut the history.</strong> Leave-one-out holds the future back for each user <em>separately</em>: every user’s own last films are the ones set aside. The <strong>global temporal split</strong> instead cuts <em>everybody</em> at one calendar date: train on everything before it, test on everything after (<em>Evaluation Metrics</em>). With a cut at 1 May, Ann’s film of 12 March goes to training and Bob’s film of 9 June to test, whatever each user’s own last film is.</p>
+<p><strong>In one line:</strong> a four-film history gives <span class="math inline">\(4-1=3\)</span> training examples; evaluate by holding out each user’s last interaction (Bob: train on <span class="math inline">\(1\)</span> film, validate on <span class="math inline">\(1\)</span>, test on the last), because a random split in our toy raised a hidden film’s score from <span class="math inline">\(0\)</span> to <span class="math inline">\(0.5\)</span> and flipped <span class="math inline">\(\text{HR}@1\)</span> from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span> by letting the model see a later film.</p>
+<hr>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">7. Exercises</h2>
+<p>Work these by hand — the numbers are kept tiny on purpose, and reuse the chapter’s Titanic/Vendetta/Matrix sessions. Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
+<ol type="1">
+<li><p><strong>(compute)</strong> A new log holds four sessions over the three films, written in time order: <span class="math inline">\(\text{M}\!\to\!\text{V}\!\to\!\text{T}\)</span>, <span class="math inline">\(\text{M}\!\to\!\text{V}\)</span>, <span class="math inline">\(\text{M}\!\to\!\text{V}\!\to\!\text{T}\)</span> and <span class="math inline">\(\text{M}\!\to\!\text{T}\)</span>. (a) Count every adjacent pair and give the transition probabilities out of M and out of V. (b) Titanic appears in three of the four sessions. What does a first-order chain predict after Titanic, and why? Then one more session, <span class="math inline">\(\text{T}\!\to\!\text{M}\)</span>, is added to the log: what does the chain predict after Titanic now, and with what probability?</p></li>
+<li><p><strong>(compute)</strong> Use the four-session chain of exercise 1 (before the fifth session is added). Ann’s session so far is (Matrix, Vendetta) and Cara’s is (Titanic, Vendetta). What does the chain recommend for each of them, with what probability? What does the pair of answers show about what a first-order chain can see? A chain whose state is the <strong>last two</strong> films would tell the two sessions apart: how many rows would its table need over the three films?</p></li>
+<li><p><strong>(compute)</strong> Redo §4’s self-attention step but with Bob’s session reversed to <span class="math inline">\((\text{Vendetta},\ \text{Titanic})\)</span> — the <strong>same two items in the opposite order</strong>, so the query is now <strong>Titanic</strong> <span class="math inline">\(=[1,0]\)</span>. Using identity projections and <span class="math inline">\(\sqrt d=\sqrt2\)</span>, compute the two raw scores, the softmax weights, the context vector, and the three candidate scores. Which item is recommended now — and what <em>did</em> reversing the order change, if not the top pick?</p></li>
+<li><p><strong>(compute)</strong> In a session of three films, the scaled attention scores of the last position against the three keys are <span class="math inline">\(0\)</span>, <span class="math inline">\(0.5\)</span> and <span class="math inline">\(1.2\)</span>. Compute the three softmax weights (use <span class="math inline">\(e^{0.5}\approx1.649\)</span> and <span class="math inline">\(e^{1.2}\approx3.320\)</span>), check that they add up to <span class="math inline">\(1\)</span>, and say how many times larger the biggest weight is than the smallest.</p></li>
+<li><p><strong>(compute)</strong> Using §4’s context vector <span class="math inline">\(\mathbf c=[0.330,0.670]\)</span>, score a <strong>fourth</strong> candidate “Inception” with embedding <span class="math inline">\([2,0]\)</span>. Where does it rank against Titanic (<span class="math inline">\(0.330\)</span>), Vendetta (<span class="math inline">\(0.670\)</span>), and Matrix (<span class="math inline">\(1.000\)</span>)? Its score comes out double Titanic’s even though <span class="math inline">\([2,0]\)</span> and <span class="math inline">\([1,0]\)</span> point in <strong>exactly the same direction</strong>. Which property of Inception’s vector causes that, and compute the cosine of the angle between <span class="math inline">\(\mathbf c\)</span> and each of the two vectors, and say what the two numbers show. (Use <span class="math inline">\(\cos\theta=\mathbf a\cdot\mathbf b\,/\,(\lVert\mathbf a\rVert\,\lVert\mathbf b\rVert)\)</span>, where <span class="math inline">\(\lVert\mathbf a\rVert=\sqrt{a_1^2+a_2^2}\)</span> is the length of a vector and <span class="math inline">\(\theta\)</span> the angle between the two.)</p></li>
+<li><p><strong>(compute and concept)</strong> A plain recurrent cell reads Cara’s long session with <span class="math inline">\(h_t=\tanh(0.5\,h_{t-1}+x_t)\)</span>, one number at a time. Her first film puts <span class="math inline">\(x_1=2\)</span> into one entry of the summary, and the films after it put <span class="math inline">\(x_t=0\)</span> into that entry, so <span class="math inline">\(h_1=\tanh(0.5\times0+2)\)</span>. (a) Compute <span class="math inline">\(h_1\)</span>, <span class="math inline">\(h_2\)</span> and <span class="math inline">\(h_3\)</span>. (b) After how many steps <em>beyond</em> <span class="math inline">\(h_1\)</span> does the entry first fall below <span class="math inline">\(0.01\)</span>? (c) From here on each step roughly halves the entry (once it is small, <span class="math inline">\(\tanh x\approx x\)</span>): about how small is it at <span class="math inline">\(h_{50}\)</span>, a power of ten being enough, and what does that mean for the opening films of a fifty-film session?</p></li>
+<li><p><strong>(apply)</strong> A colleague trains a bidirectional model to restore the last film of (Titanic, Vendetta, Matrix) but forgets to hide it: the input is the full session, with the embeddings of §4 and identity projections. (a) Compute the attention weights of position 3 (its query is Matrix, and it has three keys), the context vector, and the score the context gives Matrix. (b) Now replace the film at position 3 by a blank input <span class="math inline">\([0,0]\)</span> (a masked slot: its query, key and value are all <span class="math inline">\([0,0]\)</span>) and compute the weights, the context and Matrix’s score again. In which of the two runs does the score depend only on the two neighbours, and which run would you prefer for training a model to learn about what surrounds a film?</p></li>
+<li><p><strong>(apply)</strong> Ann’s session has the same three films in two orders: A <span class="math inline">\(=\)</span> (Titanic, Vendetta, Matrix) and B <span class="math inline">\(=\)</span> (Vendetta, Titanic, Matrix), with the vectors of §4. (a) Compute the bag-of-items summary (the average of the three film vectors) for A and for B. (b) Compute the bare attention step of §4 for each (identity projections, no positional vectors, query <span class="math inline">\(=\)</span> the last film, scores scaled by <span class="math inline">\(\sqrt2\)</span>): the three weights and the context. (c) Can the bag average, the first-order Markov chain of §2, or this bare step tell A from B? Say why. (d) Now add a position vector <span class="math inline">\([0.5,0]\)</span> to the film at position 1 of each session (keys and values) and redo the bare step: do the two contexts differ?</p></li>
+<li><p><strong>(compute and concept)</strong> Cara watched Titanic <span class="math inline">\([1,0]\)</span>, then Matrix <span class="math inline">\([1,1]\)</span>, then Vendetta <span class="math inline">\([0,1]\)</span>. Use the order-blind taste model of §6 (profile <span class="math inline">\(=\)</span> average of the training films, score <span class="math inline">\(=\)</span> dot product with the profile) and a decoy film, <em>Joker</em> <span class="math inline">\([1.5,0]\)</span>, that Cara never watched. The test hides her <strong>second</strong> film, Matrix, and asks which of Matrix and the decoy scores higher. (a) Train on Titanic only (past only) and give both scores. (b) Train on Titanic and the later Vendetta and give both scores. (c) Which of (a) and (b) is the leak, and which split of §6 avoids it? Then: another user, Zed, clicked a film in June, after Cara’s March test film, and that click is in the log. Is Zed’s June click kept out of training by leave-one-out, and by a global temporal split whose cut-off date falls in April?</p></li>
+<li><p><strong>(apply)</strong> FPMC (§2) scores the next item as <span class="math inline">\(\mathbf p_u\cdot\mathbf q_i+\mathbf q'_l\cdot\mathbf q''_i\)</span>. Say which <strong>term</strong> dominates for (a) a brand-new, anonymous session with a strong “last item” signal (the user vector <span class="math inline">\(\mathbf p_u\)</span> is cold: an average, uninformative vector), and (b) a long-time user whose tastes are well known but whose last click was an accidental mis-tap. Which model of this chapter uses <strong>only</strong> a last-item (Markov) signal and no user term — and how does its version of that signal differ from <span class="math inline">\(\mathbf q'_l\cdot\mathbf q''_i\)</span>?</p></li>
+<li><p><strong>(compute)</strong> Cara’s taste vector is <span class="math inline">\(\mathbf p_{\text{Cara}}=[0.3,\,0.6]\)</span> and her session ends in Matrix, whose “from” vector is <span class="math inline">\(\mathbf q'_{\text{M}}=[0.5,\,1]\)</span> (not the §2 value). Score two candidates with FPMC (§2), using the trait vectors <span class="math inline">\(\mathbf q_{\text{T}},\mathbf q_{\text{V}}\)</span> of §2 for the MF term and these new “to” vectors (not the §2 ones): Titanic <span class="math inline">\(\mathbf q''_{\text{T}}=[0.4,\,0.2]\)</span> and Vendetta <span class="math inline">\(\mathbf q''_{\text{V}}=[0.1,\,0.3]\)</span>. (a) Give both scores, split into the MF term and the Markov term. (b) Which film is recommended, and which of the two terms put it ahead?</p></li>
+<li><p><strong>(compute and concept)</strong> Another user, Eve, has this history, in time order: Inception, Titanic, Vendetta, Matrix, Joker (five films). (a) Write her leave-one-out split of §6: the training films, the validation example and the test example. (b) How many training examples (prefix to next film) does her training part give? (c) How many would the whole history give if nothing were held out? (d) For a user with <span class="math inline">\(n\)</span> films, how many films must <span class="math inline">\(n\)</span> be for leave-one-out to leave exactly three training examples? Give the reason in one line.</p></li>
+<li><p><strong>(compute and concept)</strong> Follow one number of a recurrent summary through films that add nothing to it (candidate <span class="math inline">\(\tilde h=0\)</span>), with the update rule of §3, <span class="math inline">\(h_t=(1-z)\,h_{t-1}+z\,\tilde h\)</span>. The entry stands at <span class="math inline">\(0.5\)</span>. (a) Compute it after two films for a gate <span class="math inline">\(z=0.3\)</span> and for a gate <span class="math inline">\(z=0.8\)</span>. (b) The first film of a six-film evening must still matter at the end: compute the fraction of the entry left after six films for each gate and say which gate the model needs. For what kind of session would you want the other one? (c) After how many films does the entry first fall below <span class="math inline">\(0.01\)</span> for each gate?</p></li>
+</ol>
 <hr>
 </section>
 <section id="where-this-fits-in-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">7. Where this fits in the book</h2>
-<p>Sequential recommendation is the <strong>order-aware</strong> lens on the very same interaction log that the matrix (Traditional RecSys) and the graph (<em>From Graphs to LightGCN</em>) read differently — three complementary views of one stream of events (Figure 1). Its importance to the book is the <strong>bridge it builds</strong>: SASRec and BERT4Rec are nothing but the <strong>self-attention of the Transformer chapter</strong> pointed at item sequences, which is precisely why the <strong>LLM era</strong> that follows feels inevitable — a large language model <em>is</em> a sequence model, and recommending the “next item” is the same shape of problem as predicting the next token.</p>
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">8. Where this fits in the book</h2>
+<p>Sequential recommendation is the <strong>order-aware</strong> lens on the very same interaction log that the matrix (<em>Traditional Recommender Systems</em>) and the graph (<em>From Graphs to LightGCN</em>) read differently — three complementary views of one stream of events (the three-views figure in §1). Its importance to the book is the <strong>bridge it builds</strong>: SASRec and BERT4Rec are the <strong>self-attention of the Transformer chapter</strong> pointed at item sequences, with the adaptations of §4 and §5 (a causal mask, positional embeddings, a next-item or cloze loss). That is why this chapter is the on-ramp to the era of <strong>large language models (LLMs)</strong>: an LLM <em>is</em> a sequence model, and recommending the “next item” is the same shape of problem as predicting the next token.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -724,22 +1013,22 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
 <tbody>
 <tr class="odd">
 <td>Item embeddings, scored by a dot product (§2, §4)</td>
-<td>the embeddings of Traditional RecSys §5 and <em>From Graphs to LightGCN</em></td>
+<td>the embeddings of <em>Traditional Recommender Systems</em> §5 and <em>From Graphs to LightGCN</em></td>
 </tr>
 <tr class="even">
 <td>Self-attention over a session (§4)</td>
-<td>the <strong>Transformer</strong> chapter’s mechanism, reused; the on-ramp to <em>LLM × RecSys</em></td>
+<td>the <strong>Transformer</strong> chapter’s mechanism, reused; the on-ramp to <em>Large Language Models and Recommendation</em></td>
 </tr>
 <tr class="odd">
 <td>Causal vs.&nbsp;cloze masking (§5)</td>
-<td>the GPT-style vs.&nbsp;BERT-style pretraining of the Transformer chapter</td>
+<td>the GPT-style (left-to-right, predict the next token — <strong>G</strong>enerative <strong>P</strong>re-trained <strong>T</strong>ransformer) vs.&nbsp;BERT-style (hide tokens, predict each from both sides) pretraining of the Transformer chapter</td>
 </tr>
 <tr class="even">
 <td>Next-item softmax / BPR loss (§6)</td>
-<td><em>Losses &amp; Regularizers</em> §9–§10</td>
+<td><em>Loss Functions &amp; Regularizers</em> §9–§10</td>
 </tr>
 <tr class="odd">
-<td>Leave-one-last split, HR@<span class="math inline">\(K\)</span> / NDCG@<span class="math inline">\(K\)</span> (§6)</td>
+<td>Leave-one-out (LOO) split, HR@<span class="math inline">\(K\)</span> / NDCG@<span class="math inline">\(K\)</span> (§6)</td>
 <td><em>Evaluation Metrics</em>; the leakage discussion of the <em>Datasets &amp; Benchmarks</em> appendix</td>
 </tr>
 </tbody>
@@ -747,29 +1036,12 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
 <p><strong>Carry this forward:</strong> <em>the matrix forgets order; a sequence model remembers it — from a one-step Markov count, to a recurrent summary, to self-attention that lets the next item look back over the whole session. That last step is the Transformer, which is also what the LLM era runs on.</em></p>
 <hr>
 </section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">8. Exercises</h2>
-<p>Work these by hand — the numbers are kept tiny on purpose, and reuse the chapter’s Titanic/Avatar/Matrix sessions. Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
-<ol type="1">
-<li><p><strong>(compute)</strong> From §2’s four sessions, you counted the transitions out of <strong>T</strong> and <strong>A</strong>. Now suppose a fifth session <span class="math inline">\(\text{M}\!\to\!\text{T}\)</span> is added. Recompute <span class="math inline">\(P(\text{next}\mid\text{last}=\text{M})\)</span>. What is special about a “from-M” row before this session is added?</p></li>
-<li><p><strong>(compute)</strong> A first-order Markov chain predicts the next item from the <strong>last</strong> one only. Given the chain of §2 (<span class="math inline">\(P(\text{A}\mid\text{T})=0.667\)</span>, <span class="math inline">\(P(\text{M}\mid\text{T})=0.333\)</span>), which item does it recommend after a session ending in <strong>Titanic</strong>, and why can it <em>not</em> use the fact that the user also saw Avatar earlier in a longer session?</p></li>
-<li><p><strong>(compute)</strong> Redo §4’s self-attention step but with the session <span class="math inline">\((\text{Avatar},\ \text{Titanic})\)</span> — i.e.&nbsp;the <strong>same two items in the opposite order</strong>, so the query is now <strong>Titanic</strong> <span class="math inline">\(=[1,0]\)</span>. Using identity projections and <span class="math inline">\(\sqrt d=\sqrt2\)</span>, compute the two raw scores, the softmax weights, the context vector, and the three candidate scores. Which item is recommended now, and why did reversing the order change the answer?</p></li>
-<li><p><strong>(compute)</strong> In §4 the softmax turned raw scores <span class="math inline">\([0,\,0.707]\)</span> into weights <span class="math inline">\([0.330,0.670]\)</span>. Verify the larger weight by hand: compute <span class="math inline">\(e^{0.707}/(e^{0}+e^{0.707})\)</span> using <span class="math inline">\(e^{0.707}\approx2.028\)</span>.</p></li>
-<li><p><strong>(compute)</strong> Using §4’s context vector <span class="math inline">\(\mathbf c=[0.330,0.670]\)</span>, score a <strong>fourth</strong> candidate “Inception” with embedding <span class="math inline">\([2,0]\)</span>. Where does it rank against Titanic (<span class="math inline">\(0.330\)</span>), Avatar (<span class="math inline">\(0.670\)</span>), and Matrix (<span class="math inline">\(1.000\)</span>)? Its raw dot-product score is large mostly because of what property of its vector — and which §-of-an-earlier-chapter bias does that echo?</p></li>
-<li><p><strong>(concept)</strong> §3’s RNN keeps a hidden state <span class="math inline">\(\mathbf h_t=f(\mathbf h_{t-1},\text{embed}(i_t))\)</span>. In one or two sentences, explain what <span class="math inline">\(\mathbf h_t\)</span> is supposed to store, and the one structural weakness (versus self-attention) that motivated SASRec.</p></li>
-<li><p><strong>(concept)</strong> SASRec uses a <strong>causal mask</strong>; BERT4Rec uses <strong>bidirectional</strong> attention with a <strong>cloze</strong> objective. Explain why SASRec <em>must</em> mask the future during training, yet BERT4Rec is allowed to look both ways — what is different about the two training tasks?</p></li>
-<li><p><strong>(concept)</strong> Raw self-attention is <strong>order-blind</strong>: permuting the inputs leaves the weighted average unchanged. What does SASRec add to fix this, and why does a sequence model need it when a bag-of-items model would not?</p></li>
-<li><p><strong>(concept)</strong> You evaluate a sequence recommender with a <strong>random</strong> train/test split and get a suspiciously high NDCG@10. Explain the leakage that random splitting causes for sequence data, and what split (§6) fixes it.</p></li>
-<li><p><strong>(apply)</strong> FPMC (§2) scores the next item as <span class="math inline">\(\mathbf p_u\cdot\mathbf q_i+\mathbf q'_l\cdot\mathbf q''_i\)</span>. Say which <strong>term</strong> dominates for (a) a brand-new, anonymous session with a strong “last item” signal, and (b) a long-time user whose tastes are well known but whose last click was an accidental mis-tap. Which model of this chapter keeps <strong>only</strong> the second (Markov) term?</p></li>
-</ol>
-<hr>
-</section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">9. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -787,60 +1059,96 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
 <td>Same, but from a short, often <strong>anonymous</strong> current session (no user id).</td>
 </tr>
 <tr class="odd">
+<td><strong>Session</strong></td>
+<td>The ordered items one person goes through in one sitting, a visit or an evening; short, and sometimes anonymous.</td>
+</tr>
+<tr class="even">
+<td><strong>Gate / GRU</strong></td>
+<td>A <strong>gate</strong> is a number between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> the cell computes at each step to decide how much of the new candidate to write in (near <span class="math inline">\(0\)</span> keeps the old summary, near <span class="math inline">\(1\)</span> overwrites it); the <strong>gated recurrent unit (GRU)</strong> is the recurrent cell built on gates (§3).</td>
+</tr>
+<tr class="odd">
+<td><strong>Query, key, value</strong></td>
+<td>In attention, each position’s <strong>query</strong> asks, each <strong>key</strong> says what that position is about, and each <strong>value</strong> is what it hands over when matched (§4).</td>
+</tr>
+<tr class="even">
+<td><strong>Attention weight</strong></td>
+<td>The softmax of the scaled query-key scores: how much one position attends to another; positive, summing to <span class="math inline">\(1\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Context vector</strong></td>
+<td>The weighted average of the values under the attention weights; the summary that scores the next item (§4).</td>
+</tr>
+<tr class="even">
+<td><strong><code>[mask]</code> token</strong></td>
+<td>A placeholder that replaces a hidden item in BERT4Rec’s input, so the answer is not in what the model reads (§5).</td>
+</tr>
+<tr class="odd">
+<td><strong>Prefix</strong></td>
+<td>The beginning of a list, <span class="math inline">\((i_1,\dots,i_{t-1})\)</span>: the items seen so far, in order.</td>
+</tr>
+<tr class="even">
 <td><strong>Next-item prediction</strong></td>
 <td>The core task: given <span class="math inline">\((i_1,\dots,i_{t-1})\)</span>, score every item for being <span class="math inline">\(i_t\)</span>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Markov chain (first-order)</strong></td>
 <td>Next item depends only on the <strong>last</strong> one; transitions estimated by counting.</td>
 </tr>
-<tr class="odd">
-<td><strong>Transition probability</strong></td>
-<td><span class="math inline">\(P(\text{next}=j\mid\text{last}=i)\)</span> — count of <span class="math inline">\(i\!\to\!j\)</span> over count of <span class="math inline">\(i\)</span>-as-from.</td>
-</tr>
 <tr class="even">
+<td><strong>Transition probability</strong></td>
+<td><span class="math inline">\(P(\text{next}=i\mid\text{last}=l)\)</span> — count of <span class="math inline">\(l\!\to\!i\)</span> over count of <span class="math inline">\(l\)</span>-as-from.</td>
+</tr>
+<tr class="odd">
 <td><strong>FPMC</strong></td>
 <td>Factorizing Personalized Markov Chains: MF term <span class="math inline">\(+\)</span> a <strong>learned</strong> (factorized) transition term.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>RNN / hidden state <span class="math inline">\(\mathbf h_t\)</span></strong></td>
 <td>A net that folds each item into a running fixed-length <strong>summary</strong> of the session.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>GRU4Rec</strong></td>
 <td>A <strong>gated</strong> RNN for session-based recommendation; session-parallel batches + a ranking loss.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Self-attention</strong></td>
 <td>Each position attends (by dot-product softmax) to others, reading a weighted average (Transformer chapter).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>SASRec</strong></td>
 <td>Self-Attentive Sequential Recommendation: a <strong>causal</strong> Transformer over the item sequence.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Causal mask</strong></td>
 <td>Lower-triangular mask: position <span class="math inline">\(t\)</span> may attend only to positions <span class="math inline">\(\le t\)</span> (no peeking at the future).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Positional embedding</strong></td>
 <td>A learned per-position vector added to item embeddings so attention can see <strong>order</strong>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>BERT4Rec</strong></td>
 <td>A <strong>bidirectional</strong> Transformer trained with the <strong>cloze</strong> (masked-item) objective.</td>
+</tr>
+<tr class="odd">
+<td><strong>Negative (sample)</strong></td>
+<td>An item the user did not choose next, used as a wrong answer that the true next item must outscore.</td>
 </tr>
 <tr class="even">
 <td><strong>Cloze objective</strong></td>
 <td>Mask random items and predict each from both-side context (fill-in-the-blank).</td>
 </tr>
 <tr class="odd">
-<td><strong>Leave-one-last split</strong></td>
-<td>Hold out each user’s chronologically <strong>last</strong> interaction for test (temporal, leak-free).</td>
+<td><strong>Leave-one-out (LOO) split</strong></td>
+<td>Hold out each user’s chronologically <strong>last</strong> interaction for test, the second-last for validation (a per-user cut).</td>
 </tr>
 <tr class="even">
-<td><strong>Hit-Rate@K / NDCG@K</strong></td>
-<td>Was the held-out next item in the top <span class="math inline">\(K\)</span>? / how high was it? (<em>Evaluation Metrics</em>).</td>
+<td><strong>Global temporal split</strong></td>
+<td>One cut-off date for everybody: train on everything before it, test on everything after (<em>Evaluation Metrics</em>).</td>
+</tr>
+<tr class="odd">
+<td><strong>Hit-Rate@K (HR@K) / NDCG@K</strong></td>
+<td>Was the held-out next item in the top <span class="math inline">\(K\)</span>? / how high was it — normalized discounted cumulative gain (<em>Evaluation Metrics</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -849,13 +1157,17 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">10. References</h2>
 <ul>
-<li><p>Rendle, S., Freudenthaler, C., &amp; Schmidt-Thieme, L. (2010). <em>Factorizing personalized Markov chains for next-basket recommendation</em>. In <em>Proceedings of the 19th International Conference on World Wide Web (WWW)</em>. https://doi.org/10.1145/1772690.1772773</p></li>
+<li><p>Taylor, W. L. (1953). <em>“Cloze procedure”: A new tool for measuring readability</em>. <em>Journalism Quarterly, 30</em>(4), 415–433. https://doi.org/10.1177/107769905303000401</p></li>
+<li><p>Rendle, S., Freudenthaler, C., &amp; Schmidt-Thieme, L. (2010). <em>Factorizing personalized Markov chains for next-basket recommendation</em>. In <em>Proceedings of the 19th International Conference on World Wide Web (WWW)</em>, 811–820. https://doi.org/10.1145/1772690.1772773</p></li>
 <li><p>Hidasi, B., Karatzoglou, A., Baltrunas, L., &amp; Tikk, D. (2016). <em>Session-based recommendations with recurrent neural networks</em>. In <em>International Conference on Learning Representations (ICLR)</em>. arXiv:1511.06939</p></li>
-<li><p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation</em>. In <em>Proceedings of the 18th IEEE International Conference on Data Mining (ICDM)</em>. arXiv:1808.09781</p></li>
-<li><p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential recommendation with bidirectional encoder representations from transformer</em>. In <em>Proceedings of the 28th ACM International Conference on Information and Knowledge Management (CIKM)</em>. arXiv:1904.06690</p></li>
-<li><p>Wang, S., Cao, L., Wang, Y., Sheng, Q. Z., Orgun, M. A., &amp; Lian, D. (2021). <em>A survey on session-based recommender systems</em>. <em>ACM Computing Surveys, 54</em>(7). https://doi.org/10.1145/3465401</p></li>
+<li><p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation</em>. In <em>Proceedings of the 18th IEEE International Conference on Data Mining (ICDM)</em>, 197–206. https://doi.org/10.1109/ICDM.2018.00035 arXiv:1808.09781</p></li>
+<li><p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential recommendation with bidirectional encoder representations from transformer</em>. In <em>Proceedings of the 28th ACM International Conference on Information and Knowledge Management (CIKM)</em>, 1441–1450. https://doi.org/10.1145/3357384.3357895 arXiv:1904.06690</p></li>
+<li><p>Wang, S., Cao, L., Wang, Y., Sheng, Q. Z., Orgun, M. A., &amp; Lian, D. (2021). <em>A survey on session-based recommender systems</em>. <em>ACM Computing Surveys, 54</em>(7), 1–38. https://doi.org/10.1145/3465401</p></li>
+<li><p>Zhao, W. X., Mu, S., Hou, Y., Lin, Z., Chen, Y., Pan, X., Li, K., Lu, Y., Wang, H., Tian, C., Min, Y., Feng, Z., Fan, X., Chen, X., Wang, P., Ji, W., Li, Y., Wang, X., &amp; Wen, J.-R. (2021). <em>RecBole: Towards a unified, comprehensive and efficient framework for recommendation algorithms</em>. In <em>Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management (CIKM)</em>, 4653–4664. https://doi.org/10.1145/3459637.3482016</p></li>
+<li><p>Petrov, A., &amp; Macdonald, C. (2022). <em>A systematic review and replicability study of BERT4Rec for sequential recommendation</em>. In <em>Proceedings of the 16th ACM Conference on Recommender Systems (RecSys)</em>, 436–447. https://doi.org/10.1145/3523227.3548487</p></li>
+<li><p>Klenitskiy, A., &amp; Vasilev, A. (2023). <em>Turning dross into gold loss: is BERT4Rec really better than SASRec?</em> In <em>Proceedings of the 17th ACM Conference on Recommender Systems (RecSys)</em>, 1120–1125. https://doi.org/10.1145/3604915.3610644</p></li>
 </ul>
-<p><em>Online sources verified June 2026.</em></p>
+<p><em>Entries are listed by year of publication. Entries and online sources checked: Rendle (pages), Wang (pages), Zhao, Petrov and Klenitskiy against Crossref and arXiv, and the RecBole model count against its repository as it stood when the book was checked. For Wang et al.&nbsp;(2021), the records of Crossref, OpenAlex and Semantic Scholar give volume 54, issue 7 and pages 1–38; none of them gives an article number.</em></p>
 
 
 </section>
@@ -1269,12 +1581,12 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/recsys-metrics.html" class="pagination-link" aria-label="Evaluation Metrics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Evaluation Metrics</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/gcn-to-lightgcn.html" class="pagination-link" aria-label="From Graphs to LightGCN">
-        <span class="nav-page-text"><span class="chapter-title">From Graphs to LightGCN</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1288,7 +1600,7 @@ Figure&nbsp;9.4: <strong>Causal vs.&nbsp;cloze.</strong> <em>SASRec</em> (left) 
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

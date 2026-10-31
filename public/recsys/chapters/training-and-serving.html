@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+<meta name="description" content="From a score to a system: negative sampling, a hand-worked training step, two-tower retrieval with an approximate nearest-neighbor index, and the retrieve-then-rank funnel.">
 
-<title>Training and Serving a Recommender – Recommender Systems from Zero</title>
+<title>14&nbsp; Training and Serving a Recommender – Recommender Systems from Zero</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,21 +124,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -159,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/training-and-serving.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/training-and-serving.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Training and Serving a Recommender","name":"Training and Serving a Recommender","description":"The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.","url":"https://minastik.com/recsys/chapters/training-and-serving.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"14  Training and Serving a Recommender","name":"14  Training and Serving a Recommender","description":"From a score to a system: negative sampling, a hand-worked training step, two-tower retrieval with an approximate nearest-neighbor index, and the retrieve-then-rank funnel.","url":"https://minastik.com/recsys/chapters/training-and-serving.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -191,12 +192,12 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Training and Serving a Recommender – Recommender Systems from Zero">
-<meta property="og:description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+<meta property="og:title" content="14&nbsp; Training and Serving a Recommender – Recommender Systems from Zero">
+<meta property="og:description" content="From a score to a system: negative sampling, a hand-worked training step, two-tower retrieval with an approximate nearest-neighbor index, and the retrieve-then-rank funnel.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Training and Serving a Recommender – Recommender Systems from Zero">
-<meta name="twitter:description" content="The end-to-end lifecycle of a recommender: building training data, negative sampling, training, offline evaluation and serving at scale.">
+<meta name="twitter:title" content="14&nbsp; Training and Serving a Recommender – Recommender Systems from Zero">
+<meta name="twitter:description" content="From a score to a system: negative sampling, a hand-worked training step, two-tower retrieval with an approximate nearest-neighbor index, and the retrieve-then-rank funnel.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
   <!-- minastik-brand -->
@@ -250,7 +251,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,17 +288,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,17 +317,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,12 +346,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +369,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,17 +386,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -394,7 +407,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -402,7 +415,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,7 +432,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -434,12 +449,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -455,27 +472,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -486,7 +508,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -513,7 +548,7 @@ window.Quarto = {
   <li><a href="#one-training-step-by-hand" id="toc-one-training-step-by-hand" class="nav-link" data-scroll-target="#one-training-step-by-hand">4. One training step, by hand</a></li>
   <li><a href="#the-training-loop" id="toc-the-training-loop" class="nav-link" data-scroll-target="#the-training-loop">5. The training loop</a></li>
   <li><a href="#from-embeddings-to-a-ranked-list-inference" id="toc-from-embeddings-to-a-ranked-list-inference" class="nav-link" data-scroll-target="#from-embeddings-to-a-ranked-list-inference">6. From embeddings to a ranked list: inference</a></li>
-  <li><a href="#serving-at-scale-approximate-nearest-neighbour-search" id="toc-serving-at-scale-approximate-nearest-neighbour-search" class="nav-link" data-scroll-target="#serving-at-scale-approximate-nearest-neighbour-search">7. Serving at scale: approximate nearest-neighbour search</a></li>
+  <li><a href="#serving-at-scale-approximate-nearest-neighbor-search" id="toc-serving-at-scale-approximate-nearest-neighbor-search" class="nav-link" data-scroll-target="#serving-at-scale-approximate-nearest-neighbor-search">7. Serving at scale: approximate nearest-neighbor search</a></li>
   <li><a href="#the-two-stage-funnel-retrieval-ranking" id="toc-the-two-stage-funnel-retrieval-ranking" class="nav-link" data-scroll-target="#the-two-stage-funnel-retrieval-ranking">8. The two-stage funnel: retrieval → ranking</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">9. Exercises</a></li>
   <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">10. Where this fits in the book</a></li>
@@ -525,9 +560,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html">Building a Recommender</a></li><li class="breadcrumb-item"><a href="../chapters/training-and-serving.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Training and Serving a Recommender</span></h1>
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></h1>
 </div>
 
 
@@ -544,66 +579,100 @@ window.Quarto = {
 </header>
 
 
+<p>Ann’s phone knows her taste as two numbers, and the shop holds ten million films. Most model chapters so far built a scoring rule and an objective: matrix factorization (MF, <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span>) and Bayesian Personalized Ranking (BPR) with an L2 penalty (a penalty on the squared size of the embeddings, which keeps them from growing without bound) in <em>Traditional Recommender Systems</em> and <em>Loss Functions &amp; Regularizers</em>; the propagation step of LightGCN, a graph-based recommender that refines each embedding by averaging its graph neighbors, in <em>From Graphs to LightGCN</em>; the contrastive add-on in <em>Self-Supervised &amp; Contrastive Learning</em>. None of them showed the operational layer that turns a scoring rule into a working recommender. This chapter builds it, by answering three questions that every one of those models leaves open:</p>
+<ol type="1">
+<li>The objective ranks an observed item <em>above an unobserved one</em>, but with only clicks observed, where does the “unobserved one” come from? (<em>negative sampling</em>, §2 and §3.)</li>
+<li>Given the loss, how do the embeddings actually move: what is one training step, by hand? (§4 and §5.)</li>
+<li>Once trained, how do you turn a table of embeddings into a ranked list for a user, over a catalog of millions, fast enough to serve? That is <em>inference</em>, <em>approximate nearest-neighbor (ANN) search</em> and the <em>two-stage funnel</em>, §6–§8.</li>
+</ol>
+<p><strong>What this chapter assumes.</strong></p>
+<ul>
+<li><em>Traditional Recommender Systems</em>: matrix factorization, the dot-product score, implicit feedback.</li>
+<li><em>Loss Functions &amp; Regularizers</em> §9: the <strong>BPR loss</strong> <span class="math inline">\(-\ln\sigma(\hat r_{ui^{+}}-\hat
+r_{ui^{-}})\)</span>, where <span class="math inline">\(i^{+}\)</span> is an item <span class="math inline">\(u\)</span> interacted with, <span class="math inline">\(i^{-}\)</span> one they did not, and <span class="math inline">\(\sigma\)</span> is the sigmoid (it squashes any number into <span class="math inline">\((0,1)\)</span>), and its gradient. We <em>use</em> that result here; we do not re-derive it.</li>
+<li><em>From Graphs to LightGCN</em> §15: the LightGCN objective (BPR + L2) this chapter trains and serves.</li>
+<li><em>Evaluation Metrics</em> §7 (ranking-quality scores) and §12 (popularity bias), <em>Traditional Recommender Systems</em> §8 (the factorization machine), <em>Neural Networks &amp; Back-propagation</em> (back-propagation) and <em>Linear Algebra for Machine Learning</em> §4 (cosine similarity): each is pointed to by title where it is used.</li>
+</ul>
 <section id="the-gap-from-a-score-to-a-system" class="level2">
 <h2 class="anchored" data-anchor-id="the-gap-from-a-score-to-a-system">1. The gap: from a score to a system</h2>
-<p>You can already <em>score</em> a (user, item) pair — that was the whole of the model chapters. But a recommender has to do two more things, and they are exactly the two this chapter owns.</p>
-<p><strong>Training.</strong> The score <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> is only as good as the embeddings <span class="math inline">\(\mathbf p_u,\mathbf q_i\)</span> in it, and those start as <strong>random numbers</strong>. Training is the loop that walks them from random to useful by repeatedly showing the model a <em>contrast</em> — “this item beats that one for this user” — and nudging the vectors so the score agrees. The objective (BPR) was given in <em>Losses &amp; Regularizers</em> §9; the <strong>loop around it</strong> is §3–§5 here.</p>
-<p><strong>Serving.</strong> A trained model must, on request, return a short ranked list for a user out of a catalogue that may hold <strong>tens of millions</strong> of items — in a few milliseconds. Scoring every item and sorting is correct but far too slow at that scale, so real systems use <strong>approximate nearest- neighbour search</strong> and split the work into a <strong>retrieval → ranking funnel</strong>. That is §6–§8.</p>
-<p>These concerns are <strong>cross-cutting</strong>: the same loop trains MF, LightGCN, or an SSL model (they differ only in how <span class="math inline">\(\mathbf p_u,\mathbf q_i\)</span> are computed before the dot product); the same funnel serves all of them. That is why they get one chapter of their own instead of being repeated in each model chapter.</p>
+<p>Behind Ann’s phone sit two jobs. Someone has to get her two taste numbers right, and someone has to turn them into a short list, out of ten million films, before she loses patience. This section names the two jobs, training and serving, and says where the rest of the chapter takes each one.</p>
+<p><strong>Training.</strong> The score <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> is the model’s <em>predicted</em> (hence the hat) preference of user <span class="math inline">\(u\)</span> for item <span class="math inline">\(i\)</span>. It is the <strong>dot product</strong> (multiply matching entries, then add) of user <span class="math inline">\(u\)</span>’s embedding vector <span class="math inline">\(\mathbf p_u\)</span> and item <span class="math inline">\(i\)</span>’s embedding vector <span class="math inline">\(\mathbf q_i\)</span>, so it is only as good as those embeddings, and they start as random numbers. Training is the loop that walks them from random to useful by repeatedly showing the model a <em>contrast</em> (“this item beats that one for this user”) and nudging the vectors so the score agrees. The objective is Bayesian Personalized Ranking (BPR), given in <em>Loss Functions &amp; Regularizers</em> §9; the loop around it is §3–§5 here.</p>
+<p><strong>Serving.</strong> A trained model must, on request, return a short ranked list for a user out of a catalog that may hold tens of millions of items, in a few tens of milliseconds (§8 works through a <span class="math inline">\(30\)</span> ms budget). Scoring every item and sorting is correct but far too slow at that scale, so real systems use approximate nearest-neighbor (ANN) search and split the work into a retrieval → ranking funnel. That is §6–§8.</p>
+<p>These concerns are cross-cutting: the same loop trains MF (matrix factorization), LightGCN (the graph-based recommender of <em>From Graphs to LightGCN</em>), or an SSL (self-supervised learning) model. They differ mainly in how <span class="math inline">\(\mathbf p_u,\mathbf q_i\)</span> are computed before the dot product, and an SSL model also adds one extra loss term (§5). The same funnel serves all of them. That is why they get one chapter of their own instead of being repeated in each model chapter.</p>
+<p><strong>In one line:</strong> training walks random numbers to useful ones (the single step of §4 moves Ann’s two numbers by <span class="math inline">\(0.0182\)</span>), and serving must answer within about <span class="math inline">\(30\)</span> ms over <span class="math inline">\(10^{7}\)</span> films (§8).</p>
 <hr>
 </section>
 <section id="implicit-feedback-where-do-the-negatives-come-from" class="level2">
 <h2 class="anchored" data-anchor-id="implicit-feedback-where-do-the-negatives-come-from">2. Implicit feedback: where do the negatives come from?</h2>
-<p>Recall the central fact of implicit feedback (<em>Traditional RecSys</em> §1): the data is <strong>positives-only</strong>. We see what a user <em>clicked, watched, bought</em> — never an explicit “disliked.” A blank cell is <strong>unknown</strong>, not a confirmed <em>no</em>.</p>
-<p>This is a problem the moment you want to <em>rank</em>. A ranking loss like <strong>BPR</strong> is built on <strong>triples</strong> <span class="math inline">\((u, i^+, i^-)\)</span> — “user <span class="math inline">\(u\)</span> prefers item <span class="math inline">\(i^+\)</span> over item <span class="math inline">\(i^-\)</span>” — and it needs a <strong>negative</strong> <span class="math inline">\(i^-\)</span> for every positive <span class="math inline">\(i^+\)</span>. But the data hands us only positives. So we must <strong>invent</strong> the negatives:</p>
+<p>Ann liked only Titanic. Did she dislike the other films, or just never see them? The shop cannot tell, yet the training rule needs a worse film to set beside every better one. This section shows why that is a problem and the one move that solves it.</p>
+<p>Recall the central fact of implicit feedback (<em>Traditional Recommender Systems</em> §1; the kind of data Hu, Koren &amp; Volinsky, 2008, describe): the data is <strong>positives-only</strong>. We see what a user <em>clicked, watched, bought</em>, never an explicit “disliked.” A <strong>blank cell</strong> of the user–item matrix (rows = users, columns = items, a filled cell = a recorded interaction; <em>Traditional Recommender Systems</em> §1) is unknown, not a confirmed <em>no</em>.</p>
+<p>This is a problem the moment you want to <em>rank</em>. A ranking loss like <strong>BPR</strong> (Bayesian Personalized Ranking; Rendle et al., 2009) is built on <strong>triples</strong> <span class="math inline">\((u, i^+, i^-)\)</span>, “user <span class="math inline">\(u\)</span> prefers item <span class="math inline">\(i^+\)</span> over item <span class="math inline">\(i^-\)</span>”, and it needs a <strong>negative</strong> <span class="math inline">\(i^-\)</span> for every positive <span class="math inline">\(i^+\)</span>. But the data hands us only positives. So we must invent the negatives:</p>
 <blockquote class="blockquote">
-<p><strong>Negative sampling.</strong> For each observed positive <span class="math inline">\((u, i^+)\)</span>, <strong>draw</strong> an item <span class="math inline">\(i^-\)</span> that <span class="math inline">\(u\)</span> has <em>not</em> interacted with and treat it as a (provisional) negative. <em>Why the name:</em> we <em>sample</em> a few stand-in <em>negatives</em> rather than using all un-clicked items (there are millions) or pretending we have true labels (we don’t).</p>
+<p><strong>Negative sampling.</strong> For each observed positive <span class="math inline">\((u, i^+)\)</span>, draw an item <span class="math inline">\(i^-\)</span> that <span class="math inline">\(u\)</span> has <em>not</em> interacted with and treat it as a (provisional) negative. <em>Why the name:</em> we <em>sample</em> a few stand-in <em>negatives</em> rather than using all un-clicked items (there are millions) or pretending we have true labels (we don’t).</p>
 </blockquote>
 <p>Two things make this sound rather than a hack:</p>
 <ul>
-<li>A random un-clicked item is <strong>usually</strong> genuinely uninteresting to <span class="math inline">\(u\)</span> — so it is a <em>good enough</em> negative on average, even though any single draw might accidentally be a false negative (an item <span class="math inline">\(u\)</span> would have liked but never saw).</li>
-<li>We only need the <strong>relative</strong> order <span class="math inline">\(\hat r_{u,i^+}&gt;\hat r_{u,i^-}\)</span> to be right, not absolute labels. Pushing observed items above random un-clicked ones, over millions of triples, is enough to learn a good ranking.</li>
+<li>A random un-clicked item is usually genuinely uninteresting to <span class="math inline">\(u\)</span>. Suppose Ann would love <span class="math inline">\(100\)</span> of the <span class="math inline">\(10^{7}\)</span> films: a random pick is one of them with chance <span class="math inline">\(100/10^{7}=10^{-5}\)</span>, one in a hundred thousand. So it is a <em>good enough</em> negative on average, even though any single draw might be a false negative (an item <span class="math inline">\(u\)</span> would have liked but never saw).</li>
+<li>We only need the relative order <span class="math inline">\(\hat r_{u,i^+}&gt;\hat r_{u,i^-}\)</span> to be right, not absolute labels. Pushing observed items above random un-clicked ones, over millions of triples, is enough to learn a good ranking (a claim from practice, not tested here).</li>
 </ul>
-<p>The whole training loop is built on this one move. So before the loop, we must choose <strong>how</strong> to sample.</p>
+<p>The whole training loop is built on this one move. So before the loop, we must choose how to sample.</p>
+<p><strong>In one line:</strong> implicit data has positives only, so each positive is paired with one sampled stand-in negative, and a random pick is a film Ann would love with chance only <span class="math inline">\(10^{-5}\)</span> when she would love <span class="math inline">\(100\)</span> of <span class="math inline">\(10^{7}\)</span>.</p>
 <hr>
 </section>
 <section id="how-to-sample-a-negative" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-sample-a-negative">3. How to sample a negative</h2>
-<p>There is more than one sampling distribution, and the choice measurably changes what the model learns. Four are worth knowing.</p>
-<p><strong>Uniform (the default).</strong> Pick <span class="math inline">\(i^-\)</span> <strong>uniformly at random</strong> from the items <span class="math inline">\(u\)</span> has not touched. Every un-clicked item is equally likely. This is the default BPR negative sampler (<em>Losses &amp; Regularizers</em> §9) — cheap, popularity-neutral, and a strong baseline. (It is “unbiased” only in the sense of <em>no popularity skew</em>; it is <strong>not</strong> an unbiased estimate of the full-softmax gradient — the gap the logQ correction below repairs.)</p>
-<p><strong>Popularity-weighted.</strong> Sample <span class="math inline">\(i^-\)</span> with probability <strong>proportional to its popularity raised to a power</strong> — the same <span class="math inline">\(\text{pop}^{0.75}\)</span> trick word2vec uses for its negatives (<em>Representation Learning &amp; the Transformer</em>). Popular items are sampled as negatives <em>more often</em>, which (a) makes <strong>harder</strong> negatives (a popular item is a more confusable distractor than an obscure one) and (b) directly <strong>pushes popular items down</strong>, countering their tendency to be over-recommended (the popularity bias of <em>Evaluation Metrics</em> §12). The <span class="math inline">\(0.75\)</span> power <strong>tempers</strong> the skew so rare items still appear.</p>
-<p><strong>In-batch negatives.</strong> Don’t sample fresh items at all — reuse the <strong>other positives in the current mini-batch</strong> as negatives for each other. If the batch holds positives for 1,024 different (user, item) pairs, each user gets <span class="math inline">\({\sim}1{,}023\)</span> ready-made negatives <strong>for free</strong> (no extra lookups). This is the standard trick for the contrastive loss in <em>SSL &amp; Contrastive Learning</em> §3.4, and the cheapest way to get <em>many</em> negatives. Its one hazard: a genuine positive that happens to share the batch becomes a <strong>false negative</strong> (pushed apart) — rare, but likelier for very popular items. The standard production fix is a <strong>logQ correction</strong>: subtract each item’s log-sampling-probability (roughly its log-popularity) from the in-batch logits, so frequent items are not systematically over-penalized as negatives.</p>
-<p><strong>Hard negatives.</strong> Deliberately pick <strong>high-scoring</strong> un-clicked items — the ones the model currently gets <em>wrong</em> (ranks too high). These carry the most gradient signal, so the model learns faster; but pushed too far they overlap true positives and hurt. Used carefully (e.g.&nbsp;<em>dynamic</em> negative sampling), they sharpen a model that uniform negatives have left “good but blurry.” <strong>Dynamic</strong> (hard) negative sampling re-mines the hardest un-clicked items for each user every few thousand steps — rather than fixing them once per epoch — so the negatives keep getting harder as the embeddings improve.</p>
-<p><strong>Worked example.</strong> Ann has interacted with <span class="math inline">\(\{\)</span>Titanic, Avatar<span class="math inline">\(\}\)</span>; the three un-clicked candidates and their play-counts are below. Uniform gives each <span class="math inline">\(\tfrac13\)</span>; popularity-weighted uses <span class="math inline">\(\text{pop}^{0.75}\)</span>, normalized.</p>
+<p>Ann has liked one film, and the shop has ten million she has not seen. Choosing which unseen film to call the worse one is not innocent: a famous film confuses her more than an obscure one does. This section compares four ways to choose and the trap each one sets.</p>
+<p><strong>Uniform (the default).</strong> Pick <span class="math inline">\(i^-\)</span> uniformly at random from the items <span class="math inline">\(u\)</span> has not touched. Every un-clicked item is equally likely. This is the default BPR negative sampler (<em>Loss Functions &amp; Regularizers</em> §9): cheap, popularity-neutral (no item is drawn more often than another just for being famous), and a strong baseline.</p>
+<p><strong>Popularity-weighted.</strong> Sample <span class="math inline">\(i^-\)</span> with probability proportional to its popularity raised to a power: the same <span class="math inline">\(\text{pop}^{0.75}\)</span> trick that word2vec, a classic method for learning word embeddings, uses when it draws its own negative words (<em>Representation Learning &amp; the Transformer</em>; Mikolov et al., 2013, who report that raising the word frequencies to the power <span class="math inline">\(3/4\)</span> beat both the raw frequencies and the uniform draw). Popular items are sampled as negatives <em>more often</em>, which (a) makes harder negatives (a popular item is a more confusable distractor than an obscure one) and (b) pushes popular items down, countering their tendency to be over-recommended (the popularity bias of <em>Evaluation Metrics</em> §12; a claim from practice, not tested here). The <span class="math inline">\(0.75\)</span> power tempers the skew so rare items still appear.</p>
+<p><strong>In-batch negatives.</strong> Don’t sample fresh items at all: reuse the other positives in the current mini-batch as negatives for each other. (A mini-batch is the small group of training examples the loop handles in one update step; §5.) If the batch holds positives for 1,024 different (user, item) pairs, each user gets <span class="math inline">\({\sim}1{,}023\)</span> ready-made negatives for free, with no extra <strong>lookups</strong>, that is, no extra fetching of item vectors from the stored embedding table. This is the standard trick for the contrastive loss in <em>Self-Supervised &amp; Contrastive Learning</em> §3.4, and the cheapest way to get <em>many</em> negatives.</p>
+<p>It has two hazards, and they need different fixes.</p>
+<ol type="1">
+<li><strong>False negatives.</strong> A genuine positive that happens to share the batch is treated as a negative and pushed apart. This is rare, but likelier for very popular items, which sit in many users’ rows (the toy batch below has one clear case in two). Nothing below repairs it; you live with it, or filter the worst offenders out of the batch.</li>
+<li><strong>Sampling bias.</strong> An item enters a batch in proportion to how often it appears <em>as a positive</em>, so a popular item serves as a negative far more often than uniform sampling would ever draw it, and is over-penalized simply for being frequent.</li>
+</ol>
+<p>The standard fix for hazard 2 is the <strong>log-<span class="math inline">\(Q\)</span> correction</strong> (<span class="math inline">\(\log\)</span> is the natural logarithm, also written <span class="math inline">\(\ln\)</span>) (Yi et al., 2019, whose title names the thing exactly: <em>sampling-bias-corrected</em> modeling). In-batch training scores each user against every item in the batch and turns those scores into probabilities with a <strong>softmax</strong> (divide each <span class="math inline">\(e^{\text{score}}\)</span> by the sum of all of them, so the numbers are positive and add to <span class="math inline">\(1\)</span>). Before that step, subtract <span class="math inline">\(\log Q(i)\)</span> from item <span class="math inline">\(i\)</span>’s score where <span class="math inline">\(Q(i)\)</span> is item <span class="math inline">\(i\)</span>’s share of all logged positives (the shares sum to <span class="math inline">\(1\)</span>). Hence the name <em>log-<span class="math inline">\(Q\)</span></em>. An item that turns up twice as often has its score lowered by <span class="math inline">\(\ln 2=0.693\)</span> relative to the rarer one, which is exactly the handicap needed to cancel being sampled twice as often (the equal-score case in the worked example below shows it).</p>
+<p><strong>Two popularity effects: one chosen, one accidental.</strong> Popularity-weighted sampling pushes famous films down <em>on purpose</em>, by an amount you choose with the exponent. In-batch sampling pushes them down <em>by accident</em>, by an amount nobody chose, because famous films turn up in more rows. The log-<span class="math inline">\(Q\)</span> correction cancels the accident (in the toy case of the worked example below) and leaves the chosen push alone; if you want the push, you still have to ask for it with the exponent.</p>
+<p><strong>Hard negatives.</strong> Deliberately pick high-scoring un-clicked items: the ones the model currently ranks too high, so it gets them wrong. They teach the model the most, because the update of §4 (see its Step 3) is largest for the triples the model gets wrong. Its factor is <span class="math inline">\(1-\sigma(\Delta)\)</span>, where <span class="math inline">\(\sigma\)</span> is the sigmoid (it turns any number into one between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>) and <span class="math inline">\(\Delta\)</span> is the score gap of §4, the positive’s score minus the negative’s: at <span class="math inline">\(\Delta=-1\)</span>, a wrongly ordered pair, <span class="math inline">\(\sigma(-1)=0.2689\)</span> and the factor is <span class="math inline">\(0.7311\)</span>; at <span class="math inline">\(\Delta=4\)</span>, <span class="math inline">\(\sigma(4)=0.9820\)</span> and the factor is <span class="math inline">\(0.0180\)</span>. So the model learns faster. Pushed too far, though, they overlap true positives and hurt (a claim from practice, not tested here). Used carefully, they sharpen a model that ranks the obvious films well and confuses the close calls.</p>
+<p><strong>Dynamic</strong> negative sampling keeps them hard as the model improves. Every time you need a negative, draw a few un-clicked candidates at random and keep the one the current model scores highest, so what counts as “hard” is re-decided as the embeddings change. (The name comes from Zhang et al.’s <em>dynamic negative item sampling</em>, 2013.) For Ann, whose vector in §4 is <span class="math inline">\([2,0.5]\)</span>, drawing Rambo <span class="math inline">\([0,2]\)</span> and Die Hard <span class="math inline">\([0.5,1.8]\)</span> (a film vector that §6 uses again) keeps Die Hard, which scores <span class="math inline">\(1.900\)</span> against <span class="math inline">\(1.000\)</span>.</p>
+<p><strong>Worked example.</strong> Ann’s one liked item is Titanic (book-wide, a <em>like</em> is a rating of <span class="math inline">\(4\)</span> or <span class="math inline">\(5\)</span>, so Ann’s <span class="math inline">\(1\)</span> for Matrix is not one). Three of her un-clicked candidates (films outside the three-film matrix) and their play-counts are below. Uniform gives each <span class="math inline">\(\tfrac13\)</span>; popularity-weighted uses <span class="math inline">\(\text{pop}^{0.75}\)</span>, normalized.</p>
+<div id="tbl-training-and-serving-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.1: Three negative-sampling distributions over the same three un-clicked items. Plain share (power <span class="math inline">\(1\)</span>) divides each play-count by <span class="math inline">\(60+30+10=100\)</span>; <span class="math inline">\(\text{pop}^{0.75}\)</span> values sum to <span class="math inline">\(40.0\)</span>, and dividing by that sum gives the last column. Powers <span class="math inline">\(0\)</span>, <span class="math inline">\(0.75\)</span> and <span class="math inline">\(1\)</span> are three points on one dial: at <span class="math inline">\(0\)</span> every film is equal (<span class="math inline">\(0.333\)</span>), at <span class="math inline">\(1\)</span> the blockbuster gets <span class="math inline">\(0.600\)</span>, and <span class="math inline">\(0.75\)</span> sits between, so Rambo is drawn about <span class="math inline">\(54\%\)</span> of the time (against <span class="math inline">\(33\%\)</span> with equal draws, power <span class="math inline">\(0\)</span>) and the niche Notebook rises from <span class="math inline">\(0.100\)</span> (plain share, power <span class="math inline">\(1\)</span>) to <span class="math inline">\(0.141\)</span>.
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>Two negative-sampling distributions over the same three un-clicked items. <span class="math inline">\(\text{pop}^{0.75}\)</span> values: <span class="math inline">\(60^{0.75}=21.56\)</span>, <span class="math inline">\(30^{0.75}=12.82\)</span>, <span class="math inline">\(10^{0.75}=5.62\)</span>, summing to <span class="math inline">\(40.0\)</span>; dividing gives the last column. Uniform treats all three alike; popularity-weighting samples the blockbuster Rambo as the negative <strong><span class="math inline">\({\sim}54\%\)</span></strong> of the time (vs <span class="math inline">\(33\%\)</span>), so the loop spends more effort pushing the over-exposed item down.</caption>
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 24%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Candidate negative</th>
-<th style="text-align: right;">Popularity (plays)</th>
+<th style="text-align: right;">Plays</th>
+<th style="text-align: right;">Plain share</th>
 <th style="text-align: right;"><span class="math inline">\(\text{pop}^{0.75}\)</span></th>
 <th style="text-align: right;">Uniform <span class="math inline">\(p\)</span></th>
-<th style="text-align: right;">Popularity-weighted <span class="math inline">\(p\)</span></th>
+<th style="text-align: right;">Weighted <span class="math inline">\(p\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Rambo (blockbuster)</td>
 <td style="text-align: right;">60</td>
+<td style="text-align: right;">0.600</td>
 <td style="text-align: right;">21.56</td>
 <td style="text-align: right;">0.333</td>
-<td style="text-align: right;"><strong>0.539</strong></td>
+<td style="text-align: right;">0.539</td>
 </tr>
 <tr class="even">
 <td>Die Hard</td>
 <td style="text-align: right;">30</td>
+<td style="text-align: right;">0.300</td>
 <td style="text-align: right;">12.82</td>
 <td style="text-align: right;">0.333</td>
 <td style="text-align: right;">0.320</td>
@@ -611,177 +680,359 @@ window.Quarto = {
 <tr class="odd">
 <td>The Notebook (niche)</td>
 <td style="text-align: right;">10</td>
+<td style="text-align: right;">0.100</td>
 <td style="text-align: right;">5.62</td>
 <td style="text-align: right;">0.333</td>
 <td style="text-align: right;">0.141</td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p><strong>Worked example: in-batch negatives and the log-<span class="math inline">\(Q\)</span> correction.</strong> Take a mini-batch of three (user, positive) pairs straight from the ratings matrix of <em>Traditional Recommender Systems</em> §1, keeping the likes (ratings <span class="math inline">\(4\)</span> or <span class="math inline">\(5\)</span>): (Ann, Titanic), (Bob, Vendetta), (Cara, Matrix). Ann’s in-batch negatives are the <em>other two</em> positives, Vendetta and Matrix, at no extra cost. Score them with Ann’s vector <span class="math inline">\(\mathbf p_{\text{Ann}}=[2,\,0.5]\)</span> (the one §4 starts from) and the film vectors of that chapter’s §5, Vendetta <span class="math inline">\([1,1]\)</span> and Matrix <span class="math inline">\([0,2]\)</span>:</p>
+<p><span class="math display">\[
+\text{Vendetta }[1,1]:\ (2)(1)+(0.5)(1)=2.500,\qquad
+\text{Matrix }[0,2]:\ (2)(0)+(0.5)(2)=1.000 .
+\]</span></p>
+<p>Both hazards show up in this one batch. In the rating toy, Matrix is a genuine dislike (Ann rated it <span class="math inline">\(1\)</span>); with implicit data her play would itself be a positive, the same hazard. Vendetta is the clear case: she has not seen it yet, and in §4 she watches it and likes it, so using it as a negative is a false negative (hazard 1). A hard sampler would keep Vendetta, because at <span class="math inline">\(2.500\)</span> it is the negative the model currently gets most wrong, which here is the false one.</p>
+<p>Now the log-<span class="math inline">\(Q\)</span> correction (hazard 2). Suppose the shop’s log says Vendetta makes up <span class="math inline">\(4\%\)</span> of all logged likes and Matrix <span class="math inline">\(2\%\)</span> (stand-in shares, chosen to keep the arithmetic small), so <span class="math inline">\(Q(\text{Vendetta})=0.04\)</span> and <span class="math inline">\(Q(\text{Matrix})=0.02\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Vendetta: }&amp;\ 2.500-\ln(0.04)=2.500+3.219=5.719,\\
+\text{Matrix: }&amp;\ 1.000-\ln(0.02)=1.000+3.912=4.912 .
+\end{aligned}
+\]</span></p>
+<p>Both scores rise; what matters is the difference. Vendetta’s lead over Matrix shrinks from <span class="math inline">\(1.500\)</span> to <span class="math inline">\(0.807\)</span>, smaller by exactly <span class="math inline">\(\ln(0.04/0.02)=\ln 2=0.693\)</span>. In a softmax over just these two films (a toy: the real softmax also contains Ann’s positive, Titanic), Vendetta’s probability falls from <span class="math inline">\(0.818\)</span> to <span class="math inline">\(0.691\)</span>.</p>
+<p>Does that cancel its appearing twice as often? Take the cleanest case, in which both films score <span class="math inline">\(1.0\)</span>, so the only difference is how often they appear (<span class="math inline">\(Q=0.04\)</span> and <span class="math inline">\(0.02\)</span>). In a softmax, the push a negative’s score receives each time it appears is its probability (the softmax gradient; <em>Loss Functions &amp; Regularizers</em> §10 works one step). Uncorrected, the probabilities are <span class="math inline">\(0.5\)</span> and <span class="math inline">\(0.5\)</span>, and Vendetta appears twice as often, so its total push is <span class="math inline">\(2\times0.5=1.0\)</span> against Matrix’s <span class="math inline">\(1\times0.5=0.5\)</span>: twice as much, for no better reason than popularity. Corrected, the scores become <span class="math inline">\(1-\ln0.04\)</span> and <span class="math inline">\(1-\ln0.02\)</span>, the probabilities <span class="math inline">\(\tfrac13\)</span> and <span class="math inline">\(\tfrac23\)</span>, and the totals <span class="math inline">\(2\times\tfrac13=\tfrac23\)</span> and <span class="math inline">\(1\times\tfrac23=\tfrac23\)</span>: equal. The correction does not ask whether Ann might actually like Vendetta; that is hazard 1, and it is untouched.</p>
 <p>Whatever the sampler, the output is the same: a stream of triples <span class="math inline">\((u, i^+, i^-)\)</span>. Now we can train.</p>
+<p><strong>In one line:</strong> uniform gives each of Ann’s three candidates <span class="math inline">\(0.333\)</span>, <span class="math inline">\(\text{pop}^{0.75}\)</span> gives the blockbuster Rambo <span class="math inline">\(0.539\)</span>, and the log-<span class="math inline">\(Q\)</span> correction lowers Vendetta’s score by <span class="math inline">\(\ln 2=0.693\)</span> relative to Matrix.</p>
 <hr>
 </section>
 <section id="one-training-step-by-hand" class="level2">
 <h2 class="anchored" data-anchor-id="one-training-step-by-hand">4. One training step, by hand</h2>
-<p>Take <strong>one</strong> triple and walk it through the loop on the <em>Traditional RecSys</em> §5 vectors, so every number is checkable.</p>
-<p><strong>Setup.</strong> User Ann has factors <span class="math inline">\(\mathbf p_{\text{Ann}}=[\,2,\,0.5\,]\)</span> (romance <span class="math inline">\(2\)</span>, action <span class="math inline">\(0.5\)</span>). The positive is <strong>Avatar</strong>, <span class="math inline">\(\mathbf q^{+}=[\,1,\,1\,]\)</span>; the sampled negative is a pure- action film <strong>Rambo</strong>, <span class="math inline">\(\mathbf q^{-}=[\,0,\,2\,]\)</span>. Learning rate <span class="math inline">\(\eta=0.1\)</span>.</p>
-<p><strong>Step 1 — score the pair (forward).</strong> Two dot products: <span class="math display">\[
+<p>Ann’s taste starts as two taste numbers, and she has just watched Vendetta and liked it. How does one fact, she likes this film better than that one, change her two numbers? This section follows a single step with every number checkable, and shows what the step does and does not achieve.</p>
+<p>Take one triple and walk it through the loop on the <em>Traditional Recommender Systems</em> §5 vectors, so every number is checkable.</p>
+<p><strong>Setup.</strong> User Ann has factors <span class="math inline">\(\mathbf p_{\text{Ann}}=[\,2,\,0.5\,]\)</span> (romance <span class="math inline">\(2\)</span>, action <span class="math inline">\(0.5\)</span>), the same Ann and the same factors as <em>Traditional Recommender Systems</em> §5, where Titanic is <span class="math inline">\([2,0]\)</span>, Vendetta <span class="math inline">\([1,1]\)</span> and Matrix <span class="math inline">\([0,2]\)</span>. There she had not watched Vendetta and MF <em>predicted</em> <span class="math inline">\(\hat r=2.5\)</span> for that blank; here she has since watched it and liked it (a rating of <span class="math inline">\(5\)</span>), so the same <span class="math inline">\(2.5\)</span> is now the score of an observed positive and BPR can train on it. The positive is Vendetta, <span class="math inline">\(\mathbf q^{+}=[\,1,\,1\,]\)</span>; the sampled negative is a pure-action film Rambo, <span class="math inline">\(\mathbf q^{-}=[\,0,\,2\,]\)</span> (the same vector as Matrix). The <strong>learning rate</strong> <span class="math inline">\(\eta=0.1\)</span> sets how big each nudge is.</p>
+<p><strong>Step 1: score the pair (forward).</strong> Two dot products: <span class="math display">\[
 \hat r^{+}=\mathbf p_{\text{Ann}}\cdot\mathbf q^{+}=(2)(1)+(0.5)(1)=2.5,\qquad
 \hat r^{-}=\mathbf p_{\text{Ann}}\cdot\mathbf q^{-}=(2)(0)+(0.5)(2)=1.0 .
-\]</span> The <strong>score gap</strong> is <span class="math inline">\(d=\hat r^{+}-\hat r^{-}=2.5-1.0=1.5\)</span>. Ann already ranks Avatar above Rambo, but only by <span class="math inline">\(1.5\)</span> — there is room to push.</p>
-<p><strong>Step 2 — the loss (how wrong are we?).</strong> BPR’s per-triple loss is <span class="math inline">\(-\ln\sigma(d)\)</span> (the <em>Losses &amp; Regularizers</em> §9 result; <span class="math inline">\(\sigma\)</span> is the sigmoid). With <span class="math inline">\(d=1.5\)</span>: <span class="math display">\[
-\sigma(1.5)=0.8176,\qquad \mathcal{L}=-\ln(0.8176)=0.2014 .
-\]</span> A small but non-zero loss — the model is mostly right and will be nudged gently.</p>
-<p><strong>Step 3 — the gradient (which way to move).</strong> <em>Losses &amp; Regularizers</em> §9 gives the BPR gradient as <span class="math inline">\(\dfrac{\partial\mathcal L}{\partial\theta}=-\big(1-\sigma(d)\big)\dfrac{\partial d}{\partial\theta}\)</span> — the factor <span class="math inline">\(-(1-\sigma(d))\)</span> is <strong>large when <span class="math inline">\(d\)</span> is small/negative</strong> (a triple we get wrong) and <strong>near zero when <span class="math inline">\(d\)</span> is large</strong> (already correct), so the loop spends its effort where it is wrong. Here <span class="math inline">\(1-\sigma(1.5)=0.1824\)</span>. For matrix factorization the score is a dot product, so <span class="math inline">\(\dfrac{\partial d}{\partial \mathbf p_u}=\mathbf q^{+}-\mathbf q^{-}\)</span>, giving <span class="math display">\[
+\]</span> The <strong>score gap</strong> is <span class="math inline">\(\Delta=\hat r^{+}-\hat r^{-}=2.5-1.0=1.5\)</span>. Ann already ranks Vendetta above Rambo, but only by <span class="math inline">\(1.5\)</span>, so there is room to push. (<em>Loss Functions &amp; Regularizers</em> §9 calls this gap <span class="math inline">\(d\)</span>; this chapter keeps <span class="math inline">\(d\)</span> for the embedding dimension, §6.)</p>
+<p><strong>Step 2: the loss (how wrong are we?).</strong> BPR’s per-triple loss is <span class="math inline">\(-\ln\sigma(\Delta)\)</span> (the <em>Loss Functions &amp; Regularizers</em> §9 result). The <strong>sigmoid</strong> is <span class="math inline">\(\sigma(z)=1/(1+e^{-z})\)</span>: it squashes any number into <span class="math inline">\((0,1)\)</span>, so it can report a probability. With <span class="math inline">\(\Delta=1.5\)</span>: <span class="math display">\[
+\sigma(1.5)=\frac{1}{1+e^{-1.5}}=\frac{1}{1.2231}=0.8176,\qquad \mathcal{L}=-\ln(0.8176)=0.2014 .
+\]</span> Read <span class="math inline">\(0.8176\)</span> as the model’s probability that Ann prefers Vendetta to Rambo. The loss <span class="math inline">\(-\ln(0.8176)=0.2014\)</span> is small precisely because that probability is already high: the model is mostly right and will be nudged gently.</p>
+<p><strong>Step 3: the gradient (which way to move).</strong> <em>Loss Functions &amp; Regularizers</em> §9 gives the BPR gradient as <span class="math inline">\(\dfrac{\partial\mathcal L}{\partial\theta}=-\big(1-\sigma(\Delta)\big)\dfrac{\partial\Delta}{\partial\theta}\)</span>, where <span class="math inline">\(\theta\)</span> stands for any one learnable number in the model (here, one entry of <span class="math inline">\(\mathbf
+p_{\text{Ann}}\)</span>). The factor comes from the chain rule together with <span class="math inline">\(\sigma'(\Delta)=\sigma(\Delta)\big(1-\sigma(\Delta)\big)\)</span>. Its size <span class="math inline">\(1-\sigma(\Delta)\)</span> is large when <span class="math inline">\(\Delta\)</span> is small or negative (a triple we get wrong) and near zero when <span class="math inline">\(\Delta\)</span> is large (already correct), so the loop spends its effort where it is wrong. Here <span class="math inline">\(1-\sigma(1.5)=0.1824\)</span>. Three other gaps show the shape: at <span class="math inline">\(\Delta=-1\)</span> the factor is <span class="math inline">\(0.7311\)</span>, at <span class="math inline">\(\Delta=0\)</span> it is <span class="math inline">\(0.5000\)</span>, and at <span class="math inline">\(\Delta=4\)</span> it is <span class="math inline">\(0.0180\)</span>.</p>
+<p>For matrix factorization the score is a dot product, so <span class="math inline">\(\dfrac{\partial \Delta}{\partial \mathbf p_u}=\mathbf q^{+}-\mathbf q^{-}\)</span>. Component by component, that is one line: <span class="math inline">\(\Delta=\mathbf p\cdot\mathbf q^{+}-\mathbf p\cdot\mathbf q^{-}
+=p_1(1-0)+p_2(1-2)=p_1-p_2\)</span>, so <span class="math inline">\(\partial\Delta/\partial p_1=1\)</span> and <span class="math inline">\(\partial\Delta/\partial
+p_2=-1\)</span>, that is, <span class="math inline">\([\,1,-1\,]=\mathbf q^{+}-\mathbf q^{-}\)</span>. Putting the two factors together: <span class="math display">\[
+\begin{aligned}
 \frac{\partial\mathcal L}{\partial \mathbf p_{\text{Ann}}}
-=-\,0.1824\,\big(\mathbf q^{+}-\mathbf q^{-}\big)
-=-\,0.1824\,\big([1,1]-[0,2]\big)
-=-\,0.1824\,[\,1,\,-1\,]=[\,-0.1824,\ 0.1824\,].
-\]</span></p>
-<p><strong>Step 4 — the update (move downhill).</strong> Gradient <em>descent</em> subtracts <span class="math inline">\(\eta\)</span> times the gradient: <span class="math display">\[
+&amp;=-\,0.1824\,\big(\mathbf q^{+}-\mathbf q^{-}\big)
+=-\,0.1824\,\big([1,1]-[0,2]\big)\\[4pt]
+&amp;=-\,0.1824\,[\,1,\,-1\,]=[\,-0.1824,\ 0.1824\,].
+\end{aligned}
+\]</span> (The L2 term of §5 is left out here, as if <span class="math inline">\(\lambda_2=0\)</span>, to keep the arithmetic small; it would add <span class="math inline">\(2\lambda_2\mathbf p_{\text{Ann}}\)</span> to this gradient.)</p>
+<p><strong>Step 4: the update (move downhill).</strong> Gradient <em>descent</em> subtracts <span class="math inline">\(\eta\)</span> times the gradient: <span class="math display">\[
 \mathbf p_{\text{Ann}}\leftarrow \mathbf p_{\text{Ann}}-\eta\,\frac{\partial\mathcal L}{\partial\mathbf p_{\text{Ann}}}
 =[\,2,\,0.5\,]-0.1\,[\,-0.1824,\ 0.1824\,]=[\,2.0182,\ 0.4818\,].
-\]</span> Read the move: Ann’s <strong>romance</strong> factor went <strong>up</strong> (<span class="math inline">\(2\to2.018\)</span>) and her <strong>action</strong> factor went <strong>down</strong> (<span class="math inline">\(0.5\to0.482\)</span>) — she was nudged <em>toward</em> the romance-heavy positive and <em>away</em> from the action negative. (The item vectors <span class="math inline">\(\mathbf q^{+},\mathbf q^{-}\)</span> update by the symmetric rule; we move only <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span> here to keep the arithmetic small.)</p>
+\]</span> <strong>Read the move: it has two parts.</strong> The step is <span class="math inline">\(\eta\big(1-\sigma(\Delta)\big)\big(\mathbf q^{+}-\mathbf q^{-}\big)
+=0.01824\,\big([1,1]-[0,2]\big)=0.01824\,[1,-1]=[\,+0.0182,\,-0.0182\,]\)</span>: it adds <span class="math inline">\(0.01824\times\)</span> Vendetta’s vector <span class="math inline">\([1,1]\)</span> (a pull toward the positive). It also subtracts <span class="math inline">\(0.01824\times\)</span> Rambo’s <span class="math inline">\([0,2]\)</span> (a push away from the negative). Ann’s romance factor therefore went up (<span class="math inline">\(2\to2.0182\)</span>) and her action factor down (<span class="math inline">\(0.5\to0.4818\)</span>). What the step does <em>not</em> do is move her closer to the Vendetta <em>point</em>: the two parts cancel exactly along Vendetta’s own direction (the change in her vector, <span class="math inline">\([1,-1]\)</span>, is at right angles to <span class="math inline">\([1,1]\)</span>, so it adds nothing to that dot product; a coincidence of these two vectors, since <span class="math inline">\([1,1]\cdot[1,1]=[1,1]\cdot[0,2]=2\)</span>, and others would move it), and the re-score below shows her Vendetta score unchanged. BPR widens the gap; it never promises to raise the positive’s score.</p>
+<p>(The item vectors <span class="math inline">\(\mathbf q^{+},\mathbf q^{-}\)</span> update by the symmetric rule: the positive is pulled toward the user, the negative pushed away, with the same <span class="math inline">\(\eta(1-\sigma)=0.01824\)</span> in front: <span class="math display">\[
+\begin{aligned}
+\mathbf q^{+}&amp;\leftarrow[1,1]+0.01824\,[2,0.5]=[\,1.0365,\ 1.0091\,],\\[3pt]
+\mathbf q^{-}&amp;\leftarrow[0,2]-0.01824\,[2,0.5]=[\,-0.0365,\ 1.9909\,].
+\end{aligned}
+\]</span> Rambo’s romance factor has gone slightly negative; nothing in the loss forbids that. Below we move only <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span>, to keep the re-scoring arithmetic small.)</p>
 <p><strong>Did it work?</strong> Re-score with the updated Ann: <span class="math display">\[
-\hat r^{+}_{\text{new}}=[2.0182,0.4818]\cdot[1,1]=2.500,\qquad
-\hat r^{-}_{\text{new}}=[2.0182,0.4818]\cdot[0,2]=0.9635,
-\]</span> so the gap <strong>widened</strong> from <span class="math inline">\(d=1.500\)</span> to <span class="math inline">\(d'=1.536\)</span>. One triple, one step — the positive moved further above the negative, which is exactly what ranking training is for. Multiply this by millions of triples over many epochs and the embeddings settle into a geometry where observed items reliably out-score sampled ones.</p>
-<div id="fig-training-and-serving-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+\hat r^{+}_{\text{new}}=[2.0182,0.4818]\cdot[1,1]=2.5000,\qquad
+\hat r^{-}_{\text{new}}=[2.0182,0.4818]\cdot[0,2]=0.9636,
+\]</span> so the positive’s score is exactly where it was (<span class="math inline">\(2.5\)</span>), the negative’s fell (<span class="math inline">\(1.0000\to
+0.9636\)</span>), and the gap widened from <span class="math inline">\(\Delta=1.500\)</span> to <span class="math inline">\(\Delta'=1.536\)</span>. (Both re-scores use the four-decimal vector exactly as printed, so a calculator reproduces them; carried at full precision the negative’s new score is <span class="math inline">\(0.9635\)</span>, and the gap is <span class="math inline">\(1.536\)</span> either way.) One triple, one step: the positive moved further above the negative, which is exactly what ranking training is for. Multiply this by millions of triples over many epochs (passes over all the triples; §5) and the embeddings settle into a geometry where observed items reliably out-score sampled ones.</p>
+<div id="fig-training-and-serving-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Embedding-space view of the §4 update. (a) Ann at ppre=[2, 0.5], Vendetta [1,1] and Rambo [0,2].">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/training-and-serving-1.svg" class="img-fluid figure-img">
+<img src="../figs/training-and-serving-1.svg" class="img-fluid figure-img" alt="Embedding-space view of the §4 update. (a) Ann at ppre=[2, 0.5], Vendetta [1,1] and Rambo [0,2].">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14.1: Embedding-space view of the §4 update. Ann’s vector is nudged from <span class="math inline">\(\mathbf{p}_{\text{pre}}=[2.0,\ 0.5]\)</span> to <span class="math inline">\(\mathbf{p}_{\text{post}}=[2.018,\ 0.482]\)</span> (arrow) — one small step in 2-D romance–action space. The move goes toward the positive Avatar <span class="math inline">\([1,1]\)</span> (romance <span class="math inline">\(\uparrow\)</span>) and away from the negative Rambo <span class="math inline">\([0,2]\)</span> (action <span class="math inline">\(\downarrow\)</span>), exactly as the arithmetic in Steps 3–4 predicts. (Points in the caption use <span class="math inline">\(\to\)</span> notation: pre <span class="math inline">\(\to\)</span> post.)
+Figure&nbsp;14.1: Embedding-space view of the §4 update. <strong>(a)</strong> Ann at <span class="math inline">\(\mathbf{p}_{\text{pre}}=[2,\ 0.5]\)</span>, Vendetta <span class="math inline">\([1,1]\)</span> and Rambo <span class="math inline">\([0,2]\)</span>. The step is about <span class="math inline">\(1/39\)</span> of the gap between two tick marks, too small to see. <strong>(b)</strong> The same step magnified <span class="math inline">\(80\)</span>-fold (the bar is <span class="math inline">\(0.01\)</span> in panel (a)’s units): a <strong>pull</strong> <span class="math inline">\(+0.01824 [1,1]\)</span> and a <strong>push</strong> <span class="math inline">\(-0.01824 [0,2]\)</span>, drawn head to tail, add up to the net step <span class="math inline">\([+0.0182,\ -0.0182]\)</span>, from <span class="math inline">\(\mathbf{p}_{\text{pre}}\)</span> to <span class="math inline">\(\mathbf{p}_{\text{post}}=[2.0182,\ 0.4818]\)</span>. Ann moves along <span class="math inline">\(\mathbf{q}^{+}-\mathbf{q}^{-}\)</span>: Vendetta’s score stays <span class="math inline">\(2.5000\)</span>, Rambo’s falls <span class="math inline">\(1.0000\to0.9636\)</span>, and the Vendetta point itself gets slightly farther away.
 </figcaption>
 </figure>
 </div>
+<p><strong>In one line:</strong> one step moved Ann from <span class="math inline">\([2,0.5]\)</span> to <span class="math inline">\([2.0182,0.4818]\)</span>, left Vendetta’s score at <span class="math inline">\(2.5\)</span>, lowered Rambo’s from <span class="math inline">\(1.0\)</span> to <span class="math inline">\(0.9636\)</span>, and so widened the gap from <span class="math inline">\(1.5\)</span> to <span class="math inline">\(1.536\)</span>.</p>
 <hr>
 </section>
 <section id="the-training-loop" class="level2">
 <h2 class="anchored" data-anchor-id="the-training-loop">5. The training loop</h2>
-<p>Steps 1–4 are one update. The full training is just that update, <strong>looped</strong> over mini-batches and epochs:</p>
+<p>One step moved Ann’s two numbers by less than <span class="math inline">\(0.02\)</span>, and the shop has millions of such facts to teach. What do we repeat, in what order, and when do we stop? This section writes the whole loop on one page and shows where each earlier step plugs in.</p>
+<p>Steps 1–4 are one update. The full training is just that update, looped over mini-batches and epochs:</p>
 <pre><code>initialize all embeddings E randomly
 for epoch in 1..T:
     for each mini-batch of positives (u, i+):
-        for each (u, i+):  sample a negative  i-          # §3
-        scores   = dot(e_u, e_i+),  dot(e_u, e_i-)        # forward  (§4 step 1)
-        L_bpr    = mean( -ln sigma(score+ - score-) )     # loss     (§4 step 2)
-        loss     = L_bpr + lambda * ||E||^2               # + L2 regularizer
+        sample a negative i- for each (u, i+)             # §3
+        bpr      = mean(-ln sigma(dot(e_u,e_i+) - dot(e_u,e_i-)))  # §4 steps 1-2
+        loss     = bpr + lambda_2 * ||E||^2               # + L2 regularizer
         grads    = backprop(loss)                         # gradient (§4 step 3)
         E        = optimizer_step(E, grads, eta)          # update   (§4 step 4)</code></pre>
+<blockquote class="blockquote">
+<p><strong>How to read that block.</strong> It is <em>pseudocode</em>, a recipe written in the shape of a program, not in any real language. <code>for each X:</code> means “repeat the lines indented under me, once for every X”, and the indentation says which lines belong to which <code>for</code>. <code>name = ...</code> stores a value under that name; <code>dot(a, b)</code> and <code>mean(...)</code> mean “the dot product of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>” and “the average of these numbers”; anything after <code>#</code> is a comment for the human.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>The names in the block.</strong> <code>T</code> is how many epochs you run; <code>e_u</code>, <code>e_i+</code>, <code>e_i-</code> are the user’s, the positive’s and the negative’s vectors (<span class="math inline">\(\mathbf p_u\)</span> and <span class="math inline">\(\mathbf q_i\)</span> for MF); <code>||E||^2</code> is the sum of the squares of <em>every</em> number in the embedding table <span class="math inline">\(E\)</span>, and <span class="math inline">\(\lambda_2\)</span> (“lambda-two”) sets how hard large embeddings are penalized. Together they are the <strong>L2 regularizer</strong> (<em>Loss Functions &amp; Regularizers</em> §5, where its weight is simply called <span class="math inline">\(\lambda\)</span>). <code>backprop</code> is <strong>back-propagation</strong>, the chain-rule computation that gets a gradient for every entry of <span class="math inline">\(E\)</span> at once (<em>Neural Networks &amp; Back-propagation</em>; §4’s Step 3 did it by hand for Ann’s two entries, <span class="math inline">\(-0.1824\times[1,-1]\)</span>); <code>optimizer_step</code> applies §4’s Step 4, or a refinement of it such as Adam (Kingma &amp; Ba, 2015), which adapts the step size for each number separately.</p>
+</blockquote>
 <ul>
-<li>An <strong>epoch</strong> is one pass over all observed positives; you run several (until validation NDCG — <em>Evaluation Metrics</em> §7 — stops improving, i.e.&nbsp;<em>early stopping</em>, a regularizer from <em>Losses &amp; Regularizers</em> §5).</li>
-<li>A <strong>mini-batch</strong> is a handful of triples processed together (so the update uses an <em>average</em> gradient — steadier than one triple at a time, cheaper than all of them). It is also where <strong>in-batch negatives</strong> (§3) come from.</li>
-<li>The <strong>only learnable parameters are the embeddings</strong> <span class="math inline">\(E\)</span>. For MF those are <span class="math inline">\(\mathbf p_u,\mathbf
-q_i\)</span> directly; for LightGCN they are the base table <span class="math inline">\(E^{(0)}\)</span>, and the forward pass first <em>propagates</em> them over the graph (<em>From Graphs to LightGCN</em> §7–§11) before the dot product — but the loop around it is <strong>identical</strong>. Concretely: in the pseudocode above, the <code>e_u</code> and <code>e_i+</code> that enter <code>dot()</code> are for LightGCN the <strong>propagated, layer-averaged embeddings</strong> <span class="math inline">\(\bar{\mathbf
-e}_u = \frac{1}{L+1}\sum_{\ell=0}^{L}\mathbf e_u^{(\ell)}\)</span> (where <span class="math inline">\(L\)</span> is the number of graph propagation layers) — the output of the graph aggregation described in <em>From Graphs to LightGCN</em> §10–§11 — <em>not</em> the raw rows of <span class="math inline">\(E^{(0)}\)</span>; the base table is what the optimizer updates, but the dot product always operates on the propagated result.</li>
+<li>An <strong>epoch</strong> is one pass over all observed positives; you run several, until the <strong>Normalized Discounted Cumulative Gain (NDCG)</strong>, a ranking-quality score (<em>Evaluation Metrics</em> §7), measured on a <strong>validation set</strong> (held-out interactions the loop never trains on) stops improving. That rule is <em>early stopping</em>, a regularizer from <em>Loss Functions &amp; Regularizers</em> §5; here you stop after two epochs without a gain (a <em>patience</em> of <span class="math inline">\(2\)</span>). Example: if a toy set held <span class="math inline">\(3\)</span> positives and batches held <span class="math inline">\(2\)</span>, one epoch would be <span class="math inline">\(2\)</span> updates (a batch of <span class="math inline">\(2\)</span>, then a batch of <span class="math inline">\(1\)</span>), and if validation NDCG after epochs <span class="math inline">\(1\)</span> to <span class="math inline">\(5\)</span> read <span class="math inline">\(0.28\)</span>, <span class="math inline">\(0.33\)</span>, <span class="math inline">\(0.36\)</span>, <span class="math inline">\(0.35\)</span>, <span class="math inline">\(0.35\)</span>, you would stop after epoch <span class="math inline">\(5\)</span> (two epochs without a gain) and keep the epoch-<span class="math inline">\(3\)</span> embeddings.</li>
+<li>A <strong>mini-batch</strong> is a handful of triples processed together (so the update uses an <em>average</em> gradient, steadier than one triple at a time and cheaper than all of them). It is also where in-batch negatives (§3) come from. Example: the three (user, positive) pairs of §3 are one mini-batch of three.</li>
+<li>For MF and LightGCN the only learnable parameters are the embeddings <span class="math inline">\(E\)</span> (the two-tower models of §7 also learn the weights inside their towers). For MF those are <span class="math inline">\(\mathbf p_u,\mathbf
+q_i\)</span> directly. For LightGCN they are the base table <span class="math inline">\(E^{(0)}\)</span>, and the forward pass first <em>propagates</em> them over the graph (<em>From Graphs to LightGCN</em> §5–§11) before the dot product, but the loop around it is identical.</li>
 </ul>
-<div id="fig-training-and-serving-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>For LightGCN, the <code>e_u</code> and <code>e_i+</code> that enter <code>dot()</code> in the pseudocode are the propagated, layer-averaged embeddings <span class="math display">\[
+\bar{\mathbf e}_u = \frac{1}{L+1}\sum_{k=0}^{L}\mathbf e_u^{(k)},
+\]</span> where <span class="math inline">\(\mathbf e_u^{(k)}\)</span> is user <span class="math inline">\(u\)</span>’s vector after <span class="math inline">\(k\)</span> propagation steps (<span class="math inline">\(k=0\)</span> being the raw row of <span class="math inline">\(E^{(0)}\)</span>) and <span class="math inline">\(L\)</span>, the plain letter and not the script <span class="math inline">\(\mathcal L\)</span> of the loss, is the number of graph propagation layers. (<em>From Graphs to LightGCN</em> writes that count <span class="math inline">\(K\)</span>; here <span class="math inline">\(K\)</span> is already the length of the top-<span class="math inline">\(K\)</span> list, so this chapter uses <span class="math inline">\(L\)</span>.) This average is the <strong>layer combination</strong> of <em>From Graphs to LightGCN</em> §12 (§9–§11 build the propagation steps it averages), <em>not</em> the raw rows of <span class="math inline">\(E^{(0)}\)</span>: the base table is what the optimizer updates, but the dot product always operates on the propagated result.</p>
+<div id="fig-training-and-serving-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The training loop: sample a contrast, score it, measure how wrong the order is (the Bayesian Personalized Ranking loss, on the score gap Delta), and nudge the embeddings to widen the gap — then repeat.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/training-and-serving-2.svg" class="img-fluid figure-img">
+<img src="../figs/training-and-serving-2.svg" class="img-fluid figure-img" alt="The training loop: sample a contrast, score it, measure how wrong the order is (the Bayesian Personalized Ranking loss, on the score gap Delta), and nudge the embeddings to widen the gap — then repeat.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14.2: The training loop: sample a contrast, score it, measure how wrong the order is (BPR loss), and nudge the embeddings to widen the gap — then repeat. <em>SSL &amp; Contrastive Learning</em> §3.4 adds one box (a contrastive term <span class="math inline">\(+\lambda\mathcal{L}_{\text{cl}}\)</span> on a second view) to this exact loop; the rest is unchanged.
+Figure&nbsp;14.2: The training loop: sample a contrast, score it, measure how wrong the order is (the Bayesian Personalized Ranking loss, on the score gap <span class="math inline">\(\Delta\)</span>), and nudge the embeddings to widen the gap — then repeat. <em>Self-Supervised &amp; Contrastive Learning</em> §3.4 adds one box (a contrastive term <span class="math inline">\(+\lambda_{\text{cl}}\mathcal{L}_{\text{cl}}\)</span> on a second view of the graph) to this exact loop; the rest is unchanged.
 </figcaption>
 </figure>
 </div>
-<p>That is the whole of training. <em>SSL &amp; Contrastive Learning</em> extends this loop by adding a second loss term (<span class="math inline">\(+\lambda\mathcal L_{\text{cl}}\)</span>) computed from a second “view” of the graph; everything else — sample, score, backprop, step — is what you see here.</p>
+<p>That is the shape of the loop; real systems add more negatives per positive, a learning-rate schedule (a rule that shrinks <span class="math inline">\(\eta\)</span> as training goes on) and the validation check above, but around the same four steps. <em>Self-Supervised &amp; Contrastive Learning</em> extends it by adding a second loss term (<span class="math inline">\(+\lambda_{\text{cl}}\mathcal
+L_{\text{cl}}\)</span>, where <span class="math inline">\(\lambda_{\text{cl}}\)</span> is that term’s own weight, distinct from the L2 weight <span class="math inline">\(\lambda_2\)</span> above, though each chapter that uses only one of them writes it plainly as <span class="math inline">\(\lambda\)</span>) computed from a second <strong>view</strong> of the graph (a randomly perturbed copy of it, with some edges dropped, say; if the toy graph’s five edges lost one, the view would keep four). Everything else (sample, score, back-propagate, step) is what you see here.</p>
+<p><strong>In one line:</strong> the loop is the four steps of §4 repeated over every positive of every epoch; one triple moved Ann by <span class="math inline">\(0.0182\)</span>, so many millions of them are what settle the embeddings.</p>
 <hr>
 </section>
 <section id="from-embeddings-to-a-ranked-list-inference" class="level2">
 <h2 class="anchored" data-anchor-id="from-embeddings-to-a-ranked-list-inference">6. From embeddings to a ranked list: inference</h2>
-<p>Training leaves us with a frozen table of embeddings. <strong>Inference</strong> (serving) is the act of using them to answer a request: <em>give user <span class="math inline">\(u\)</span> their top <span class="math inline">\(K\)</span> items.</em> The recipe is the mirror of scoring:</p>
+<p>Ann opens the app. We know her taste as two numbers and we have two numbers for every film in the shop; what do we show her? This section turns that stored table into a ranked list, then counts what the work costs when the shop holds ten million films.</p>
+<p>Training leaves us with a frozen table of embeddings. <strong>Inference</strong> (serving) is the act of using them to answer a request: <em>give user <span class="math inline">\(u\)</span> their top <span class="math inline">\(K\)</span> items.</em> The recipe is scoring, applied to every item, then sorting:</p>
 <ol type="1">
 <li>Take the user vector <span class="math inline">\(\mathbf p_u\)</span>.</li>
-<li>Score <strong>every candidate item</strong>: <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> for all <span class="math inline">\(i\)</span>.</li>
-<li><strong>Remove items <span class="math inline">\(u\)</span> has already seen</strong> (you don’t re-recommend a watched film).</li>
-<li><strong>Sort</strong> by score and return the <strong>top <span class="math inline">\(K\)</span></strong>.</li>
+<li>Score every candidate item: <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span> for all <span class="math inline">\(i\)</span>.</li>
+<li>Remove items <span class="math inline">\(u\)</span> has already seen (you don’t re-recommend a watched film).</li>
+<li>Sort by score and return the top <span class="math inline">\(K\)</span>.</li>
 </ol>
-<p><strong>Worked example.</strong> Use the trained <span class="math inline">\(\mathbf p_{\text{Ann}}=[2.018,\,0.482]\)</span> from §4 against a tiny catalogue. Ann has already seen <span class="math inline">\(\{\)</span>Titanic, Avatar<span class="math inline">\(\}\)</span>, so they are filtered out; the rest are scored by the dot product:</p>
+<p><strong>Worked example.</strong> Use the trained <span class="math inline">\(\mathbf p_{\text{Ann}}=[2.018,\,0.482]\)</span> from §4 against a tiny catalog. Ann’s <strong>interaction history</strong> is <span class="math inline">\(\{\)</span>Titanic, Matrix, Vendetta<span class="math inline">\(\}\)</span>: Titanic and Matrix are the two films she rated in the <em>Traditional Recommender Systems</em> §1 matrix (a <span class="math inline">\(5\)</span> and a <span class="math inline">\(1\)</span>; both are interactions, even though only the <span class="math inline">\(5\)</span> counts as a <em>like</em>), and Vendetta is the one she has since watched and liked, which is what made it §4’s positive. All three are filtered out at step 3; the rest are scored by the dot product. (The vector is §4’s rounded to three decimals; carried at four decimals, <span class="math inline">\([2.0182,0.4818]\)</span>, The Notebook scores <span class="math inline">\(4.133\)</span> and Die Hard <span class="math inline">\(1.876\)</span>, and the order is the same. Rambo, like the Matrix, is a pure-action film, so it carries the same vector <span class="math inline">\([0,2]\)</span>.)</p>
+<div id="tbl-training-and-serving-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.2: Inference for Ann: each score is <span class="math inline">\(\mathbf p_{\text{Ann}}\cdot\mathbf q_i\)</span>, then sorted. Top-<span class="math inline">\(2\)</span> = The Notebook, La La Land, the two most romance-leaning films.
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>Inference for Ann: score every unseen item by the dot product, then sort. Top-<span class="math inline">\(2\)</span> = <strong>The Notebook, La La Land</strong> — the two most romance-leaning films, exactly what Ann’s trained <span class="math inline">\([2.018,0.482]\)</span> (romance <span class="math inline">\(\gg\)</span> action) vector should surface.</caption>
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Item (unseen)</th>
 <th><span class="math inline">\(\mathbf q_i\)</span></th>
-<th style="text-align: right;">score <span class="math inline">\(\mathbf p_{\text{Ann}}\cdot\mathbf q_i\)</span></th>
+<th style="text-align: right;">Score</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>The Notebook</td>
 <td><span class="math inline">\([2,\,0.2]\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(2.018(2)+0.482(0.2)=\mathbf{4.132}\)</span></td>
+<td style="text-align: right;">4.132</td>
 </tr>
 <tr class="even">
 <td>La La Land</td>
 <td><span class="math inline">\([1.5,\,0.5]\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(2.018(1.5)+0.482(0.5)=\mathbf{3.268}\)</span></td>
+<td style="text-align: right;">3.268</td>
 </tr>
 <tr class="odd">
 <td>Die Hard</td>
 <td><span class="math inline">\([0.5,\,1.8]\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(2.018(0.5)+0.482(1.8)=\mathbf{1.877}\)</span></td>
+<td style="text-align: right;">1.877</td>
 </tr>
 <tr class="even">
 <td>Rambo</td>
 <td><span class="math inline">\([0,\,2]\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(2.018(0)+0.482(2)=\mathbf{0.964}\)</span></td>
+<td style="text-align: right;">0.964</td>
 </tr>
 </tbody>
 </table>
-<p>Sorted, the ranking is Notebook <span class="math inline">\(&gt;\)</span> La La Land <span class="math inline">\(&gt;\)</span> Die Hard <span class="math inline">\(&gt;\)</span> Rambo, so <span class="math inline">\(\text{top-}2 = \{\)</span>Notebook, La La Land<span class="math inline">\(\}\)</span>. Sensible — and trivial on four items. The trouble is the <strong>scale</strong>: step 2 scores <em>every</em> item. With <span class="math inline">\(M\)</span> items and a <span class="math inline">\(d\)</span>-dimensional dot product, one user costs <span class="math inline">\(O(Md)\)</span>, and a catalogue of <span class="math inline">\(M=10^{7}\)</span> items makes that hopeless to do exactly for every request. That is the problem §7 solves.</p>
+</div>
+</figure>
+</div>
+<p>The four sums behind the table, each a dot product with <span class="math inline">\(\mathbf p_{\text{Ann}}=[2.018,\,0.482]\)</span>: <span class="math display">\[
+\begin{aligned}
+\text{The Notebook: }&amp;2.018(2)+0.482(0.2)=\boxed{4.132},\\
+\text{La La Land: }&amp;2.018(1.5)+0.482(0.5)=\boxed{3.268},\\
+\text{Die Hard: }&amp;2.018(0.5)+0.482(1.8)=\boxed{1.877},\\
+\text{Rambo: }&amp;2.018(0)+0.482(2)=\boxed{0.964}.
+\end{aligned}
+\]</span></p>
+<p>Sorted, the ranking is Notebook <span class="math inline">\(&gt;\)</span> La La Land <span class="math inline">\(&gt;\)</span> Die Hard <span class="math inline">\(&gt;\)</span> Rambo, so <span class="math inline">\(\text{top-}2 =
+\{\)</span>Notebook, La La Land<span class="math inline">\(\}\)</span>. That is sensible, and trivial on four items. The trouble is the scale: step 2 scores <em>every</em> item.</p>
+<p>Each item’s score is a dot product of two vectors with <span class="math inline">\(d\)</span> entries each, so it costs <span class="math inline">\(d\)</span> multiply-adds; with <span class="math inline">\(M\)</span> items in the catalog, one user costs <span class="math inline">\(M\times d\)</span> of them. Computer scientists write that <span class="math inline">\(O(Md)\)</span>, read “order <span class="math inline">\(M\)</span> times <span class="math inline">\(d\)</span>”: it says the cost grows <em>in proportion to</em> <span class="math inline">\(M\cdot d\)</span>, ignoring constant factors. Put numbers in it, a catalog of <span class="math inline">\(M=10^{7}\)</span> items and embeddings of dimension <span class="math inline">\(d=64\)</span>, and every single request needs <span class="math inline">\(10^{7}\times64=6.4\times10^{8}\)</span> multiply-adds. On one processor core that is far too many for the few tens of milliseconds §8 budgets (hardware-dependent: a claim from practice, not tested here), and at many requests per second it is worse. That is the problem §7 solves. (This <span class="math inline">\(d\)</span> is the embedding dimension, the meaning it carries in <em>Traditional Recommender Systems</em>; §4’s score gap was given its own letter <span class="math inline">\(\Delta\)</span> so that the two never collide.)</p>
+<p><strong>In one line:</strong> scoring and sorting four unseen films puts The Notebook (<span class="math inline">\(4.132\)</span>) and La La Land (<span class="math inline">\(3.268\)</span>) on top for Ann, but the same scan over <span class="math inline">\(10^{7}\)</span> films at <span class="math inline">\(d=64\)</span> costs <span class="math inline">\(6.4\times10^{8}\)</span> multiply-adds per request.</p>
 <hr>
 </section>
-<section id="serving-at-scale-approximate-nearest-neighbour-search" class="level2">
-<h2 class="anchored" data-anchor-id="serving-at-scale-approximate-nearest-neighbour-search">7. Serving at scale: approximate nearest-neighbour search</h2>
+<section id="serving-at-scale-approximate-nearest-neighbor-search" class="level2">
+<h2 class="anchored" data-anchor-id="serving-at-scale-approximate-nearest-neighbor-search">7. Serving at scale: approximate nearest-neighbor search</h2>
+<p>The shop holds ten million films and Ann will not wait, so counting every film for every visitor is too slow. Can we look at a small part of the shelf and still find her best films? This section builds the shortcut: film numbers stored ahead of time, and an index that finds the nearby ones.</p>
 <section id="two-towers-the-retrieval-model-behind-the-index" class="level3">
 <h3 class="anchored" data-anchor-id="two-towers-the-retrieval-model-behind-the-index">Two towers: the retrieval model behind the index</h3>
-<p>§6 scored with a single learned table (<span class="math inline">\(\mathbf p_u\)</span> for users, <span class="math inline">\(\mathbf q_i\)</span> for items). Production <em>retrieval</em> keeps that dot product but produces the vectors with <strong>two separate networks</strong> — a <strong>user tower</strong> <span class="math inline">\(f\)</span> mapping a user’s features/history to <span class="math inline">\(\mathbf p_u\)</span>, and an <strong>item tower</strong> <span class="math inline">\(g\)</span> mapping an item’s features to <span class="math inline">\(\mathbf q_i\)</span> — scored by <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span>. (MF is the special case where each tower is a bare ID lookup.)</p>
-<p>Why this is <em>the</em> retrieval workhorse is an <strong>asymmetry</strong>: the item tower’s output depends only on the item, so <strong>every <span class="math inline">\(\mathbf q_i\)</span> is computed offline and frozen into the ANN index</strong>; only the <strong>user tower runs online</strong>, once per request, to produce <span class="math inline">\(\mathbf p_u\)</span> — then a single ANN lookup (below) finds its nearest items. The four catalogue vectors in §6’s table are exactly what you would precompute and index; at serve time Ann’s <span class="math inline">\(\mathbf p_u=[2.018,0.482]\)</span> is the <em>only</em> vector computed fresh. Training uses the cheap <strong>in-batch / sampled-softmax</strong> negatives of §3 (every other item in the batch is a free negative), which is why two-tower retrievers scale to web-sized catalogues.</p>
-<div id="fig-training-and-serving-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>§6 scored with a single learned table (<span class="math inline">\(\mathbf p_u\)</span> for users, <span class="math inline">\(\mathbf q_i\)</span> for items). <strong>Production</strong> retrieval (the live system answering real requests) keeps that dot product but produces the vectors with two separate networks, the design Yi et al.&nbsp;(2019) use for retrieval: a <strong>user tower</strong> <span class="math inline">\(f\)</span> mapping a user’s features/history to <span class="math inline">\(\mathbf p_u\)</span>, and an <strong>item tower</strong> <span class="math inline">\(g\)</span> mapping an item’s features to <span class="math inline">\(\mathbf q_i\)</span>, scored by <span class="math inline">\(\hat r_{ui}=\mathbf p_u\cdot\mathbf q_i\)</span>. Matrix factorization (MF) is the special case where each tower is a bare <strong>identifier (ID) lookup</strong>: the tower does nothing but fetch the row of the embedding table belonging to that ID, that user’s or that item’s own stored vector. An item tower can be as simple as an average of the vectors of a film’s tags: say romance <span class="math inline">\([3,0]\)</span> and drama <span class="math inline">\([1,0.4]\)</span> (made up for this example) give <span class="math inline">\(\mathbf q_i=[2,0.2]\)</span>, which is The Notebook’s vector of §6.</p>
+<p>This design is <em>the</em> retrieval workhorse because of an asymmetry: the item tower’s output depends only on the item, so every <span class="math inline">\(\mathbf q_i\)</span> is computed offline and frozen into the approximate nearest-neighbor (ANN) index; only the user tower runs online, once per request, to produce <span class="math inline">\(\mathbf p_u\)</span>, and then a single ANN lookup finds its nearest items. Three words there do real work, and each has a narrower meaning here than in everyday English:</p>
+<ul>
+<li><strong>offline</strong> = computed in advance, in bulk, while nobody is waiting;</li>
+<li><strong>online</strong> = computed live, while the user waits for the answer;</li>
+<li>an <strong>index</strong> = a lookup structure built once, in advance, over the item vectors, that finds the best-scoring items <em>without scoring them all</em>. How it manages that is the rest of this section.</li>
+</ul>
+<p>The four catalog vectors in §6’s table are exactly what you would precompute and index; at serve time Ann’s <span class="math inline">\(\mathbf p_u=[2.018,0.482]\)</span> is the <em>only</em> vector computed fresh. Training uses the cheap in-batch negatives of §3 (every other item in the batch is a free negative), usually inside a softmax over the batch, the <strong>sampled softmax</strong> of <em>Loss Functions &amp; Regularizers</em> §10, with the log-<span class="math inline">\(Q\)</span> correction of §3. Cheap negatives are what let two-tower models <em>train</em> on web-sized catalogs; the offline/online split plus the index below are what let them <em>serve</em> at that size.</p>
+<div id="fig-training-and-serving-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two-tower retrieval. The item tower (bottom) depends only on the item, so every item vector qi is computed offline and frozen into the ANN index; the user tower (top) is the only part that runs online">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/training-and-serving-3.svg" class="img-fluid figure-img">
+<img src="../figs/training-and-serving-3.svg" class="img-fluid figure-img" alt="Two-tower retrieval. The item tower (bottom) depends only on the item, so every item vector qi is computed offline and frozen into the ANN index; the user tower (top) is the only part that runs online">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;14.3: <strong>Two-tower retrieval.</strong> The <em>item tower</em> (bottom) depends only on the item, so every item vector <span class="math inline">\(\mathbf q_i\)</span> is computed <em>offline</em> and frozen into the ANN index; the <em>user tower</em> (top) is the only part that runs <em>online</em>, producing <span class="math inline">\(\mathbf p_u\)</span> per request — after which one ANN query returns the top-<span class="math inline">\(K\)</span> by <span class="math inline">\(\mathbf p_u\cdot\mathbf q_i\)</span>. Matrix factorization is the special case where each tower is a bare ID lookup.
 </figcaption>
 </figure>
 </div>
-<p>Step 2 of inference — “score every item and take the largest” — is exactly a <strong>nearest-neighbour</strong> query in disguise: find the item vectors <span class="math inline">\(\mathbf q_i\)</span> with the <strong>largest dot product</strong> against <span class="math inline">\(\mathbf p_u\)</span>. This is called <strong>Maximum Inner-Product Search (MIPS)</strong>.</p>
-<p>Doing it <strong>exactly</strong> means touching all <span class="math inline">\(M\)</span> items per user. At <span class="math inline">\(M=10^{7}\)</span> and millions of users, that is billions of dot products per second — too slow and too expensive. The fix is to accept a tiny amount of error:</p>
+</section>
+<section id="the-index-finding-the-nearest-items-without-scoring-them-all" class="level3">
+<h3 class="anchored" data-anchor-id="the-index-finding-the-nearest-items-without-scoring-them-all">The index: finding the nearest items without scoring them all</h3>
+<p>Step 2 of inference, “score every item and take the largest”, is a cousin of a nearest-neighbor query: find the item vectors <span class="math inline">\(\mathbf q_i\)</span> with the largest dot product against <span class="math inline">\(\mathbf p_u\)</span>. This is called <strong>Maximum Inner-Product Search (MIPS)</strong>. It is only a cousin, not the same thing: “nearest” means <em>smallest straight-line distance</em>, and the two agree for every query when all the item vectors have the same length (because <span class="math inline">\(|\mathbf p-\mathbf q_i|^2=|\mathbf p|^2+|\mathbf q_i|^2-2\,\mathbf p\cdot\mathbf q_i\)</span>, so with <span class="math inline">\(|\mathbf q_i|\)</span> fixed the smallest distance is the largest dot product). Take Ann at <span class="math inline">\([2,0.5]\)</span> and two made-up items, <span class="math inline">\(a=[3,0]\)</span> and <span class="math inline">\(b=[2,0.5]\)</span>. The dot product prefers <span class="math inline">\(a\)</span> (<span class="math inline">\(6.0\)</span> against <span class="math inline">\(4.25\)</span>), but <span class="math inline">\(b\)</span> is Ann’s own point, at distance <span class="math inline">\(0\)</span>, while <span class="math inline">\(a\)</span> is at distance <span class="math inline">\(1.118\)</span>. The longer vector wins the dot product; the closer one wins the distance.</p>
+<p>Dividing every vector by its length makes the dot-product search and the distance search agree, but it changes the question to cosine, and here the order flips relative to the raw dot product: <span class="math inline">\(b\)</span> wins, <span class="math inline">\(1.000\)</span> against <span class="math inline">\(0.970\)</span>. Do it only if the model was trained on normalized vectors, or its item vectors already share one length; the cosine trick below gives the normalizing step and its catch.</p>
+<p>Doing it exactly means touching all <span class="math inline">\(M\)</span> items for every <strong>query</strong>, a query being one search request, here the user vector we search with. At <span class="math inline">\(M=10^{7}\)</span> items and, say, <span class="math inline">\(1{,}000\)</span> requests per second, that is <span class="math inline">\(10^{7}\times1{,}000=10^{10}\)</span> dot products every second, each of them <span class="math inline">\(d\)</span> multiply-adds: too slow and too expensive on a few processor cores (hardware-dependent: a claim from practice, not tested here). The fix is to accept a tiny amount of error:</p>
 <blockquote class="blockquote">
-<p><strong>Approximate Nearest-Neighbour (ANN) search.</strong> Build an <strong>index</strong> over the item vectors <em>once</em>, offline, so that at query time you examine only a <strong>small fraction</strong> of items yet almost always find the true top-<span class="math inline">\(K\)</span>. <em>Why “approximate”:</em> you trade an exact answer for a massive speed-up, occasionally missing a true neighbour — a trade a recommender can easily afford (the candidate list is re-ranked anyway, §8).</p>
+<p><strong>Approximate Nearest-Neighbor (ANN) search.</strong> Build an index over the item vectors <em>once</em>, offline, so that at query time you examine only a small fraction of items yet almost always find the true top-<span class="math inline">\(K\)</span>. <em>Why “approximate”:</em> you trade an exact answer for a massive speed-up, occasionally missing a true neighbor, a trade a recommender can easily afford because the candidate list is re-ranked anyway (§8). Example: scoring <span class="math inline">\(101{,}000\)</span> of <span class="math inline">\(10^{7}\)</span> vectors, <span class="math inline">\(99\)</span> times fewer, and sometimes missing a true neighbor (worked below).</p>
 </blockquote>
-<p>Two ideas behind the common indexes (the <em>libraries</em> that implement them are dated in the <strong>Implementation Choices</strong> appendix §3):</p>
+<p>Two ideas lie behind the common indexes. The <em>libraries</em> that implement them, ready-made reusable packages of code you install rather than write, are dated in the <em>Implementation Choices</em> appendix §3.</p>
 <ul>
-<li><strong>Partition the space</strong> (clustering / inverted file): group items into buckets offline; at query time search only the few buckets nearest the user vector. You scan a fraction, not the whole catalogue.</li>
-<li><strong>Navigate a graph</strong> (HNSW — <em>Hierarchical Navigable Small World</em>): link each item to its nearest neighbours in a multi-layer graph and <strong>greedily walk</strong> toward the query, descending from coarse to fine layers. Search cost grows roughly <strong>logarithmically</strong> in <span class="math inline">\(M\)</span>, not linearly.</li>
+<li><strong>Partition the space.</strong> <strong>Clustering</strong> simply means grouping nearby vectors together; the structure you get is traditionally called an <strong>inverted file</strong>, because, like the index at the back of a book, it lists for each bucket the items inside it. Build it offline: split the catalog into buckets, each with a <strong>center point</strong> (the average of the vectors in it). At query time, score the user vector against the few hundred or few thousand <em>centers</em>, pick the few best-matching buckets, and score only the items inside those. You scan a fraction, not the whole catalog. Johnson, Douze &amp; Jégou (2021; a 2017 preprint) ran this scheme on graphics processing units (GPUs) at billion-vector scale.</li>
+<li><strong>Navigate a graph.</strong> <strong>HNSW</strong> (<strong>H</strong>ierarchical <strong>N</strong>avigable <strong>S</strong>mall <strong>W</strong>orld; Malkov &amp; Yashunin, 2020) links each item to its nearest neighbors and searches by walking.</li>
 </ul>
-<p><strong>The cosine ↔︎ inner-product trick.</strong> Most ANN libraries optimise either inner product or Euclidean distance, while recommenders often want <strong>cosine</strong> similarity. They are the same search after one step: <strong><span class="math inline">\(\ell_2\)</span>-normalize</strong> every vector (divide by its length). For unit vectors, the dot product <em>is</em> the cosine, so “cosine top-<span class="math inline">\(K\)</span>” becomes “inner-product top-<span class="math inline">\(K\)</span>” — a plain MIPS query the index already supports. (This is why the appendix’s vector-search section says “normalize, then use inner product.”)</p>
-<p><strong>How approximate is “approximate”? (index recall.)</strong> You tune the index by its <strong>recall@k against the exact answer</strong>: if the exact top-5 is <span class="math inline">\(\{a,b,c,d,e\}\)</span> but the ANN returns <span class="math inline">\(\{a,b,c,d,x\}\)</span>, the index recall@5 is <span class="math inline">\(4/5=0.80\)</span> — it found 4 of the 5 true neighbours. The operating rule is forgiving: because the ranking stage (§8) re-sorts whatever retrieval hands it, an index recall around <strong>0.95</strong> is usually plenty, and you trade that last sliver of recall for a large latency win. (This is the <em>serving-side</em> use of recall@k; the metric itself is defined in <em>Evaluation Metrics</em>.)</p>
-<p>So serving a learned recommender at scale is: <strong>embed once, index once, then answer each request with one fast ANN query</strong> over the item index. But there is a second reason real systems don’t stop at a single ANN query — they use it as only the <em>first</em> of two stages.</p>
+<p>The <strong>greedy walk</strong> of HNSW starts at some item, looks at the items it links to, moves to whichever of them scores highest against the user vector, and repeats until no neighbor beats where you stand. <em>Small world</em> is the property that makes this work: any two items are joined by a short chain of links, as in the “six degrees of separation” idea about people. <em>Hierarchical</em> means the links are stacked in layers: the top layer holds only a few far-apart items with long links (big jumps across the space), and each layer below adds more items with shorter links (fine steps). You descend from the coarse layer to the fine one.</p>
+<p>A tiny walk, in §6’s plane with Ann’s <span class="math inline">\([2.018,0.482]\)</span> (links invented for the example): start at Die Hard (<span class="math inline">\(1.877\)</span>), linked to La La Land and Rambo. La La Land scores <span class="math inline">\(3.268\)</span>, Rambo <span class="math inline">\(0.964\)</span>, so step to La La Land. Its links are Die Hard and The Notebook (<span class="math inline">\(4.132\)</span>), so step to The Notebook. Its only link is back to La La Land (<span class="math inline">\(3.268\)</span>), lower, so stop: the best match, in two hops. (A lone greedy walk can stop on a local peak that is not the best match, which is why the bottom layer keeps the working list of candidates described next.)</p>
+<p><strong>What a walk costs.</strong> The number of steps grows roughly like <span class="math inline">\(\log_2 M\)</span>, but every step <em>scores</em> the roughly <span class="math inline">\(32\)</span> items linked to where it stands, and at the bottom layer the search keeps a working list of about <span class="math inline">\(100\)</span> candidates and scores each one’s <span class="math inline">\(32\)</span> links as well (typical settings; a claim from practice, not tested here). So the total is <span class="math inline">\(\text{steps}\times32+100\times32\)</span> item scores. The table prices three catalog sizes.</p>
+<div id="tbl-training-and-serving-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.3: Walk cost at three catalog sizes (a simple model of the walk, not a measurement): steps are <span class="math inline">\(\log_2 M\)</span> rounded, and scores by the walk are <span class="math inline">\(\text{steps}\times32+3{,}200\)</span>. The walk’s cost barely moves while a scan’s grows a hundredfold per row. At <span class="math inline">\(10^{3}\)</span> the scan is cheaper; at <span class="math inline">\(10^{7}\)</span> the walk is about <span class="math inline">\(2{,}500\)</span> times cheaper.
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Catalog size <span class="math inline">\(M\)</span></th>
+<th style="text-align: right;">Steps, <span class="math inline">\(\log_2 M\)</span></th>
+<th style="text-align: right;">Scores by the walk</th>
+<th style="text-align: right;">Scores by a full scan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(10^{3}\)</span></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3,520</td>
+<td style="text-align: right;">1,000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><span class="math inline">\(10^{5}\)</span></td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">3,744</td>
+<td style="text-align: right;">100,000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(10^{7}\)</span></td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">3,936</td>
+<td style="text-align: right;">10,000,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Three sizes are enough because the claim is a shape, and the rows are a hundredfold apart: each row multiplies the scan by <span class="math inline">\(100\)</span> but adds only about <span class="math inline">\(6.6\)</span> steps to the walk (<span class="math inline">\(2\times\log_2 10=2\times3.32\)</span>; <span class="math inline">\(7\)</span> and <span class="math inline">\(6\)</span> after rounding), so the walk’s cost rises from <span class="math inline">\(3{,}520\)</span> to <span class="math inline">\(3{,}936\)</span>, about <span class="math inline">\(12\%\)</span> over two rows.</p>
+<p><strong>Worked example: searching without scoring everything.</strong> §6’s four-item catalog is small enough to do the whole thing by hand. Split it into two buckets and average each bucket’s vectors to get its center:</p>
+<div id="tbl-training-and-serving-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.4: A two-bucket index over §6’s four-item catalog. Each center is the plain average of the two vectors in its bucket: <span class="math inline">\((2+1.5)/2=1.75\)</span> and <span class="math inline">\((0.2+0.5)/2=0.35\)</span>; <span class="math inline">\((0.5+0)/2=0.25\)</span> and <span class="math inline">\((1.8+2)/2=1.9\)</span>. This is the whole of the index, built once, offline, and reused by every query.
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 56%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bucket</th>
+<th>Items</th>
+<th>Center</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>romance</td>
+<td>The Notebook <span class="math inline">\([2,\,0.2]\)</span>, La La Land <span class="math inline">\([1.5,\,0.5]\)</span></td>
+<td><span class="math inline">\([1.75,\,0.35]\)</span></td>
+</tr>
+<tr class="even">
+<td>action</td>
+<td>Die Hard <span class="math inline">\([0.5,\,1.8]\)</span>, Rambo <span class="math inline">\([0,\,2]\)</span></td>
+<td><span class="math inline">\([0.25,\,1.9]\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Now serve Ann, <span class="math inline">\(\mathbf p_{\text{Ann}}=[2.018,\,0.482]\)</span>. <strong>Step one, score the centers:</strong> <span class="math display">\[
+\begin{aligned}
+\text{romance center: }&amp;\ 2.018(1.75)+0.482(0.35)=3.5315+0.1687=3.700,\\[3pt]
+\text{action center: }&amp;\ 2.018(0.25)+0.482(1.9)=0.5045+0.9158=1.420 .
+\end{aligned}
+\]</span> The romance bucket wins, so step two scores only the two items inside it: The Notebook <span class="math inline">\(4.132\)</span>, La La Land <span class="math inline">\(3.268\)</span>, the same top-2 the exhaustive scan of §6 produced, having never looked at Die Hard or Rambo at all.</p>
+<p>On four items this saves nothing (two centers plus two items is four dot products, exactly what the full scan costs); the point is the <em>procedure</em>, and the procedure is what scales. Put <span class="math inline">\(10^{7}\)</span> items into <span class="math inline">\(1{,}000\)</span> buckets of <span class="math inline">\(10{,}000\)</span> each and probe the <span class="math inline">\(10\)</span> best-matching buckets: that is <span class="math inline">\(1{,}000\)</span> center scores item scores <span class="math inline">\(=101{,}000\)</span> dot products instead of <span class="math inline">\(10^{7}\)</span>, about <span class="math inline">\(99\)</span> times fewer. The shortcut also carries a risk. Had Ann’s best item been sitting in the <em>action</em> bucket, this search would have missed it. That is exactly the “approximate” in the name.</p>
+<div id="fig-training-and-serving-4" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Two ways an index narrows the search. (a) Partitioning on §6's plane: Ann's vector (red cross) scores 3.700 against the romance center and 1.420 against the action center (each the small ringed dot),">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-4.svg" class="img-fluid figure-img" alt="Two ways an index narrows the search. (a) Partitioning on §6's plane: Ann's vector (red cross) scores 3.700 against the romance center and 1.420 against the action center (each the small ringed dot),">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.4: Two ways an index narrows the search. <strong>(a)</strong> <em>Partitioning</em> on §6’s plane: Ann’s vector (red cross) scores <span class="math inline">\(3.700\)</span> against the romance center and <span class="math inline">\(1.420\)</span> against the action center (each the small ringed dot), so only the shaded bucket is opened. <strong>(b)</strong> <em>Graph navigation</em> (HNSW), a schematic that is <em>not</em> §6’s plane or catalog: eight dots stand for items from any catalog, and height only separates the coarse layer from the fine one. The search enters at some item and walks greedily to the best-scoring linked item.
+</figcaption>
+</figure>
+</div>
+<p><strong>The cosine ↔︎ inner-product trick.</strong> Most ANN libraries optimize either inner product or Euclidean distance (the ordinary straight-line distance), while recommenders often want cosine similarity (the dot product of two vectors after dividing each by its length; <em>Linear Algebra for Machine Learning</em> §4). They are the same search after one step: <strong><span class="math inline">\(\ell_2\)</span>-normalize</strong> every vector (divide by its length). For unit vectors, the dot product <em>is</em> the cosine, so “cosine top-<span class="math inline">\(K\)</span>” becomes “inner-product top-<span class="math inline">\(K\)</span>”, a plain MIPS query the index already supports. (The vector-search section of the <em>Implementation Choices</em> appendix, §3, puts it as “L2-normalize your vectors, then use inner product.”) The catch is that this answers the <em>cosine</em> question: a model trained on raw dot products, like §6’s, would rank some items differently after normalizing (the <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> above), so serve it with an index that supports inner product directly.</p>
+<p><strong>How approximate is “approximate”? (index recall.)</strong> You tune the index by its recall@<span class="math inline">\(K\)</span> against the exact answer: if the exact top-<span class="math inline">\(5\)</span> is the item set <span class="math inline">\(\{p,q,r,s,t\}\)</span> but the index returns <span class="math inline">\(\{p,q,r,s,x\}\)</span>, the index recall@<span class="math inline">\(5\)</span> is <span class="math inline">\(4/5=0.80\)</span>, because it found <span class="math inline">\(4\)</span> of the <span class="math inline">\(5\)</span> true neighbors.</p>
+<p>Averaged over queries and measured against a shortlist of <span class="math inline">\(300\)</span>, a recall of <span class="math inline">\(0.80\)</span> means the index returns on average <span class="math inline">\(240\)</span> of the exact <span class="math inline">\(300\)</span> and loses <span class="math inline">\(60\)</span>; <span class="math inline">\(0.95\)</span> loses <span class="math inline">\(15\)</span>; <span class="math inline">\(0.99\)</span> loses <span class="math inline">\(3\)</span>. The operating rule is forgiving: because the ranking stage (§8) re-sorts whatever retrieval hands it, an index recall around 0.95 is usually plenty (a rule of thumb from practice, not tested here), and you trade that last sliver of recall for lower <em>latency</em>, the time between a request arriving and the answer going back (the milliseconds of §1), a large win. (This is the <em>serving-side</em> use of recall@<span class="math inline">\(K\)</span>; the metric itself is defined in <em>Evaluation Metrics</em>.)</p>
+<p>So serving a learned recommender at scale is: embed once, index once, then answer each request with one fast ANN query over the item index. Both “once” steps repeat on a schedule: after each retrain the item vectors are recomputed and the index is rebuilt (or the new vectors are appended), so a film added since then has no vector until the next rebuild (§8 treats this cold start). For LightGCN, what goes into the index is the propagated, layer-averaged vectors, computed once offline (a claim from practice, not tested here). But there is a second reason real systems don’t stop at a single ANN query: they use it as only the <em>first</em> of two stages.</p>
+<p><strong>In one line:</strong> the two-bucket index scored <span class="math inline">\(4\)</span> vectors (no saving on four films), the same idea scores <span class="math inline">\(101{,}000\)</span> instead of <span class="math inline">\(10^{7}\)</span> at scale (<span class="math inline">\(99\)</span> times fewer), and an HNSW walk over <span class="math inline">\(10^{7}\)</span> films scores about <span class="math inline">\(3{,}936\)</span> (a simple model, not a measurement).</p>
 <hr>
 </section>
 </section>
 <section id="the-two-stage-funnel-retrieval-ranking" class="level2">
 <h2 class="anchored" data-anchor-id="the-two-stage-funnel-retrieval-ranking">8. The two-stage funnel: retrieval → ranking</h2>
-<p><em>Traditional RecSys</em> §7 showed the <strong>funnel</strong> in outline; here is why it exists and how the two stages divide the labour. A production recommender almost never scores all items with its <em>best</em> model — that model is too expensive to run millions of times per request. Instead it splits serving into two stages with <strong>opposite priorities</strong>:</p>
+<p>Ann’s phone gives the shop 30 milliseconds to answer. A careful model that reads many facts about each film, such as that it is Friday night, is too slow for ten million films, and a quick model misses what those facts would tell. This section puts a quick stage in front of a careful one.</p>
+<p><em>Traditional Recommender Systems</em> §7 (its last subsection) showed the <strong>funnel</strong> in outline; here is why it exists and how the two stages divide the labor. A production recommender almost never scores all items with its <em>best</em> model, because that model is too expensive to run millions of times per request. Instead it splits serving into two stages with opposite priorities (the design Covington, Adams &amp; Sargin, 2016, report running at YouTube scale). The table below sets them side by side.</p>
+<div id="tbl-training-and-serving-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.5: The two stages of serving. Retrieval is a high-recall sieve (a fast dot-product/ANN pass that must not drop good films); ranking is a high-precision sort (a heavy model that can afford rich features because it only sees a few hundred candidates).
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>The two stages of serving. Retrieval is a high-<strong>recall</strong> sieve (a fast dot-product/ANN pass that must not drop good items); ranking is a high-<strong>precision</strong> sort (a heavy model that can afford rich features because it only sees a few hundred candidates). The model chapters’ embeddings power the <em>first</em> stage; a feature-rich model (e.g.&nbsp;the factorization machine of <em>Traditional RecSys</em> §8) powers the <em>second</em>.</caption>
 <colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
+<col style="width: 22%">
+<col style="width: 14%">
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -795,24 +1046,43 @@ Figure&nbsp;14.3: <strong>Two-tower retrieval.</strong> The <em>item tower</em> 
 <tbody>
 <tr class="odd">
 <td><strong>Retrieval</strong> (candidate generation)</td>
-<td>cut the catalogue to a shortlist</td>
+<td>cut the catalog to a shortlist</td>
 <td>cheap: embeddings + ANN (§7)</td>
-<td><strong>recall</strong> — don’t miss good items</td>
-<td><span class="math inline">\(M\approx10^{7}\to\)</span> a few hundred</td>
+<td>recall: don’t miss good films</td>
+<td><span class="math inline">\(10^{7}\to\)</span> a few hundred</td>
 </tr>
 <tr class="even">
-<td><strong>Ranking</strong></td>
+<td><strong>Ranking</strong> (reranking)</td>
 <td>order the shortlist precisely</td>
-<td>expensive: a rich feature model (FM / CTR / LLM)</td>
-<td><strong>precision</strong> — get the top few right</td>
+<td>rich: a factorization machine (FM) or a large language model (LLM)</td>
+<td>precision: get the top few right</td>
 <td>a few hundred <span class="math inline">\(\to\)</span> top-<span class="math inline">\(K\)</span></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Why two stages, not one?</strong> A single cheap model (retrieval alone) misses subtle, context-dependent preferences. A single rich model (ranking alone) cannot run over millions of items per request. The funnel gets both: retrieval is <strong>fast and forgiving</strong> (keep anything plausibly good), ranking is <strong>slow and sharp</strong> (only a few hundred survive, so you can afford a model that reads many features).</p>
-<p><strong>Worked example — the ranker reorders.</strong> Retrieval scores Ann’s unseen items by the §6 dot product and keeps the <strong>top 3</strong>: Notebook (<span class="math inline">\(4.13\)</span>), La La Land (<span class="math inline">\(3.27\)</span>), Die Hard (<span class="math inline">\(1.88\)</span>). Now a <strong>ranking</strong> model — a factorization machine (<em>Traditional RecSys</em> §8) — re-scores those three using a <strong>context feature the embedding never saw</strong>: it is <strong>Friday night</strong>, and the FM has learned an interaction <span class="math inline">\(\langle\text{item},\text{Friday-night}\rangle\)</span> (action films do well on Friday nights). Adding that learned interaction to each candidate:</p>
+</div>
+</figure>
+</div>
+<p>Search engines and the large-language-model literature call the second stage <strong>reranking</strong>: the same stage under another name. Neither name covers the final cut, which shows the top <span class="math inline">\(K\)</span> after the already-seen filter of §6 and any business rules (out-of-stock films, say) have been applied.</p>
+<p>The model chapters’ embeddings power the <em>first</em> stage. A feature-rich model such as the factorization machine of <em>Traditional Recommender Systems</em> §8 powers the <em>second</em>, and models that predict the click-through rate (CTR), the chance that a shown film is clicked, are the subject of the next chapter.</p>
+<p><strong>Why two stages, not one?</strong> A single cheap model (retrieval alone) misses subtle, context-dependent preferences. A single rich model (ranking alone) cannot run over millions of items per request. The funnel gets both, with retrieval fast and forgiving (keep anything plausibly good) and ranking slow and sharp (only a few hundred survive, so you can afford a model that reads many features).</p>
+<p><strong>Worked example: the ranker reorders.</strong> Retrieval scores Ann’s unseen items by the §6 dot product and keeps the top 3: Notebook (<span class="math inline">\(4.132\)</span>), La La Land (<span class="math inline">\(3.268\)</span>), Die Hard (<span class="math inline">\(1.877\)</span>). Now a ranking model, the factorization machine (FM) of <em>Traditional Recommender Systems</em> §8 (Rendle, 2010), re-scores those three using a context feature the embedding never saw: it is Friday night. In that FM every feature has a factor vector, and every pair of active features adds the dot product of their vectors. Here the active features are Ann, one film and Friday night. We reuse the retrieval vectors for Ann and the films.</p>
+<p>Friday night gets a vector of its own that points toward action and away from romance, like the action tag of <em>Traditional Recommender Systems</em> §8: <span class="math inline">\(\mathbf v_{\text{Fri}}=[-0.5,\,1.5]\)</span>. That is a hand-picked premise, as the factors of that section were, not a trained value.</p>
+<p>Each film’s <strong>Friday interaction</strong> <span class="math inline">\(\langle\text{film},\text{Fri}\rangle\)</span> is its vector dotted with <span class="math inline">\(\mathbf v_{\text{Fri}}\)</span>: <span class="math display">\[
+\begin{aligned}
+\text{Die Hard }[0.5,1.8]:&amp;\ (0.5)(-0.5)+(1.8)(1.5)=-0.25+2.70=+2.45,\\
+\text{The Notebook }[2,0.2]:&amp;\ (2)(-0.5)+(0.2)(1.5)=-1.00+0.30=-0.70,\\
+\text{La La Land }[1.5,0.5]:&amp;\ (1.5)(-0.5)+(0.5)(1.5)=-0.75+0.75=\ \ 0.00 .
+\end{aligned}
+\]</span></p>
+<p>Under the premise explained after the table, adding each interaction to its retrieval score gives the ranker’s score:</p>
+<div id="tbl-training-and-serving-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.6: Retrieval vs.&nbsp;ranking on the same three candidates. Die Hard jumps from retrieval-rank 3 to ranking-rank 1: the cheap embedding stage could not know it is Friday night, but the ranker’s <span class="math inline">\(\langle\text{film},\text{Fri}\rangle\)</span> term (<span class="math inline">\(+2.45\)</span> for the action film) reorders the shortlist. Final top-<span class="math inline">\(2\)</span> = Die Hard, The Notebook, different from retrieval’s top-2. The ranker score leaves out one number shared by all three films (see the text).
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>Retrieval vs.&nbsp;ranking on the same three candidates. <strong>Die Hard jumps from retrieval-rank 3 to ranking-rank 1</strong>: the cheap embedding stage could not know it is Friday night, but the ranking FM’s learned <span class="math inline">\(\langle\text{item},\text{Friday}\rangle\)</span> interaction (<span class="math inline">\(+2.5\)</span> for the action film) reorders the shortlist. Final top-<span class="math inline">\(2\)</span> = <strong>Die Hard, The Notebook</strong> — different from retrieval’s top-2, and better for the moment.</caption>
 <colgroup>
 <col style="width: 15%">
 <col style="width: 15%">
@@ -823,12 +1093,12 @@ Figure&nbsp;14.3: <strong>Two-tower retrieval.</strong> The <em>item tower</em> 
 </colgroup>
 <thead>
 <tr class="header">
-<th>Candidate (from retrieval)</th>
+<th>Film</th>
 <th style="text-align: right;">Retrieval score</th>
 <th style="text-align: center;">Retrieval rank</th>
-<th style="text-align: right;"><span class="math inline">\(\langle\text{item},\text{Fri}\rangle\)</span></th>
-<th style="text-align: right;">Ranking score</th>
-<th style="text-align: center;"><strong>Final rank</strong></th>
+<th style="text-align: right;"><span class="math inline">\(\langle\text{film},\text{Fri}\rangle\)</span></th>
+<th style="text-align: right;">Ranker score</th>
+<th style="text-align: center;">Final rank</th>
 </tr>
 </thead>
 <tbody>
@@ -836,81 +1106,132 @@ Figure&nbsp;14.3: <strong>Two-tower retrieval.</strong> The <em>item tower</em> 
 <td>Die Hard</td>
 <td style="text-align: right;">1.877</td>
 <td style="text-align: center;">3</td>
-<td style="text-align: right;"><span class="math inline">\(+2.5\)</span></td>
-<td style="text-align: right;"><strong>4.377</strong></td>
-<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: right;"><span class="math inline">\(+2.45\)</span></td>
+<td style="text-align: right;">4.327</td>
+<td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
 <td>The Notebook</td>
 <td style="text-align: right;">4.132</td>
 <td style="text-align: center;">1</td>
-<td style="text-align: right;"><span class="math inline">\(-0.3\)</span></td>
-<td style="text-align: right;">3.832</td>
+<td style="text-align: right;"><span class="math inline">\(-0.70\)</span></td>
+<td style="text-align: right;">3.432</td>
 <td style="text-align: center;">2</td>
 </tr>
 <tr class="odd">
 <td>La La Land</td>
 <td style="text-align: right;">3.268</td>
 <td style="text-align: center;">2</td>
-<td style="text-align: right;"><span class="math inline">\(+0.2\)</span></td>
-<td style="text-align: right;">3.468</td>
+<td style="text-align: right;"><span class="math inline">\(0.00\)</span></td>
+<td style="text-align: right;">3.268</td>
 <td style="text-align: center;">3</td>
 </tr>
 </tbody>
 </table>
-<p>This is the payoff of the funnel: retrieval used the <strong>collaborative</strong> signal (Ann likes romance) to build a strong shortlist <em>fast</em>; ranking used a <strong>contextual</strong> feature (it’s Friday) to <em>reorder</em> it <em>well</em>. The model chapters of this book mostly improve the <strong>retrieval embeddings</strong>; the feature-rich models (FM, deep CTR, LLM rankers) mostly improve the <strong>ranking</strong> stage. Together they are the system.</p>
-<div id="fig-training-and-serving-4" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/training-and-serving-4.svg" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14.4: The two-stage retrieval <span class="math inline">\(\to\)</span> ranking funnel. <strong>Retrieval</strong> (embeddings + ANN, §7) sweeps <span class="math inline">\({\sim}10^{7}\)</span> items down to a few hundred candidates at high <em>recall</em> — it must not drop good items, so it is fast and forgiving. <strong>Ranking</strong> (FM / LLM ranker) reorders that shortlist at high <em>precision</em> — it can afford rich, slow features because it only ever sees a few hundred candidates. The three pools (millions <span class="math inline">\(\to\)</span> hundreds <span class="math inline">\(\to\)</span> <span class="math inline">\(K\)</span>) show the funnel narrowing.
+</figure>
+</div>
+<p><em>Why is the ranker’s score just “retrieval score <span class="math inline">\(+\)</span> interaction”?</em> An FM adds up a global bias (one constant added to every score), a solo weight for each active feature, and the dot product for every pair of active features. In a real FM each film has a solo weight of its own, and those differ (<em>Traditional Recommender Systems</em> §8 gives Vendetta <span class="math inline">\(+1.0\)</span>). For this example we give the three films the same solo weight, a premise like the other hand-picked numbers, so that it is shared along with the rest. With unequal weights each film’s score would gain one more term, and the order could change.</p>
+<p>Under that premise, for Ann, a film and Friday night, the pairs are <span class="math inline">\(\langle\text{Ann},\text{film}\rangle\)</span>, <span class="math inline">\(\langle\text{Ann},\text{Fri}\rangle\)</span> and <span class="math inline">\(\langle\text{film},\text{Fri}\rangle\)</span>. The first is the dot product retrieval already computed (<em>Traditional Recommender Systems</em> §8). The bias, Ann’s solo weight, Friday’s solo weight, the films’ common solo weight and <span class="math inline">\(\langle\text{Ann},\text{Fri}\rangle\)</span> are the same number for all three films; call their total <span class="math inline">\(c\)</span>. Adding <span class="math inline">\(c\)</span> to every score cannot change the order, so the table leaves it out.</p>
+<p>This is the payoff of the funnel: retrieval used the <strong>collaborative</strong> signal (what Ann’s liked films say about her taste: she likes romance) to build a strong shortlist <em>fast</em>; ranking used a <strong>contextual</strong> feature (a fact about the moment, not the film: it’s Friday) to <em>reorder</em> it <em>well</em>. The model chapters of this book mostly improve the retrieval embeddings; the feature-rich models (FM, deep CTR, LLM rankers) mostly improve the ranking stage. Together they are the system.</p>
+<div id="fig-training-and-serving-5" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The two-stage retrieval to ranking funnel.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-training-and-serving-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/training-and-serving-5.svg" class="img-fluid figure-img" alt="The two-stage retrieval to ranking funnel.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-training-and-serving-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.5: The two-stage retrieval <span class="math inline">\(\to\)</span> ranking funnel. <strong>Retrieval</strong> (embeddings + approximate nearest-neighbor search, §7) sweeps <span class="math inline">\({\sim}10^{7}\)</span> items down to a few hundred candidates at high <em>recall</em>: it must not drop good items, so it is fast and forgiving. <strong>Ranking</strong> (the factorization machine or large-language-model ranker) reorders that shortlist at high <em>precision</em>: it can afford rich, slow features because it only ever sees a few hundred candidates. The blue boxes are the pools of items, millions <span class="math inline">\(\to\)</span> hundreds <span class="math inline">\(\to\)</span> <span class="math inline">\(K\)</span>, and their sizes are not to scale.
 </figcaption>
 </figure>
 </div>
-<blockquote class="blockquote">
-<p><strong>Does the latency budget close?</strong> A feed request typically has a <strong>p99 budget around 30 ms</strong> for candidate generation plus ranking. A worked split: <strong>retrieval</strong> (one ANN query, §7) about 5 ms; <strong>feature fetch</strong> for the few-hundred candidates about 10 ms; <strong>ranking</strong> them with a feature-rich model — say <span class="math inline">\(N{=}300\)</span> candidates scored by a factorization machine — about 10 ms; leaving about 5 ms for network and serialization. It sums to budget <em>precisely because the heavy model only ever sees a few hundred items</em> — the whole point of the funnel. Score all <span class="math inline">\(10^{7}\)</span> items with that model and you blow the budget by orders of magnitude (the <span class="math inline">\(O(Md)\)</span> wall of §6). (Order-of-magnitude figures — measure your own stack; tool/QPS numbers live in <em>Implementation Choices</em>.)</p>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>Two serving realities the training loop hides.</strong> <strong>(1) Train–serve skew.</strong> The model is trained on <em>logged, sampled</em> interactions but served over the <em>whole live catalogue</em>, so a sampling choice leaks into production: a uniformly-trained retriever systematically under-ranks the long tail it rarely saw as a positive — part of why the <span class="math inline">\(\text{pop}^{0.75}\)</span> sampler (§3) exists. Keep the training distribution as close to the serving one as you can. <strong>(2) Serving cold-start.</strong> A brand-new user or item has <em>no</em> learned embedding yet — nothing to put in the index. Fall back to <strong>popularity</strong> or <strong>content / LLM features</strong> until interactions accrue, or <strong>explore</strong> with a bandit (<em>Bandits &amp; Online Recommendation</em>; <em>LLM × RecSys</em> for the content-feature route).</p>
-</blockquote>
+<p><strong>Does the latency budget close?</strong> A request to fill a user’s <strong>feed</strong> (the scrolling list of recommendations they see on opening the app) typically has to be answered within about 30 ms (a typical figure from practice, not tested here), and that must hold for <span class="math inline">\(99\)</span> of every <span class="math inline">\(100\)</span> requests: engineers call such a promise a <strong>p99</strong> budget (“the 99th percentile”). One worked split of those 30 ms:</p>
+<div id="tbl-training-and-serving-7" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-training-and-serving-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.7: A worked split of a 30 ms budget. These are order-of-magnitude figures: measure your own system.
+</figcaption>
+<div aria-describedby="tbl-training-and-serving-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>What it does</th>
+<th style="text-align: right;">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Retrieval</td>
+<td>one ANN query (§7)</td>
+<td style="text-align: right;">5 ms</td>
+</tr>
+<tr class="even">
+<td>Feature fetch</td>
+<td>read each candidate’s stored facts (such as genre) from a database</td>
+<td style="text-align: right;">10 ms</td>
+</tr>
+<tr class="odd">
+<td>Ranking</td>
+<td>a feature-rich model scores <span class="math inline">\(N{=}300\)</span> candidates</td>
+<td style="text-align: right;">10 ms</td>
+</tr>
+<tr class="even">
+<td>Network and serialization</td>
+<td>pack the answer into a sendable form and send it back</td>
+<td style="text-align: right;">5 ms</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td></td>
+<td style="text-align: right;">30 ms</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The split closes <em>because the heavy model only ever sees a few hundred items</em>, the whole point of the funnel. Score all <span class="math inline">\(10^{7}\)</span> items with that model instead and the same 10 ms per 300 candidates becomes <span class="math inline">\(10\ \text{ms}\times10^{7}/300\approx333{,}000\)</span> ms <span class="math inline">\(\approx330\)</span> seconds per request, about <span class="math inline">\(11{,}000\)</span> times the 30 ms budget (a model, not a measurement: it assumes the ranker’s time grows in proportion to the candidates on one worker; the <span class="math inline">\(O(Md)\)</span> wall of §6). Throughput figures for specific tools, in <strong>queries per second (QPS)</strong> (how many requests a system answers each second), change with every release, so <em>Implementation Choices</em> §3 teaches how to read them off the live charts at a fixed recall, together with the rest of the software <strong>stack</strong> (the layers of software the system is built from), from the index up to the service that answers the request.</p>
+<p><strong>Two serving realities the training loop hides.</strong> The first is <strong>train–serve skew</strong>, one case of the wider difference between how a model is trained and how it is served. The model trains on <em>logged, sampled</em> interactions but is served over the <em>whole live catalog</em>, so a sampling choice can leak into production. The clearest case is §3’s in-batch sampling bias: training meets item <span class="math inline">\(i\)</span> in proportion to <span class="math inline">\(Q(i)\)</span>, serving meets every item once, and the log-<span class="math inline">\(Q\)</span> correction of §3 cures this one case.</p>
+<p>A different problem, data sparsity rather than a train-versus-serve mismatch, is also worth knowing: a film with <span class="math inline">\(2\)</span> likes among <span class="math inline">\(10^{6}\)</span> logged likes is a positive for the loop only twice, so a retriever trained that way tends to under-rank such <strong>long-tail</strong> films, the very many items that are each interacted with only rarely (a claim from practice, not tested here). Keep the training distribution as close to the serving one as you can.</p>
+<p>The second is <strong>serving cold-start</strong>. For ID-based models like MF, a brand-new item has no learned vector to put in the index, and a brand-new user, say Dana, who joined today, has no vector to query the index <em>with</em>. (A two-tower model whose item tower reads the item’s text or image, as the two-tower figure in §7 shows, can embed a brand-new item from its content straight away.) Fall back to popularity or content / LLM features until interactions accrue, or <strong>explore</strong>: deliberately show the new item to some users to find out how good it is, using a <strong>bandit</strong> algorithm (<em>Bandits &amp; Online Recommendation</em>, later in the book; <em>Large Language Models and Recommendation</em> for the content-feature route).</p>
+<p><strong>In one line:</strong> the ranker took three films from retrieval and moved Die Hard from rank <span class="math inline">\(3\)</span> to rank <span class="math inline">\(1\)</span>; a ranker of that kind takes about <span class="math inline">\(10\)</span> ms for <span class="math inline">\(300\)</span> candidates, where ranking all <span class="math inline">\(10^{7}\)</span> films would take about <span class="math inline">\(330\)</span> s against a <span class="math inline">\(30\)</span> ms budget (a model, not a measurement).</p>
 <hr>
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">9. Exercises</h2>
-<p>Work these by hand — the numbers reuse this chapter’s running pieces (Ann <span class="math inline">\(\mathbf
-p_{\text{Ann}}=[2,0.5]\)</span> before training, <span class="math inline">\([2.018,0.482]\)</span> after the §4 step; Avatar <span class="math inline">\([1,1]\)</span>, Rambo <span class="math inline">\([0,2]\)</span>; <span class="math inline">\(\sigma(1.5)=0.8176\)</span>). Full worked solutions are in the <strong>Solutions</strong> appendix at the back of the book.</p>
+<p>Ten by-hand problems. Work these by hand; the numbers reuse this chapter’s running pieces (Ann <span class="math inline">\(\mathbf p_{\text{Ann}}=[2,0.5]\)</span> before training, <span class="math inline">\([2.018,0.482]\)</span> after the §4 step; Titanic <span class="math inline">\([2,0]\)</span>, Vendetta <span class="math inline">\([1,1]\)</span>, Rambo <span class="math inline">\([0,2]\)</span>, and the §6 films The Notebook <span class="math inline">\([2,0.2]\)</span>, La La Land <span class="math inline">\([1.5,0.5]\)</span>, Die Hard <span class="math inline">\([0.5,1.8]\)</span>; the score gap is written <span class="math inline">\(\Delta\)</span> and the embedding dimension <span class="math inline">\(d\)</span>). Full worked solutions are in the Solutions appendix at the back of the book. Sigmoid values you may need: <span class="math inline">\(\sigma(1)=0.7311\)</span>, <span class="math inline">\(\sigma(2)=0.8808\)</span>, <span class="math inline">\(\sigma(3)=0.9526\)</span>, <span class="math inline">\(\sigma(4)=0.9820\)</span>, <span class="math inline">\(\sigma(5)=0.9933\)</span>, and <span class="math inline">\(\sigma(-z)=1-\sigma(z)\)</span>.</p>
 <ol type="1">
-<li><p><strong>(compute)</strong> Ann’s pre-training vector is <span class="math inline">\([2,0.5]\)</span>. Score the triple with positive <strong>Titanic</strong> <span class="math inline">\(\mathbf q^{+}=[2,0]\)</span> and negative <strong>Rambo</strong> <span class="math inline">\(\mathbf q^{-}=[0,2]\)</span>: compute <span class="math inline">\(\hat r^{+}\)</span>, <span class="math inline">\(\hat r^{-}\)</span>, and the gap <span class="math inline">\(d\)</span>. Is the order already correct (is <span class="math inline">\(d&gt;0\)</span>)?</p></li>
-<li><p><strong>(compute)</strong> For the triple in Exercise 1, compute the BPR loss <span class="math inline">\(-\ln\sigma(d)\)</span> and the gradient factor <span class="math inline">\(1-\sigma(d)\)</span>. (Use <span class="math inline">\(\sigma(3.0)=0.953\)</span>.) Compared with §4’s triple (<span class="math inline">\(d=1.5\)</span>), is this triple’s loss larger or smaller, and why does that make sense?</p></li>
-<li><p><strong>(compute)</strong> Do the full update for Exercise 1’s triple on <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span> with <span class="math inline">\(\eta=0.1\)</span>: form <span class="math inline">\(\dfrac{\partial\mathcal L}{\partial\mathbf p}=-(1-\sigma(d))(\mathbf
-q^{+}-\mathbf q^{-})\)</span>, then <span class="math inline">\(\mathbf p\leftarrow\mathbf p-\eta\,\dfrac{\partial\mathcal
-L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that match “Titanic is pure romance”?</p></li>
-<li><p><strong>(concept)</strong> The BPR gradient carries the factor <span class="math inline">\(-(1-\sigma(d))\)</span>. Explain in two sentences why a triple the model already ranks correctly <em>by a wide margin</em> (<span class="math inline">\(d\)</span> large and positive) produces almost <strong>no</strong> update, while a triple it gets <em>wrong</em> (<span class="math inline">\(d&lt;0\)</span>) produces a large one. What property of training does this give you for free?</p></li>
-<li><p><strong>(compute)</strong> Negative sampling. Ann’s three un-clicked candidates have popularities Rambo <span class="math inline">\(=60\)</span>, Die Hard <span class="math inline">\(=30\)</span>, Notebook <span class="math inline">\(=10\)</span>. (a) Give the uniform sampling probabilities. (b) Using <span class="math inline">\(\text{pop}^{0.75}\)</span> (<span class="math inline">\(60^{0.75}=21.56\)</span>, <span class="math inline">\(30^{0.75}=12.82\)</span>, <span class="math inline">\(10^{0.75}=5.62\)</span>), give the popularity-weighted probabilities. (c) By what factor is the blockbuster Rambo more likely to be the sampled negative under popularity-weighting than under uniform?</p></li>
-<li><p><strong>(concept)</strong> <strong>In-batch negatives</strong> reuse the other positives in a mini-batch as negatives.</p>
-<ol type="a">
-<li>If a batch holds positives for <span class="math inline">\(256\)</span> distinct (user, item) pairs, how many negatives does each user get “for free”? (b) Describe the <em>false-negative</em> hazard and say why it is worse for very popular items.</li>
-</ol></li>
-<li><p><strong>(compute)</strong> Inference cost. A catalogue has <span class="math inline">\(M=10^{7}\)</span> items and embeddings of dimension <span class="math inline">\(d=64\)</span>. (a) Roughly how many multiply-adds does an <strong>exact</strong> top-<span class="math inline">\(K\)</span> scan cost for <strong>one</strong> user (<span class="math inline">\(\approx Md\)</span>)? (b) An HNSW index makes the query cost grow like <span class="math inline">\(\log_2 M\)</span> instead of <span class="math inline">\(M\)</span>; roughly what is <span class="math inline">\(\log_2(10^{7})\)</span>, and what does that say about the speed-up?</p></li>
-<li><p><strong>(concept)</strong> A recommender wants <strong>cosine</strong> similarity, but the ANN library only does inner-product (MIPS). State the one preprocessing step that makes the two identical, and explain in one sentence <em>why</em> it works (what is the dot product of two unit vectors?).</p></li>
-<li><p><strong>(apply)</strong> Two-stage funnel. Retrieval returns three candidates with collaborative scores A <span class="math inline">\(=3.0\)</span>, B <span class="math inline">\(=2.6\)</span>, C <span class="math inline">\(=2.2\)</span>. The Friday-night ranker adds interactions <span class="math inline">\(\langle A,\text{Fri}\rangle=-0.5\)</span>, <span class="math inline">\(\langle B,\text{Fri}\rangle=+0.1\)</span>, <span class="math inline">\(\langle C,\text{Fri}\rangle=+1.4\)</span>. (a) Give the final ranking. (b) Which item moved, and in one sentence, why could the retrieval stage <em>not</em> have produced this order itself?</p></li>
-<li><p><strong>(apply)</strong> A teammate proposes dropping retrieval and ranking <strong>all</strong> <span class="math inline">\(10^{7}\)</span> items with the heavy FM ranker on every request, “for accuracy.” Give two distinct reasons (one about <em>latency/cost</em>, one about what retrieval’s <strong>recall</strong> job protects) why the two-stage funnel is used instead — and state what the retrieval stage must <em>not</em> do (the error it cannot afford).</p></li>
+<li><p><strong>(compute)</strong> Ann’s pre-training vector is <span class="math inline">\([2,0.5]\)</span>. Score the triple with positive The Notebook <span class="math inline">\(\mathbf q^{+}=[2,0.2]\)</span> and negative La La Land <span class="math inline">\(\mathbf q^{-}=[1.5,0.5]\)</span>: compute <span class="math inline">\(\hat r^{+}\)</span>, <span class="math inline">\(\hat r^{-}\)</span>, and the gap <span class="math inline">\(\Delta\)</span>. Is the order already correct (is <span class="math inline">\(\Delta&gt;0\)</span>)?</p></li>
+<li><p><strong>(compute)</strong> For the triple in Exercise 1, compute the BPR loss <span class="math inline">\(-\ln\sigma(\Delta)\)</span> and the gradient factor <span class="math inline">\(1-\sigma(\Delta)\)</span> (use <span class="math inline">\(\sigma(0.85)=0.7006\)</span>). Compared with §4’s triple (<span class="math inline">\(\Delta=1.5\)</span>), is this triple’s loss larger or smaller, and why does that make sense?</p></li>
+<li><p><strong>(compute)</strong> Do the full update for Exercise 1’s triple on <span class="math inline">\(\mathbf p_{\text{Ann}}\)</span> with <span class="math inline">\(\eta=0.1\)</span>: form the gradient <span class="math display">\[\frac{\partial\mathcal L}{\partial\mathbf p}=-(1-\sigma(\Delta))(\mathbf q^{+}-\mathbf q^{-}),\]</span> then <span class="math inline">\(\mathbf p\leftarrow\mathbf p-\eta\,\dfrac{\partial\mathcal L}{\partial\mathbf p}\)</span>. Which of Ann’s two factors moved up, and which down?</p></li>
+<li><p><strong>(compute)</strong> Two triples have score gaps <span class="math inline">\(\Delta_X=5\)</span> and <span class="math inline">\(\Delta_Y=-2\)</span> (for <span class="math inline">\(Y\)</span> the model puts the negative above the positive). Compute the gradient factor <span class="math inline">\(1-\sigma(\Delta)\)</span> for each and say by about what factor <span class="math inline">\(Y\)</span>’s update is the larger. If both triples have <span class="math inline">\(\mathbf q^{+}-\mathbf q^{-}=[2,-2]\)</span> and <span class="math inline">\(\eta=0.1\)</span>, how far does each move the first entry of its user’s vector (the two triples belong to two different users)?</p></li>
+<li><p><strong>(compute)</strong> Negative sampling. Bob’s three un-clicked candidates have play-counts La La Land <span class="math inline">\(=80\)</span>, The Notebook <span class="math inline">\(=15\)</span>, Die Hard <span class="math inline">\(=5\)</span>. (a) Give the plain-popularity shares (power <span class="math inline">\(1\)</span>) and the uniform probabilities. (b) Using <span class="math inline">\(\text{pop}^{0.75}\)</span> (<span class="math inline">\(80^{0.75}=26.75\)</span>, <span class="math inline">\(15^{0.75}=7.62\)</span>, <span class="math inline">\(5^{0.75}=3.34\)</span>), give the popularity-weighted probabilities. (c) Which films’ probability rose and which fell, compared with the plain shares, and what does that say about what the power <span class="math inline">\(0.75\)</span> does to the skew?</p></li>
+<li><p><strong>(concept)</strong> In-batch sampling. A batch holds positives for <span class="math inline">\(128\)</span> distinct (user, item) pairs. Film <span class="math inline">\(X\)</span> turns up in batches four times as often as film <span class="math inline">\(Y\)</span>: <span class="math inline">\(Q(X)=0.04\)</span> and <span class="math inline">\(Q(Y)=0.01\)</span>. There are three parts: (a) how many in-batch negatives does each user get? (b) With no correction, what does in-batch sampling do to <span class="math inline">\(X\)</span> compared with <span class="math inline">\(Y\)</span>, and why? (c) What number does the log-<span class="math inline">\(Q\)</span> correction take off <span class="math inline">\(X\)</span>’s score relative to <span class="math inline">\(Y\)</span>’s?</p></li>
+<li><p><strong>(compute)</strong> Inference cost. A catalog has <span class="math inline">\(M=4\times10^{6}\)</span> items and embeddings of dimension <span class="math inline">\(d=128\)</span>. (a) Roughly how many multiply-adds does an exact top-<span class="math inline">\(K\)</span> scan cost for one user (<span class="math inline">\(\approx Md\)</span>)? (b) An HNSW walk takes about <span class="math inline">\(\log_2 M\)</span> steps; assume each step scores about <span class="math inline">\(24\)</span> linked items and the bottom layer keeps a working list of about <span class="math inline">\(60\)</span> candidates, each also scoring its <span class="math inline">\(24\)</span> links. Roughly how many item scores is that in all, and what speed-up over scoring all <span class="math inline">\(4\times10^{6}\)</span> items does it give?</p></li>
+<li><p><strong>(compute)</strong> Cosine versus dot product. A query is <span class="math inline">\(\mathbf p=[1,2]\)</span>; two items have vectors <span class="math inline">\(\mathbf q_X=[0.8,1.6]\)</span> and <span class="math inline">\(\mathbf q_Y=[3,3]\)</span> (call them <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>). (a) Compute each item’s dot product with the query and its straight-line distance from it. Which item does each measure prefer? (b) Divide all three vectors by their lengths and recompute the dot products. Which item does the normalized dot product prefer, and what is that quantity called?</p></li>
+<li><p><strong>(apply)</strong> Two-stage funnel. Bob’s retrieval stage scores La La Land <span class="math inline">\([1.5,0.5]\)</span>, Die Hard <span class="math inline">\([0.5,1.8]\)</span> and Matrix <span class="math inline">\([0,2]\)</span> with his vector <span class="math inline">\([1,2]\)</span>. The ranker is an FM whose only terms that differ between films are the retrieval dot product and the film’s interaction with a context vector; it is a Saturday matinee, whose factor vector is <span class="math inline">\([1.5,\,-1]\)</span>. (Pretend the already-seen filter of §6 has not run yet, so all three films are still candidates.) (a) Compute each film’s retrieval score, its interaction with the context and its ranker score (retrieval score plus interaction). (b) Give the final ranking and say which films changed place. (c) If retrieval had passed on only its top two films, what would the final list have lost?</p></li>
+<li><p><strong>(apply)</strong> A teammate proposes dropping retrieval and scoring all <span class="math inline">\(M=2\times10^{6}\)</span> films with the heavy ranker on every request, “for accuracy”. The ranker takes <span class="math inline">\(10\)</span> ms per <span class="math inline">\(300\)</span> candidates and the whole request has <span class="math inline">\(30\)</span> ms. (a) How long would the full catalog take, and how many times the budget is that? (b) If the heavy ranker became twice as slow (<span class="math inline">\(20\)</span> ms per <span class="math inline">\(300\)</span>), how many candidates fit in a <span class="math inline">\(10\)</span> ms ranking slice? (c) In one sentence, what does a shorter shortlist ask of the retrieval stage?</p></li>
 </ol>
 <hr>
 </section>
 <section id="where-this-fits-in-the-book" class="level2">
 <h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">10. Where this fits in the book</h2>
-<p>This chapter is the <strong>operational capstone</strong> of Tier 3. The model chapters gave you <em>scoring rules</em> (MF, LightGCN, SSL, the LLM roles); <em>Evaluation Metrics</em> gave you the <em>yardstick</em>; this chapter is the <strong>loop and the funnel</strong> that turn any of those scoring rules into a recommender you can train on clicks and serve at scale. With the concepts (Tiers 1–3), the models, and now the train-and-serve machinery in hand, the only thing left before you build is <strong>choosing concrete tools</strong> — which embedding model, which vector-search index, which framework. That is exactly the <strong>Implementation Choices</strong> appendix, and it is where to go next.</p>
+<p>Where <em>Large Language Models and Recommendation</em> capped the modeling ladder, this chapter is the operational capstone: the model chapters gave you <em>scoring rules</em> (MF, LightGCN, SSL, the LLM roles) and <em>Evaluation Metrics</em> gave you the <em>yardstick</em>, but it is the loop and the funnel here that turn those scoring rules into a recommender: the loop trains MF, LightGCN and SSL models on clicks, and the funnel serves all of them at scale. That completes the core of the book; its parts run foundations → models → systems. One part remains, <em>Frontiers</em>, a bounded tour of the field’s edges (CTR ranking, bandits, and pointers to reinforcement-learning and federated recommendation). When you are ready to pick concrete tools rather than read further, the <em>Implementation Choices</em> appendix names them: which embedding model, which vector-search index, which framework.</p>
+<p><strong>Carry this forward:</strong> a loop turns random embeddings into a scoring rule by sampling contrasts and widening the gap, and a funnel turns that scoring rule into a fast ranked list: retrieve cheaply, then rank richly.</p>
+<p><strong>In one line:</strong> one loop step widened Ann’s gap from <span class="math inline">\(1.5\)</span> to <span class="math inline">\(1.536\)</span>, and one funnel cut <span class="math inline">\(10^{7}\)</span> films to a few hundred before a <span class="math inline">\(10\)</span> ms ranker ordered them.</p>
 <hr>
 </section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">11. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -932,32 +1253,88 @@ L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that matc
 <td>Four sampling distributions for <span class="math inline">\(i^-\)</span>: equal-probability; <span class="math inline">\(\propto\text{pop}^{0.75}\)</span>; reuse the batch’s other positives; pick high-scoring (confusing) items.</td>
 </tr>
 <tr class="even">
+<td><strong>False negative</strong></td>
+<td>A genuine positive that is treated as a negative, for instance a film a user would like but never saw, or one that is another user’s positive in the same batch.</td>
+</tr>
+<tr class="odd">
+<td><strong>Dynamic negative sampling</strong></td>
+<td>Keeping hard negatives hard: draw a few un-clicked candidates and keep the one the current model scores highest (§3).</td>
+</tr>
+<tr class="even">
+<td><strong>Sampling bias</strong></td>
+<td>In-batch sampling meets an item in proportion to how often it is a positive, so popular items are over-penalized as negatives; the log-<span class="math inline">\(Q\)</span> correction repairs it (§3).</td>
+</tr>
+<tr class="odd">
 <td><strong>Epoch</strong></td>
 <td>One full pass over all observed positives during training.</td>
 </tr>
+<tr class="even">
+<td><strong>Learning rate</strong></td>
+<td>The step size <span class="math inline">\(\eta\)</span> that scales each nudge of the embeddings (§4).</td>
+</tr>
 <tr class="odd">
+<td><strong>Validation set</strong></td>
+<td>Held-out interactions the loop never trains on; when the ranking score on them stops improving, training stops early (§5).</td>
+</tr>
+<tr class="even">
 <td><strong>Mini-batch</strong></td>
 <td>A small group of triples updated together (averaged gradient); also the source of in-batch negatives.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Inference / serving</strong></td>
 <td>Using the trained embeddings to return a user’s top-<span class="math inline">\(K\)</span> list.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Top-<span class="math inline">\(K\)</span></strong></td>
 <td>The <span class="math inline">\(K\)</span> highest-scoring unseen items returned to the user.</td>
 </tr>
+<tr class="odd">
+<td><strong>Production</strong></td>
+<td>The live system that answers real users’ requests, as opposed to an experiment on saved data.</td>
+</tr>
 <tr class="even">
-<td><strong>MIPS (Maximum Inner-Product Search)</strong></td>
-<td>Finding the item vectors with the largest dot product against a query — what top-<span class="math inline">\(K\)</span> scoring is.</td>
+<td><strong>Offline / online</strong></td>
+<td><em>Offline</em> = computed in advance, in bulk, while nobody is waiting; <em>online</em> = computed live, while the user waits (§7).</td>
 </tr>
 <tr class="odd">
-<td><strong>ANN (Approximate Nearest-Neighbour)</strong></td>
-<td>An index that answers MIPS by scanning a small fraction of items, trading exactness for a large speed-up.</td>
+<td><strong>Index</strong></td>
+<td>A lookup structure built once, offline, over the item vectors, that finds the best-scoring items without scoring them all (§7).</td>
 </tr>
 <tr class="even">
-<td><strong>HNSW</strong></td>
-<td>A multi-layer navigable-graph ANN index with <span class="math inline">\({\sim}\log M\)</span> query cost.</td>
+<td><strong>MIPS (Maximum Inner-Product Search)</strong></td>
+<td>Finding the item vectors with the largest dot product against a query: what top-<span class="math inline">\(K\)</span> scoring is. It coincides with nearest-neighbor search for every query when all the item vectors have the same length.</td>
+</tr>
+<tr class="odd">
+<td><strong>Inverted file</strong></td>
+<td>A partition index: the catalog is split into buckets, each with a <strong>center point</strong> (the average of its vectors); a query scores the centers, then only the items in the best few buckets (§7).</td>
+</tr>
+<tr class="even">
+<td><strong>Greedy walk</strong></td>
+<td>HNSW’s search: from some item, step to the linked item that scores highest against the user vector, and stop when no link beats where you stand (§7).</td>
+</tr>
+<tr class="odd">
+<td><strong>Normalize (cosine)</strong></td>
+<td>Divide a vector by its length (<span class="math inline">\(\ell_2\)</span>-normalize); the dot product of unit vectors is the cosine similarity, but it answers the cosine question, not the raw dot-product one (§7).</td>
+</tr>
+<tr class="even">
+<td><strong>Index recall (recall@<span class="math inline">\(K\)</span>)</strong></td>
+<td>The share of the exact top-<span class="math inline">\(K\)</span> items that the approximate index also returns: <span class="math inline">\(4\)</span> of <span class="math inline">\(5\)</span> is <span class="math inline">\(0.80\)</span> (§7).</td>
+</tr>
+<tr class="odd">
+<td><strong>ANN (Approximate Nearest-Neighbor) search</strong></td>
+<td>Search that finds almost-the-best items by consulting a precomputed <em>index</em> instead of scoring every item, trading exactness for a large speed-up.</td>
+</tr>
+<tr class="even">
+<td><strong>HNSW (Hierarchical Navigable Small World)</strong></td>
+<td>An ANN index that links each item to its nearest neighbors in layered graphs and answers a query by a greedy walk of about <span class="math inline">\(\log_2 M\)</span> steps, each scoring a few dozen linked items (a simple model of the walk, not a measurement; §7).</td>
+</tr>
+<tr class="odd">
+<td><strong>Latency (and p99)</strong></td>
+<td>The time between a request arriving and the answer going back; a <em>p99</em> budget is one that <span class="math inline">\(99\)</span> of every <span class="math inline">\(100\)</span> requests must meet (§8).</td>
+</tr>
+<tr class="even">
+<td><strong>QPS (queries per second)</strong></td>
+<td>How many requests a system answers each second: its throughput, as distinct from any one request’s latency.</td>
 </tr>
 <tr class="odd">
 <td><strong>Retrieval / candidate generation</strong></td>
@@ -965,11 +1342,31 @@ L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that matc
 </tr>
 <tr class="even">
 <td><strong>Ranking</strong></td>
-<td>The expensive, high-precision second stage that reorders the shortlist with a feature-rich model.</td>
+<td>The expensive, high-precision second stage that reorders the shortlist with a feature-rich model; search and LLM writing call the same stage <strong>reranking</strong>.</td>
 </tr>
 <tr class="odd">
 <td><strong>Two-stage funnel</strong></td>
-<td>Retrieval → ranking: fast-and-forgiving then slow-and-sharp, so a rich model can run on only a few hundred candidates.</td>
+<td>Retrieval → ranking: fast-and-forgiving then slow-and-sharp, so a rich model can run on only a few hundred candidates; the final cut applies the already-seen filter and any business rules, then shows the top <span class="math inline">\(K\)</span>.</td>
+</tr>
+<tr class="even">
+<td><strong>Two-tower model</strong></td>
+<td>Two separate networks (<em>towers</em>), one for the user and one for the item, that meet only in a dot product, so item vectors can be precomputed and indexed (§7).</td>
+</tr>
+<tr class="odd">
+<td><strong>Sampled softmax</strong></td>
+<td>Training with a softmax over a sampled handful of items rather than the whole catalog; for in-batch negatives, over the batch (§7).</td>
+</tr>
+<tr class="even">
+<td><strong>log-<span class="math inline">\(Q\)</span> correction</strong></td>
+<td>Subtract <span class="math inline">\(\log Q(i)\)</span>, the log of item <span class="math inline">\(i\)</span>’s share of all logged positives, from its score, so that popular items are not over-penalized merely for being sampled more often (§3).</td>
+</tr>
+<tr class="odd">
+<td><strong>Train–serve skew</strong></td>
+<td>One case of the wider train/serve difference: the mismatch between the logged, sampled data a model is trained on and the whole live catalog it is served over (§8).</td>
+</tr>
+<tr class="even">
+<td><strong>Cold start (serving)</strong></td>
+<td>Having no learned vector for a brand-new item to put in the index, or for a brand-new user to query it with (§8).</td>
 </tr>
 </tbody>
 </table>
@@ -979,14 +1376,17 @@ L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that matc
 <h2 class="anchored" data-anchor-id="references">12. References</h2>
 <ul>
 <li><p>Covington, P., Adams, J., &amp; Sargin, E. (2016). <em>Deep neural networks for YouTube recommendations</em>. In <em>Proceedings of the 10th ACM Conference on Recommender Systems (RecSys)</em>, pp.&nbsp;191–198. https://dl.acm.org/doi/10.1145/2959100.2959190</p></li>
-<li><p>Hu, Y., Koren, Y., &amp; Volinsky, C. (2008). <em>Collaborative filtering for implicit feedback datasets</em>. In <em>Proceedings of the 8th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;263–272.</p></li>
-<li><p>Johnson, J., Douze, M., &amp; Jégou, H. (2019). <em>Billion-scale similarity search with GPUs</em>. <em>IEEE Transactions on Big Data</em>, 7(3), 535–547. arXiv:1702.08734</p></li>
-<li><p>Malkov, Y. A., &amp; Yashunin, D. A. (2020). <em>Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs</em>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 42(4), 824–836. arXiv:1603.09320</p></li>
+<li><p>Hu, Y., Koren, Y., &amp; Volinsky, C. (2008). <em>Collaborative filtering for implicit feedback datasets</em>. In <em>Proceedings of the 8th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;263–272. https://doi.org/10.1109/ICDM.2008.22</p></li>
+<li><p>Johnson, J., Douze, M., &amp; Jégou, H. (2021). <em>Billion-scale similarity search with GPUs</em>. <em>IEEE Transactions on Big Data</em>, 7(3), 535–547. https://doi.org/10.1109/TBDATA.2019.2921572 (first posted as arXiv:1702.08734 on 28 February 2017)</p></li>
+<li><p>Kingma, D. P., &amp; Ba, J. (2015). <em>Adam: A method for stochastic optimization</em>. In <em>Proceedings of the 3rd International Conference on Learning Representations (ICLR)</em>. arXiv:1412.6980</p></li>
+<li><p>Malkov, Y. A., &amp; Yashunin, D. A. (2020). <em>Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs</em>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, 42(4), 824–836. https://doi.org/10.1109/TPAMI.2018.2889473 arXiv:1603.09320</p></li>
 <li><p>Mikolov, T., Sutskever, I., Chen, K., Corrado, G., &amp; Dean, J. (2013). <em>Distributed representations of words and phrases and their compositionality</em>. In <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 26. arXiv:1310.4546</p></li>
-<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of the 10th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;995–1000.</p></li>
+<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of the 10th IEEE International Conference on Data Mining (ICDM)</em>, pp.&nbsp;995–1000. https://doi.org/10.1109/ICDM.2010.127</p></li>
 <li><p>Rendle, S., Freudenthaler, C., Gantner, Z., &amp; Schmidt-Thieme, L. (2009). <em>BPR: Bayesian personalized ranking from implicit feedback</em>. In <em>Proceedings of the 25th Conference on Uncertainty in Artificial Intelligence (UAI)</em>, pp.&nbsp;452–461. arXiv:1205.2618</p></li>
+<li><p>Yi, X., Yang, J., Hong, L., Cheng, D. Z., Heldt, L., Kumthekar, A., Zhao, Z., Wei, L., &amp; Chi, E. (2019). <em>Sampling-bias-corrected neural modeling for large corpus item recommendations</em>. In <em>Proceedings of the 13th ACM Conference on Recommender Systems (RecSys)</em>, pp.&nbsp;269–277. https://doi.org/10.1145/3298689.3346996</p></li>
+<li><p>Zhang, W., Chen, T., Wang, J., &amp; Yu, Y. (2013). <em>Optimizing top-n collaborative filtering via dynamic negative item sampling</em>. In <em>Proceedings of the 36th International ACM SIGIR Conference on Research and Development in Information Retrieval</em>, pp.&nbsp;785–788. https://doi.org/10.1145/2484028.2484126</p></li>
 </ul>
-<p><em>Online sources verified June 2026.</em></p>
+<p><em>Entries were checked against publisher and arXiv records in October 2026; for Johnson, Douze and Jégou: volume 7, issue 3, issued 1 July 2021; first posted to arXiv on 28 February 2017.</em></p>
 
 
 </section>
@@ -1399,13 +1799,13 @@ L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that matc
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/llm-recsys-survey.html" class="pagination-link" aria-label="LLM × RecSys: the Landscape">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">LLM × RecSys: the Landscape</span></span>
+      <a href="../chapters/llm-recsys-survey.html" class="pagination-link" aria-label="Large Language Models and Recommendation: the Landscape">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/deep-ctr.html" class="pagination-link" aria-label="Click-Through Rate Prediction &amp; Feature Interactions">
-        <span class="nav-page-text"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1419,7 +1819,7 @@ L}{\partial\mathbf p}\)</span>. Which factor of Ann moved up, and does that matc
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

@@ -8,7 +8,7 @@
 
 <meta name="description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
 
-<title>Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero</title>
+<title>15&nbsp; Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,21 +124,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -159,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/deep-ctr.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/deep-ctr.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Click-Through Rate Prediction & Feature Interactions","name":"Click-Through Rate Prediction & Feature Interactions","description":"Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.","url":"https://minastik.com/recsys/chapters/deep-ctr.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"15  Click-Through Rate Prediction & Feature Interactions","name":"15  Click-Through Rate Prediction & Feature Interactions","description":"Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.","url":"https://minastik.com/recsys/chapters/deep-ctr.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -191,11 +192,11 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
+<meta property="og:title" content="15&nbsp; Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
 <meta property="og:description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
+<meta name="twitter:title" content="15&nbsp; Click-Through Rate Prediction &amp; Feature Interactions – Recommender Systems from Zero">
 <meta name="twitter:description" content="Predicting click-through rate with deep models: explicit and implicit feature interactions, embeddings and the architectures behind modern CTR.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -250,7 +251,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,17 +288,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,17 +317,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,12 +346,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +369,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,17 +386,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -394,7 +407,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -402,7 +415,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,7 +432,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -434,12 +449,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -455,27 +472,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -486,7 +508,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -507,17 +542,17 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#the-ctr-task-a-click-as-a-label" id="toc-the-ctr-task-a-click-as-a-label" class="nav-link active" data-scroll-target="#the-ctr-task-a-click-as-a-label">1. The CTR task: a click as a label</a></li>
-  <li><a href="#the-data-sparse-features-and-why-interactions-are-everything" id="toc-the-data-sparse-features-and-why-interactions-are-everything" class="nav-link" data-scroll-target="#the-data-sparse-features-and-why-interactions-are-everything">2. The data: sparse features, and why interactions are everything</a></li>
-  <li><a href="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" id="toc-the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="nav-link" data-scroll-target="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC</a></li>
+  <li><a href="#the-click-through-rate-ctr-task-a-click-as-a-label" id="toc-the-click-through-rate-ctr-task-a-click-as-a-label" class="nav-link active" data-scroll-target="#the-click-through-rate-ctr-task-a-click-as-a-label">1. The click-through rate (CTR) task: a click as a label</a></li>
+  <li><a href="#the-data-sparse-features-and-why-interactions-matter" id="toc-the-data-sparse-features-and-why-interactions-matter" class="nav-link" data-scroll-target="#the-data-sparse-features-and-why-interactions-matter">2. The data: sparse features, and why interactions matter</a></li>
+  <li><a href="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc-area-under-the-curve" id="toc-the-baseline-and-the-scoreboard-logistic-regression-logloss-auc-area-under-the-curve" class="nav-link" data-scroll-target="#the-baseline-and-the-scoreboard-logistic-regression-logloss-auc-area-under-the-curve">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC (area under the curve)</a></li>
   <li><a href="#the-springboard-factorization-machines-one-recap" id="toc-the-springboard-factorization-machines-one-recap" class="nav-link" data-scroll-target="#the-springboard-factorization-machines-one-recap">4. The springboard: factorization machines (one recap)</a></li>
   <li><a href="#wide-deep-memorization-plus-generalization" id="toc-wide-deep-memorization-plus-generalization" class="nav-link" data-scroll-target="#wide-deep-memorization-plus-generalization">5. Wide &amp; Deep: memorization plus generalization</a></li>
   <li><a href="#deepfm-kill-the-hand-engineering-share-the-embeddings" id="toc-deepfm-kill-the-hand-engineering-share-the-embeddings" class="nav-link" data-scroll-target="#deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the hand-engineering, share the embeddings</a></li>
   <li><a href="#deep-cross-dcn-explicit-bounded-degree-crosses" id="toc-deep-cross-dcn-explicit-bounded-degree-crosses" class="nav-link" data-scroll-target="#deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN): explicit, bounded-degree crosses</a></li>
-  <li><a href="#the-rest-of-the-lineage-in-one-line-each" id="toc-the-rest-of-the-lineage-in-one-line-each" class="nav-link" data-scroll-target="#the-rest-of-the-lineage-in-one-line-each">8. The rest of the lineage, in one line each</a></li>
+  <li><a href="#the-rest-of-the-lineage-in-one-tiny-case-each" id="toc-the-rest-of-the-lineage-in-one-tiny-case-each" class="nav-link" data-scroll-target="#the-rest-of-the-lineage-in-one-tiny-case-each">8. The rest of the lineage, in one tiny case each</a></li>
   <li><a href="#training-and-serving-a-ctr-model" id="toc-training-and-serving-a-ctr-model" class="nav-link" data-scroll-target="#training-and-serving-a-ctr-model">9. Training and serving a CTR model</a></li>
-  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">10. Where this fits in the book</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">11. Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">10. Exercises</a></li>
+  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">11. Where this fits in the book</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">12. Glossary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">13. References</a></li>
   </ul>
@@ -526,9 +561,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></h1>
 </div>
 
 
@@ -545,21 +580,35 @@ window.Quarto = {
 </header>
 
 
-<section id="the-ctr-task-a-click-as-a-label" class="level2">
-<h2 class="anchored" data-anchor-id="the-ctr-task-a-click-as-a-label">1. The CTR task: a click as a label</h2>
-<p>Retrieval models a user and an item as vectors and scores the pair by a <strong>dot product</strong> — good for fishing a few hundred plausible items out of millions, fast. But the dot product is blind to <strong>context</strong> (the time of day, the device, the slot on the page) and treats every user–item pair through one low-dimensional lens. The <em>ranking</em> stage re-scores that short list with a much richer model and a different target:</p>
-<p><span class="math display">\[
+<p>Most of the book so far ranked items by comparing a <strong>user vector</strong> with an <strong>item vector</strong> — a dot product, one number per pair. That is the <em>retrieval</em> half of a real system. The <em>ranking</em> half asks a sharper, different question: <strong>given this exact (user, item, context), what is the probability of a click?</strong> That number — the <strong>click-through rate (CTR)</strong> — is the industrial workhorse: in the industry papers’ own accounts it orders the feed, picks which ad to show, and is the final ranking stage on top of retrieval. Every statement in this chapter about what industry does or earns (usually flagged by words such as “in practice”, “is said”, “report” or “industry”) is a claim from practice: the chapter works the arithmetic but does not test the claim.</p>
+<p>CTR prediction looks easy (it is just “predict a 0/1”) and is secretly hard, for one main reason: a large share of the signal lives in <strong>feature interactions</strong> (§9 prints one measured gap, on one benchmark). “The film is a horror film” is weakly predictive; “it is Friday evening” is weakly predictive; <strong>“a horror film on a Friday evening”</strong> is strongly predictive — and a plain linear model cannot see it. This chapter builds the models that learn those interactions automatically, from a logistic-regression baseline up through Google’s <strong>Wide &amp; Deep</strong>, then <strong>DeepFM</strong> (a factorization machine joined to a deep network) and the <strong>Deep &amp; Cross Network (DCN)</strong>: the lineage that the industry papers report running in production.</p>
+<p><strong>What this chapter assumes.</strong> The <strong>dot product</strong> (the Linear-Algebra primer), the <strong>sigmoid</strong> (<em>Probability &amp; Statistics for Machine Learning</em> §3), <strong>log loss</strong> (<em>Loss Functions &amp; Regularizers</em> §2.2; the logistic-regression model itself is built in §3 below), <strong>embeddings</strong> (<em>Traditional Recommender Systems</em> §5), and the <strong>multi-layer perceptron</strong> together with its <strong>ReLU</strong> (rectified linear unit) activation (<em>Neural Networks &amp; Back-propagation</em> §2–§3). Only §7 also leans on the <strong>skip-connection</strong> (<em>Representation Learning &amp; the Transformer</em>), the <strong>outer product</strong> <span class="math inline">\(\mathbf u\mathbf v^{\top}\)</span> and the <strong>truncated singular value decomposition</strong> (both in the Linear-Algebra primer). Only §8 leans on <strong>multi-head self-attention</strong> and the <strong>softmax</strong> (<em>Representation Learning &amp; the Transformer</em> §4, with the softmax in <em>Probability &amp; Statistics for Machine Learning</em> §3); each is glossed in a clause where it appears.</p>
+<p><strong>What it builds on.</strong> The <strong>factorization machine</strong> (<em>Traditional Recommender Systems</em> §8), the bridge from matrix factorization to feature-rich models, and the <strong>ranker</strong> in the retrieval-then-ranking funnel of <em>Training and Serving a Recommender</em>. The two scores this chapter is graded on are <strong>LogLoss</strong> (binary cross-entropy: how good the predicted probabilities themselves are), owned by <em>Loss Functions &amp; Regularizers</em> §2.2, and <strong>AUC</strong> (area under the curve: how well clicks are ranked above non-clicks), owned by <em>Evaluation Metrics</em> §8; this chapter only puts a worked number on them. It is the first chapter of the <strong>Frontiers</strong> part: a bounded tour of where the field goes next, at calibrated depth.</p>
+<section id="the-click-through-rate-ctr-task-a-click-as-a-label" class="level2">
+<h2 class="anchored" data-anchor-id="the-click-through-rate-ctr-task-a-click-as-a-label">1. The click-through rate (CTR) task: a click as a label</h2>
+<p>Ann’s mobile screen has room for five films, and the app must decide which five to show her tonight. A film she would love but ignores right now wastes a slot, so for each film the app needs a number: how likely is she to tap it, this evening, on mobile? This section turns that question into the quantity the whole chapter predicts.</p>
+<p>Retrieval models a user and an item as vectors and scores the pair by a <strong>dot product</strong> — good for fishing a few hundred plausible items out of millions, fast. But the dot product is blind to <strong>context</strong> (the time of day, the device, the slot on the page) and treats every user–item pair through one low-dimensional lens. The <em>ranking</em> stage re-scores that short list with a much richer model and a different target: <span class="math display">\[
 \widehat{\text{CTR}} \;=\; P(\text{click}=1 \mid \text{user},\ \text{item},\ \text{context}).
 \]</span></p>
-<p>The label is <strong>implicit and binary</strong>: a logged impression that was clicked is a <span class="math inline">\(1\)</span>, one that was shown-but-not-clicked is a <span class="math inline">\(0\)</span>. This is the <strong>click-through rate</strong> — literally the rate at which shown items are <em>clicked through</em> — and predicting it well is worth billions in ad and feed revenue, which is why this corner of recommendation has its own dense literature and its own benchmarks (the <strong>Criteo</strong> and <strong>Avazu</strong> logs of the <em>Datasets &amp; Benchmarks</em> appendix).</p>
+<p>Read the line piece by piece. The <strong>hat</strong> means <em>our model’s estimate of the quantity under it</em>; <span class="math inline">\(P(\cdot)\)</span> is a <strong>probability</strong>, a number between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>; <span class="math inline">\(\text{click}=1\)</span> names <em>the event that a click happens</em>; and the bar <span class="math inline">\(\mid\)</span> means <em>given that we already know</em> what follows it. So the whole display says: <strong>the probability that this impression is clicked, given the user, the item and the context</strong> — a <strong>conditional probability</strong> (<em>Probability &amp; Statistics for Machine Learning</em> §1, which writes the same thing <span class="math inline">\(\Pr(\cdot)\)</span>).</p>
+<p>The label is <strong>implicit and binary</strong>. Every time the system shows one item to one user in one slot it writes down — <strong>logs</strong> — an <strong>impression</strong>: one row recording who saw what, where and when. One impression is (Ann, <em>Titanic</em>, evening, mobile); she tapped it, so its label is <span class="math inline">\(1\)</span>. One that was shown-but-not-clicked is a <span class="math inline">\(0\)</span>.</p>
+<p>Averaged over many impressions, the fraction that get clicked — clicks <span class="math inline">\(\div\)</span> impressions, e.g.&nbsp;<span class="math inline">\(3\)</span> clicks in <span class="math inline">\(100\)</span> impressions <span class="math inline">\(=0.03\)</span> — is the <strong>click-through rate</strong>, literally the rate at which shown items are <em>clicked through</em>. A CTR model predicts that fraction for one specific (user, item, context): the probability <span class="math inline">\(\widehat{\text{CTR}}\)</span> above. Even small gains in it are said to be worth a great deal in ad and feed revenue, which is why this corner of recommendation has its own dense literature and its own benchmarks (the <strong>Criteo</strong> and <strong>Avazu</strong> logs, two public collections of ad impressions with click labels, of the <em>Datasets &amp; Benchmarks</em> appendix).</p>
 <blockquote class="blockquote">
-<p><strong>Where it sits.</strong> CTR prediction is the <strong>ranker</strong> in the two-stage <em>retrieval → ranking</em> funnel built in <em>Training and Serving a Recommender</em>: retrieval (a dot product over the whole catalog) proposes a few hundred candidates; the CTR model, free to be slow and feature-rich, re-orders them. Retrieval answers <em>“which items are even worth considering?”</em>; ranking answers <em>“of those, which will this user click right now?”</em></p>
+<p><strong>Where it sits.</strong> CTR prediction is the <strong>ranker</strong> in the two-stage <em>retrieval → ranking</em> funnel built in <em>Training and Serving a Recommender</em>: retrieval (a dot product over the whole catalog) proposes a few hundred candidates; the CTR model, free to be slow and feature-rich, re-orders them, and the top <span class="math inline">\(K\)</span> of that order is what the page shows. Retrieval answers <em>“which items are even worth considering?”</em>; ranking answers <em>“of those, which will this user click right now?”</em> (In search and in writing about large language models this same second stage is usually called <strong>reranking</strong> — a different name for the same job.)</p>
 </blockquote>
+<p><strong>In one line:</strong> an impression is one showing, labelled <span class="math inline">\(1\)</span> if clicked and <span class="math inline">\(0\)</span> if not, and the click-through rate is clicks <span class="math inline">\(\div\)</span> impressions: <span class="math inline">\(3\)</span> clicks in <span class="math inline">\(100\)</span> impressions is <span class="math inline">\(0.03\)</span>, the number the ranking stage predicts for one user, one film and one moment.</p>
 <hr>
 </section>
-<section id="the-data-sparse-features-and-why-interactions-are-everything" class="level2">
-<h2 class="anchored" data-anchor-id="the-data-sparse-features-and-why-interactions-are-everything">2. The data: sparse features, and why interactions are everything</h2>
-<p>A CTR training row is not two embeddings — it is a long list of <strong>categorical fields</strong>, each <strong>one-hot encoded</strong> (a vector of zeros with a single <span class="math inline">\(1\)</span> marking the active category):</p>
+<section id="the-data-sparse-features-and-why-interactions-matter" class="level2">
+<h2 class="anchored" data-anchor-id="the-data-sparse-features-and-why-interactions-matter">2. The data: sparse features, and why interactions matter</h2>
+<p>Suppose the logs show (the counts below are invented for the arithmetic) that on a desktop a sci-fi film is clicked no more often than any other film, and among other films mobile is clicked no more often than desktop. Yet a sci-fi film shown on mobile is clicked four times as often as anything else, as if the two habits only count together. This section shows why a model that adds habits up cannot see that, and what one extra feature fixes.</p>
+<p>A CTR training row is not two embeddings — it is a long list of <strong>categorical fields</strong>, each <strong>one-hot encoded</strong> (a vector of zeros with a single <span class="math inline">\(1\)</span> marking the active category). The table below shows the fields of one impression, a different one from §1’s: Ann, <em>Matrix</em> (which this chapter’s logs tag <code>sci-fi</code>, one of the two genre tags <em>Traditional Recommender Systems</em> §2 gives it), on mobile, in the evening.</p>
+<div id="tbl-deep-ctr-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.1: The fields of one impression and how each is encoded; each field contributes exactly one active category.
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -596,31 +645,142 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Concatenated, a single row is a vector with <strong>millions of dimensions and a handful of ones</strong> — extremely <strong>sparse</strong> (mostly zero) and extremely <strong>high-dimensional</strong>. Two consequences shape every model in this chapter:</p>
+</div>
+</figure>
+</div>
+<p>The table lists categorical fields only, as in the toy logs of this chapter. A real log such as Criteo’s also has numeric columns (13 in Criteo); a CTR model either buckets each number into ranges and one-hot encodes the bucket, so it becomes one more categorical field, or feeds it to the network as a plain number beside the embeddings.</p>
+<p><strong>Concatenated</strong> — placed end to end, so in a toy catalog of just three genres and two devices a one-hot <span class="math inline">\([0,1,0]\)</span> for genre and a one-hot <span class="math inline">\([1,0]\)</span> for device become the single vector <span class="math inline">\([0,1,0,1,0]\)</span> — the real ones are far longer, around <span class="math inline">\(20\)</span> slots for genre and millions for the user and item identifiers. A single row is a vector with <strong>millions of dimensions and a handful of ones</strong>: extremely <strong>sparse</strong> (mostly zero) and extremely <strong>high-dimensional</strong>. Two consequences shape every model in this chapter:</p>
 <ol type="1">
-<li><strong>A linear model underfits.</strong> Logistic regression on these features learns one weight per category — “sci-fi is <span class="math inline">\(+0.2\)</span> predictive of a click” — and then just <em>adds</em> them. It can never represent <strong>“sci-fi is predictive <em>for teenagers on mobile</em>”</strong>, because that is a property of a <strong>combination</strong> of categories, not of any one. The predictive signal is in the <strong>feature interactions</strong> (also called <strong>feature crosses</strong>): the conjunction <code>genre=sci-fi ∧ device=mobile</code>.</li>
-<li><strong>You cannot cross them by hand.</strong> With <span class="math inline">\(n\)</span> categories there are <span class="math inline">\(\binom{n}{2}\)</span> possible pairwise crosses — billions — and almost all are never observed. Hand-engineering the few useful ones (the original “wide” approach) is exactly the manual labor the deep-CTR lineage was invented to remove. <strong>The entire chapter is one question: how do you learn which feature interactions matter, automatically?</strong></li>
+<li><strong>A linear model underfits.</strong> Logistic regression on these features learns one weight per category — “sci-fi has weight <span class="math inline">\(+0.2\)</span>”, meaning it adds <span class="math inline">\(0.2\)</span> to the log-odds of a click (§3 defines that scale) — and then just <em>adds</em> them. It can never represent <strong>“sci-fi is predictive <em>on mobile</em>”</strong>, because that is a property of a <strong>combination</strong> of categories, not of any one. A large share of the predictive signal is in the <strong>feature interactions</strong> (also called <strong>feature crosses</strong>).</li>
+<li><strong>You cannot cross them by hand.</strong> With <span class="math inline">\(m\)</span> categories there are <span class="math inline">\(\binom{m}{2}=m(m-1)/2\)</span> possible pairwise crosses — read <span class="math inline">\(\binom{m}{2}\)</span> as “<span class="math inline">\(m\)</span> choose 2”, the number of ways to pick <span class="math inline">\(2\)</span> of the <span class="math inline">\(m\)</span> (for <span class="math inline">\(m=4\)</span> that is <span class="math inline">\(4\cdot3/2=6\)</span> pairs). With <span class="math inline">\(m=2\)</span> million categories, <span class="math inline">\(m(m-1)/2\approx 2\times10^{12}\)</span>: at most <strong>trillions</strong> of crosses, an upper bound, since two categories of one field are never active together. Few of those pairs ever appear in a log: an impression with <span class="math inline">\(5\)</span> active categories shows <span class="math inline">\(\binom52=10\)</span> pairs, so a log of <span class="math inline">\(10^9\)</span> impressions (a size assumed here) holds at most <span class="math inline">\(10\times10^9=10^{10}\)</span> pair occurrences, at most <span class="math inline">\(0.5\%\)</span> of the <span class="math inline">\(2\times10^{12}\)</span> pairs, so at least <span class="math inline">\(99.5\%\)</span> of the possible pairs never appear.</li>
 </ol>
+<p>A feature interaction is a <strong>conjunction</strong> — logical AND, written <span class="math inline">\(\wedge\)</span>: true only when both parts are true — such as <code>genre=sci-fi ∧ device=mobile</code>. Hand-engineering the few useful ones (the original “wide” arm of Wide &amp; Deep, §5) is exactly the manual labor the deep-CTR lineage was invented to remove. <strong>The entire chapter is one question: how do you learn which feature interactions matter, automatically?</strong></p>
+<p><strong>Worked example — why adding weights cannot be enough.</strong> Take four groups of <span class="math inline">\(1{,}000\)</span> logged impressions (invented counts, chosen for the arithmetic), split by genre (sci-fi or not) and device (mobile or not), and count the clicks:</p>
+<div id="tbl-deep-ctr-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.2: Four groups of <span class="math inline">\(1{,}000\)</span> logged impressions, split by genre and device, with their clicks and click rates.
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>genre</th>
+<th>device</th>
+<th style="text-align: right;">impressions</th>
+<th style="text-align: right;">clicks</th>
+<th style="text-align: center;">click rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sci-fi</td>
+<td>mobile</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: center;"><strong>0.20</strong></td>
+</tr>
+<tr class="even">
+<td>sci-fi</td>
+<td>desktop</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: center;">0.05</td>
+</tr>
+<tr class="odd">
+<td>other</td>
+<td>mobile</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: center;">0.05</td>
+</tr>
+<tr class="even">
+<td>other</td>
+<td>desktop</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: center;">0.05</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Sci-fi on a desktop does nothing (<span class="math inline">\(0.05\)</span>, same as the plain baseline), and mobile on other films does nothing (<span class="math inline">\(0.05\)</span>) — but sci-fi <em>and</em> mobile together quadruple the click rate. (Pooled over both of its rows, sci-fi reads <span class="math inline">\(0.125\)</span>, and so does mobile, but only because of that one group.) An additive model gives each category one weight and adds the active ones: <span class="math inline">\(\text{rate}=b+w_{\text{sci}}\,[\text{sci-fi}]+w_{\text{mob}}\,[\text{mobile}]\)</span>, where <span class="math inline">\([\cdot]\)</span> is <span class="math inline">\(1\)</span> when that category is active and <span class="math inline">\(0\)</span> otherwise. Fit it to the <strong>last three</strong> rows and every weight is forced: the last row gives <span class="math inline">\(b=0.05\)</span>; the second row gives <span class="math inline">\(b+w_{\text{sci}}=0.05\)</span>, so <span class="math inline">\(w_{\text{sci}}=0\)</span>; the third gives <span class="math inline">\(w_{\text{mob}}=0\)</span> the same way. Its prediction for the first row is therefore <span class="math inline">\(b+w_{\text{sci}}+w_{\text{mob}}=0.05\)</span> — four times too small.</p>
+<p>Could other weights do better? Over all four rows, a little. The least-squares weights <span class="math inline">\(b=0.0125\)</span> and <span class="math inline">\(w_{\text{sci}}=w_{\text{mob}}=0.075\)</span> spread the miss across the rows: total squared error <span class="math inline">\(0.0056\)</span> against <span class="math inline">\(0.0225\)</span> for the weights above, a prediction of <span class="math inline">\(0.1625\)</span> on the first row. But now no row is right: every row is off by <span class="math inline">\(0.0375\)</span>. <strong>No</strong> choice of the three weights fits all four rows, because <em>any</em> additive model forces <span class="math display">\[
+\text{rate}_{\text{sci,mob}}-\text{rate}_{\text{sci,desk}}-\text{rate}_{\text{oth,mob}}+\text{rate}_{\text{oth,desk}}=0,
+\]</span> while the data says <span class="math inline">\(0.20-0.05-0.05+0.05=\mathbf{0.15}\neq 0\)</span>. That leftover <span class="math inline">\(0.15\)</span> is the interaction, and it has nowhere to live.</p>
+<p>Now add <strong>one</strong> cross feature, <span class="math inline">\([\text{sci-fi}]\times[\text{mobile}]\)</span>. Its value on the four rows is the product of the two indicators: <span class="math inline">\(1\cdot1=1\)</span>, <span class="math inline">\(1\cdot0=0\)</span>, <span class="math inline">\(0\cdot1=0\)</span>, <span class="math inline">\(0\cdot0=0\)</span> — it fires on the first row only. Give it the weight <span class="math inline">\(w_{\times}=0.15\)</span> and all four rows fit exactly: <span class="math inline">\(0.05+0+0+0.15=0.20\)</span> on the first row and <span class="math inline">\(0.05\)</span> on the other three. One extra number, and the model can finally say something the parts could not.</p>
 <blockquote class="blockquote">
-<p><strong>Why “cross”.</strong> A <em>crossed feature</em> (or <em>cross-product feature</em>) is literally the product of two one-hot indicators: it equals <span class="math inline">\(1\)</span> only when <em>both</em> categories are active, i.e.&nbsp;on their intersection. “Cross” = the conjunction; learning a weight for it = learning that the combination, specifically, predicts clicks.</p>
+<p><strong>Why “cross”.</strong> A <em>crossed feature</em> (or <em>cross-product feature</em>) is literally the product of two one-hot indicators, as in the four products just computed: it equals <span class="math inline">\(1\)</span> only when <em>both</em> categories are active, i.e.&nbsp;on their intersection. “Cross” = the conjunction; learning a weight for it = learning that the combination, specifically, predicts clicks. (Exercise E6 repeats the argument on a new table and on §3’s <strong>log-odds</strong> scale rather than on the rate itself, which keeps every prediction inside <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.)</p>
 </blockquote>
+<p><strong>In one line:</strong> in four groups of <span class="math inline">\(1{,}000\)</span> impressions an additive model predicts <span class="math inline">\(0.05\)</span> on the sci-fi-on-mobile group where the truth is <span class="math inline">\(0.20\)</span>; the gap <span class="math inline">\(0.15\)</span> is the interaction, and one cross feature with weight <span class="math inline">\(0.15\)</span> closes it.</p>
 <hr>
 </section>
-<section id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc" class="level2">
-<h2 class="anchored" data-anchor-id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC</h2>
-<p>The simplest CTR model is <strong>logistic regression (LR)</strong>: score the row with a linear function, then squash the score to a probability with the <strong>sigmoid</strong>:</p>
-<p><span class="math display">\[
-\hat p \;=\; \sigma(z), \qquad z = w_0 + \sum_i w_i x_i, \qquad \sigma(z)=\frac{1}{1+e^{-z}}.
+<section id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc-area-under-the-curve" class="level2">
+<h2 class="anchored" data-anchor-id="the-baseline-and-the-scoreboard-logistic-regression-logloss-auc-area-under-the-curve">3. The baseline and the scoreboard: logistic regression, LogLoss, AUC (area under the curve)</h2>
+<p>A model gives each of four logged impressions (two of them Ann’s) a click probability. Is the model any good? Two things can go wrong: the probabilities can be off, and the order of the impressions can be wrong, and a single number rarely catches both. This section builds the simplest such model and the two scores that grade those two failures.</p>
+<p>The simplest CTR model is <strong>logistic regression (LR)</strong>: score the row with a linear function, then squash the score to a probability with the <strong>sigmoid</strong>: <span class="math display">\[
+\hat p \;=\; \sigma(z), \qquad z = w_0 + \sum_j w_j x_j, \qquad \sigma(z)=\frac{1}{1+e^{-z}}.
 \]</span></p>
-<p>Decoding each piece: <span class="math inline">\(x_i\)</span> is the (mostly-zero) feature vector; <span class="math inline">\(w_i\)</span> is the learned weight for category <span class="math inline">\(i\)</span> (only the active categories contribute, since the rest are <span class="math inline">\(0\)</span>); <span class="math inline">\(w_0\)</span> is a bias; and <span class="math inline">\(\sigma\)</span> — the <strong>sigmoid</strong> (“S-shaped”), built in <em>Loss Functions &amp; Regularizers</em> — maps any real number to <span class="math inline">\((0,1)\)</span> so it reads as a probability. This is the same logistic head every model below ends with; the models differ only in <strong>what they feed into <span class="math inline">\(z\)</span></strong>.</p>
-<p><strong>How CTR is scored.</strong> Two metrics dominate (both owned by <em>Evaluation Metrics</em>; here we put a number on them):</p>
-<ul>
-<li><strong>LogLoss</strong> (binary cross-entropy) — how <em>calibrated</em> the probabilities are: <span class="math display">\[
+<p>Decoding each piece: <span class="math inline">\(\mathbf x\)</span> is the (mostly-zero) one-hot feature vector of §2, and <span class="math inline">\(x_j\in\{0,1\}\)</span> is its <span class="math inline">\(j\)</span>-th <strong>entry</strong> — one number, <span class="math inline">\(1\)</span> if category <span class="math inline">\(j\)</span> is active in this row and <span class="math inline">\(0\)</span> otherwise. (<span class="math inline">\(j\)</span> counts categories here, as in <em>Traditional Recommender Systems</em> §8; the book keeps <span class="math inline">\(i\)</span> for an item.) <span class="math inline">\(w_j\)</span> is the learned weight for category <span class="math inline">\(j\)</span>, so only the active categories contribute to the sum; and <span class="math inline">\(w_0\)</span> is a bias.</p>
+<p>The function <span class="math inline">\(\sigma\)</span> — the <strong>sigmoid</strong> (“S-shaped”), built in <em>Probability &amp; Statistics for Machine Learning</em> §3 and re-used throughout <em>Loss Functions &amp; Regularizers</em> — maps any real number to <span class="math inline">\((0,1)\)</span> so it reads as a probability. This sigmoid on top of the score, the <em>logistic head</em>, is what every model below ends with; the models differ only in <strong>what they feed into <span class="math inline">\(z\)</span></strong>.</p>
+<p>The score <span class="math inline">\(z\)</span> has a name worth knowing: it is the <strong>log-odds</strong> (or <strong>logit</strong>) of the click, <span class="math inline">\(z=\ln\frac{\hat p}{1-\hat p}\)</span>, and the sigmoid is exactly its inverse (<em>Probability &amp; Statistics for Machine Learning</em> §3). So every active category adds a <strong>fixed amount of log-odds</strong> — which is §2’s “just adds them” on the log-odds scale instead of the rate scale, and is why a cross feature is needed before a combination can carry its own effect. In numbers: <span class="math inline">\(\hat p=0.8\)</span> gives <span class="math inline">\(z=\ln 4=1.386\)</span>, <span class="math inline">\(\hat p=0.2\)</span> gives <span class="math inline">\(-1.386\)</span> and <span class="math inline">\(\hat p=0.5\)</span> gives <span class="math inline">\(0\)</span>. §2’s rates <span class="math inline">\(0.20,\,0.05,\,0.05,\,0.05\)</span> are the log-odds <span class="math inline">\(-1.386,\,-2.944,\,-2.944,\,-2.944\)</span>; an additive log-odds score fitted to the last three rows predicts <span class="math inline">\(-2.944\)</span> for the first, and the <span class="math inline">\(1.558\)</span> it leaves unexplained is the interaction again (Exercise E6 fits this properly on a new table).</p>
+<p><strong>How CTR is scored.</strong> Two metrics dominate — <strong>LogLoss</strong>, the binary cross-entropy built from zero in <em>Loss Functions &amp; Regularizers</em> §2.2, and <strong>AUC</strong>, owned by <em>Evaluation Metrics</em> §8. Here we put a CTR number on each.</p>
+<p><strong>LogLoss</strong> — how good the <em>probabilities themselves</em> are: <span class="math display">\[
 \text{LogLoss} = -\frac{1}{N}\sum_{n=1}^{N}\Big[\,y_n\ln \hat p_n + (1-y_n)\ln(1-\hat p_n)\,\Big].
-\]</span> For a clicked row (<span class="math inline">\(y=1\)</span>) only <span class="math inline">\(\ln\hat p\)</span> survives — it rewards a <em>high</em> predicted probability; for a non-click (<span class="math inline">\(y=0\)</span>) only <span class="math inline">\(\ln(1-\hat p)\)</span> survives — it rewards a <em>low</em> one. Lower is better; a confident wrong prediction (<span class="math inline">\(\hat p\to 0\)</span> when <span class="math inline">\(y=1\)</span>) is punished without bound.</li>
-<li><strong>AUC</strong> (area under the ROC curve) — how well the model <em>ranks</em> clicks above non-clicks, ignoring calibration. It has a clean combinatorial reading: <strong>the probability that a randomly chosen clicked impression is scored above a randomly chosen non-clicked one</strong> — equivalently, the fraction of (click, non-click) pairs the model orders correctly.</li>
-</ul>
+\]</span> Here <span class="math inline">\(N\)</span> is the number of impressions and <span class="math inline">\(n\)</span> indexes them; <span class="math inline">\(y_n\in\{0,1\}\)</span> is impression <span class="math inline">\(n\)</span>’s label and <span class="math inline">\(\hat p_n\)</span> the model’s predicted click probability for it; <span class="math inline">\(\ln\)</span> is the natural logarithm. Because <span class="math inline">\(y_n\)</span> is <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, exactly <strong>one term of the bracket survives</strong>: if <span class="math inline">\(y_n=1\)</span> then <span class="math inline">\(1-y_n=0\)</span> and the bracket is <span class="math inline">\(\ln\hat p_n\)</span>; if <span class="math inline">\(y_n=0\)</span> the first term vanishes and the bracket is <span class="math inline">\(\ln(1-\hat p_n)\)</span>. Either way it is <em>the log of the probability the model gave to what actually happened</em>. Lower is better.</p>
+<p>How hard does it punish a bad probability? The table prices one <em>clicked</em> impression at four predictions (a non-clicked one is priced by the same table read from the other end: replace <span class="math inline">\(\hat p\)</span> by <span class="math inline">\(1-\hat p\)</span>).</p>
+<div id="tbl-deep-ctr-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.3: The cost <span class="math inline">\(-\ln\hat p\)</span> of one clicked impression at four predicted probabilities.
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">prediction <span class="math inline">\(\hat p\)</span> for a click</th>
+<th style="text-align: center;">cost <span class="math inline">\(-\ln\hat p\)</span></th>
+<th>reading</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">0.1054</td>
+<td>confident and right</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0.6931</td>
+<td>a shrug</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">2.3026</td>
+<td>confident and wrong</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">4.6052</td>
+<td>very confident and wrong</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The cost grows without bound as <span class="math inline">\(\hat p\)</span> nears <span class="math inline">\(0\)</span>: a click called <span class="math inline">\(0.01\)</span> costs <span class="math inline">\(4.6052\)</span>, about <span class="math inline">\(44\)</span> times the <span class="math inline">\(0.1054\)</span> of a click called <span class="math inline">\(0.9\)</span> (§2.2 of the loss chapter decodes each term). LogLoss punishes <strong>both</strong> kinds of error: poor <strong>calibration</strong> and poor separation of clicks from non-clicks. Calibrated means the numbers mean what they say: of all impressions scored <span class="math inline">\(0.3\)</span>, about <span class="math inline">\(30\%\)</span> are really clicked (<em>Evaluation Metrics</em> §11); mis-calibration is the right order with wrong magnitudes.</p>
+<p><strong>AUC</strong> (area under the <strong>ROC</strong> — <em>receiver operating characteristic</em> — curve, the plot of hits against false alarms as the decision threshold slides; <em>Evaluation Metrics</em> §8) — how well the model <em>ranks</em> clicks above non-clicks, ignoring calibration. It has a clean combinatorial reading: <strong>the probability that a randomly chosen clicked impression is scored above a randomly chosen non-clicked one</strong> — equivalently, the fraction of (click, non-click) pairs the model orders correctly, <strong>with a tie counting as half a pair</strong>.</p>
+<p>Low, middle and high: an AUC of <span class="math inline">\(0.5\)</span> is a coin flip (a random click is scored above a random non-click half the time); an AUC of <span class="math inline">\(0.75\)</span>, as in the example below, puts the click first in <span class="math inline">\(3\)</span> pairs out of <span class="math inline">\(4\)</span>; an AUC of <span class="math inline">\(1\)</span> would put every click above every non-click.</p>
 <p><strong>Worked example — LogLoss and AUC by hand.</strong> Four impressions, with the model’s predicted <span class="math inline">\(\hat p\)</span> and the true label <span class="math inline">\(y\)</span>:</p>
+<div id="tbl-deep-ctr-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.4: The four impressions of the worked example, with the model’s predicted click probability <span class="math inline">\(\hat p\)</span> and the true label <span class="math inline">\(y\)</span>.
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -631,12 +791,12 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Ann, Matrix)</td>
+<td>(Ann, Titanic)</td>
 <td style="text-align: center;">0.8</td>
 <td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<td>(Ann, Titanic)</td>
+<td>(Ann, Matrix)</td>
 <td style="text-align: center;">0.5</td>
 <td style="text-align: center;">0</td>
 </tr>
@@ -646,138 +806,334 @@ window.Quarto = {
 <td style="text-align: center;">1</td>
 </tr>
 <tr class="even">
-<td>(Bob, Comedy)</td>
+<td>(Cara, Titanic)</td>
 <td style="text-align: center;">0.3</td>
 <td style="text-align: center;">0</td>
 </tr>
 </tbody>
 </table>
-<p><em>LogLoss.</em> Keep the term each label selects: <span class="math inline">\(\ln 0.8,\ \ln(1-0.5),\ \ln 0.4,\ \ln(1-0.3)\)</span> <span class="math inline">\(= -0.2231,\,-0.6931,\,-0.9163,\,-0.3567\)</span>. Sum <span class="math inline">\(=-2.1892\)</span>; divide by <span class="math inline">\(N=4\)</span> and negate: <span class="math display">\[
-\text{LogLoss} = -\tfrac{1}{4}(-2.1892) = \mathbf{0.5473}.
+</div>
+</figure>
+</div>
+<p>(The labels match the book’s running cast: Ann is romance-first, Bob’s taste points at <em>Matrix</em>. A note after the AUC result explains Cara’s row.)</p>
+<p><em>LogLoss.</em> Keep the term each label selects — by the rule just above, <span class="math inline">\(y=1\)</span> keeps <span class="math inline">\(\ln\hat p\)</span> and <span class="math inline">\(y=0\)</span> keeps <span class="math inline">\(\ln(1-\hat p)\)</span>: <span class="math inline">\(\ln 0.8\)</span>, <span class="math inline">\(\ln(1-0.5)\)</span>, <span class="math inline">\(\ln 0.4\)</span>, <span class="math inline">\(\ln(1-0.3)\)</span> <span class="math inline">\(=-0.22314\)</span>, <span class="math inline">\(-0.69315\)</span>, <span class="math inline">\(-0.91629\)</span>, <span class="math inline">\(-0.35667\)</span>. Sum <span class="math inline">\(=-2.18926\)</span>; divide by <span class="math inline">\(N=4\)</span> and negate: <span class="math display">\[
+\text{LogLoss} = -\tfrac{1}{4}(-2.18926) = \mathbf{0.5473}.
 \]</span></p>
 <p><em>AUC.</em> The clicks scored <span class="math inline">\(\{0.8,\,0.4\}\)</span>; the non-clicks scored <span class="math inline">\(\{0.5,\,0.3\}\)</span>. Form all <span class="math inline">\(2\times 2 = 4\)</span> (click, non-click) pairs and count how many the model orders correctly: <span class="math inline">\((0.8&gt;0.5)\ \checkmark\)</span>, <span class="math inline">\((0.8&gt;0.3)\ \checkmark\)</span>, <span class="math inline">\((0.4&gt;0.5)\ \times\)</span>, <span class="math inline">\((0.4&gt;0.3)\ \checkmark\)</span> — <strong>3 of 4</strong>, so <span class="math display">\[
 \text{AUC} = \tfrac{3}{4} = \mathbf{0.75}.
-\]</span> The one misranked pair — Bob’s <em>clicked</em> Matrix (<span class="math inline">\(0.4\)</span>) scored below Ann’s <em>un-clicked</em> Titanic (<span class="math inline">\(0.5\)</span>) — is exactly the error AUC measures and LogLoss only feels indirectly. Two complementary lenses: LogLoss grades the <em>probabilities</em>, AUC grades the <em>ordering</em>.</p>
-<p><strong>Why calibration is money, not neatness.</strong> In ads the click probability is <em>spent</em>: a bid is often <span class="math inline">\(\text{value}\times\hat p(\text{click})\)</span>, so a model with great AUC but <strong>miscalibrated</strong> <span class="math inline">\(\hat p\)</span> — right <em>ordering</em>, wrong <em>magnitudes</em> — systematically over- or under-bids real currency. That is why CTR models are graded on <strong>LogLoss (calibration), not only AUC (ranking)</strong>, and why production pipelines often add a <strong>calibration</strong> step (isotonic or Platt scaling) on top of the trained scorer.</p>
+\]</span> The one misranked pair — Bob’s <em>clicked</em> Matrix (<span class="math inline">\(0.4\)</span>) scored below Ann’s <em>un-clicked</em> Matrix (<span class="math inline">\(0.5\)</span>) — is exactly the error AUC measures and LogLoss only feels indirectly. LogLoss and AUC are complementary lenses, the first grading the <em>probabilities</em> and the second the <em>ordering</em>.</p>
+<p><em>A note on Cara’s row.</em> In <em>Traditional Recommender Systems</em> the cell Cara–<em>Titanic</em> is one of the three <strong>blanks</strong>, and that chapter’s own exercises predict it <em>high</em> — <span class="math inline">\(\hat r\approx 4.6\)</span> and <span class="math inline">\(4.5\)</span>. That is no contradiction; it is the distinction this chapter runs on. A rating estimates how much she would like the film; a click records what she did with <strong>one impression</strong> of it. Here she was shown <em>Titanic</em> in one slot and did not click — exactly the kind of evidence a rating matrix never holds, and exactly what a CTR log does hold.</p>
+<p>The figure <em>The cost of one impression against the predicted probability</em> draws that cost against the predicted probability, with the four terms just computed marked on it.</p>
+<div id="fig-deep-ctr-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The cost of one impression against the predicted probability: -ln p if it was clicked (blue), -ln(1- p) if it was not (orange).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/deep-ctr-1.svg" class="img-fluid figure-img" alt="The cost of one impression against the predicted probability: -ln p if it was clicked (blue), -ln(1- p) if it was not (orange).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: The cost of one impression against the predicted probability: <span class="math inline">\(-\ln\hat p\)</span> if it was clicked (blue), <span class="math inline">\(-\ln(1-\hat p)\)</span> if it was not (orange). The marks are the four terms of the worked example: blue circles for the clicked impressions, Ann–<em>Titanic</em> (<span class="math inline">\(\hat p=0.8\)</span>, cost <span class="math inline">\(0.223\)</span>) and Bob–<em>Matrix</em> (<span class="math inline">\(0.4\)</span>, <span class="math inline">\(0.916\)</span>); orange squares for the non-clicked ones, Ann–<em>Matrix</em> (<span class="math inline">\(0.5\)</span>, <span class="math inline">\(0.693\)</span>) and Cara–<em>Titanic</em> (<span class="math inline">\(0.3\)</span>, <span class="math inline">\(0.357\)</span>); the third blue circle is the <span class="math inline">\(0.01\)</span> row of the table above. Each curve climbs without bound as the model becomes confident in the wrong answer.
+</figcaption>
+</figure>
+</div>
+<p><em>Why LogLoss is not just a calibration score.</em> Compare a lazy model that predicts <span class="math inline">\(0.5\)</span> for all four impressions. It is <strong>perfectly calibrated</strong> — it says <span class="math inline">\(0.5\)</span> and exactly <span class="math inline">\(2\)</span> of the <span class="math inline">\(4\)</span> were clicked — yet its LogLoss is <span class="math inline">\(-\ln 0.5 = \mathbf{0.6931}\)</span>, <strong>worse</strong> than the <span class="math inline">\(0.5473\)</span> above, and its AUC is <span class="math inline">\(0.5\)</span> (every pair is a tie, each worth half). The four predictions above need not be better calibrated: they separate clicks from non-clicks (AUC <span class="math inline">\(0.75\)</span>), and LogLoss pays for that separation too. So read LogLoss as <em>probability quality</em> — calibration <strong>and</strong> separation — not as calibration alone. (Exercise E4 scores a model whose predictions include ties.)</p>
+<p><strong>Why calibration is money, not neatness.</strong> In ads the click probability is <em>spent</em>: a bid is often <span class="math inline">\(\text{value}\times\hat p(\text{click})\)</span> in practice. Say a click is worth <span class="math inline">\(2\)</span> dollars and the true click rate is <span class="math inline">\(0.03\)</span>: the fair bid is <span class="math inline">\(2\times0.03=0.06\)</span> dollars per impression. A model with the right <em>order</em> but every probability twice too high (<span class="math inline">\(0.06\)</span>) bids <span class="math inline">\(0.12\)</span> dollars, so over <span class="math inline">\(1{,}000\)</span> impressions, which bring <span class="math inline">\(30\)</span> clicks worth <span class="math inline">\(60\)</span> dollars, it spends <span class="math inline">\(120\)</span>. AUC cannot see this. Halve every prediction of the four impressions, to <span class="math inline">\([0.4,\,0.25,\,0.2,\,0.15]\)</span>: the order is unchanged, so AUC stays <span class="math inline">\(0.75\)</span>, while LogLoss rises from <span class="math inline">\(0.5473\)</span> to <span class="math inline">\(0.7440\)</span>.</p>
+<p>That is why CTR models are graded on <strong>LogLoss (probability quality, which includes calibration), not only AUC (ranking)</strong>, and why production pipelines often add a <strong>calibration</strong> step — <em>isotonic regression</em> or <em>Platt scaling</em>, two ways of remapping raw scores to calibrated probabilities on held-out data (<em>Evaluation Metrics</em> §11) — on top of the trained scorer, as is usual in practice.</p>
+<p>The same logistic head, fed embeddings instead of one-hot features, is what <strong>neural collaborative filtering</strong> (He et al., 2017) puts on top of implicit feedback; everything below keeps the head and changes only what feeds it.</p>
+<p><strong>In one line:</strong> on the same four impressions LogLoss reads <span class="math inline">\(0.5473\)</span> and AUC <span class="math inline">\(0.75\)</span>: LogLoss grades the probabilities, AUC grades the ordering, and halving every probability leaves AUC at <span class="math inline">\(0.75\)</span> while LogLoss climbs to <span class="math inline">\(0.7440\)</span>.</p>
 <hr>
 </section>
 <section id="the-springboard-factorization-machines-one-recap" class="level2">
 <h2 class="anchored" data-anchor-id="the-springboard-factorization-machines-one-recap">4. The springboard: factorization machines (one recap)</h2>
-<p>The first model to learn interactions <em>without</em> hand-crossing is the <strong>factorization machine (FM)</strong>, built in full in <em>Traditional Recommender Systems</em> §8. The one idea we build on: give every category <span class="math inline">\(i\)</span> a small <strong>latent vector</strong> <span class="math inline">\(\mathbf v_i\)</span>, and model the strength of the interaction between categories <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> as the <strong>dot product</strong> <span class="math inline">\(\langle \mathbf v_i,\mathbf
-v_j\rangle\)</span> — not a free per-pair weight:</p>
-<p><span class="math display">\[
-\hat y = w_0 + \sum_i w_i x_i + \sum_{i&lt;j}\langle \mathbf v_i,\mathbf v_j\rangle\,x_i x_j .
+<p>Suppose sci-fi and a tablet have never been shown together (a stipulation: with about <span class="math inline">\(20\)</span> genres and a few devices every genre-and-device pair appears in a real log, but a rarer pair, such as one particular film and a tablet, may never meet), yet the model still has to say something about that pair. How can it have an opinion about a pair it has never seen? This section recalls the trick that makes that possible, built in full in the chapter on traditional recommender systems.</p>
+<p>The first model to learn interactions <em>without</em> hand-crossing is the <strong>factorization machine (FM)</strong> (Rendle, 2010), built in full in <em>Traditional Recommender Systems</em> §8. The one idea we build on: give every category <span class="math inline">\(j\)</span> a small <strong>latent vector</strong> <span class="math inline">\(\mathbf v_j\)</span> — a short list of <span class="math inline">\(k\)</span> numbers learned from the data, “latent” because nobody labels what they mean — and model the strength of the interaction between categories <span class="math inline">\(j\)</span> and <span class="math inline">\(j'\)</span> as the <strong>dot product</strong> <span class="math inline">\(\langle \mathbf v_j,\mathbf
+v_{j'}\rangle\)</span>, not a free per-pair weight: <span class="math display">\[
+z_{\text{FM}} \;=\; w_0 + \sum_j w_j x_j + \sum_{j&lt;j'}\langle \mathbf v_j,\mathbf v_{j'}\rangle\,x_j x_{j'} .
 \]</span></p>
-<p>This is the trick that makes interactions learnable on sparse data: a pair <code>(sci-fi, mobile)</code> that <strong>never co-occurred</strong> in training still gets a sensible interaction strength, because <span class="math inline">\(\mathbf v_{\text{sci-fi}}\)</span> and <span class="math inline">\(\mathbf v_{\text{mobile}}\)</span> were each trained on their <em>other</em> co-occurrences. And the double sum, which looks like <span class="math inline">\(O(n^2)\)</span>, collapses to <strong><span class="math inline">\(O(kn)\)</span></strong> (linear in the number of active features, with <span class="math inline">\(k\)</span> the latent size) via a squared-sum identity — on the tiny three-feature example of <em>Traditional RecSys</em> §8 both forms agree on the same pairwise total <strong><span class="math inline">\(2.5\)</span></strong>, which you can re-check there.</p>
-<p>FM has a ceiling, though: it models <strong>second-order</strong> interactions only, and all with the <em>same</em> fixed form. The deep-CTR models lift exactly that ceiling — keeping FM’s “factorize the interaction” idea and adding <strong>higher-order</strong> and <strong>learned-shape</strong> interactions on top.</p>
+<p>Read it left to right. The first two terms, <span class="math inline">\(w_0+\sum_j w_jx_j\)</span>, are exactly §3’s logistic-regression score. The sum <span class="math inline">\(\sum_{j&lt;j'}\)</span> runs over every <strong>pair of different categories, counted once</strong> (<span class="math inline">\(j'\)</span> starts after <span class="math inline">\(j\)</span>, so no pair appears twice and no category pairs with itself). The factor <span class="math inline">\(x_jx_{j'}\)</span> is precisely §2’s <strong>cross</strong> — <span class="math inline">\(1\)</span> only when both categories are active — so only pairs of <em>active</em> categories contribute. And <span class="math inline">\(\langle\mathbf
+v_j,\mathbf v_{j'}\rangle\)</span>, another way of writing the dot product <span class="math inline">\(\mathbf v_j\cdot\mathbf
+v_{j'}\)</span>, is that pair’s learned strength. The result <span class="math inline">\(z_{\text{FM}}\)</span> is a raw score, not yet a probability; for CTR it goes into §3’s logistic head, <span class="math inline">\(\hat p=\sigma(z_{\text{FM}})\)</span>.</p>
+<p>In numbers: suppose training left <span class="math inline">\(\mathbf v_{\text{sci-fi}}=[1,\,0.5]\)</span> and <span class="math inline">\(\mathbf v_{\text{tablet}}=[0.2,\,0.8]\)</span>. The pair’s strength is <span class="math inline">\((1)(0.2)+(0.5)(0.8)=0.6\)</span>.</p>
+<p>This is the trick that makes interactions learnable on sparse data: a pair <code>(sci-fi, tablet)</code> that <strong>never co-occurred</strong> in training (an extreme case, stipulated to make the point sharp) still gets a sensible interaction strength, because <span class="math inline">\(\mathbf v_{\text{sci-fi}}\)</span> and <span class="math inline">\(\mathbf v_{\text{tablet}}\)</span> were each trained on their <em>other</em> co-occurrences. Although no impression ever showed that pair, it has a strength (the <span class="math inline">\(0.6\)</span> above). A free weight for the pair would get no training signal at all.</p>
+<p>Now the cost. The double sum looks like <span class="math inline">\(O(kn^2)\)</span> work — <span class="math inline">\(O(\cdot)\)</span> reads “grows in proportion to”; here <span class="math inline">\(n\)</span> (not §3’s impression index) is the number of <strong>active</strong> features and <span class="math inline">\(k\)</span> the length of each latent vector (that chapter calls it <span class="math inline">\(d\)</span>), and each of the <span class="math inline">\(\approx n^2/2\)</span> pairs costs a <span class="math inline">\(k\)</span>-number dot product. It collapses to <strong><span class="math inline">\(O(kn)\)</span></strong>, linear in <span class="math inline">\(n\)</span>, via a squared-sum identity (for <span class="math inline">\(n=10\)</span>, <span class="math inline">\(20\)</span>, <span class="math inline">\(40\)</span> active features there are <span class="math inline">\(45\)</span>, <span class="math inline">\(190\)</span>, <span class="math inline">\(780\)</span> pairs to enumerate, against <span class="math inline">\(10\)</span>, <span class="math inline">\(20\)</span>, <span class="math inline">\(40\)</span> features to scan): <span class="math display">\[
+\sum_{j&lt;j'}\langle\mathbf v_j,\mathbf v_{j'}\rangle x_jx_{j'}
+=\tfrac12\sum_{f}\Big[\big(\textstyle\sum_j v_{jf}x_j\big)^2-\sum_j v_{jf}^2x_j^2\Big],
+\]</span> where <span class="math inline">\(f\)</span> runs over the <span class="math inline">\(k\)</span> coordinates. Check it on the tiny three-feature example of <em>Traditional Recommender Systems</em> §8 (Ann <span class="math inline">\(=[2,\,0.5]\)</span>, Vendetta <span class="math inline">\(=[1,\,1]\)</span>, action <span class="math inline">\(=[-1,\,1]\)</span>): pair by pair, <span class="math inline">\(2.5-1.5+0 = 1.0\)</span>; by the identity, <span class="math inline">\(\tfrac12\big[(4-6)+(6.25-2.25)\big]=\tfrac12(-2.0+4.0)=1.0\)</span>. Same <strong>pairwise total <span class="math inline">\(1.0\)</span></strong>, two passes over the features instead of an enumeration of pairs.</p>
+<p>FM has a ceiling, though: it models <strong>second-order</strong> interactions only — pairs of features, like sci-fi <span class="math inline">\(\times\)</span> mobile. (The <strong>order</strong>, or <strong>degree</strong>, of an interaction is how many features it multiplies together: second-order is a pair, third-order would be sci-fi <span class="math inline">\(\times\)</span> evening <span class="math inline">\(\times\)</span> mobile.) And every pair is scored with the <em>same</em> fixed form, a dot product. The deep-CTR models lift exactly that ceiling — keeping FM’s “factorize the interaction” idea and adding <strong>higher-order</strong> interactions, and interactions whose <em>shape</em> is learned rather than fixed, on top.</p>
+<p><strong>In one line:</strong> the vectors <span class="math inline">\([1,\,0.5]\)</span> and <span class="math inline">\([0.2,\,0.8]\)</span> give a never-seen pair the strength <span class="math inline">\(0.6\)</span>, and the squared-sum identity gets the pairwise total <span class="math inline">\(1.0\)</span> of the three-feature example in two passes instead of three pairs.</p>
 <hr>
 </section>
 <section id="wide-deep-memorization-plus-generalization" class="level2">
 <h2 class="anchored" data-anchor-id="wide-deep-memorization-plus-generalization">5. Wide &amp; Deep: memorization plus generalization</h2>
-<p>Google’s <strong>Wide &amp; Deep</strong> (2016) makes the ceiling explicit by training <strong>two arms at once</strong> and summing their scores before the sigmoid:</p>
-<p><span class="math display">\[
-\hat p = \sigma\big(\underbrace{\mathbf w_{\text{wide}}^{\top}[\mathbf x,\ \phi(\mathbf x)]}_{\text{wide: memorize}}
-\;+\;\underbrace{\mathbf w_{\text{deep}}^{\top}\,\mathbf a^{(L)}}_{\text{deep: generalize}}\;+\;b\big).
+<p>Some film-and-device pairs have been seen thousands of times and are worth remembering exactly; others have barely been seen and call for a sensible guess. One model rarely does both well. This section shows how Google’s engineers trained two arms side by side, one for each job.</p>
+<p>Google’s <strong>Wide &amp; Deep</strong> (Cheng et al., 2016) answers the linear model’s ceiling (§3) by training <strong>two arms at once</strong> and summing their scores before the sigmoid. An <strong>arm</strong> is one of two parallel sub-networks whose outputs meet in one logistic head (the papers also say <em>tower</em> or <em>stream</em>; it is not the retrieval chapters’ <em>tower</em>, an encoder that handles only the user or only the item): <span class="math display">\[
+\hat p = \sigma\big(\underbrace{\mathbf w_{\text{wide}}^{\top}[\mathbf x,\ \mathbf c(\mathbf x)]}_{\text{wide: memorize}}
+\;+\;\underbrace{\mathbf w_{\text{deep}}^{\top}\,\mathbf h^{(L)}}_{\text{deep: generalize}}\;+\;b\big).
 \]</span></p>
 <ul>
-<li>The <strong>wide</strong> arm is a linear model over the raw features <strong>and a few hand-crafted cross features</strong> <span class="math inline">\(\phi(\mathbf x)\)</span> (e.g.&nbsp;<code>genre=sci-fi ∧ device=mobile</code>). It <strong>memorizes</strong>: it can nail frequent, specific combinations seen often in the logs.</li>
-<li>The <strong>deep</strong> arm embeds each sparse field into a dense vector, concatenates them, and passes them through a multi-layer perceptron (MLP, the feed-forward net of <em>Neural Networks &amp; Back-propagation</em>) to produce <span class="math inline">\(\mathbf a^{(L)}\)</span>. It <strong>generalizes</strong>: dense embeddings let it score combinations it has <em>never</em> seen, the way FM does.</li>
+<li>The <strong>wide</strong> arm is a linear model over the <strong>raw</strong> one-hot features <span class="math inline">\(\mathbf x\)</span> of §2 <strong>and a few hand-crafted cross features</strong> <span class="math inline">\(\mathbf c(\mathbf x)\)</span> (e.g.&nbsp;the single indicator <code>genre=sci-fi ∧ device=mobile</code> of §2’s table). It <strong>memorizes</strong>: it can nail frequent, specific combinations seen often in the logs. Note that this arm never sees an embedding.</li>
+<li>The <strong>deep</strong> arm embeds each sparse field into a dense vector, concatenates them, and passes them through a multi-layer perceptron (MLP, the feed-forward net of <em>Neural Networks &amp; Back-propagation</em>) to produce <span class="math inline">\(\mathbf h^{(L)}\)</span>. Each field is simply replaced by the learned vector of the category active in it — the same kind of object as FM’s <span class="math inline">\(\mathbf v_j\)</span> in §4; we write field <span class="math inline">\(f\)</span>’s vector <span class="math inline">\(\mathbf e_f\)</span>. It <strong>generalizes</strong>: dense embeddings let it score combinations it has <em>never</em> seen, the way FM does.</li>
 </ul>
-<p>The names say the design: <strong>memorization</strong> (wide, exact, brittle) and <strong>generalization</strong> (deep, smooth, fuzzy) are different failure modes, so the model keeps both and lets training balance them. Its one weakness is honest: the wide arm <strong>still needs a human to pick the crosses</strong> <span class="math inline">\(\phi(\mathbf x)\)</span>. The next two models remove that.</p>
-<div id="fig-deep-ctr-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Decoding the display: <span class="math inline">\([\mathbf x,\ \mathbf c(\mathbf x)]\)</span> is the raw one-hot vector with the hand-made cross indicators appended (one long vector, exactly the “placed end to end” of §2); <span class="math inline">\(\mathbf w_{\text{wide}}^{\top}[\cdot]\)</span> and <span class="math inline">\(\mathbf w_{\text{deep}}^{\top}\mathbf h^{(L)}\)</span> are dot products with learned weight vectors; and <span class="math inline">\(b\)</span> is one shared bias. (<span class="math inline">\(\mathbf h^{(L)}\)</span> is the last hidden layer of the MLP; a note after the worked example gives its notation.)</p>
+<p><strong>Worked example — a Wide &amp; Deep score by hand.</strong> One impression: Bob, <em>Matrix</em> (<code>genre=sci-fi</code>), on <code>device=mobile</code>. Suppose the wide arm has learned an intercept <span class="math inline">\(w_0=-2.0\)</span> (the weight of a constant feature that is always <span class="math inline">\(1\)</span>, so part of <span class="math inline">\(\mathbf w_{\text{wide}}\)</span>), <span class="math inline">\(w_{\text{sci-fi}}=0.3\)</span>, <span class="math inline">\(w_{\text{mobile}}=0.1\)</span> and, for the hand-made cross, <span class="math inline">\(w_{\text{sci-fi}\times\text{mobile}}=0.8\)</span>; take <span class="math inline">\(b=0\)</span>. Then</p>
+<ol type="1">
+<li><strong>Wide arm</strong> (only the active weights): <span class="math inline">\(-2.0+0.3+0.1+0.8 = -0.8\)</span>.</li>
+<li><strong>Deep arm</strong>: say the last hidden layer’s pre-activations (the sums it computes before applying its activation function) are <span class="math inline">\([0.5,\,-0.2]\)</span> and that the layer’s activation function is the <strong>ReLU</strong> (rectified linear unit), <span class="math inline">\(\mathrm{ReLU}(z)=\max(0,z)\)</span> — keep a positive number, replace a negative one with <span class="math inline">\(0\)</span> (<em>Neural Networks &amp; Back-propagation</em> §2) — applied to each entry on its own, so that <span class="math inline">\(\mathbf h^{(L)}=\mathrm{ReLU}([0.5,-0.2])=[0.5,\,0]\)</span>. With <span class="math inline">\(\mathbf w_{\text{deep}}=[1.2,\,0.7]\)</span>, the dot product is <span class="math inline">\(\mathbf w_{\text{deep}}^{\top}\mathbf h^{(L)} = 1.2(0.5)+0.7(0) = 0.6\)</span>.</li>
+<li><strong>Sum and squash</strong>: <span class="math inline">\(z=-0.8+0.6=-0.2\)</span>, so <span class="math inline">\(\hat p=\sigma(-0.2)=\mathbf{0.450}\)</span>.</li>
+</ol>
+<p>Now delete the one hand-made cross weight. The wide arm becomes <span class="math inline">\(-2.0+0.3+0.1=-1.6\)</span>, so <span class="math inline">\(z=-1.0\)</span> and <span class="math inline">\(\hat p=\sigma(-1.0)=\mathbf{0.269}\)</span> — the memorized combination was worth about <span class="math inline">\(18\)</span> percentage points of click probability on this row (<span class="math inline">\(0.450-0.269=0.181\)</span>). That is the effect of the weight <span class="math inline">\(0.8\)</span> a human had to think of, seen on the probability scale; the weight itself lives on the log-odds scale of §3, so the two numbers are not equal.</p>
+<p>That second case is also what the wide arm does on a pair it has <em>never</em> seen. Show the same film on a tablet, with the same first-order weight <span class="math inline">\(0.1\)</span>: no impression ever trained a <code>sci-fi ∧ tablet</code> cross, so its weight is still <span class="math inline">\(0\)</span> and the wide arm says <span class="math inline">\(-1.6\)</span>, exactly the cross-deleted case above. It cannot tell this row from a plain sci-fi row. The deep arm still has something to say, because its input is built from the two embeddings, which other impressions trained; an FM arm over §4’s vectors for sci-fi and tablet would give the pair the strength <span class="math inline">\(0.6\)</span>, whatever the MLP learns to do with them.</p>
+<p>The names say the design: <strong>memorization</strong> (wide: exact but brittle — useless on a combination it never saw, as just shown) and <strong>generalization</strong> (deep: smooth but fuzzy — it can over-generalize and score loosely related items alike, as practitioners report) <em>fail in different ways</em>, so the model keeps both and lets training balance them. Its one weakness is that the wide arm <strong>still needs a human to pick the crosses</strong> <span class="math inline">\(\mathbf c(\mathbf
+x)\)</span>. The next two models remove that.</p>
+<p>The vector <span class="math inline">\(\mathbf h^{(L)}\)</span> is the output of the MLP’s last (<span class="math inline">\(L\)</span>-th) hidden layer, in the layer-superscript notation of <em>Neural Networks &amp; Back-propagation</em> §3, where <span class="math inline">\(\mathbf
+h^{(\ell)}\)</span> is layer <span class="math inline">\(\ell\)</span>’s output and the <span class="math inline">\((\ell)\)</span> is a layer number, not a power. One difference from that chapter is worth flagging: there the last layer’s output <em>is</em> the network’s prediction (<span class="math inline">\(\mathbf h^{(L)}=\hat{\mathbf y}\)</span>), whereas here all <span class="math inline">\(L\)</span> layers of the MLP are hidden and the logistic head of this chapter’s §3 sits on top of <span class="math inline">\(\mathbf h^{(L)}\)</span>.</p>
+<p>One note on letters: Google’s paper writes the cross map <span class="math inline">\(\phi(\mathbf x)\)</span>, but in this book <span class="math inline">\(\phi\)</span> is the <em>activation function</em> (<span class="math inline">\(\mathbf h=\phi(\mathbf z)\)</span>), so the cross map is written <span class="math inline">\(\mathbf c(\mathbf x)\)</span> here — a list of hand-made crosses, not an activation.</p>
+<p>Before the lineage, one distinction the rest of the chapter turns on. An <strong>explicit</strong> interaction is built by a formula you can point at — a product such as <span class="math inline">\(x_jx_{j'}\)</span> or a dot product <span class="math inline">\(\langle\mathbf v_j,\mathbf v_{j'}\rangle\)</span> — so each cross has a known degree and a readable strength you could print out. In numbers: with <span class="math inline">\(x_{\text{sci-fi}}=1\)</span> and <span class="math inline">\(x_{\text{mobile}}=1\)</span>, the product <span class="math inline">\(x_{\text{sci-fi}}x_{\text{mobile}}=1\)</span> is an explicit interaction of degree <span class="math inline">\(2\)</span> that a formula names.</p>
+<p>An MLP mixes all the features together through its nonlinear layers and can represent crosses of any degree, but only <strong>implicitly</strong>: no single weight stands for “the sci-fi <span class="math inline">\(\times\)</span> mobile strength” (a hidden unit may switch on only when both are <span class="math inline">\(1\)</span>, with nothing in the model saying so), and it can need many units to approximate even a simple product (a point made in the introduction of the paper on FinalMLP, a model met in §9). That is the motive behind most of the models below: each keeps an explicit-interaction arm (the part that builds named crosses) <em>beside</em> the MLP rather than trusting the MLP alone. §9 measures how much that arm buys.</p>
+<p>The figure <em>The two-arm template shared by Wide &amp; Deep, DeepFM, DCN and xDeepFM</em> draws the template that most of the models in this chapter share. One arrow belongs to only three of the four named models: the one from the embedding layer to the explicit-interaction arm. Wide &amp; Deep’s explicit-interaction arm reads the raw features through the left box, not an embedding.</p>
+<div id="fig-deep-ctr-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The two-arm template shared by Wide &amp; Deep, DeepFM, DCN and xDeepFM.">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/deep-ctr-1.svg" class="img-fluid figure-img">
+<div aria-describedby="fig-deep-ctr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/deep-ctr-2.svg" class="img-fluid figure-img" alt="The two-arm template shared by Wide &amp; Deep, DeepFM, DCN and xDeepFM.">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep-ctr-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> Sparse fields are embedded, then fed to two parallel towers: an <em>explicit-interaction</em> tower that models low-order crosses in a named, structured way, and a <em>deep</em> MLP tower that models high-order interactions implicitly; their outputs are concatenated into one logistic head scored by LogLoss / AUC (§3). The models differ only in the <em>left</em> tower: <strong>Wide &amp; Deep</strong> uses a hand-crossed linear arm, <strong>DeepFM</strong> an FM (§6), <strong>DCN</strong> a cross network (§7), <strong>xDeepFM</strong> a CIN (§8).
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep-ctr-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.2: <strong>The two-arm template shared by Wide &amp; Deep, DeepFM, DCN and xDeepFM.</strong> An <em>explicit-interaction</em> arm builds named crosses of known degree beside a <em>deep</em> arm — a multi-layer perceptron (MLP) — that models high-order interactions implicitly; the two meet in one logistic head scored by LogLoss / AUC (§3). Wide &amp; Deep’s wide arm reads the raw features and never touches an embedding; the other explicit-interaction arms read one shared embedding layer (§6 says what each model reads). Not every CTR model fits the template: AutoInt (self-attention across the fields) and the Deep Interest Network (DIN) of §8, and FinalMLP of §9, organize the interactions differently.
 </figcaption>
 </figure>
 </div>
+<p><strong>In one line:</strong> on the worked row the hand-made cross was worth <span class="math inline">\(0.450-0.269=0.181\)</span> of click probability, the effect (in log-odds, the weight <span class="math inline">\(0.8\)</span>) of what a person had to think of, and on a never-seen pair the wide arm falls back to <span class="math inline">\(-1.6\)</span> because that weight is still <span class="math inline">\(0\)</span>.</p>
 <hr>
 </section>
 <section id="deepfm-kill-the-hand-engineering-share-the-embeddings" class="level2">
 <h2 class="anchored" data-anchor-id="deepfm-kill-the-hand-engineering-share-the-embeddings">6. DeepFM: kill the hand-engineering, share the embeddings</h2>
-<p><strong>DeepFM</strong> (2017) replaces Wide &amp; Deep’s hand-crafted wide arm with an <strong>FM component</strong> — and makes one elegant move: the FM arm and the deep arm <strong>share the same embedding layer</strong>. The prediction sums the two:</p>
-<p><span class="math display">\[
+<p>Suppose nobody tells the model which combinations of features to build, and it must still discover that sci-fi on mobile matters. Suppose too that a rare film has only a few clicks to learn from, so every click must count twice. This section builds a model that finds the combinations itself and lets both of its halves learn from the same short lists of numbers.</p>
+<p><strong>DeepFM</strong> (Guo et al., 2017) — the name is just <em>Deep</em> <span class="math inline">\(+\)</span> <em>FM</em>: a deep multi-layer perceptron arm plus a factorization-machine arm — replaces Wide &amp; Deep’s hand-crafted wide arm with an <strong>FM component</strong>, and makes one elegant move: the FM arm and the deep arm <strong>share the same embedding layer</strong>. The prediction sums the two — the FM arm’s output and the deep neural network (DNN) arm’s: <span class="math display">\[
 \hat p = \sigma\big(\,y_{\text{FM}}(\mathbf e) + y_{\text{DNN}}(\mathbf e)\,\big),
+\]</span> where <span class="math inline">\(\mathbf e=(\mathbf e_1,\dots,\mathbf e_F)\)</span> is the list of shared field embeddings, one per field, <span class="math inline">\(F\)</span> fields in all. Each arm is a formula you have already met: <span class="math display">\[
+y_{\text{FM}}(\mathbf e) = w_0+\sum_j w_j x_j + \sum_{f&lt;f'}\langle \mathbf e_f,\mathbf e_{f'}\rangle,
+\qquad
+y_{\text{DNN}}(\mathbf e) = \mathbf w_{\text{deep}}^{\top}\mathbf h^{(L)} + b .
 \]</span></p>
-<p>where <span class="math inline">\(\mathbf e\)</span> are the shared field embeddings. The <strong>FM arm</strong> (<span class="math inline">\(y_{\text{FM}}\)</span>) reads those embeddings as FM latent vectors and computes all <strong>second-order</strong> interactions automatically (no human picks them, unlike Wide &amp; Deep). The <strong>DNN arm</strong> (<span class="math inline">\(y_{\text{DNN}}\)</span>) runs the <em>same</em> embeddings through an MLP for <strong>higher-order</strong> interactions. Two payoffs from sharing:</p>
+<p>The <strong>FM arm</strong> (<span class="math inline">\(y_{\text{FM}}\)</span>) is §4’s factorization machine with the shared vectors playing the role of its <span class="math inline">\(\mathbf v\)</span>’s. Its first two terms are §3’s linear score (<span class="math inline">\(j\)</span> counts categories, <span class="math inline">\(f\)</span> counts fields). Because exactly one category is active per field, the pairwise part reduces to one dot product per <em>pair of fields</em>. It computes all <strong>second-order</strong> interactions automatically, with no human picking them, unlike Wide &amp; Deep.</p>
+<p>The second arm is the <strong>deep neural network (DNN)</strong> arm (<span class="math inline">\(y_{\text{DNN}}\)</span>) — the same kind of MLP as Wide &amp; Deep’s deep arm in §5, under the name DeepFM’s own paper uses. It runs the <em>same</em> embeddings, concatenated, through that MLP for <strong>higher-order</strong> interactions, built implicitly (§5); <span class="math inline">\(\mathbf h^{(L)}\)</span> is again its last hidden layer.</p>
+<p><strong>Worked example — one embedding, two arms.</strong> Two fields, <code>genre=sci-fi</code> and <code>device=mobile</code>. Suppose training had produced the shared vectors <span class="math inline">\(\mathbf e_{\text{genre}}=[1,\,0.5]\)</span> and <span class="math inline">\(\mathbf e_{\text{device}}=[0.4,\,1]\)</span> (chosen here for the arithmetic, not fitted). Reuse §5’s first-order weights, <span class="math inline">\(w_0=-2.0\)</span>, <span class="math inline">\(w_{\text{sci-fi}}=0.3\)</span>, <span class="math inline">\(w_{\text{mobile}}=0.1\)</span>, and <span class="math inline">\(b=0\)</span>.</p>
+<ol type="1">
+<li><strong>FM arm.</strong> First order: <span class="math inline">\(-2.0+0.3+0.1=-1.6\)</span>. The one field pair: <span class="math inline">\(\langle\mathbf e_{\text{genre}},\mathbf e_{\text{device}}\rangle=(1)(0.4)+(0.5)(1)=0.9\)</span>. So <span class="math inline">\(y_{\text{FM}} = -1.6+0.9 = -0.7\)</span>. Note what just happened: §5 needed a <em>human</em> to supply the cross weight <span class="math inline">\(0.8\)</span>; here a pair strength of <span class="math inline">\(0.9\)</span> came out of the two vectors.</li>
+<li><strong>DNN arm, reading the <em>same</em> two vectors.</strong> Concatenate them: <span class="math inline">\([1,\,0.5,\,0.4,\,1]\)</span>. One ReLU unit with weights <span class="math inline">\([0.5,\,-0.5,\,0.5,\,0]\)</span> and zero bias gives <span class="math inline">\(0.5(1)-0.5(0.5)+0.5(0.4)+0(1)=0.45\)</span>, and <span class="math inline">\(\mathrm{ReLU}(0.45)=0.45\)</span>; with output weight <span class="math inline">\(1\)</span>, <span class="math inline">\(y_{\text{DNN}}=0.45\)</span>.</li>
+<li><strong>Sum and squash.</strong> <span class="math inline">\(z=-0.7+0.45=-0.25\)</span>, so <span class="math inline">\(\hat p=\sigma(-0.25)=\mathbf{0.4378}\)</span>.</li>
+</ol>
+<p>Now nudge the <em>one</em> shared vector: let training move <span class="math inline">\(\mathbf e_{\text{genre}}\)</span> from <span class="math inline">\([1,\,0.5]\)</span> to <span class="math inline">\([1.1,\,0.5]\)</span>. The FM pair becomes <span class="math inline">\((1.1)(0.4)+(0.5)(1)=0.94\)</span> and the same ReLU unit becomes <span class="math inline">\(0.5(1.1)-0.5(0.5)+0.5(0.4)=0.50\)</span>, so <span class="math inline">\(z=(-1.6+0.94)+0.50=-0.16\)</span> and <span class="math inline">\(\hat p=\mathbf{0.4601}\)</span>. <strong>Both arms moved from one change</strong> — that is what “share the embeddings” buys. Two payoffs:</p>
 <ul>
 <li><strong>No feature engineering.</strong> The FM arm learns the low-order crosses Wide &amp; Deep made a human supply.</li>
-<li><strong>One embedding, trained by both signals.</strong> Each field’s vector is pulled by <em>both</em> the explicit second-order loss and the deep loss, so it is better estimated — especially for rare categories.</li>
+<li><strong>One embedding, trained by both signals.</strong> DeepFM has a <em>single</em> loss — the LogLoss of §3 on the one sigmoid output — but each field’s vector receives gradient through <em>both</em> routes, the FM arm’s pairwise products and the MLP, so the DeepFM authors argue sharing makes the embedding more precise, since low- and high-order signals both train it, and that an FM learns rarely seen pairs better than a free per-pair weight, the argument of §4 (Exercise E9 counts the examples behind each; the authors’ argument, not tested here).</li>
 </ul>
-<p>DeepFM is the cleanest expression of the §5 figure’s template: <strong>left tower = FM, right tower = MLP, shared embeddings, one sigmoid.</strong></p>
+<p>DeepFM is the cleanest expression of the template in the figure of §5: <strong>left arm = FM, right arm = MLP, shared embeddings, one sigmoid.</strong></p>
+<p>What does each model’s explicit-interaction arm read? <strong>Wide &amp; Deep</strong>’s wide arm reads the raw one-hot features plus a few hand-made crosses and never touches an embedding (§5). <strong>DeepFM</strong>’s FM arm and <strong>DCN</strong>’s cross network (§7) read the <em>same</em> embedding layer as the deep arm — one copy of each field’s vector, pulled by both arms, which is DeepFM’s one elegant move (DeepFM’s first-order sum <span class="math inline">\(\sum_j w_jx_j\)</span> also reads the raw features, which the figure leaves out). <strong>xDeepFM</strong> puts a compressed interaction network there instead (§8). Wide &amp; Deep and DeepFM add the two arm <em>scores</em>, DCN and xDeepFM concatenate the two arm <em>vectors</em> first — the same thing once the one linear head follows.</p>
+<p><strong>In one line:</strong> nudging one shared vector, <span class="math inline">\(\mathbf e_{\text{genre}}\)</span> from <span class="math inline">\([1,\,0.5]\)</span> to <span class="math inline">\([1.1,\,0.5]\)</span>, moved both arms at once and the score from <span class="math inline">\(0.4378\)</span> to <span class="math inline">\(0.4601\)</span>.</p>
 <hr>
 </section>
 <section id="deep-cross-dcn-explicit-bounded-degree-crosses" class="level2">
 <h2 class="anchored" data-anchor-id="deep-cross-dcn-explicit-bounded-degree-crosses">7. Deep &amp; Cross (DCN): explicit, bounded-degree crosses</h2>
-<p>FM and DeepFM stop at second order. The <strong>Deep &amp; Cross Network (DCN, 2017)</strong> asks: can we get <em>third-, fourth-, …-order</em> interactions <strong>explicitly</strong> (not just hoped-for inside an MLP), cheaply, with no hand-engineering? Its answer is the <strong>cross network</strong>, a stack of layers each defined by</p>
+<p>Sci-fi on mobile is a pair; sci-fi on mobile in the evening is a triple. The factorization-machine arm stops at pairs, a hand-made triple costs a person’s time, and a multi-layer perceptron (a stack of layers that mix all the inputs) reaches a triple only implicitly. Could a model reach triples and beyond, in a controlled way, without trying every combination? This section builds a layer that raises the degree by one at a cost that grows only linearly.</p>
+<p>FM, and the explicit FM arm of DeepFM, stop at second order. The <strong>Deep &amp; Cross Network (DCN; Wang et al., 2017)</strong> asks: can we get <em>third-, fourth-, …-order</em> interactions <strong>explicitly</strong> (not just hoped-for inside an MLP), cheaply, with no hand-engineering? Its answer is the <strong>cross network</strong>, a stack of layers each defined by</p>
 <p><span class="math display">\[
-\mathbf x_{l+1} \;=\; \mathbf x_0\,\mathbf x_l^{\top}\mathbf w_l \;+\; \mathbf b_l \;+\; \mathbf x_l .
+\mathbf x_{l+1} \;=\; \mathbf x_0\,\big(\mathbf x_l^{\top}\mathbf w_l\big) \;+\; \mathbf b_l \;+\; \mathbf x_l .
 \]</span></p>
-<p>Decode it left to right: <span class="math inline">\(\mathbf x_0\)</span> is the original input vector (the stacked embeddings); <span class="math inline">\(\mathbf x_l\)</span> is the current layer’s vector; <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> is a <strong>scalar</strong> (a learned weighted summary of the current features); multiplying <span class="math inline">\(\mathbf x_0\)</span> by that scalar <strong>multiplies every original feature against the current ones</strong> — i.e.&nbsp;it raises the interaction <strong>degree by exactly one per layer</strong>; <span class="math inline">\(\mathbf b_l\)</span> is a bias; and the trailing <span class="math inline">\(+\,\mathbf x_l\)</span> is a <strong>residual</strong> (the skip-connection introduced in <em>Representation Learning &amp; the Transformer</em>), which keeps every lower-order term alive so a stack of <span class="math inline">\(L\)</span> layers holds <em>all</em> interaction degrees up to <span class="math inline">\(L+1\)</span>. Crucially each layer adds only one weight vector <span class="math inline">\(\mathbf w_l\)</span> — so explicit high-order crossing costs <strong>linear</strong>, not exponential, parameters.</p>
-<p><strong>Worked example — one cross layer by hand.</strong> Take a tiny two-dimensional input <span class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, layer weights <span class="math inline">\(\mathbf w_0 = [0.5,\,-0.5]\)</span>, bias <span class="math inline">\(\mathbf b_0 = [0,\,0]\)</span>, and (first layer) <span class="math inline">\(\mathbf x_0 = \mathbf x_l\)</span>. Step through the formula:</p>
+<p><strong>First, how to group it.</strong> Compute the bracket first: <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> is a <strong>single number</strong> — a dot product, a learned weighted summary of the current vector — and <span class="math inline">\(\mathbf x_0\)</span> is then multiplied by that number. Read left to right without the bracket, <span class="math inline">\(\mathbf x_0\mathbf x_l^{\top}\)</span> would be an <em>outer product</em>, a whole <span class="math inline">\(d\times d\)</span> matrix (the Linear-Algebra primer’s <span class="math inline">\(\mathbf u\mathbf v^{\top}\)</span>); matrix products may be grouped either way, so the two readings agree, but taking the scalar first is what makes the layer cheap.</p>
+<p><strong>Now the symbols.</strong> <span class="math inline">\(\mathbf x_0\)</span> is the original input vector — the field embeddings of §5 placed end to end, so it has <span class="math inline">\(d\)</span> entries in all; <span class="math inline">\(\mathbf x_l\)</span> is the current layer’s vector (the subscript now counts <strong>layers</strong>, so the bold <span class="math inline">\(\mathbf w_0\)</span> below is layer <span class="math inline">\(0\)</span>’s weight <em>vector</em>, not §3’s scalar bias <span class="math inline">\(w_0\)</span>); <span class="math inline">\(\mathbf b_l\)</span> is a bias vector; and the trailing <span class="math inline">\(+\,\mathbf x_l\)</span> is a <strong>residual</strong> — the skip-connection introduced in <em>Representation Learning &amp; the Transformer</em> — which carries every lower-order term forward, so a stack of <span class="math inline">\(L\)</span> layers holds all interaction degrees up to <span class="math inline">\(L+1\)</span>, exactly the claim of Theorem 3.1 of the Deep &amp; Cross paper, proved in its appendix.</p>
+<p>One more change of type: <span class="math inline">\(\mathbf x\)</span> in §2 to §6 was the one-hot vector of <span class="math inline">\(0\)</span>s and <span class="math inline">\(1\)</span>s; <span class="math inline">\(\mathbf x_0\)</span> here is the list of embedding numbers, which may be any real numbers.</p>
+<p><strong>Worked example — one cross layer by hand.</strong> Take a tiny two-dimensional input <span class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, layer weights <span class="math inline">\(\mathbf w_0 = [0.5,\,-0.5]\)</span>, bias <span class="math inline">\(\mathbf b_0 = [0,\,0]\)</span>, and (first layer) <span class="math inline">\(\mathbf x_l = \mathbf x_0\)</span>. Step through the formula:</p>
 <ol type="1">
 <li><strong>The scalar summary:</strong> <span class="math inline">\(\mathbf x_0^{\top}\mathbf w_0 = (1)(0.5) + (2)(-0.5) = 0.5 - 1.0 = -0.5.\)</span></li>
-<li><strong>Cross it back onto <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span class="math inline">\(\mathbf x_0 \cdot (-0.5) = [-0.5,\,-1.0].\)</span></li>
+<li><strong>Scale <span class="math inline">\(\mathbf x_0\)</span> by it:</strong> <span class="math inline">\((-0.5)\,\mathbf x_0 = (-0.5)\times[1,\,2] = [-0.5,\,-1.0].\)</span></li>
 <li><strong>Add bias and the residual <span class="math inline">\(\mathbf x_0\)</span>:</strong> <span class="math inline">\([-0.5,\,-1.0] + [0,0] + [1,\,2] = \mathbf{[0.5,\,1.0]}.\)</span></li>
 </ol>
-<p>So <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span>. Every entry of <span class="math inline">\(\mathbf x_1\)</span> now contains a <strong>product of two original features</strong> (a degree-2 cross), and one more layer would push it to degree-3 — explicit, hand-checkable, and cheap. The <strong>deep</strong> arm of DCN runs in parallel (an ordinary MLP), and the two are concatenated into the §3 logistic head, exactly as in the §5 figure.</p>
-<p><strong>DCNv2 — the cross at web scale (2021).</strong> The cross above squeezes all interaction through a single <strong>scalar</strong> <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> — cheap, but a capacity bottleneck. <strong>DCNv2</strong> (Wang et al., WWW 2021) replaces that weight <em>vector</em> with a weight <strong>matrix</strong> <span class="math inline">\(W_l\)</span>, so each layer learns a far richer cross, <span class="math inline">\(\mathbf x_{l+1}=\mathbf x_0\odot(W_l\mathbf x_l+\mathbf b_l)+\mathbf x_l\)</span>; and to keep it affordable at serving time it factorizes <span class="math inline">\(W_l\)</span> into <strong>low-rank</strong> factors routed through a <strong>mixture of experts</strong>. It is the version actually deployed at web scale, and the one to reach for over the 2017 DCN.</p>
+<p>So <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span>. But nothing in those three lines <em>looks</em> like a cross, so run the same three steps with letters. Write <span class="math inline">\(\mathbf x_0=[u,\,v]\)</span>, <span class="math inline">\(\mathbf w_0=[s,\,t]\)</span>, <span class="math inline">\(\mathbf b_0=[b_1,\,b_2]\)</span>. The scalar is <span class="math inline">\(us+vt\)</span>, and</p>
+<p><span class="math display">\[
+\mathbf x_1=\big[\;\underbrace{s\,u^2+t\,uv}_{\text{degree }2}+\underbrace{u}_{\text{degree }1}+\,b_1,
+\;\;\underbrace{s\,uv+t\,v^2}_{\text{degree }2}+\underbrace{v}_{\text{degree }1}+\,b_2\;\big].
+\]</span></p>
+<p><em>Now</em> the cross is visible: every entry holds terms in which <strong>two input entries are multiplied together</strong> (<span class="math inline">\(u^2\)</span>, <span class="math inline">\(uv\)</span>, <span class="math inline">\(v^2\)</span> — degree <span class="math inline">\(2\)</span>), plus the degree-<span class="math inline">\(1\)</span> residual the skip-connection carried through, plus a bias. Putting the numbers back, <span class="math inline">\(u=1\)</span>, <span class="math inline">\(v=2\)</span>, <span class="math inline">\(s=0.5\)</span>, <span class="math inline">\(t=-0.5\)</span>: entry <span class="math inline">\(1 = 0.5(1)(1) - 0.5(1)(2) + 1 = 0.5\)</span> and entry <span class="math inline">\(2 = 0.5(1)(2) - 0.5(2)(2) + 2 = 1.0\)</span> — the same <span class="math inline">\([0.5,\,1.0]\)</span>, now visibly built out of products of two entries. Without the residual the underbraced degree-<span class="math inline">\(1\)</span> parts would be missing and each entry would hold degree-<span class="math inline">\(2\)</span> terms only. A second layer multiplies <span class="math inline">\(\mathbf x_0\)</span> by a scalar built from <span class="math inline">\(\mathbf x_1\)</span>, pushing the top degree to <span class="math inline">\(3\)</span>.</p>
+<p>What are these “entries”, though? Not §2’s category indicators: here <span class="math inline">\(\mathbf x_0\)</span> is the field embeddings end to end, so in a two-field input <span class="math inline">\([\mathbf e_{\text{genre}},\mathbf e_{\text{device}}]\)</span> with two coordinates per field, a degree-2 term such as <span class="math inline">\(x_{0,1}x_{0,3}\)</span> multiplies a coordinate of the genre vector by a coordinate of the device vector — a learned, soft stand-in for §2’s hard cross <code>genre=sci-fi ∧ device=mobile</code>. (DCN therefore crosses individual <strong>coordinates</strong>; §8’s xDeepFM crosses whole field <strong>vectors</strong>.)</p>
+<p>Two more things to notice. First, in this example <span class="math inline">\(\mathbf x_1 = 0.5\,\mathbf x_0\)</span> exactly: with <span class="math inline">\(\mathbf b_0=\mathbf 0\)</span> the layer just multiplies <span class="math inline">\(\mathbf x_0\)</span> by the number <span class="math inline">\(1+\mathbf
+x_0^{\top}\mathbf w_0 = 1-0.5 = 0.5\)</span>. That number depends on <span class="math inline">\(\mathbf x_0\)</span>, which is exactly where the degree-<span class="math inline">\(2\)</span> terms hide; but the output points along the input, a limit on what one layer can do and the capacity bottleneck the 2021 revision below removes. Whether the limit survives a second layer, and what a bias changes, is exercise E5.</p>
+<p>Second, the <strong>cost</strong>: a layer adds only <span class="math inline">\(\mathbf w_l\)</span> and <span class="math inline">\(\mathbf b_l\)</span>, that is <span class="math inline">\(2d\)</span> numbers, so <span class="math inline">\(L\)</span> layers cost <span class="math inline">\(2dL\)</span> parameters. Giving every product of at most <span class="math inline">\(L+1\)</span> coordinates its own free weight (the constant <span class="math inline">\(1\)</span> counted too) would instead need <span class="math inline">\(\binom{d+L+1}{L+1}\)</span> of them; for <span class="math inline">\(d=100\)</span> and <span class="math inline">\(L=2\)</span> that is <span class="math inline">\(\binom{103}{3}=\frac{103\cdot102\cdot101}{6}=176{,}851\)</span>.</p>
+<div id="tbl-deep-ctr-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.5: The numbers to learn for <span class="math inline">\(L\)</span> cross layers of <span class="math inline">\(d=100\)</span> (left) and for a free weight on every product of up to <span class="math inline">\(L+1\)</span> coordinates (right).
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">layers <span class="math inline">\(L\)</span></th>
+<th style="text-align: right;">cross layers, <span class="math inline">\(2dL\)</span> numbers</th>
+<th style="text-align: right;">free weights up to degree <span class="math inline">\(L+1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">5,151</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">176,851</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">4,598,126</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The left column adds <span class="math inline">\(200\)</span> per layer, a straight line in <span class="math inline">\(L\)</span>; the right column’s steps keep growing (<span class="math inline">\(+171{,}700\)</span>, then <span class="math inline">\(+4{,}421{,}275\)</span>) because it is a polynomial of degree <span class="math inline">\(L+1\)</span> in <span class="math inline">\(d\)</span> (grows like <span class="math inline">\(d^{L+1}\)</span>): each added layer multiplies it, by about <span class="math inline">\(34\)</span> and then <span class="math inline">\(26\)</span>. Three rows show the contrast, constant steps against growing steps; a fourth row would only repeat it (the figure <em>The growth of the two columns of the cost table</em> draws six). The comparison also favours the free weights in one way: the cross layers build every degree from only <span class="math inline">\(2dL\)</span> numbers, so they cover far fewer functions. That is the price of the low cost.</p>
+<div id="fig-deep-ctr-3" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The growth of the two columns of the cost table, for d=100 and L=1,...,6, on a logarithmic vertical axis.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deep-ctr-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/deep-ctr-3.svg" class="img-fluid figure-img" alt="The growth of the two columns of the cost table, for d=100 and L=1,...,6, on a logarithmic vertical axis.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deep-ctr-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.3: The growth of the two columns of the cost table, for <span class="math inline">\(d=100\)</span> and <span class="math inline">\(L=1,\dots,6\)</span>, on a logarithmic vertical axis. The cross layers (blue) add <span class="math inline">\(200\)</span> numbers per layer; the free weights (orange) reach <span class="math inline">\(26{,}075{,}972{,}546\)</span> at <span class="math inline">\(L=6\)</span>. The first three marks of each curve are the rows of the table.
+</figcaption>
+</figure>
+</div>
+<p>The <strong>deep</strong> arm of DCN runs in parallel (an ordinary MLP), and the two are concatenated into the §3 logistic head, exactly as in the figure of §5.</p>
+<p><strong>DCNv2 (Wang et al., 2021, at the Web Conference, WWW) — the cross at web scale.</strong> The cross above squeezes all interaction through a single <strong>scalar</strong> <span class="math inline">\(\mathbf x_l^{\top}\mathbf w_l\)</span> — cheap, but the capacity bottleneck just described. This revision replaces that weight <em>vector</em> with a weight <strong>matrix</strong> <span class="math inline">\(W_l\)</span>, so each layer can learn a richer cross: <span class="math display">\[
+\mathbf x_{l+1}=\mathbf x_0\odot(W_l\mathbf x_l+\mathbf b_l)+\mathbf x_l ,
+\]</span> where <span class="math inline">\(\odot\)</span> multiplies two vectors entry by entry (the <strong>Hadamard</strong> product: <span class="math inline">\([1,2]\odot[3,4]=[3,8]\)</span>).</p>
+<p>Three things changed at once, so read them separately: the bias moved <em>inside</em> the bracket; scalar-times-vector became entry-by-entry multiplication; and, the real point, every entry of <span class="math inline">\(\mathbf x_0\)</span> now gets its <strong>own</strong> learned mix of <span class="math inline">\(\mathbf x_l\)</span> instead of all entries sharing one number. If every row of <span class="math inline">\(W_l\)</span> equals <span class="math inline">\(\mathbf w_l^{\top}\)</span>, DCNv2 reduces to DCN apart from where the bias sits (the DCNv2 paper’s own wording is that it falls back to DCN).</p>
+<p><em>Worked example, the same layer with a matrix.</em> Keep <span class="math inline">\(\mathbf x_0=[1,\,2]\)</span>, <span class="math inline">\(\mathbf b_0=[0,0]\)</span> and take the rows of <span class="math inline">\(W_0\)</span> to be <span class="math inline">\([0.5,\,-0.5]\)</span> and <span class="math inline">\([1,\,0]\)</span>. Then <span class="math inline">\(W_0\mathbf x_0=[0.5-1.0,\ 1.0+0]=[-0.5,\,1.0]\)</span> and . The first entry is the old DCN’s <span class="math inline">\(0.5\)</span> (its row is <span class="math inline">\(\mathbf w_0^{\top}\)</span>); the second entry, with its own row, is <span class="math inline">\(4.0\)</span> instead of <span class="math inline">\(1.0\)</span>. So <span class="math inline">\(\mathbf x_1\)</span> is no longer <span class="math inline">\(0.5\,\mathbf x_0\)</span>: its two entries scale by <span class="math inline">\(0.5\)</span> and <span class="math inline">\(2\)</span>, and the direction is free. Give both rows the old <span class="math inline">\(\mathbf w_0^{\top}\)</span> and the layer returns the old <span class="math inline">\([0.5,\,1.0]\)</span>.</p>
+<p>The price is size. For <span class="math inline">\(d=100\)</span> the matrix alone holds <span class="math inline">\(d^2=10{,}000\)</span> numbers, against <span class="math inline">\(2d=200\)</span> for one DCN layer. To keep that affordable at serving time, DCNv2 writes <span class="math inline">\(W_l\)</span> as the product of two thin matrices — <strong>low-rank</strong>, the same “a wide matrix as a product of narrow ones” move as the truncated singular value decomposition of the Linear-Algebra primer; with rank <span class="math inline">\(r=10\)</span> that is <span class="math inline">\(2dr=2{,}000\)</span> numbers — and keeps several such pairs (“experts”), letting a small learned gate weight them input by input (a <strong>mixture of experts</strong>): two experts that output <span class="math inline">\(1.0\)</span> and <span class="math inline">\(3.0\)</span>, weighted by gate values <span class="math inline">\(0.75\)</span> and <span class="math inline">\(0.25\)</span>, give <span class="math inline">\(0.75\cdot1.0+0.25\cdot3.0=1.5\)</span>.</p>
+<p>Its authors report it better than DCN in their own experiments and say they deployed it in learning-to-rank systems (ones that order candidates by a learned score) at Google; §9 explains why to treat any such report as a hypothesis to test, and not as “the default”.</p>
+<p><strong>In one line:</strong> one cross layer turned <span class="math inline">\(\mathbf x_0=[1,2]\)</span> into <span class="math inline">\(\mathbf x_1=[0.5,\,1.0]\)</span>, and <span class="math inline">\(L\)</span> layers cost <span class="math inline">\(2dL\)</span> parameters: <span class="math inline">\(400\)</span> for <span class="math inline">\(d=100\)</span> and <span class="math inline">\(L=2\)</span>, against <span class="math inline">\(176{,}851\)</span> for a free weight on every product of up to three coordinates.</p>
 <hr>
 </section>
-<section id="the-rest-of-the-lineage-in-one-line-each" class="level2">
-<h2 class="anchored" data-anchor-id="the-rest-of-the-lineage-in-one-line-each">8. The rest of the lineage, in one line each</h2>
-<p>The same template (§5 figure) accounts for the models that followed; each one re-engineers the <strong>explicit-interaction tower</strong>:</p>
-<ul>
-<li><strong>xDeepFM</strong> (2018) — its <strong>Compressed Interaction Network (CIN)</strong> learns explicit high-order crosses at the <strong>vector level</strong> (Hadamard products between feature-map vectors), where DCN crosses at the bit/scalar level; runs alongside an MLP.</li>
-<li><strong>AutoInt</strong> (2019) — uses <strong>multi-head self-attention</strong> (the mechanism of <em>Representation Learning &amp; the Transformer</em>) over the field embeddings, so the model <em>learns which features to interact</em> rather than fixing the form; interactions become attention weights.</li>
-<li><strong>DIN — Deep Interest Network</strong> (2018) — for feeds with a <strong>user behavior sequence</strong>, applies <strong>attention</strong> to weight each past behavior by its relevance to the <strong>candidate</strong> item, so a user’s “interest” is computed <em>per candidate</em> rather than as one static vector. It is the CTR cousin of the sequential models in <em>Sequential &amp; Session-Based Recommendation</em>.</li>
-</ul>
+<section id="the-rest-of-the-lineage-in-one-tiny-case-each" class="level2">
+<h2 class="anchored" data-anchor-id="the-rest-of-the-lineage-in-one-tiny-case-each">8. The rest of the lineage, in one tiny case each</h2>
+<p>Three ideas remain. How should a model combine whole lists of numbers (one per field) instead of single numbers? How can it learn which fields to combine, instead of being told? And how should it use Ann’s last films when only a few bear on tonight’s candidate? This section gives one tiny case for each.</p>
+<p><strong>xDeepFM</strong> re-engineers the §5 template’s <strong>explicit-interaction arm</strong>; <strong>AutoInt</strong> and <strong>DIN</strong> go further and replace parts of the template with attention. The xDeepFM and AutoInt cases use the chapter’s vectors, <span class="math inline">\(\mathbf e_{\text{genre}}=[1,\,0.5]\)</span> and <span class="math inline">\(\mathbf e_{\text{device}}=[0.4,\,1]\)</span>, and one new field vector, <span class="math inline">\(\mathbf e_{\text{daypart}}=[0.5,\,-1]\)</span>; the DIN case uses film vectors of its own (all chosen for the arithmetic).</p>
+<p><strong>xDeepFM</strong> (an “eXtreme” DeepFM; Lian et al., 2018) — its <strong>Compressed Interaction Network (CIN)</strong> learns explicit high-order crosses between whole <strong>field vectors</strong>: it multiplies, say, the genre vector and the device vector entry by entry (the Hadamard product <span class="math inline">\(\odot\)</span> of §7) and keeps the result as a vector, <span class="math display">\[
+\mathbf e_{\text{genre}}\odot\mathbf e_{\text{device}}=[1\cdot0.4,\ 0.5\cdot1]=[0.4,\,0.5].
+\]</span> So a cross is a <em>vector-wise</em> object. The other two pairs give <span class="math inline">\(\mathbf e_{\text{genre}}\odot\mathbf e_{\text{daypart}}=[0.5,\,-0.5]\)</span> and <span class="math inline">\(\mathbf e_{\text{device}}\odot\mathbf e_{\text{daypart}}=[0.2,\,-1]\)</span>. <strong>Compressed</strong> means that the layer does not keep all of these pair vectors: it mixes them into a few new vectors with learned weights. With the weights <span class="math inline">\(1\)</span>, <span class="math inline">\(0.5\)</span> and <span class="math inline">\(0\)</span> one such mixed vector (a simplified, one-map version of the paper’s layer) is <span class="math inline">\(1\cdot[0.4,0.5]+0.5\cdot[0.5,-0.5]+0\cdot[0.2,-1]=[0.65,\,0.25]\)</span>.</p>
+<p>That is what makes it <em>high-order</em>: a second layer crosses the mixed vector with the field vectors again, for instance <span class="math inline">\([0.65,\,0.25]\odot\mathbf e_{\text{daypart}}=[0.325,\,-0.25]\)</span>, each entry a product of three field entries, a degree-<span class="math inline">\(3\)</span> cross.</p>
+<p>DCN instead mixes individual coordinates of the stacked input one at a time — what the xDeepFM paper calls <em>bit-wise</em>. A vector-wise cross carries one weight for a whole pair of fields, for instance <span class="math inline">\(0.5\cdot[0.4,0.5]=[0.2,\,0.25]\)</span>. A bit-wise unit gives every coordinate its own weight: the weights <span class="math inline">\([0.5,-0.5,0.5,0]\)</span> on the stacked <span class="math inline">\([1,0.5,0.4,1]\)</span> give one number, <span class="math inline">\(0.45\)</span>, in which both coordinates of the genre vector and the device vector’s first are blended (the device vector’s second has weight <span class="math inline">\(0\)</span>). CIN runs alongside an MLP and a plain linear part.</p>
+<p><strong>AutoInt</strong> (automatic feature interaction; Song et al., 2019) — uses <strong>multi-head self-attention</strong> (the mechanism of <em>Representation Learning &amp; the Transformer</em>) over the field embeddings, so the model <em>learns which features to interact</em> rather than fixing the form. Take one head, with the genre field asking and the other two answering (the field’s own vector is left out here; real AutoInt lets a field attend to itself). The scores are the dot products <span class="math inline">\(\mathbf e_{\text{genre}}\cdot\mathbf e_{\text{device}}=0.9\)</span> and <span class="math inline">\(\mathbf e_{\text{genre}}\cdot\mathbf e_{\text{daypart}}=0.5-0.5=0\)</span>; the <strong>softmax</strong> (a rescaling of scores into positive weights that sum to <span class="math inline">\(1\)</span>, built in <em>Representation Learning &amp; the Transformer</em>) turns them into weights <span class="math inline">\(0.7109\)</span> and <span class="math inline">\(0.2891\)</span>, and the genre field’s new vector is <span class="math inline">\(0.7109\,\mathbf e_{\text{device}}+0.2891\,\mathbf e_{\text{daypart}}=[0.4289,\,0.4219]\)</span>. The interaction became an attention weight: genre leans on device (<span class="math inline">\(0.71\)</span>) more than on daypart (<span class="math inline">\(0.29\)</span>). (The paper first multiplies each vector by learned matrices and uses several heads; this keeps only the shape of the idea.)</p>
+<p><strong>DIN</strong> (Deep Interest Network; Zhou et al., 2018) — for feeds with a <strong>user behavior sequence</strong>, applies <strong>attention</strong> to weight each past behavior by its relevance to the <strong>candidate</strong> item, so a user’s “interest” is computed <em>per candidate</em> rather than as one static vector. There is no explicit-interaction arm at all; the change is in how the user’s history is pooled. It is the CTR cousin of the sequential models in <em>Sequential &amp; Session-Based Recommendation</em>.</p>
+<p>A tiny case, on the same two axes as <em>Traditional Recommender Systems</em> §5 (romance and action), with film scores of this section’s own, not that chapter’s vectors: give each film a score for romance and for action, <em>Titanic</em> <span class="math inline">\([1,\,0]\)</span> and <em>Vendetta</em> <span class="math inline">\([0.2,\,0.9]\)</span>, and take Bob’s history (<em>Titanic</em>, <em>Vendetta</em>). The plain average is <span class="math inline">\([0.6,\,0.45]\)</span> whatever the candidate is. For the candidate <em>Matrix</em>, <span class="math inline">\([0.1,\,1]\)</span>, the relevances (dot products) are <span class="math inline">\(0.1\)</span> and <span class="math inline">\(0.92\)</span>; normalized to weights <span class="math inline">\(0.098\)</span> and <span class="math inline">\(0.902\)</span>, the interest vector is <span class="math inline">\([0.278,\,0.812]\)</span>, mostly action. For a romance candidate <span class="math inline">\([1,\,0.1]\)</span> the relevances are <span class="math inline">\(1\)</span> and <span class="math inline">\(0.29\)</span>, the weights <span class="math inline">\(0.775\)</span> and <span class="math inline">\(0.225\)</span>, and the interest <span class="math inline">\([0.820,\,0.202]\)</span>, mostly romance. (DIN learns a small network for the weights and does not normalize them; this keeps only the idea.)</p>
 <p>The throughline: <strong>every advance is a better answer to “which feature interactions matter, and of what order?”</strong> — from FM’s fixed second order, to DCN’s explicit bounded degree, to AutoInt’s attention-learned interactions.</p>
+<p><strong>In one line:</strong> one pair of fields gives the vector <span class="math inline">\([0.4,\,0.5]\)</span> (xDeepFM), one attention step weights device <span class="math inline">\(0.71\)</span> against daypart <span class="math inline">\(0.29\)</span> (AutoInt), and the same two-film history pools to a different interest vector for each of two candidates (DIN).</p>
 <hr>
 </section>
 <section id="training-and-serving-a-ctr-model" class="level2">
 <h2 class="anchored" data-anchor-id="training-and-serving-a-ctr-model">9. Training and serving a CTR model</h2>
+<p>A new model scores <span class="math inline">\(0.801\)</span> where the old one scored <span class="math inline">\(0.800\)</span> on a ranking score (the AUC of §3). Is that a real gain, and would anyone ship it? Before answering we need three practical facts, what a CTR model trains on, where it runs and how it is graded, and then a warning about leaderboards. This section covers them.</p>
 <p>Three operational facts, each owned elsewhere and only pointed to here:</p>
 <ul>
-<li><strong>Objective.</strong> CTR models train by <strong>pointwise LogLoss</strong> (§3) over logged impressions — a per-row binary classification, not the pairwise BPR ranking loss of the retrieval models. The general negative-sampling and training-loop machinery is in <em>Training and Serving a Recommender</em>.</li>
+<li><strong>Objective.</strong> CTR models train by <strong>pointwise LogLoss</strong> (§3) over logged impressions — a per-row binary classification, not the pairwise <strong>BPR</strong> (Bayesian Personalized Ranking) loss of the BPR-trained retrieval models, which scores a clicked item against a <em>sampled</em> unclicked one. The general training-loop machinery is in <em>Training and Serving a Recommender</em>.</li>
+<li><strong>No invented negatives.</strong> Unlike retrieval, CTR training needs none: the log already holds real ones — the impressions that were shown and not clicked (§1). Where industry down-samples those non-clicks to save compute, the model sees a higher click rate than reality, so <span class="math inline">\(\hat p\)</span> comes out too high and has to be re-calibrated (§3). Keep <span class="math inline">\(1\)</span> non-click in <span class="math inline">\(10\)</span>: a true rate of <span class="math inline">\(3\)</span> clicks in <span class="math inline">\(100\)</span> impressions becomes <span class="math inline">\(3\)</span> clicks in <span class="math inline">\(3+9.7=12.7\)</span>, about <span class="math inline">\(0.24\)</span>.</li>
 <li><strong>Where it runs.</strong> As the <strong>ranking stage</strong> (§1), the CTR model scores only the few hundred candidates retrieval proposed, so it can afford its feature richness; the funnel itself is built in <em>Training and Serving a Recommender</em>.</li>
-<li><strong>Evaluation.</strong> Offline, report <strong>AUC and LogLoss</strong> (§3); the field’s rule of thumb is that an <strong>AUC lift of <span class="math inline">\(0.001\)</span> is practically significant</strong> at industrial scale. Which offline metric predicts which online outcome (CTR, dwell, conversion) — and the standard <strong>Criteo / Avazu</strong> split — are in <em>Evaluation Metrics</em> §11 and the <em>Datasets &amp; Benchmarks</em> appendix.</li>
 </ul>
+<p><strong>Evaluation.</strong> Offline, report <strong>AUC and LogLoss</strong> (§3). Because AUC is the fraction of (click, non-click) pairs ordered correctly, an <strong>absolute</strong> gain of <span class="math inline">\(0.001\)</span> — e.g. <span class="math inline">\(0.800\to0.801\)</span>, not a <span class="math inline">\(0.1\%\)</span> relative change — means one more correctly ordered pair in every thousand. BARS-CTR (the CTR task of the open benchmark project BARS, described just below) states that a gain at that level is generally considered practically significant for an industrial CTR task, when considering a large user base (Zhu et al., 2021, §3.2.4), and the DCNv2 paper says the same on Criteo (Wang et al., 2021). Both are claims from practice about money, not statistical tests: the statistical test is the separate one of <em>Probability &amp; Statistics for Machine Learning</em> §8.</p>
+<p>Which offline metric predicts which online outcome, measured on live users (CTR; dwell time, how long they stay with the item; conversion, whether they go on to buy or subscribe) — is in <em>Evaluation Metrics</em> §11; the standard <strong>Criteo / Avazu</strong> split is in the <em>Datasets &amp; Benchmarks</em> appendix (§4).</p>
+<p><strong>What equal tuning showed.</strong> FuxiCTR (an open-source library for configuring, tuning and reproducing CTR models) and BARS-CTR (the open benchmark built with it; Zhu et al., 2021) together re-ran this lineage under <em>equal tuning</em>: by the paper’s own count, over <span class="math inline">\(7{,}000\)</span> experiments and more than <span class="math inline">\(12{,}000\)</span> GPU-hours (one graphics processing unit, or GPU — the chip neural networks are trained on — running for one hour is one GPU-hour) across <span class="math inline">\(24\)</span> models. Both projects are public. Once each model is tuned fairly, “many deep models have smaller differences than expected”; on Criteo, five models, DeepFM, DCN and xDeepFM among them, all reach the same level, about <span class="math inline">\(0.814\)</span> AUC.</p>
+<p>In the paper’s Criteo table (embedding size <span class="math inline">\(16\)</span>) DeepFM, DCN and xDeepFM read <span class="math inline">\(81.43\)</span>, <span class="math inline">\(81.44\)</span> and <span class="math inline">\(81.43\)</span> per cent AUC, and a plain MLP reads <span class="math inline">\(81.40\)</span>: four models within <span class="math inline">\(0.0004\)</span> of each other (Wide &amp; Deep reads <span class="math inline">\(81.42\)</span> in the same table). The paper’s own group of five is the inner-product neural network (IPNN) at <span class="math inline">\(81.42\)</span>, DeepFM, DCN, xDeepFM and ONN (the operation-aware neural network, <span class="math inline">\(81.48\)</span>); the plain MLP is not in it but sits just below. Every gap inside that group is at most <span class="math inline">\(0.0006\)</span>, inside the threshold above.</p>
+<p>Interactions do matter in the same table, where logistic regression reads <span class="math inline">\(79.34\)</span> per cent AUC, FM <span class="math inline">\(80.86\)</span> and DeepFM <span class="math inline">\(81.43\)</span>. Moving from a model with no interactions to a tuned deep one is worth <span class="math inline">\(0.0209\)</span> AUC, about twenty times that threshold, while the step among the tuned deep models is at most <span class="math inline">\(0.0006\)</span>. That is the measured size of the gap between no interactions and tuned deep ones, on one benchmark and one embedding size.</p>
+<p>A well-tuned FinalMLP (Mao et al., 2023, at the AAAI Conference on Artificial Intelligence) has two MLP <strong>streams</strong> (that paper’s word for an arm), each preceded by a <strong>feature gate</strong> (a learned weight per input feature deciding how much of it that stream sees: a gate of <span class="math inline">\(0.9\)</span> scales an input entry <span class="math inline">\(2\)</span> to <span class="math inline">\(1.8\)</span>), and no dedicated cross network. It fuses the streams with a multi-head bilinear layer (a layer whose outputs are sums of products of one entry from each stream, in several independent groups, the heads). Its authors report better accuracy than many complex two-stream models, call the plain two-stream MLP’s performance surprising, and say that, to their knowledge, it had not been reported before.</p>
 <blockquote class="blockquote">
-<p><strong>Are the deep-CTR gains real? (Read before trusting a leaderboard.)</strong> The <strong>FuxiCTR / BARS</strong> benchmark (Zhu et al., 2021) re-ran this whole lineage under <em>equal tuning</em> — thousands of runs, thousands of GPU-hours — and found a sobering result: once each model is tuned fairly, <strong>most differ by less than the <span class="math inline">\(0.001\)</span> AUC</strong> the rule above calls “significant.” A well-tuned <strong>FinalMLP</strong> (Mao et al., AAAI 2023) — two MLP streams with feature gating, <em>no</em> explicit cross network at all — matches or beats the elaborate explicit-cross models. The honest reading: architecture often matters less than careful tuning and a strong embedding table, so treat every “new SOTA CTR model” as a <em>prior</em> (<em>Implementation Choices</em> §1) and <strong>re-tune the baselines yourself</strong> before believing the delta.</p>
+<p><strong>Are the deep-CTR gains real? (Read before trusting a leaderboard.)</strong> Under equal tuning, “many deep models have smaller differences than expected”: on Criteo, DeepFM, DCN, xDeepFM and a plain MLP land within <span class="math inline">\(0.0004\)</span> AUC of each other. A fair reading is that architecture often matters less than careful tuning and a strong embedding table, so treat every “new state-of-the-art (SOTA) CTR model” as a hypothesis to test rather than a result, a starting belief to update with your own runs (<em>Implementation Choices</em> §1), and <strong>re-tune the baselines yourself</strong> before believing the delta.</p>
 </blockquote>
-<hr>
-</section>
-<section id="where-this-fits-in-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">10. Where this fits in the book</h2>
-<p>This chapter is the <strong>ranking</strong> counterpart to everything that came before it on the <strong>retrieval</strong> side. <em>Traditional Recommender Systems</em> gave you matrix factorization and FM; this chapter shows what the field built <em>on</em> FM once features and context entered — the deep-CTR lineage that powers the <strong>ranking stage</strong> of <em>Training and Serving a Recommender</em>. It also closes a loop with the <em>Datasets &amp; Benchmarks</em> appendix, whose <strong>CTR regime</strong> (Criteo, Avazu; AUC / LogLoss; random split) is precisely the protocol these models compete under, and with <em>Sequential &amp; Session-Based Recommendation</em>, whose attention machinery reappears here as DIN and AutoInt. As the first <strong>Frontiers</strong> chapter, it marks the turn from the book’s core ladder to the edges where recommendation meets the wider ML frontier; the next, <em>Bandits &amp; Online Recommendation</em>, takes up what happens when the model must <strong>choose what to show and learn from the click it gets back</strong>.</p>
+<p><strong>Back to the opening question.</strong> AUC <span class="math inline">\(0.801\)</span> against <span class="math inline">\(0.800\)</span> sits exactly at the level BARS-CTR calls practically significant, so the field would call it worth money <em>if it is real</em>; the rule does not say it is. It means one more correctly ordered pair in a thousand, not that the new architecture is better: the benchmark paragraphs above show the paper’s five models landing within <span class="math inline">\(0.0006\)</span> of each other once tuned equally (and the plain MLP within <span class="math inline">\(0.0008\)</span> of the best), so a gap of that size can be tuning alone. Ship it only after re-tuning the old model and passing the statistical test above.</p>
+<p><strong>In one line:</strong> an AUC gain of <span class="math inline">\(0.001\)</span> is one more correctly ordered pair per thousand, the size the field calls worth money but not proof of a better model, and under equal tuning BARS-CTR measured DeepFM, DCN and xDeepFM within <span class="math inline">\(0.0001\)</span> of each other on Criteo (<span class="math inline">\(81.43\)</span> to <span class="math inline">\(81.44\)</span> per cent AUC).</p>
 <hr>
 </section>
 <section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">11. Exercises</h2>
-<p>Ten problems on the chapter’s own four-impression example and tiny vectors. Solutions in the back-matter <em>Solutions</em> appendix.</p>
-<p><strong>E1.</strong> <em>(compute)</em> For a single clicked impression (<span class="math inline">\(y=1\)</span>) with predicted <span class="math inline">\(\hat p = 0.5\)</span>, compute its LogLoss contribution <span class="math inline">\(-\ln \hat p\)</span>. Then redo it for <span class="math inline">\(\hat p = 0.9\)</span>. Which is smaller, and why does that match “lower LogLoss is better”? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E2.</strong> <em>(compute)</em> Using the §3 table, recompute LogLoss after the model improves Bob’s clicked Matrix from <span class="math inline">\(\hat p = 0.4\)</span> to <span class="math inline">\(\hat p = 0.7\)</span> (all else unchanged). Show the four terms. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E3.</strong> <em>(compute)</em> With the same improvement (Bob/Matrix <span class="math inline">\(0.4 \to 0.7\)</span>), recompute AUC. Did the misranked pair get fixed? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E4.</strong> <em>(compute)</em> A model predicts the <em>same</em> <span class="math inline">\(\hat p = 0.5\)</span> for all four §3 impressions. Compute its AUC. (Hint: count tied pairs as half.) <em>(Answer in Appendix B.)</em></p>
-<p><strong>E5.</strong> <em>(compute)</em> Run a second DCN cross layer: starting from the §7 result <span class="math inline">\(\mathbf x_1 = [0.5,\,1.0]\)</span> with <span class="math inline">\(\mathbf x_0 = [1,\,2]\)</span>, <span class="math inline">\(\mathbf w_1 = [1,\,0]\)</span>, <span class="math inline">\(\mathbf b_1 = [0,\,0]\)</span>, compute <span class="math inline">\(\mathbf x_2 = \mathbf x_0\,\mathbf x_1^{\top}\mathbf w_1 +
-\mathbf b_1 + \mathbf x_1\)</span>. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E6.</strong> <em>(concept)</em> A linear logistic-regression CTR model gives <code>genre=sci-fi</code> weight <span class="math inline">\(+0.3\)</span> and <code>device=mobile</code> weight <span class="math inline">\(+0.1\)</span>. Explain why it must predict the <em>same</em> extra log-odds for <code>(sci-fi, mobile)</code> as the sum <span class="math inline">\(+0.4\)</span>, and why that makes it blind to a genuine sci-fi-on-mobile interaction. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E7.</strong> <em>(concept)</em> DeepFM and Wide &amp; Deep have the same two-tower shape. State the one concrete thing DeepFM removes, and the one thing it adds (sharing). <em>(Answer in Appendix B.)</em></p>
-<p><strong>E8.</strong> <em>(concept)</em> Why does the residual term <span class="math inline">\(+\,\mathbf x_l\)</span> in the DCN cross layer matter? What interaction degrees would an <span class="math inline">\(L\)</span>-layer cross network <em>lose</em> if you dropped it? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E9.</strong> <em>(extend)</em> FM gives a never-co-occurred pair <code>(sci-fi, mobile)</code> a non-zero interaction <span class="math inline">\(\langle \mathbf v_{\text{sci-fi}}, \mathbf v_{\text{mobile}}\rangle\)</span>. Explain, in terms of where those two vectors got their gradients, <em>how</em> FM can do this when a free per-pair weight <span class="math inline">\(w_{ij}\)</span> cannot. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E10.</strong> <em>(apply)</em> You are the ranking stage and retrieval hands you 200 candidates for Ann on mobile in the evening. Sketch, in three steps, how a DeepFM model turns those 200 rows into a ranked list, naming the feature fields, the embedding step, and the scoring metric you would log offline. <em>(Answer in Appendix B.)</em></p>
+<h2 class="anchored" data-anchor-id="exercises">10. Exercises</h2>
+<p>Eleven problems: six computations on the chapter’s own examples and small new tables (E1–E6), then five that extend, explain or apply (E7–E11); the concept problems also contain arithmetic. Solutions in the back-matter <em>Solutions</em> appendix.</p>
+<p><strong>E1.</strong> <em>(compute)</em> A clicked impression is given <span class="math inline">\(\hat p = 0.25\)</span>, and another clicked impression <span class="math inline">\(\hat p = 0.75\)</span>. Compute each LogLoss contribution <span class="math inline">\(-\ln \hat p\)</span>. Then compute the contribution of a <em>non</em>-clicked impression given <span class="math inline">\(\hat p = 0.75\)</span>. What do you notice, and which clicked impression did the model get more right? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E2.</strong> <em>(compute)</em> Using the §3 table, recompute LogLoss after the model improves Bob’s clicked Matrix from <span class="math inline">\(\hat p = 0.4\)</span> to <span class="math inline">\(\hat p = 0.7\)</span> (all else unchanged). Show the four terms. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E3.</strong> <em>(compute)</em> Improve Bob’s clicked Matrix only a little, from <span class="math inline">\(\hat p = 0.4\)</span> to <span class="math inline">\(\hat p = 0.45\)</span> (all else unchanged). Recompute both LogLoss and AUC for the §3 table. Which score noticed the improvement, and why? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E4.</strong> <em>(compute)</em> A model predicts <span class="math inline">\(0.6,\,0.6,\,0.3,\,0.2\)</span> for the four §3 impressions, in table order. List the four (click, non-click) pairs and compute its AUC. (Hint: count tied pairs as half.) <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E5.</strong> <em>(compute)</em> Run two DCN cross layers with zero biases: <span class="math inline">\(\mathbf x_0 = [2,\,1]\)</span> and <span class="math inline">\(\mathbf w_0 = [0.25,\,0.5]\)</span> give <span class="math inline">\(\mathbf x_1\)</span>; then <span class="math inline">\(\mathbf w_1 = [1,\,0.5]\)</span> gives <span class="math inline">\(\mathbf x_2 = \mathbf x_0\,(\mathbf x_1^{\top}\mathbf w_1) + \mathbf x_1\)</span>. Is <span class="math inline">\(\mathbf x_2\)</span> a multiple of <span class="math inline">\(\mathbf x_0\)</span>? Redo the second layer with <span class="math inline">\(\mathbf b_1=[1,\,0]\)</span> and compare the ratios of the two entries of <span class="math inline">\(\mathbf x_2\)</span> to those of <span class="math inline">\(\mathbf x_0\)</span>. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E6.</strong> <em>(compute)</em> Four groups of logged impressions have these click rates: romance on tablet <span class="math inline">\(0.40\)</span>, romance on desktop <span class="math inline">\(0.10\)</span>, other genres on tablet <span class="math inline">\(0.08\)</span>, other genres on desktop <span class="math inline">\(0.04\)</span>. Work on §3’s log-odds scale, <span class="math inline">\(z=\ln\frac{p}{1-p}\)</span>, and fit the additive model <span class="math inline">\(z=b+w_{\text{rom}}[\text{romance}]+w_{\text{tab}}[\text{tablet}]\)</span> to the last three rows. What are <span class="math inline">\(b\)</span>, <span class="math inline">\(w_{\text{rom}}\)</span>, <span class="math inline">\(w_{\text{tab}}\)</span>, what probability does it predict for the romance-on-tablet row, and what cross weight would it need to fit that row’s <span class="math inline">\(0.40\)</span>? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E7.</strong> <em>(extend)</em> A romance film is shown on a desktop for the first time ever. Suppose the shared vectors are <span class="math inline">\(\mathbf e_{\text{romance}}=[-0.5,\,1]\)</span> and <span class="math inline">\(\mathbf e_{\text{desktop}}=[0.6,\,0.2]\)</span>, with first-order weights <span class="math inline">\(w_0=-2.0\)</span>, <span class="math inline">\(w_{\text{romance}}=0.2\)</span>, <span class="math inline">\(w_{\text{desktop}}=0.1\)</span>. Compute the FM arm’s pair strength, <span class="math inline">\(y_{\text{FM}}\)</span> and <span class="math inline">\(\sigma(y_{\text{FM}})\)</span>. Then compute the wide arm of a Wide &amp; Deep model for the same row, whose hand-made cross for this pair has never been trained (weight <span class="math inline">\(0\)</span>), and compare the two. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E8.</strong> <em>(compute and explain)</em> A cross network has zero biases, <span class="math inline">\(\mathbf x_0=[3,\,1]\)</span> and <span class="math inline">\(\mathbf w_l=[0.5,\,0.5]\)</span> in every layer. Compute <span class="math inline">\(\mathbf x_1\)</span> and <span class="math inline">\(\mathbf x_2\)</span> with the residual <span class="math inline">\(+\,\mathbf x_l\)</span> and without it. Then triple the input to <span class="math inline">\(3\mathbf x_0\)</span> and compute them again. By what factor does each output grow, and for which version is that factor a power of <span class="math inline">\(3\)</span>? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E9.</strong> <em>(concept)</em> In a training log, <code>romance</code> was active in <span class="math inline">\(500\)</span> impressions and <code>tablet</code> in <span class="math inline">\(300\)</span>, and in <span class="math inline">\(7\)</span> of those impressions both were active. How many impressions can move a free per-pair weight <span class="math inline">\(w_{\text{romance},\text{tablet}}\)</span>, and how many can move FM’s <span class="math inline">\(\mathbf v_{\text{romance}}\)</span> and <span class="math inline">\(\mathbf v_{\text{tablet}}\)</span>? How many times more impressions stand behind each vector than behind the free weight? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E10.</strong> <em>(apply)</em> Retrieval hands you three films for Cara, on mobile in the evening. A DeepFM model gives them the scores <span class="math inline">\(z=0.8,\,-0.3,\,-1.5\)</span>. Compute each <span class="math inline">\(\hat p\)</span> and rank them. Cara clicks only the first film. A retraining then changes the scores to <span class="math inline">\(0.2,\,0.5,\,-1.5\)</span>: compute the new <span class="math inline">\(\hat p\)</span> and ranking, and the AUC and the LogLoss of the three impressions before and after. Finally name the fields you would feed the model and the offline metrics you would log. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E11.</strong> <em>(extend)</em> A DCNv2 layer (§7) has <span class="math inline">\(\mathbf x_0=[2,\,1]\)</span>, bias <span class="math inline">\(\mathbf b_0=[0.5,\,0]\)</span>, and weight-matrix rows <span class="math inline">\([1,\,0.5]\)</span> and <span class="math inline">\([0,\,1]\)</span>. Compute <span class="math inline">\(\mathbf x_1\)</span>. Then compute <span class="math inline">\(\mathbf x_1\)</span> of the old DCN layer with <span class="math inline">\(\mathbf w_0=[1,\,0.5]\)</span>, the first row, and the same bias. Divide each output’s entries by those of <span class="math inline">\(\mathbf x_0\)</span>: which layer’s output has moved further from the direction of <span class="math inline">\(\mathbf x_0\)</span>? <em>(Answer in the Solutions appendix.)</em></p>
+<hr>
+</section>
+<section id="where-this-fits-in-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">11. Where this fits in the book</h2>
+<p>This chapter is the <strong>ranking</strong> counterpart to everything that came before it on the <strong>retrieval</strong> side. <em>Traditional Recommender Systems</em> gave you matrix factorization and FM; this chapter shows what the field built <em>on</em> FM once features and context entered.</p>
+<p>The table lists where each idea of this chapter lives in the rest of the book.</p>
+<div id="tbl-deep-ctr-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deep-ctr-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.6: The ideas of this chapter and the chapters that own or reuse them.
+</figcaption>
+<div aria-describedby="tbl-deep-ctr-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>This chapter</th>
+<th>Where it connects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factorization machine (§4)</td>
+<td><em>Traditional Recommender Systems</em> §8 owns it; here it is the springboard</td>
+</tr>
+<tr class="even">
+<td>LogLoss, AUC, calibration (§3, §9)</td>
+<td><em>Loss Functions &amp; Regularizers</em> §2.2; <em>Evaluation Metrics</em> §8 and §11</td>
+</tr>
+<tr class="odd">
+<td>The ranking stage (§1, §9)</td>
+<td><em>Training and Serving a Recommender</em></td>
+</tr>
+<tr class="even">
+<td>Criteo and Avazu (§1, §9)</td>
+<td>the <em>Datasets &amp; Benchmarks</em> appendix, whose <strong>CTR regime</strong> is the protocol these models compete under</td>
+</tr>
+<tr class="odd">
+<td>Attention in AutoInt and DIN (§8)</td>
+<td><em>Representation Learning &amp; the Transformer</em>; <em>Sequential &amp; Session-Based Recommendation</em></td>
+</tr>
+<tr class="even">
+<td>Choosing what to show and learning from the click</td>
+<td><em>Bandits &amp; Online Recommendation</em>, the next chapter</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>As the first <strong>Frontiers</strong> chapter, it marks the turn from the book’s core ladder to the edges where recommendation meets the wider machine-learning (ML) frontier; the next, <em>Bandits &amp; Online Recommendation</em>, takes up what happens when the model must <strong>choose what to show and learn from the click it gets back</strong>.</p>
+<p>CTR prediction in one breath: a click is a binary label, a large share of the signal lives in <strong>feature interactions</strong> (§9), and the deep-CTR lineage — FM <span class="math inline">\(\to\)</span> Wide &amp; Deep <span class="math inline">\(\to\)</span> DeepFM <span class="math inline">\(\to\)</span> DCN <span class="math inline">\(\to\)</span> xDeepFM / AutoInt / DIN — is a sequence of ever-better answers to “which interactions matter, and of what order?” Most of them share one template: embed the sparse fields, run an explicit-interaction arm beside a deep MLP, combine the two in one sigmoid (Wide &amp; Deep’s wide arm reads the raw features, and AutoInt and DIN swap in attention). Most are scored with LogLoss and AUC; DIN, which needs a user-behavior sequence that Criteo and Avazu lack, is not in the CTR row of the <em>Datasets &amp; Benchmarks</em> appendix.</p>
+<p><strong>In one line:</strong> one question, which crosses matter and of what degree, answered from FM’s pairs (degree <span class="math inline">\(2\)</span>) to DCN’s degrees up to <span class="math inline">\(L+1\)</span>, and graded everywhere by the same two scores.</p>
 <hr>
 </section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">12. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -792,47 +1148,123 @@ Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> 
 </tr>
 <tr class="even">
 <td><strong>Impression</strong></td>
-<td>One shown item; the unit of a CTR row, labelled <span class="math inline">\(1\)</span> (clicked) or <span class="math inline">\(0\)</span> (not).</td>
+<td>One logged showing of one item to one user in one slot; the unit of a CTR row, labeled <span class="math inline">\(1\)</span> (clicked) or <span class="math inline">\(0\)</span> (not).</td>
 </tr>
 <tr class="odd">
+<td><strong>Field</strong></td>
+<td>One attribute of the row (user, item, genre, device, daypart); each field contributes exactly one active category, and one embedding vector <span class="math inline">\(\mathbf e_f\)</span>.</td>
+</tr>
+<tr class="even">
 <td><strong>Sparse / one-hot feature</strong></td>
 <td>A category encoded as all-zeros with a single <span class="math inline">\(1\)</span>; CTR rows stack millions of these.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Feature interaction / cross</strong></td>
-<td>The conjunction of two categories (<code>sci-fi ∧ mobile</code>); where the predictive signal lives.</td>
+<td>The conjunction (AND) of two <em>or more</em> categories (<code>sci-fi ∧ mobile</code> is second-order); where a large share of the predictive signal lives.</td>
+</tr>
+<tr class="even">
+<td><strong>Order / degree</strong></td>
+<td>How many features an interaction multiplies together: second-order is a pair, third-order three at once.</td>
 </tr>
 <tr class="odd">
+<td><strong>Explicit vs implicit interaction</strong></td>
+<td>Explicit = built by a formula you can point at, with a known degree and a readable strength; implicit = mixed inside an MLP’s layers, where no single weight names a cross.</td>
+</tr>
+<tr class="even">
 <td><strong>Logistic regression</strong></td>
 <td>Linear score <span class="math inline">\(\to\)</span> sigmoid <span class="math inline">\(\to\)</span> probability; the CTR baseline and every model’s output head.</td>
 </tr>
+<tr class="odd">
+<td><strong>Log-odds (logit)</strong></td>
+<td>The raw score <span class="math inline">\(z=\ln\frac{\hat p}{1-\hat p}\)</span> the sigmoid squashes; weights add up here, not in the probability.</td>
+</tr>
 <tr class="even">
-<td><strong>LogLoss</strong></td>
-<td>Binary cross-entropy; grades how <em>calibrated</em> the predicted probabilities are (lower better).</td>
+<td><strong>Calibration</strong></td>
+<td>A model is calibrated when the numbers mean what they say: of impressions scored <span class="math inline">\(0.3\)</span>, about <span class="math inline">\(30\%\)</span> are clicked (<em>Evaluation Metrics</em> §11).</td>
 </tr>
 <tr class="odd">
+<td><strong>LogLoss</strong></td>
+<td>Binary cross-entropy; grades the predicted probabilities themselves — both calibration and separation of clicks from non-clicks (lower better).</td>
+</tr>
+<tr class="even">
 <td><strong>AUC</strong></td>
-<td>Probability a random click outscores a random non-click; grades <em>ordering</em>, not calibration.</td>
+<td>Probability a random click outscores a random non-click (a tie counts half); grades <em>ordering</em>, not calibration.</td>
+</tr>
+<tr class="odd">
+<td><strong>Embedding (layer)</strong></td>
+<td>The table that replaces each field’s active category by its learned dense vector <span class="math inline">\(\mathbf e_f\)</span>; one copy, read by every arm that needs it.</td>
+</tr>
+<tr class="even">
+<td><strong>Arm (tower, stream)</strong></td>
+<td>One of the two parallel sub-networks whose outputs meet in one logistic head; the papers also say <em>tower</em> or <em>stream</em>. Not the retrieval chapters’ tower, an encoder of only the user or only the item.</td>
+</tr>
+<tr class="odd">
+<td><strong>Latent vector</strong></td>
+<td>The short list of <span class="math inline">\(k\)</span> numbers an FM learns for each category; its dot product with another category’s vector is the pair’s strength.</td>
 </tr>
 <tr class="even">
 <td><strong>Factorization machine (FM)</strong></td>
-<td>Models a pairwise interaction as <span class="math inline">\(\langle\mathbf v_i,\mathbf v_j\rangle\)</span>; learns crosses on sparse data (<span class="math inline">\(O(kn)\)</span>).</td>
+<td>Models a pairwise interaction as <span class="math inline">\(\langle\mathbf v_j,\mathbf v_{j'}\rangle\)</span>; learns crosses on sparse data in <span class="math inline">\(O(kn)\)</span> time (<span class="math inline">\(n\)</span> = active features, <span class="math inline">\(k\)</span> = latent-vector length).</td>
 </tr>
 <tr class="odd">
 <td><strong>Wide &amp; Deep</strong></td>
-<td>Joint linear-with-hand-crosses (memorize) <span class="math inline">\(+\)</span> MLP-over-embeddings (generalize) model.</td>
+<td>Joint linear-with-hand-crosses over the <em>raw</em> features (memorize) <span class="math inline">\(+\)</span> MLP-over-embeddings (generalize) model.</td>
 </tr>
 <tr class="even">
+<td><strong>ReLU (rectified linear unit)</strong></td>
+<td>The activation <span class="math inline">\(\max(0,z)\)</span> applied entry by entry — keep a positive number, replace a negative one with <span class="math inline">\(0\)</span>; the usual default inside a deep arm’s MLP (<em>Neural Networks &amp; Back-propagation</em> §2).</td>
+</tr>
+<tr class="odd">
 <td><strong>DeepFM</strong></td>
 <td>Wide &amp; Deep with the wide arm replaced by an FM, sharing one embedding layer; no hand-crossing.</td>
 </tr>
+<tr class="even">
+<td><strong>DNN (deep neural network)</strong></td>
+<td>DeepFM’s name for the MLP arm — the same object as Wide &amp; Deep’s deep arm.</td>
+</tr>
 <tr class="odd">
-<td><strong>Cross network (DCN)</strong></td>
-<td>Stacked layers that raise interaction degree by one each, explicitly and with linear cost.</td>
+<td><strong>Cross network</strong></td>
+<td>Stacked layers that raise interaction degree by one each, explicitly and at linear cost (<span class="math inline">\(2d\)</span> parameters per layer). <strong>DCN</strong> = a cross network beside a deep MLP.</td>
 </tr>
 <tr class="even">
+<td><strong>Residual</strong></td>
+<td>The <span class="math inline">\(+\,\mathbf x_l\)</span> that copies a layer’s input into its output, so lower-degree terms survive the next cross.</td>
+</tr>
+<tr class="odd">
+<td><strong>Vector-wise vs bit-wise</strong></td>
+<td>A cross with one weight per pair of whole field vectors (xDeepFM’s CIN) versus one weight per coordinate (DCN, an MLP).</td>
+</tr>
+<tr class="even">
+<td><strong>CIN (compressed interaction network)</strong></td>
+<td>xDeepFM’s explicit-interaction arm: crosses between whole field vectors, mixed into a few new vectors by learned weights.</td>
+</tr>
+<tr class="odd">
 <td><strong>xDeepFM / AutoInt / DIN</strong></td>
 <td>Vector-wise crosses (CIN) / attention-learned interactions / per-candidate behavior attention.</td>
+</tr>
+<tr class="even">
+<td><strong>DCNv2</strong></td>
+<td>The cross network with a full weight matrix per layer instead of a vector; its authors report it better than DCN, a report §9 says to test (low-rank form and a mixture of experts keep it affordable).</td>
+</tr>
+<tr class="odd">
+<td><strong>Mixture of experts</strong></td>
+<td>Several small sub-models whose outputs a learned gate weights input by input.</td>
+</tr>
+<tr class="even">
+<td><strong>Hadamard product</strong> (<span class="math inline">\(\odot\)</span>)</td>
+<td>Entry-by-entry product of two vectors of the same length: <span class="math inline">\([1,2]\odot[3,4]=[3,8]\)</span> (§7, §8).</td>
+</tr>
+<tr class="odd">
+<td><strong>Multi-head self-attention</strong></td>
+<td>Each field’s new vector is a weighted mix of all the fields’ vectors, the weights computed from dot-product scores and a softmax; several heads do it independently (AutoInt, §8; built in <em>Representation Learning &amp; the Transformer</em>).</td>
+</tr>
+<tr class="even">
+<td><strong>FuxiCTR, BARS-CTR</strong></td>
+<td>An open-source library for configuring and reproducing CTR models, and the benchmark built with it that re-ran the lineage under equal tuning (§9).</td>
+</tr>
+<tr class="odd">
+<td><strong>FinalMLP, feature gate</strong></td>
+<td>A two-stream MLP model; its feature gate is a learned weight per input feature that decides how much of it a stream sees (§9).</td>
 </tr>
 </tbody>
 </table>
@@ -840,20 +1272,34 @@ Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> 
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">13. References</h2>
+<p><em>Entries follow roughly the order in which the chapter introduces its sources, not the alphabet.</em></p>
 <ul>
-<li><p>He, X., et al.&nbsp;(2017). <em>Neural collaborative filtering</em>. In <em>Proceedings of WWW</em>. arXiv:1708.05031 <em>(the implicit-feedback / sigmoid-head lineage CTR ranking shares).</em></p></li>
-<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>Proceedings of IEEE ICDM</em>. https://doi.org/10.1109/ICDM.2010.127 <em>(the FM springboard; full treatment in Traditional RecSys §8).</em></p></li>
-<li><p>Cheng, H.-T., et al.&nbsp;(2016). <em>Wide &amp; Deep learning for recommender systems</em>. In <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS @ RecSys)</em>. arXiv:1606.07792</p></li>
-<li><p>Guo, H., Tang, R., Ye, Y., Li, Z., &amp; He, X. (2017). <em>DeepFM: A factorization-machine based neural network for CTR prediction</em>. In <em>Proceedings of IJCAI</em>. arXiv:1703.04247</p></li>
-<li><p>Wang, R., Fu, B., Fu, G., &amp; Wang, M. (2017). <em>Deep &amp; Cross Network for ad click predictions</em>. In <em>Proceedings of ADKDD @ KDD</em>. arXiv:1708.05123</p></li>
-<li><p>Wang, R., Shivanna, R., Cheng, D. Z., Jain, S., Lin, D., Hong, L., &amp; Chi, E. H. (2021). <em>DCN V2: Improved deep &amp; cross network and practical lessons for web-scale learning to rank systems</em>. In <em>Proceedings of the Web Conference (WWW)</em>. arXiv:2008.13535</p></li>
-<li><p>Lian, J., Zhou, X., Zhang, F., Chen, Z., Xie, X., &amp; Sun, G. (2018). <em>xDeepFM: Combining explicit and implicit feature interactions for recommender systems</em>. In <em>Proceedings of KDD</em>. arXiv:1803.05170</p></li>
-<li><p>Song, W., et al.&nbsp;(2019). <em>AutoInt: Automatic feature interaction learning via self-attentive neural networks</em>. In <em>Proceedings of CIKM</em>. arXiv:1810.11921</p></li>
-<li><p>Zhou, G., et al.&nbsp;(2018). <em>Deep Interest Network for click-through rate prediction</em>. In <em>Proceedings of KDD</em>. arXiv:1706.06978</p></li>
-<li><p>Mao, K., Zhu, J., Su, L., Cai, G., Li, Y., &amp; Dong, Z. (2023). <em>FinalMLP: An enhanced two-stream MLP model for CTR prediction</em>. In <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>. arXiv:2304.00902</p></li>
-<li><p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate prediction (FuxiCTR)</em>. In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(the Criteo / Avazu 8:1:1 split + AUC / LogLoss protocol).</em></p></li>
+<li><p>He, X., Liao, L., Zhang, H., Nie, L., Hu, X., &amp; Chua, T.-S. (2017). <em>Neural collaborative filtering</em>. In <em>Proceedings of the 26th International Conference on World Wide Web (WWW)</em>, 173–182.<br>
+https://doi.org/10.1145/3038912.3052569 · arXiv:1708.05031 <em>(the implicit-feedback / sigmoid-head lineage CTR ranking shares).</em></p></li>
+<li><p>Rendle, S. (2010). <em>Factorization machines</em>. In <em>2010 IEEE International Conference on Data Mining (ICDM)</em>, 995–1000.<br>
+https://doi.org/10.1109/ICDM.2010.127 <em>(the FM springboard; full treatment in Traditional Recommender Systems §8).</em></p></li>
+<li><p>Cheng, H.-T., Koc, L., Harmsen, J., Shaked, T., Chandra, T., Aradhye, H., Anderson, G., Corrado, G., Chai, W., Ispir, M., Anil, R., Haque, Z., Hong, L., Jain, V., Liu, X., &amp; Shah, H. (2016). <em>Wide &amp; Deep learning for recommender systems</em>. In <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS)</em>, 7–10.<br>
+https://doi.org/10.1145/2988450.2988454 · arXiv:1606.07792</p></li>
+<li><p>Guo, H., Tang, R., Ye, Y., Li, Z., &amp; He, X. (2017). <em>DeepFM: A factorization-machine based neural network for CTR prediction</em>. In <em>Proceedings of the Twenty-Sixth International Joint Conference on Artificial Intelligence (IJCAI)</em>, 1725–1731.<br>
+https://doi.org/10.24963/ijcai.2017/239 · arXiv:1703.04247</p></li>
+<li><p>Wang, R., Fu, B., Fu, G., &amp; Wang, M. (2017). <em>Deep &amp; Cross Network for ad click predictions</em>. In <em>Proceedings of the ADKDD’17</em>, 1–7.<br>
+https://doi.org/10.1145/3124749.3124754 · arXiv:1708.05123</p></li>
+<li><p>Wang, R., Shivanna, R., Cheng, D. Z., Jain, S., Lin, D., Hong, L., &amp; Chi, E. H. (2021). <em>DCN V2: Improved deep &amp; cross network and practical lessons for web-scale learning to rank systems</em>. In <em>Proceedings of the Web Conference 2021 (WWW)</em>, 1785–1797.<br>
+https://doi.org/10.1145/3442381.3450078 · arXiv:2008.13535</p></li>
+<li><p>Lian, J., Zhou, X., Zhang, F., Chen, Z., Xie, X., &amp; Sun, G. (2018). <em>xDeepFM: Combining explicit and implicit feature interactions for recommender systems</em>. In <em>Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining (KDD)</em>, 1754–1763.<br>
+https://doi.org/10.1145/3219819.3220023 · arXiv:1803.05170</p></li>
+<li><p>Song, W., Shi, C., Xiao, Z., Duan, Z., Xu, Y., Zhang, M., &amp; Tang, J. (2019). <em>AutoInt: Automatic feature interaction learning via self-attentive neural networks</em>. In <em>Proceedings of the 28th ACM International Conference on Information and Knowledge Management (CIKM)</em>, 1161–1170.<br>
+https://doi.org/10.1145/3357384.3357925 · arXiv:1810.11921</p></li>
+<li><p>Zhou, G., Zhu, X., Song, C., Fan, Y., Zhu, H., Ma, X., Yan, Y., Jin, J., Li, H., &amp; Gai, K. (2018). <em>Deep Interest Network for click-through rate prediction</em>. In <em>Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining (KDD)</em>, 1059–1068.<br>
+https://doi.org/10.1145/3219819.3219823 · arXiv:1706.06978</p></li>
+<li><p>Mao, K., Zhu, J., Su, L., Cai, G., Li, Y., &amp; Dong, Z. (2023). <em>FinalMLP: An enhanced two-stream MLP model for CTR prediction</em>. In <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>, 4552–4560.<br>
+https://doi.org/10.1609/aaai.v37i4.25577 · arXiv:2304.00902</p></li>
+<li><p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate prediction</em>. In <em>Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management (CIKM)</em>, 2759–2769.<br>
+https://doi.org/10.1145/3459637.3482486 · arXiv:2009.05794 <em>(the FuxiCTR library and the BARS-CTR benchmark; the random Criteo / Avazu 8:1:1 split + AUC / LogLoss protocol; §3.2.4 states the <span class="math inline">\(0.001\)</span> AUC rule of §9; Table 3 holds the Criteo numbers of §9).</em></p></li>
 </ul>
-<p><em>Online sources verified June 2026.</em></p>
+<blockquote class="blockquote">
+<p><strong>Recency note.</strong> Every DOI, title, author list, venue and page range above matches its Crossref record, and every arXiv identifier and title matches its arXiv abstract page. The statements of §9 and §7 rest on the full texts of arXiv:2009.05794, arXiv:2008.13535, arXiv:2304.00902, arXiv:1708.05123 (Theorem 3.1) and arXiv:1803.05170 (Theorem 2.1).</p>
+</blockquote>
 
 
 </section>
@@ -1267,12 +1713,12 @@ Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> 
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/training-and-serving.html" class="pagination-link" aria-label="Training and Serving a Recommender">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Training and Serving a Recommender</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/bandits.html" class="pagination-link" aria-label="Bandits &amp; Online Recommendation">
-        <span class="nav-page-text"><span class="chapter-title">Bandits &amp; Online Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1286,7 +1732,7 @@ Figure&nbsp;15.1: <strong>The shared template of every deep-CTR model.</strong> 
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

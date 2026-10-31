@@ -10,5 +10,5 @@
 - (add learning notes, books and articles here as they ship)
 
 ## Reference
-- [Recommender Systems from Zero — Zenodo (DOI 10.5281/zenodo.20952963)](https://doi.org/10.5281/zenodo.20952963):
-  citable PDF + metadata, CC BY 4.0.
+- [Recommender Systems from Zero — Zenodo (DOI 10.5281/zenodo.20952962)](https://doi.org/10.5281/zenodo.20952962):
+  citable PDF + metadata, CC BY 4.0. Concept DOI — resolves to the latest version (v2.0).

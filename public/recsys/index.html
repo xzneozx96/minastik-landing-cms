@@ -9,7 +9,7 @@
 
 <meta name="author" content="Duong Tan Nghia">
 <meta name="author" content="Tran Manh Hoang">
-<meta name="dcterms.date" content="2026-06-28">
+<meta name="dcterms.date" content="2026-10-31">
 <meta name="description" content="A free, hand-checkable, from-zero handbook on recommender systems — a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand. Open access, CC BY 4.0.">
 
 <title>Recommender Systems from Zero</title>
@@ -127,21 +127,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -289,17 +290,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="./chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="./chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="./chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,17 +319,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="./chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="./chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="./chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -341,12 +348,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="./chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="./chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -362,7 +371,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="./chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -378,17 +388,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="./chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="./chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="./chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -396,7 +409,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -404,7 +417,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="./chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -420,7 +434,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="./chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -436,12 +451,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="./chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="./chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -457,27 +474,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="./chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="./chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="./chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="./chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="./chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -488,7 +510,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="./chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -569,7 +604,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 28, 2026</p>
+      <p class="date">October 31, 2026</p>
     </div>
   </div>
   
@@ -578,7 +613,7 @@ window.Quarto = {
     <div class="quarto-title-meta-heading">Doi</div>
     <div class="quarto-title-meta-contents">
       <p class="doi">
-        <a href="https://doi.org/10.5281/zenodo.20952963">10.5281/zenodo.20952963</a>
+        <a href="https://doi.org/10.5281/zenodo.20952962">10.5281/zenodo.20952962</a>
       </p>
     </div>
   </div>
@@ -601,14 +636,14 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You are reading the <strong>live web edition</strong>, chapter by chapter; new versions land here first. To <strong>download the full book (PDF)</strong> and <strong>cite</strong> it, use the archived release on Zenodo — <a href="https://doi.org/10.5281/zenodo.20952963"><strong>doi.org/10.5281/zenodo.20952963</strong></a> (CC BY 4.0).</p>
+<p>You are reading the <strong>live web edition</strong>, chapter by chapter; new versions land here first. This is the web edition of <strong>Version 2.0</strong> (31 October 2026). To <strong>download the full book (PDF)</strong> and <strong>cite</strong> it, use the archived release on Zenodo — <a href="https://doi.org/10.5281/zenodo.20952962"><strong>doi.org/10.5281/zenodo.20952962</strong></a>, the concept DOI that always resolves to the latest release (CC BY 4.0).</p>
 </div>
 </div>
 <section id="welcome" class="level2">
 <h2 class="anchored" data-anchor-id="welcome">Welcome</h2>
 <p>This is a handbook about <strong>recommender systems</strong> — the technology that decides which movie, product, song, or article to put in front of you — written for someone starting from <strong>zero</strong>. Not “zero recommender-systems knowledge”. Zero <em>machine learning</em>. If you remember a little high-school algebra and you are willing to follow a worked example with a calculator, you have everything you need to begin. Every other idea — a <strong>vector</strong>, a <strong>derivative</strong>, a <strong>probability</strong>, a <strong>neural network</strong>, an <strong>embedding</strong> — is built up in front of you, in order, with a picture and a number you can check yourself.</p>
 <blockquote class="blockquote">
-<p><strong>You are here: the Preface (front matter).</strong> It tells you who the book is for, the two promises it keeps, and how to read it. The chain of chapters it introduces:</p>
+<p><strong>You are here: the Preface (front matter — the part of the book before the chapters).</strong> It tells you who the book is for, the two promises it keeps, and how to read it. The chapters follow it, in the order the table of contents lists.</p>
 </blockquote>
 <hr>
 </section>
@@ -616,47 +651,58 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="who-this-handbook-is-for">Who this handbook is for</h2>
 <p>You are the reader if you are <strong>any</strong> of these:</p>
 <ul>
-<li>a <strong>student</strong> who wants to understand how modern recommenders really work, not just run a library;</li>
+<li>a <strong>student</strong> who wants to understand how modern recommenders really work, not just run ready-made software;</li>
 <li>a <strong>working engineer</strong> pivoting into recommendation, who needs the foundations <em>and</em> the current state of the art in one place;</li>
-<li>an <strong>aspiring researcher</strong> who wants the unbroken through-line from the math to the LLM-and-graph frontier where the field is moving now.</li>
+<li>an <strong>aspiring researcher</strong> who wants the unbroken through-line from the math to the frontier where the field is moving now, which is <strong>large language models (LLMs)</strong>, the text-generating artificial-intelligence (AI) systems behind today’s chatbots, and <strong>graphs</strong>, here meaning <em>networks</em> of users and items, not plotted curves.</li>
 </ul>
-<p>What you do <strong>not</strong> need: a degree in math, prior machine-learning experience, or a powerful computer. The worked examples are deliberately <strong>tiny</strong> — three users, three movies, two-dimensional vectors — so you can check every step by hand. The goal is <em>understanding you can reconstruct</em>, not facts you have to trust.</p>
+<p>What you do <strong>not</strong> need: a degree in math, prior machine-learning experience, or a powerful computer. Now and then you will meet a short Python listing (<em>Probability &amp; Statistics for Machine Learning</em> assumes you can read one); you only need to read it, not write it. The worked examples are deliberately <strong>tiny</strong> — a handful of users and movies, mostly two-dimensional vectors (lists of just two numbers) — so you can check every step by hand. The goal is <em>understanding you can reconstruct</em>, not facts you have to trust.</p>
 <blockquote class="blockquote">
-<p><strong>A promise to the complete beginner.</strong> Nowhere in this book will a symbol, a term, or a technique be used before it has been explained. If you ever meet one that wasn’t, that is a bug in the book, not a gap in you.</p>
+<p><strong>A standing rule for the complete beginner.</strong> The aim of this book is that no symbol, term, or technique is used before it has been explained. If you ever meet one that wasn’t, that is a bug in the book, not a gap in you. This preface keeps the rule in its own way: it is a map, so it names each destination with a gloss of a few words and leaves the full teaching to the chapter that owns it.</p>
 </blockquote>
 <hr>
 </section>
 <section id="the-two-promises" class="level2">
 <h2 class="anchored" data-anchor-id="the-two-promises">The two promises</h2>
-<p>Every chapter keeps the same two promises. They are the whole method.</p>
-<p><strong>Promise 1 — intuition first, and nothing unexplained.</strong> A new idea is introduced with a plain-language <strong>intuition</strong> and, wherever it helps, <em>why it carries its name</em> (the history of a name is often the fastest way to remember what it does — you will learn why a <em>sigmoid</em> is “S-shaped”, why a <em>Transformer</em> “transforms”, why <em>Long Short-Term Memory</em> is a short memory that lasts). Then every <strong>formula is decoded component by component</strong> — what each symbol <em>is</em> and what it <em>does</em> — so an equation is never a wall of notation.</p>
-<p><strong>Promise 2 — everything is hand-checkable.</strong> Each concept carries <strong>one fully worked numerical example</strong>, small enough to verify with a calculator, and <strong>every number in it was computed with code before it was written down</strong>. A worked example with a wrong arithmetic step is worse than none, so the book treats its own numbers as claims to be checked.</p>
+<p>Each of the sixteen chapters keeps the same two promises, with one scoping: three sections are signposts, not lessons, namely the open-problem list of <em>Large Language Models and Recommendation: the Landscape</em> and the closing “Recent developments (2023–2026)” sections of <em>Self-Supervised &amp; Contrastive Learning</em> and <em>The Spectral / Graph-Filter View</em>, whose numbers sit in their earlier sections. The five appendices are reference material (a catalogue, a recipe, short maps) and carry fewer worked examples. These two promises are the whole method.</p>
+<p><strong>Promise 1 — intuition first, and as little unexplained as we can make it.</strong> A new idea is introduced with a plain-language <strong>intuition</strong> and, wherever it helps, <em>why it carries its name</em>, because the history of a name is often the fastest way to remember what it does. You will learn why a <em>sigmoid</em> — a curve that squashes any number into a probability — is “S-shaped”; what the name <em>Transformer</em>, the model design inside today’s LLMs, is usually taken to mean; and why <em>Long Short-Term Memory</em>, a model that reads a sequence one item at a time, is a short memory that lasts. Then every <strong>formula is decoded component by component</strong> — what each symbol <em>is</em> and what it <em>does</em> — so an equation is never a wall of notation.</p>
+<p><strong>Promise 2 — everything is hand-checkable.</strong> In a chapter, each concept it teaches carries <strong>one fully worked numerical example</strong>, small enough to verify with a calculator, and <strong>every number in it was checked before it was written down</strong>. A worked example with a wrong arithmetic step is worse than none, so the book treats its own numbers as claims to be checked.</p>
 <p>Together these serve one aim that matters most for a beginner: <strong>understanding that sticks in memory</strong>, because you saw the intuition, watched the formula come apart into meaning, and reproduced the number yourself.</p>
 <hr>
 </section>
 <section id="how-the-handbook-is-organized" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-handbook-is-organized">How the handbook is organized</h2>
-<p>The book climbs a ladder in <strong>three tiers</strong> (eight parts). Each tier is a prerequisite for the next; <em>within</em> Tier 1, the three math primers are independent siblings you can read in any order; and the three recommender <em>views</em> of Tier 3 — sequence, graph, and LLM — each build on the Traditional/Evaluation foundation rather than on each other.</p>
-<div id="fig-preface-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The book climbs a ladder of <strong>eight parts</strong> in <strong>three tiers</strong>: the mathematics (Tier 1, Part I), the machine-learning basics (Tier 2, Part II) and the recommender systems themselves (Tier 3, Parts III–VIII). After them come five topic appendices and an appendix of worked solutions to the chapters’ exercises. Each tier is a prerequisite for the next, and the picture shows the reading order inside a tier, including the places where you may reorder.</p>
+<p><strong>Part I · Mathematical Foundations</strong> — the language, in three <em>primers</em> (introductory chapters). <strong>Linear algebra</strong> gives vectors and the dot product, which is a similarity score. <strong>Calculus</strong> gives the derivative (a rate of change) and the gradient (the direction of steepest climb), and shows how a model <em>learns</em> by stepping downhill, against the gradient. <strong>Probability &amp; statistics</strong> gives distributions (how probability spreads over the possible outcomes) and <em>likelihood</em> (how probable the observed data are under a guessed value). It adds <em>Bayes’ rule</em>, for updating a belief when evidence arrives, and the tools to <em>test</em> whether a result is real. Linear Algebra and Probability can be read in either order; Calculus sections 4 to 8 lean on Linear Algebra sections 1 to 6, so read Linear Algebra before them.</p>
+<p><strong>Part II · Machine-Learning Fundamentals</strong> — the machine. It starts with what a <strong>loss function</strong> is (one number scoring how wrong the model is) and how a model is trained to make it small. Training gets help from a <strong>regularizer</strong>, an extra penalty that keeps the model from simply memorizing its training data. Then come <strong>neural networks</strong> (stacked layers of weighted sums, each passed through a simple bend) and <strong>back-propagation</strong> (the procedure that works backward from the loss to find which way to nudge each of the network’s adjustable numbers). Last comes <strong>representation learning</strong> — how a discrete thing (a word, a movie) becomes a vector, called its <strong>embedding</strong> — up through the <strong>Transformer</strong> and the <strong>LLM</strong>.</p>
+<div id="fig-preface-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The ladder. Read it from top to bottom, and left to right inside a tier: each arrow shows the reading order, and everything a box needs comes before it.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-preface-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/preface-1.svg" class="img-fluid figure-img">
+<img src="figs/preface-1.svg" class="img-fluid figure-img" alt="The ladder. Read it from top to bottom, and left to right inside a tier: each arrow shows the reading order, and everything a box needs comes before it.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-preface-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: three independent siblings – read in any order
+Figure&nbsp;1: The ladder. Read it from top to bottom, and left to right inside a tier: each arrow shows the reading order, and everything a box needs comes before it. Two places hold branches that do not depend on each other: Parts IV and V (read either one first; both lead into Part VI), and some of the primers of Part I (see the note inside the top box). The appendices are reference chapters, to consult when a chapter points to one. Master a tier and the next one has no unexplained prerequisites.
 </figcaption>
 </figure>
 </div>
-<p><em>Figure. The ladder. Master a tier and the next one has no unexplained prerequisites.</em></p>
-<p><strong>Part I · Mathematical Foundations</strong> — the language. <strong>Linear algebra</strong> (vectors, the dot product = a similarity score), <strong>calculus</strong> (the derivative, the gradient, how a model <em>learns</em> by descending it), and <strong>probability &amp; statistics</strong> (distributions, likelihood, Bayes, how we <em>test</em> whether a result is real).</p>
-<p><strong>Part II · Machine-Learning Fundamentals</strong> — the machine. What a <strong>loss function</strong> is and how a model is trained to minimize it; <strong>neural networks</strong> and <strong>back-propagation</strong>; and <strong>representation learning</strong> — how a discrete thing (a word, a movie) becomes a vector, up through the <strong>Transformer</strong> and the <strong>LLM</strong>.</p>
-<p><strong>Parts III–VIII · Recommender Systems</strong> — the destination. <strong>Traditional</strong> recommenders (similarity, matrix factorization) and how we <strong>evaluate</strong> them; the <strong>sequence</strong> view (next-item prediction — Markov chains and FPMC, GRU4Rec, and the self-attentive SASRec and BERT4Rec); the <strong>graph</strong> view (<strong>LightGCN</strong>, self-supervised/contrastive learning, the spectral/filter lens); the <strong>LLM era</strong> — how large language models fuse with the collaborative signal; <strong>training and serving</strong> a recommender end to end; and a bounded <strong>Frontiers</strong> part at the field’s edges — deep-CTR ranking, bandits and online learning, with reinforcement-learning and federated/privacy pointers.</p>
-<p><strong>The recommender families, at a glance.</strong> One idea recurs in every chapter — turn things into vectors, score by comparing them, learn the vectors — but it takes many forms. Here is the map of the families this book builds, in reading order (the <em>what-kind</em> companion to the prerequisite <em>ladder</em> above):</p>
+<p><strong>Parts III–VIII · Recommender Systems</strong> — the destination, in six parts:</p>
+<ul>
+<li><strong>Part III · Recommender-System Foundations</strong> — the <strong>traditional</strong> recommenders (scoring by similarity, and <em>matrix factorization</em>, which learns a short list of taste numbers for every user and every item) and how we <strong>evaluate</strong> them.</li>
+<li><strong>Part IV · Sequence-Based Recommenders</strong> — the <strong>sequence</strong> view: predict the <em>next</em> item from the order of past ones. It climbs from <em>Markov chains</em> (guess the next item from the last one, by counting what usually follows it) and <strong>FPMC</strong> (Factorizing Personalized Markov Chains, which adds each user’s own taste to that last-item guess). Next comes <strong>GRU4Rec</strong>, a <em>recurrent</em> network (one that reads a session — one visit’s run of clicks — one step at a time) built from gated recurrent units, or GRUs. Then <strong>SASRec</strong> (Self-Attentive Sequential Recommendation) and <strong>BERT4Rec</strong> use <em>self-attention</em>: they weigh every item already in the history to decide what comes next. (BERT, short for Bidirectional Encoder Representations from Transformers, is a text model; BERT4Rec adapts it to recommendation.)</li>
+<li><strong>Part V · Graph-Based Recommenders</strong> — the <strong>graph</strong> view. Here a <em>graph</em> means a network, not a plotted curve: every user and every movie is a dot, and each rating or click is a line joining a user to a movie. It builds <strong>LightGCN</strong>, a stripped-down <em>graph convolution network</em> (GCN) built on “you are the company you keep”: each user’s vector is rebuilt from the vectors of the movies they watched, and each movie’s from its viewers’. Then come <strong>self-supervised learning (SSL)</strong> and its <em>contrastive</em> form, in which the model invents its own practice task: two slightly altered copies of the graph must still agree. Last is the <em>spectral</em>, or graph-filter, lens: treat tastes on the graph like a sound signal and keep its smooth, low-frequency part.</li>
+<li><strong>Part VI · The Era of Large Language Models</strong> — the four roles an LLM can play in a recommender, and how its knowledge of the world is combined with the pattern of who liked what.</li>
+<li><strong>Part VII · Building a Recommender</strong> — <strong>training and serving</strong> a recommender end to end: the training loop, and the fast path from a user to a ranked list.</li>
+<li><strong>Part VIII · Frontiers</strong> — a bounded tour of the field’s edges: <strong>click-through-rate (CTR) prediction</strong> with deep neural networks, which ranks items by the predicted chance of a click; and <strong>bandits</strong> and online learning, which learn from each click while the system runs, balancing trying something new against showing a proven favorite.</li>
+</ul>
+<p>Tier 3 is not one straight line. The <strong>sequence</strong> view (Part IV) and the <strong>graph</strong> view (Part V) each build on Part III rather than on each other, so either can come first; Part VI then draws on both.</p>
+<p>After Part VIII come five topic appendices, in this order. <em>Implementation Choices</em> says which ready-made models and software to actually use. <em>Datasets &amp; Benchmarks</em> covers the public datasets that research runs on, and how to split them fairly for training and testing. <em>Generating Features with Large Language Models</em> is a hands-on recipe: an LLM writes a short description of each user and item, a text encoder turns it into a vector, and the recommender takes that vector in. <em>Reinforcement Learning for Recommendation</em> (optimizing long-term reward rather than the next click) and <em>Federated &amp; Privacy-Preserving Recommendation</em> (training without collecting users’ raw data) are short maps of topics the book only points to.</p>
+<p>The back of the book also holds <em>Solutions to Exercises</em>: each of the sixteen chapters ends its teaching with a set of by-hand exercises, and this appendix works every one of them out in full.</p>
+<p><strong>The through-line: collaborative filtering.</strong> The recommender chapters follow one through-line, <strong>collaborative filtering (CF)</strong>: recommend from the <em>pattern of who liked what</em> across many users, rather than from descriptions of the items. If Ann and Bob agreed on the movies they have both seen, Ann will probably like the other movies Bob liked — people who agreed before tend to agree again. That pattern is the <strong>collaborative signal</strong>.</p>
+<p><strong>The recommender families, at a glance.</strong> One idea recurs in nearly every chapter — turn things into vectors, score by comparing them, learn the vectors — but it takes many forms. The map below shows the families this book builds, in reading order (the <em>what-kind</em> companion to the <em>ladder</em> above):</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -668,38 +714,38 @@ Figure&nbsp;1: three independent siblings – read in any order
 <tbody>
 <tr class="odd">
 <td><strong>Content-based</strong></td>
-<td>match an item’s <em>features</em> to a user’s profile</td>
-<td><em>Traditional</em> §2</td>
+<td>match an item’s <em>features</em> (genre, tags, description) to a user’s profile</td>
+<td><em>Traditional Recommender Systems</em> §2</td>
 </tr>
 <tr class="even">
-<td><strong>Memory-based CF</strong> (<span class="math inline">\(k\)</span>-NN)</td>
-<td>“users like you also liked…” — score by similarity</td>
-<td><em>Traditional</em> §4</td>
+<td><strong>Memory-based CF</strong>: <span class="math inline">\(k\)</span>-nearest-neighbor (<span class="math inline">\(k\)</span>-NN)</td>
+<td>“users like you also liked…” — score from the <span class="math inline">\(k\)</span> most similar users or items, the <span class="math inline">\(k\)</span> nearest neighbors</td>
+<td><em>Traditional Recommender Systems</em> §4</td>
 </tr>
 <tr class="odd">
-<td><strong>Matrix factorization</strong></td>
+<td><strong>Matrix factorization (MF)</strong></td>
 <td>learn user/item <strong>embeddings</strong>; score by their dot product</td>
-<td><em>Traditional</em> §5</td>
+<td><em>Traditional Recommender Systems</em> §5</td>
 </tr>
 <tr class="even">
-<td><strong>Sequential / session</strong></td>
+<td><strong>Sequential / session</strong> (a session is one visit’s run of clicks)</td>
 <td>predict the <strong>next</strong> item from the <em>order</em> of past ones</td>
-<td><em>Sequential &amp; Session-Based</em></td>
+<td><em>Sequential &amp; Session-Based Recommendation</em></td>
 </tr>
 <tr class="odd">
 <td><strong>Graph CF</strong></td>
-<td>propagate embeddings over the user–item <strong>graph</strong></td>
-<td><em>From Graphs to LightGCN</em> · <em>SSL</em> · <em>Spectral</em></td>
+<td>propagate (pass along) embeddings over the user–item <strong>graph</strong></td>
+<td><em>From Graphs to LightGCN</em> · <em>Self-Supervised &amp; Contrastive Learning</em> · <em>The Spectral / Graph-Filter View</em></td>
 </tr>
 <tr class="even">
 <td><strong>LLM-augmented</strong></td>
 <td>fuse a language model’s world knowledge with the collaborative signal</td>
-<td><em>LLM × RecSys</em></td>
+<td><em>Large Language Models and Recommendation</em></td>
 </tr>
 <tr class="odd">
-<td><strong>Deep CTR</strong> (ranking)</td>
-<td>predict a click from rich <strong>feature interactions</strong></td>
-<td><em>Click-Through Rate Prediction</em></td>
+<td><strong>Deep CTR</strong> (click-through rate; ranking)</td>
+<td>predict a click from rich <strong>feature interactions</strong> (<em>teenager</em> AND <em>horror film</em>)</td>
+<td><em>Click-Through Rate Prediction &amp; Feature Interactions</em></td>
 </tr>
 <tr class="even">
 <td><strong>Bandits / online</strong></td>
@@ -708,31 +754,31 @@ Figure&nbsp;1: three independent siblings – read in any order
 </tr>
 </tbody>
 </table>
-<p><strong>…and how they assemble into a real system.</strong> A deployed recommender is <strong>two-stage</strong>: a cheap <em>retrieval</em> step narrows millions of items to a few hundred, then a richer <em>ranking</em> step orders those. The families above slot into one stage or the other — which is why the book builds the embedding (retrieval) models first and the feature-rich (ranking) models later:</p>
-<div id="fig-preface-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p><strong>…and how they assemble into a real system.</strong> A typical deployed recommender is <strong>two-stage</strong> (a claim from practice, developed in <em>Training and Serving a Recommender</em>): a cheap <em>retrieval</em> step narrows millions of items to a few hundred, then a richer <em>ranking</em> step orders those. The main families above slot into one stage or the other — which is why the book builds the embedding (retrieval) models first and the feature-rich (ranking) models later:</p>
+<div id="fig-preface-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The two-stage funnel of a real recommender.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-preface-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figs/preface-2.svg" id="fig-preface-2" class="img-fluid figure-img">
+<img src="figs/preface-2.svg" class="img-fluid figure-img" alt="The two-stage funnel of a real recommender.">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-preface-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-preface-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The two-stage funnel of a real recommender. Cheap <strong>retrieval</strong> narrows the catalog to a few hundred candidates with a fast embedding dot-product (the models of <em>Traditional Recommender Systems</em> and <em>From Graphs to LightGCN</em>); a richer <strong>ranking</strong> model then orders them (<em>Click-Through Rate Prediction &amp; Feature Interactions</em>), and the top <span class="math inline">\(K\)</span> of that ordered list are shown. <span class="math inline">\(K\)</span> is just the length of the list, say 10, and a different number from the <span class="math inline">\(k\)</span> of <span class="math inline">\(k\)</span>-NN. The two stages are assembled end-to-end in <em>Training and Serving a Recommender</em>.
 </figcaption>
 </figure>
 </div>
-<p><em>Figure. The two-stage funnel of a real recommender. Cheap <strong>retrieval</strong> narrows the catalogue to a few hundred candidates with a fast embedding dot-product (the models of</em> Traditional Recommender Systems <em>and</em> From Graphs to LightGCN<em>); a richer <strong>ranking</strong> model then orders them (</em>Click-Through Rate Prediction<em>). The two stages are assembled end-to-end in</em> Training and Serving a Recommender<em>.</em></p>
 <hr>
 </section>
 <section id="how-to-read-a-chapter" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-read-a-chapter">How to read a chapter</h2>
-<p>Every chapter has the same shape, so you always know where you are:</p>
+<p>Most chapters follow the same shape, so you generally know where you are:</p>
 <ol type="1">
 <li><strong>The body</strong> — concepts built bottom-up, each <em>defined the first time it appears</em> (and, where a name has a real origin, <em>why it is called that</em>), each formula <em>decoded symbol by symbol</em>, and each carrying a small <em>worked example you can check by hand</em>.</li>
+<li><strong>Exercises</strong> — by-hand problems that close the teaching, each worked out in full in <em>Solutions to Exercises</em> at the back of the book.</li>
+<li><strong>A closing map</strong> — where the chapter fits and what it feeds (a named section in some chapters, folded into the last paragraph in others).</li>
 <li><strong>A glossary</strong> — one plain-language line per term the chapter introduces.</li>
-<li><strong>References</strong> — every external work web-verified, in author–year (Harvard) form.</li>
-<li><strong>“Where this fits in the book”</strong> — a short closing map of how the chapter connects to the ones before and after it.</li>
-<li><strong>A one-sentence summary</strong> and a <strong>“Next:”</strong> pointer to the following chapter.</li>
+<li><strong>References</strong> — every external work checked against a DOI, arXiv or publisher record (each chapter’s reference note says what was read), in author–year (Harvard) form.</li>
+<li><strong>Takeaways</strong> — throughout the body, most teaching sections end with a one-sentence <em>In one line</em> (a <em>Takeaway</em> in a few chapters) that restates the point, so you can check that you kept the thread.</li>
 </ol>
-<p>Two practical notes. Each chapter is a folder holding a <strong><code>.md</code></strong> (the source you can read or edit on screen) and a <strong><code>.pdf</code></strong> (typeset, for reading or printing) — they are kept in lockstep. And the <strong>navigation banner is identical in every chapter</strong>, so the map never changes under you.</p>
+<p>Two practical notes. The book comes in two forms built from the same source: a free web edition (minastik.com/recsys) you can read chapter by chapter in a browser, and a typeset edition you can download to read or print. And the table of contents gives the one reading order: the ladder above shows where you may reorder, and the appendices are there to consult when a chapter sends you.</p>
 <blockquote class="blockquote">
 <p><strong>How to actually study it.</strong> Read with a pen. When a worked example appears, <em>do the arithmetic yourself</em> before reading the answer. When a formula is decoded, cover the decode and try to name each symbol’s job first. The book is built so that this works — that is the entire point of keeping the numbers tiny.</p>
 </blockquote>
@@ -740,28 +786,55 @@ Figure&nbsp;2
 </section>
 <section id="the-one-idea-that-recurs" class="level2">
 <h2 class="anchored" data-anchor-id="the-one-idea-that-recurs">The one idea that recurs</h2>
-<p>If you remember nothing else, remember this — it is the spine that connects all sixteen chapters:</p>
+<p>If you remember nothing else, remember this. It is the spine that runs through nearly all sixteen chapters:</p>
 <blockquote class="blockquote">
 <p><strong>Turn each thing into a vector whose <em>location</em> carries its meaning; score two things by <em>comparing</em> their vectors (a dot product); learn those vectors so the comparisons match reality.</strong></p>
 </blockquote>
-<p>A user is a vector. A movie is a vector. “Will this user like this movie?” is, at heart, <em>how aligned are their two vectors</em> — a single dot product (Part I). Every method in the book is a more powerful way to <strong>learn those vectors</strong>: from counting co-occurrences, to matrix factorization, to word2vec, to graph propagation (<strong>LightGCN</strong>), to a self-supervised second view, to an <strong>LLM</strong>’s semantic view. Same skeleton; better and better embeddings.</p>
+<p>A user is a vector. A movie is a vector. “Will this user like this movie?” is, at heart, <em>how aligned are their two vectors</em> — a single dot product (Part I). For instance, describe tastes and films by two numbers, [romance, action]. Ann loves romance and cares only mildly for action, <span class="math inline">\([\,2,\,0.5\,]\)</span>; the film Vendetta has both, <span class="math inline">\([\,1,\,1\,]\)</span>; a pure action film is <span class="math inline">\([\,0,\,2\,]\)</span>. Multiply matching entries and add: Ann and Vendetta score <span class="math inline">\(2\times1+0.5\times1=2.5\)</span>, Ann and the action film <span class="math inline">\(2\times0+0.5\times2=1\)</span> — so Vendetta is shown first. Part I explains why this multiply-and-add grows with how aligned two vectors are (and with their lengths; the cosine similarity, which compares only directions, removes the lengths), and <em>Traditional Recommender Systems</em> §5 meets Ann and Vendetta again.</p>
+<p>Almost every model in the book is a more powerful way to <strong>learn those vectors</strong>: from counting co-occurrences (how often two movies are liked by the same people), to matrix factorization, to word2vec (vectors for words, learned from which words appear together), to graph propagation (<strong>LightGCN</strong>), to a self-supervised second view (the model checks itself against an altered copy of the data), to an <strong>LLM</strong>’s semantic view (vectors built from what an item’s text <em>means</em>). Same skeleton; better and better embeddings.</p>
 <hr>
 </section>
 <section id="what-this-handbook-is-not" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-handbook-is-not">What this handbook is not</h2>
-<p>To stay deep where it matters, the book stays <strong>narrow on purpose</strong>. It is <strong>not</strong> a comprehensive AI/ML textbook: it does <strong>not</strong> cover computer vision or general natural-language processing beyond the representation-learning lineage that recommenders actually use. Within recommendation itself it follows <strong>one through-line — collaborative filtering, from its classical form to graph- and LLM-based models</strong> — and does not try to survey every branch of the field. Many adjacent topics the through-line genuinely reaches get real treatment: <strong>factorization machines</strong> (the bridge from matrix factorization to feature-rich models), the <strong>bias / fairness / feedback-loop</strong> questions, a full chapter on <strong>sequential / session-based</strong> recommendation (Markov chains and FPMC, GRU4Rec, the self-attentive SASRec and BERT4Rec), and a full chapter on <strong>training and serving</strong> a recommender (negative sampling, the training loop, the retrieval-then-ranking funnel). A deliberately <strong>bounded <em>Frontiers</em> part</strong> then carries the field’s edges at <em>calibrated</em> depth — not a chapter for everything, but the right amount for each: <strong>full chapters</strong> on <strong>deep-CTR</strong> (wide-and-deep, DeepFM, DCN — the ranking-stage workhorse) and <strong>bandits / online recommendation</strong> (explore–exploit, UCB, Thompson sampling); a <strong>deepened treatment</strong> of <strong>generative recommendation</strong> (semantic IDs, RQ-VAE) inside the LLM chapter; and thin <strong>appendix pointers</strong> for <strong>reinforcement learning</strong> and <strong>federated / privacy-preserving</strong> recommendation — the framing and the key works, not a full course. The rest stays deliberately out of scope, with a one-line pointer where the path meets it rather than a chapter of its own: <strong>causal / counterfactual</strong> and <strong>context-aware / conversational</strong> recommendation, and <strong>knowledge-graph</strong>, <strong>multi-stakeholder</strong>, and large-scale <strong>MLOps</strong> settings. A focused ladder you can finish beats an encyclopedia you cannot.</p>
+<p>To stay deep where it matters, the book stays <strong>narrow on purpose</strong>. It is <strong>not</strong> a comprehensive textbook of AI and machine learning (ML): it leaves out computer vision (machines that interpret images) and general natural-language processing (machines that handle text), keeping only the <em>representation learning</em> — turning words and items into vectors — that recommenders actually use. Within recommendation it follows <strong>one through-line — collaborative filtering, from its classical form to graph- and LLM-based models</strong> — and sorts the rest of the field into three bins:</p>
+<ul>
+<li><strong>Covered in full</strong> — a part, a chapter or a full section each:
+<ul>
+<li><strong>sequential / session-based</strong> recommendation (Part IV; the models introduced above);</li>
+<li><strong>training and serving</strong> (Part VII): negative sampling (picking items a user did <em>not</em> click, for the model to rank below the ones they did), the training loop, and the retrieval-then-ranking funnel;</li>
+<li><strong>factorization machines</strong> (<em>Traditional Recommender Systems</em> §8): the bridge from matrix factorization to models that use many features of a user and an item;</li>
+<li><strong>deep click-through-rate models</strong> (Part VIII): <strong>Wide &amp; Deep</strong> (a linear part plus a deep network), <strong>DeepFM</strong> (a deep network plus a factorization machine) and the <strong>Deep &amp; Cross Network (DCN)</strong>, neural networks that learn which combinations of features predict a click — the workhorse of the ranking stage;</li>
+<li><strong>bandits</strong> (Part VIII): the explore–exploit balance — try something new, or show a proven favorite? — with the <strong>Upper Confidence Bound (UCB)</strong> rule and <strong>Thompson sampling</strong> as two ways to strike it;</li>
+<li><strong>generative recommendation</strong>, inside Part VI: the model <em>writes out</em> an item’s <strong>semantic ID</strong> (identifier), a short code in which similar items share a prefix, using codes learned by a network called an <strong>RQ-VAE</strong> (residual-quantized variational autoencoder);</li>
+<li><strong>bias, fairness and feedback loops</strong> (<em>Evaluation Metrics</em> §12): how skewed data, and a recommender’s own past picks, can tilt what it shows.</li>
+</ul></li>
+<li><strong>A short pointer appendix each</strong> — the framing and the key works, not a full course: <strong>reinforcement learning</strong> and <strong>federated / privacy-preserving</strong> recommendation (glossed with the appendices above).</li>
+<li><strong>Out of scope as fields of their own</strong> — where the book’s path crosses one of them, it teaches only the tool that step needs and points onward:
+<ul>
+<li><strong>causal / counterfactual</strong> recommendation: what <em>would</em> have happened had the system shown something else (met only through its first tools, such as <em>inverse propensity scoring</em>, which reweights each logged click by how unlikely it was to be shown: <em>Evaluation Metrics</em> §12.4, <em>Bandits &amp; Online Recommendation</em> §7);</li>
+<li><strong>context-aware</strong> recommendation, which uses the situation, such as time or place;</li>
+<li><strong>conversational</strong> recommendation, a dialogue with the user (met where an LLM holds the dialogue itself: <em>Large Language Models and Recommendation</em> §2.4);</li>
+<li><strong>knowledge-graph</strong> methods: a web of facts about items, such as who directed what;</li>
+<li><strong>multi-stakeholder</strong> settings: balancing users, sellers and the platform (met as fairness to the sellers and creators whose items are shown: <em>Evaluation Metrics</em> §12.5);</li>
+<li>large-scale <strong>machine-learning operations (MLOps)</strong>: keeping models running reliably in production.</li>
+</ul></li>
+</ul>
+<p>A focused ladder you can finish beats an encyclopedia you cannot.</p>
 <hr>
 </section>
 <section id="a-note-from-the-author" class="level2">
 <h2 class="anchored" data-anchor-id="a-note-from-the-author">A note from the author</h2>
-<p>My own road in began in <strong>2016</strong>, at the <strong>Kyushu Institute of Technology</strong> in Japan, where I worked on implementing computer-vision algorithms on <strong>Altera FPGA boards</strong>. I fell for the field completely — which was not a small decision. Before Japan I had spent years on <strong>fingerprint recognition</strong> and had real results to show for it; choosing AI/ML meant setting that hard-won expertise aside and starting over from zero, a genuinely risky move for someone about to begin a PhD.</p>
+<p>My own road in began in <strong>2016</strong>, at the <strong>Kyushu Institute of Technology</strong> in Japan, where I worked on implementing computer-vision algorithms on boards built around <strong>field-programmable gate arrays (FPGAs)</strong> — chips whose circuits can be reconfigured after they are made — from the chipmaker Altera. I fell completely for AI and machine learning, and switching to that field was not a small decision. Before Japan I had spent years on <strong>fingerprint recognition</strong> and had real results to show for it; choosing AI/ML meant setting that hard-won expertise aside and starting over from zero, a genuinely risky move for someone about to begin a PhD.</p>
 <p>I made the leap anyway. Back in Vietnam I pursued a <strong>PhD in AI/ML</strong>, straight into real difficulty. The material was not just <strong>scarce and scattered</strong> — it was often <strong>inconsistent</strong>, different sources using different notation and telling the same story in incompatible ways. Worse, the <strong>mathematical foundation was rarely explained with any intuition or worked example</strong>, so the symbols stayed opaque and the <em>why</em> went missing. And at that time few people around me knew the field or could support a direction this new and this challenging, so I learned largely <strong>alone</strong>, getting stuck for days on ideas that <em>felt</em> like they should be simple.</p>
 <p>But I was never entirely on my own. Beyond my formal PhD supervision, one person has been the steadiest champion of the whole journey — <strong>Tran Manh Hoang</strong>, the second author of this book. He has guided and encouraged me for <strong>more than fifteen years</strong> — ever since I stood up to present as a final-year undergraduate. He held no official title over my thesis; he simply never stopped pushing me to go further, and he opened doors I could never have opened myself, introducing me to close friends of his who are among the world’s leading AI researchers and practitioners. Their generosity, and his belief in me, changed what I thought was possible. That his name now stands beside mine on this cover is no formality: it marks a road we have walked together for a very long time.</p>
-<p>Whenever I found a blog, course, or paper that was genuinely <strong>intuitive</strong> — one that <em>made an idea visible</em> with a good picture, an honest worked example, or an explanation of <em>why</em> a thing was true rather than only <em>that</em> it was — I felt a small jolt of relief, and I saved it. Those rare finds did more than teach me; they <em>kept me going</em>. But the collection only grew, and the harder, quieter work became <strong>synthesizing</strong> those scattered gems into something coherent I could actually reuse, or relearn from later — a patience and dedication that, on a frustrating day, quietly tempts a capable learner to give up. A single clear diagram could dissolve a week of confusion; the lack of one could cost a month.</p>
-<p>This handbook is my attempt to be the resource I kept searching for — and to do that synthesis <em>for</em> the reader. I wrote it from two chairs at once: as a <strong>lecturer and researcher</strong> at the School of Electrical and Electronic Engineering, <strong>Hanoi University of Science and Technology (HUST)</strong>, where I care that nothing is hand-waved and a curious beginner can rebuild every claim; and as the <strong>AI lead at Minastik</strong>, where I care that it reaches what is <em>actually used in production today</em> — honestly, trade-offs and all. It puts the <strong>fundamentals and the newest trend</strong> on one <strong>consistent</strong>, unbroken staircase, and every chapter leads with intuition, decodes each formula symbol by symbol, and carries a number you can check by hand — because those are the things that once made the difference for me.</p>
+<p>Whenever I found a blog, course, or paper that was genuinely <strong>intuitive</strong> — one that <em>made an idea visible</em> with a good picture, an honest worked example, or an explanation of <em>why</em> a thing was true rather than only <em>that</em> it was — I felt a small jolt of relief, and I saved it. Those rare finds did more than teach me; they <em>kept me going</em>. But the collection only grew, and the harder, quieter work became <strong>synthesizing</strong> those scattered gems into something coherent I could actually reuse, or relearn from later — work that demands so much patience and dedication that, on a frustrating day, it quietly tempts even a capable learner to give up. A single clear diagram could dissolve a week of confusion; the lack of one could cost a month.</p>
+<p>This handbook is my attempt to be the resource I kept searching for — and to do that synthesis <em>for</em> the reader. I wrote it from two chairs at once: as a <strong>lecturer and researcher</strong> at the School of Electrical and Electronic Engineering, <strong>Hanoi University of Science and Technology (HUST)</strong>, where I care that nothing is hand-waved and a curious beginner can rebuild every claim; and as the <strong>Chief AI Officer at Minastik</strong>, where I care that it reaches what is <em>actually used in production today</em> — honestly, trade-offs and all. It puts the <strong>fundamentals and the newest trend</strong> on one <strong>consistent</strong>, unbroken staircase, and every chapter leads with intuition, decodes each formula symbol by symbol, and carries a number you can check by hand — because those are the things that once made the difference for me.</p>
 <p>It is, in short, the explanation I wish someone had handed me when I started.</p>
-<p>Welcome aboard. Turn the page and let’s build the first vector.</p>
+<p>Welcome aboard — let’s build the first vector.</p>
 <p><em>— Duong Tan Nghia, Hanoi · 2026</em></p>
+<hr>
+<p><em>This handbook in one sentence: from high-school algebra to LLM-augmented graph recommenders, one rung at a time, with every idea explained by intuition, every formula decoded, and every worked number checkable by hand.</em></p>
+<p><strong>Next:</strong> <em>Linear Algebra for Machine Learning</em> — Part I, the first rung: vectors, the dot product that scores almost everything to come, and its cousin the cosine similarity, which ignores the vectors’ lengths.</p>
 
 
 </section>
@@ -1177,8 +1250,8 @@ Figure&nbsp;2
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/linalg-foundations.html" class="pagination-link" aria-label="Linear Algebra for ML">
-        <span class="nav-page-text"><span class="chapter-title">Linear Algebra for ML</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapters/linalg-foundations.html" class="pagination-link" aria-label="Linear Algebra for Machine Learning">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1192,7 +1265,7 @@ Figure&nbsp;2
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

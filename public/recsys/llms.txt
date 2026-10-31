@@ -2,51 +2,56 @@
 
 > A free, hand-checkable, from-zero handbook on recommender systems: a vertical path from linear algebra and calculus through losses, neural networks and the Transformer, to graph- and LLM-based collaborative filtering (LightGCN, contrastive SSL, the spectral view, RLMRec), plus how to train and serve a recommender. Every worked example is reproducible by hand.
 
-Authors: Duong Tan Nghia (HUST · Minastik) and Tran Manh Hoang (HUST). Open access, CC BY 4.0. This is the web reading edition hosted by Minastik; the citable record (PDF + DOI) is on Zenodo (DOI 10.5281/zenodo.20952963). Mathematics is rendered with MathJax and every chapter carries small, hand-verifiable numerical examples.
+Authors: Duong Tan Nghia (HUST · Minastik) and Tran Manh Hoang (HUST). Open access, CC BY 4.0. This is the web reading edition of Version 2.0 (31 October 2026) hosted by Minastik; the citable record (PDF + DOI) is on Zenodo (DOI 10.5281/zenodo.20952962). Mathematics is rendered with MathJax and every chapter carries small, hand-verifiable numerical examples.
 
 - [Preface — start here](https://minastik.com/recsys/): how to read the book, what it assumes, the reading order.
 
 ## Mathematical foundations
-- [Linear Algebra for ML](https://minastik.com/recsys/chapters/linalg-foundations.html): Vectors, matrices, dot products and norms — the linear algebra recommenders are built on.
-- [Calculus for ML](https://minastik.com/recsys/chapters/calculus-foundations.html): Derivatives, gradients and the chain rule behind gradient descent.
-- [Probability & Statistics for ML](https://minastik.com/recsys/chapters/math-foundations.html): Probability, expectation and Bayesian updating from scratch.
+- [Linear Algebra for Machine Learning](https://minastik.com/recsys/chapters/linalg-foundations.html): Vectors, matrices, dot products and norms — the linear algebra recommenders are built on.
+- [Calculus for Machine Learning](https://minastik.com/recsys/chapters/calculus-foundations.html): Derivatives, gradients and the chain rule behind gradient descent.
+- [Probability & Statistics for Machine Learning](https://minastik.com/recsys/chapters/math-foundations.html): Probability, expectation, Bayes' rule, entropy and significance testing from scratch.
 
 ## Machine-learning fundamentals
-- [Loss Functions & Regularizers](https://minastik.com/recsys/chapters/losses-and-regularizers.html): Ranking losses and regularizers used to train recommenders.
+- [Loss Functions & Regularizers](https://minastik.com/recsys/chapters/losses-and-regularizers.html): Squared-error, cross-entropy, BPR and softmax losses and the regularizers used to train recommenders.
 - [Neural Networks & Back-propagation](https://minastik.com/recsys/chapters/neural-networks.html): From a single neuron to multilayer networks, backpropagation and embeddings.
 - [Representation Learning & the Transformer](https://minastik.com/recsys/chapters/nlp-and-transformers.html): Tokenization, attention and the Transformer architecture.
 
 ## Recommender-system foundations
 - [Traditional Recommender Systems](https://minastik.com/recsys/chapters/traditional-recsys.html): Content-based, neighborhood and matrix-factorization collaborative filtering.
-- [Evaluation Metrics](https://minastik.com/recsys/chapters/recsys-metrics.html): How recommendation quality is measured — Recall@K, NDCG, MAP and more.
+- [Evaluation Metrics](https://minastik.com/recsys/chapters/recsys-metrics.html): How recommendation quality is measured and compared — Recall@K, NDCG, significance tests, bias and fairness.
 
 ## Sequence-based recommenders
 - [Sequential & Session-Based Recommendation](https://minastik.com/recsys/chapters/sequential-recsys.html): Session- and sequence-based next-item recommendation.
 
 ## Graph-based recommenders
 - [From Graphs to LightGCN](https://minastik.com/recsys/chapters/gcn-to-lightgcn.html): Graph convolution networks simplified to LightGCN for collaborative filtering.
-- [SSL & Contrastive Learning](https://minastik.com/recsys/chapters/gcl-and-ssl-recsys.html): Graph contrastive learning and self-supervised signals for recommendation.
+- [Self-Supervised & Contrastive Learning](https://minastik.com/recsys/chapters/gcl-and-ssl-recsys.html): Graph contrastive learning and self-supervised signals for recommendation.
 - [The Spectral / Graph-Filter View](https://minastik.com/recsys/chapters/spectral-graph-filter-cf.html): The spectral / graph-signal-processing view of collaborative filtering.
 
 ## The LLM era
-- [LLM × RecSys: the Landscape](https://minastik.com/recsys/chapters/llm-recsys-survey.html): How large language models are used across the recommendation pipeline.
+- [Large Language Models and Recommendation: the Landscape](https://minastik.com/recsys/chapters/llm-recsys-survey.html): Four roles a large language model can play in a recommender, and what each costs and gains.
 
 ## Building a recommender
-- [Training and Serving a Recommender](https://minastik.com/recsys/chapters/training-and-serving.html): Training, evaluating and serving a recommender end to end.
+- [Training and Serving a Recommender](https://minastik.com/recsys/chapters/training-and-serving.html): Negative sampling, a training step, two-tower retrieval with an ANN index, and the retrieve-then-rank funnel.
 
 ## Frontiers
 - [Click-Through Rate Prediction & Feature Interactions](https://minastik.com/recsys/chapters/deep-ctr.html): Deep models for click-through-rate prediction.
 - [Bandits & Online Recommendation](https://minastik.com/recsys/chapters/bandits.html): Multi-armed and contextual bandits for online recommendation.
 
 ## Appendices
-- [Appendix A — Implementation Choices: A Practitioner’s Field Guide](https://minastik.com/recsys/chapters/implementation-choices.html): Practical implementation and reproducibility notes.
-- [Appendix B — Datasets & Benchmarks](https://minastik.com/recsys/chapters/datasets-and-benchmarks.html): Common datasets and benchmark / evaluation protocols.
-- [Appendix C — Generating Features with LLMs](https://minastik.com/recsys/chapters/llm-feature-generation.html): Using LLMs to generate user and item features.
+- [Appendix A — Implementation Choices: A Practitioner’s Field Guide](https://minastik.com/recsys/chapters/implementation-choices.html): Which embedding models, vector indexes, rerankers, frameworks and tools to use, and how to check dated claims.
+- [Appendix B — Datasets & Benchmarks](https://minastik.com/recsys/chapters/datasets-and-benchmarks.html): Public datasets, splits, k-core filtering and benchmark pitfalls.
+- [Appendix C — Generating Features with Large Language Models](https://minastik.com/recsys/chapters/llm-feature-generation.html): Using LLMs to generate user and item features.
 - [Appendix D — Reinforcement Learning for Recommendation](https://minastik.com/recsys/chapters/rl-recsys.html): Reinforcement-learning approaches to recommendation.
 - [Appendix E — Federated & Privacy-Preserving Recommendation](https://minastik.com/recsys/chapters/federated-recsys.html): Federated and privacy-preserving recommendation.
+
+## Reference matter
+- [Glossary](https://minastik.com/recsys/chapters/glossary.html): Every key term used in the book, defined alphabetically in one place.
+- [List of Symbols](https://minastik.com/recsys/chapters/notation.html): The symbols that recur across the book, grouped by where each is introduced.
 - [Appendix F — Solutions to Exercises](https://minastik.com/recsys/chapters/solutions.html): Worked solutions to the book's exercises.
+- [Acknowledgements](https://minastik.com/recsys/chapters/acknowledgements.html): The people who made the book possible.
+- [About the Authors](https://minastik.com/recsys/chapters/about-the-authors.html): The two authors, lecturers at the Hanoi University of Science and Technology.
 
 ## Reference and citation
-- [Glossary](https://minastik.com/recsys/chapters/glossary.html): every key term used in the book, defined alphabetically in one place.
-- [Download & cite — Zenodo record (DOI 10.5281/zenodo.20952963)](https://doi.org/10.5281/zenodo.20952963): canonical PDF and citation metadata. Cite the concept DOI; it resolves to the latest version.
+- [Download & cite — Zenodo record (DOI 10.5281/zenodo.20952962)](https://doi.org/10.5281/zenodo.20952962): canonical PDF and citation metadata. Cite the concept DOI; it resolves to the latest version.
 - License: Creative Commons Attribution 4.0 (CC BY 4.0) — free to read, share and adapt with attribution.

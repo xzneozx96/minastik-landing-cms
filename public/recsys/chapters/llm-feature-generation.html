@@ -8,7 +8,7 @@
 
 <meta name="description" content="Using large language models to generate user and item features and profiles that feed a recommender, with prompts and the pipeline explained.">
 
-<title>Appendix C — Generating Features with LLMs – Recommender Systems from Zero</title>
+<title>Appendix C — Generating Features with Large Language Models – Recommender Systems from Zero</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -159,21 +159,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -194,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/llm-feature-generation.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/llm-feature-generation.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix C — Generating Features with LLMs","name":"Appendix C — Generating Features with LLMs","description":"Using large language models to generate user and item features and profiles that feed a recommender, with prompts and the pipeline explained.","url":"https://minastik.com/recsys/chapters/llm-feature-generation.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix C — Generating Features with Large Language Models","name":"Appendix C — Generating Features with Large Language Models","description":"Using large language models to generate user and item features and profiles that feed a recommender, with prompts and the pipeline explained.","url":"https://minastik.com/recsys/chapters/llm-feature-generation.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -226,11 +227,11 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Appendix C — Generating Features with LLMs – Recommender Systems from Zero">
+<meta property="og:title" content="Appendix C — Generating Features with Large Language Models – Recommender Systems from Zero">
 <meta property="og:description" content="Using large language models to generate user and item features and profiles that feed a recommender, with prompts and the pipeline explained.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Appendix C — Generating Features with LLMs – Recommender Systems from Zero">
+<meta name="twitter:title" content="Appendix C — Generating Features with Large Language Models – Recommender Systems from Zero">
 <meta name="twitter:description" content="Using large language models to generate user and item features and profiles that feed a recommender, with prompts and the pipeline explained.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -285,7 +286,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/llm-feature-generation.html"><span class="chapter-title">Generating Features with LLMs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/llm-feature-generation.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -322,17 +323,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -348,17 +352,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -374,12 +381,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -395,7 +404,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -411,17 +421,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -429,7 +442,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -437,7 +450,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -453,7 +467,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -469,12 +484,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -490,27 +507,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -521,7 +543,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -548,7 +583,7 @@ window.Quarto = {
   <li><a href="#step-3-fuse-the-vector-into-the-backbone" id="toc-step-3-fuse-the-vector-into-the-backbone" class="nav-link" data-scroll-target="#step-3-fuse-the-vector-into-the-backbone">4. Step 3 — fuse the vector into the backbone</a></li>
   <li><a href="#the-harness-turning-prompts-into-a-pipeline" id="toc-the-harness-turning-prompts-into-a-pipeline" class="nav-link" data-scroll-target="#the-harness-turning-prompts-into-a-pipeline">5. The harness — turning prompts into a pipeline</a></li>
   <li><a href="#does-the-feature-actually-help" id="toc-does-the-feature-actually-help" class="nav-link" data-scroll-target="#does-the-feature-actually-help">6. Does the feature actually help?</a></li>
-  <li><a href="#where-this-leads-the-density-frontier" id="toc-where-this-leads-the-density-frontier" class="nav-link" data-scroll-target="#where-this-leads-the-density-frontier">7. Where this leads — the density frontier</a></li>
+  <li><a href="#where-this-leads-profile-density" id="toc-where-this-leads-profile-density" class="nav-link" data-scroll-target="#where-this-leads-profile-density">7. Where this leads: profile density</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">8. Glossary</a></li>
   <li><a href="#references-resources" id="toc-references-resources" class="nav-link" data-scroll-target="#references-resources">9. References &amp; resources</a></li>
   </ul>
@@ -557,9 +592,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/llm-feature-generation.html"><span class="chapter-title">Generating Features with LLMs</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/llm-feature-generation.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Appendix C — Generating Features with LLMs</h1>
+<h1 class="title">Appendix C — Generating Features with Large Language Models</h1>
 </div>
 
 
@@ -576,24 +611,38 @@ window.Quarto = {
 </header>
 
 
+<p>Chapter 13, <em>Large Language Models and Recommendation</em>, explained the <strong>enhancer</strong> role: keep a fast collaborative model on the serving path, and use a large language model (LLM) <strong>offline</strong> to manufacture the <em>semantic</em> signal that model lacks. This appendix is the <strong>hands-on counterpart</strong> — the actual prompt that writes a profile, the embed step that turns it into a vector, the way that vector is fused into the <strong>backbone</strong> (the collaborative model that serves; LightGCN here), and the <strong>engineering harness</strong> that makes it a pipeline rather than a demo.</p>
+<blockquote class="blockquote">
+<p><strong>What this is and isn’t.</strong> It is the <strong>RecSys-applied</strong> slice of LLM orchestration: using LLM calls to produce recommender features. It is <strong>not</strong> a general LLM-agent or prompt-engineering tutorial — for the broader roles (LLM-as-recommender, generative, agentic) see Chapter 13.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Recency note (read this).</strong> This is the <strong>fastest-moving material in the handbook</strong> — model names, context windows, prices, and the features of application programming interfaces (APIs), such as JavaScript Object Notation (JSON) mode and batch endpoints, change every few months. So the appendix teaches the <strong>shape that stays stable</strong> — <em>prompt → profile → embed → fuse → cache</em> — and points to <em>Implementation Choices</em> for the dated specifics. Treat every concrete model name or price as illustrative and <strong>re-verify before you build</strong>. The API examples reflect provider documentation dated June 2026.</p>
+</blockquote>
+<p>The appendix assumes:</p>
+<ul>
+<li><strong><em>Representation Learning &amp; the Transformer</em></strong> — what an LLM and a text <strong>embedding</strong> are; the frozen text encoder (one whose weights are not trained further here) is the thing we call.</li>
+<li><strong><em>Large Language Models and Recommendation</em></strong> §2.3 / §3 — the <em>enhancer</em> role and <strong>RLMRec</strong> (<em>Representation Learning with LLMs for Recommendation</em>; Ren et al., 2024: LLM writes a profile → embed → align); this appendix is a simplified version of that recipe, not a reproduction of the paper’s prompts (§2).</li>
+<li><strong><em>Self-Supervised &amp; Contrastive Learning</em></strong> §7 — the <strong>alignment</strong> mechanics, if you fuse by contrast.</li>
+<li><strong><em>Implementation Choices</em></strong> — <em>which</em> embedding model / LLM / vector store to actually pick.</li>
+</ul>
 <section id="the-recipe-in-one-place" class="level2">
 <h2 class="anchored" data-anchor-id="the-recipe-in-one-place">1. The recipe in one place</h2>
-<p>The whole enhancer pipeline is four offline steps and one serving fact:</p>
+<p>The whole enhancer pipeline is three offline steps and one serving fact, set out in the block below.</p>
 <pre><code>OFFLINE (run once, refresh on change):
   for each user and item:
     1. PROMPT  an LLM with its raw text  -&gt;  a short natural-language PROFILE
     2. EMBED   the profile string        -&gt;  a semantic VECTOR
-    3. FUSE    the vector into the CF backbone (concat as a feature, or align it)
+    3. FUSE    the vector into the backbone (concat as a feature, or align it)
 SERVING (per request):
-    4. the trained backbone scores + ranks as usual — the LLM is NEVER called here</code></pre>
-<p>The single most important property: <strong>the LLM runs offline, not at query time.</strong> You pay for it once per user/item (and again only when their text changes), so serving stays as cheap and fast as plain LightGCN — the <em>enhancer</em> bargain of <em>LLM × RecSys</em> §2.3. Everything below is how to do each step concretely and reliably.</p>
-<div id="fig-llm-feature-generation-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+    4. the trained backbone scores + ranks as usual; the LLM is NEVER called</code></pre>
+<p>The single most important property: <strong>the LLM runs offline, not at query time.</strong> You pay for it once per user/item (and again only when their text or the prompt changes), and no LLM is called at query time — the <em>enhancer</em> bargain of <em>Large Language Models and Recommendation</em> §2.3. What the serving model itself must carry depends on how you fuse the vector (§4). Everything below is how to do each step concretely and reliably. The model that ranks at serving time is the collaborative filtering (CF) backbone of the figure below.</p>
+<div id="fig-llm-feature-generation-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The enhancer pipeline. Steps 1–3 (offline) turn each user's and item's text into a semantic vector and fuse it into the collaborative backbone; only step 4 (serving) runs per request, and it never cal">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-feature-generation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/llm-feature-generation-1.svg" class="img-fluid figure-img">
+<img src="../figs/llm-feature-generation-1.svg" class="img-fluid figure-img" alt="The enhancer pipeline. Steps 1–3 (offline) turn each user's and item's text into a semantic vector and fuse it into the collaborative backbone; only step 4 (serving) runs per request, and it never cal">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-feature-generation-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;C.1: The enhancer pipeline. Steps 1–3 (<strong>offline</strong>) turn each user’s and item’s text into a semantic vector and fuse it into the collaborative backbone; only step 4 (<strong>serving</strong>) runs per request, and it never calls the LLM — so query-time cost is unchanged.
+Figure&nbsp;C.1: The enhancer pipeline. Steps 1–3 (<strong>offline</strong>) turn each user’s and item’s text into a semantic vector and fuse it into the collaborative backbone; only step 4 (<strong>serving</strong>) runs per request, and it never calls the LLM — so there is no LLM cost at query time (what the backbone itself carries depends on the fusion, §4).
 </figcaption>
 </figure>
 </div>
@@ -602,49 +651,67 @@ Figure&nbsp;C.1: The enhancer pipeline. Steps 1–3 (<strong>offline</strong>) t
 <section id="step-1-the-profile-prompt" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-the-profile-prompt">2. Step 1 — the profile prompt</h2>
 <p>The job: turn an item’s (or user’s) raw text into a <strong>short, structured profile</strong> the rest of the pipeline can embed. Two rules make this reliable.</p>
-<p><strong>Ask for a <em>short</em> profile, not a long essay.</strong> A 1–2 sentence profile + a few tags embeds into a <em>focused</em> vector; a long generation dilutes the signal and costs more tokens. <strong>Item</strong> prompt:</p>
+<p><strong>Ask for a <em>short</em> profile, not a long essay.</strong> A 1–2 sentence profile + a few tags embeds into a <em>focused</em> vector; a long generation tends to dilute the signal (common practice, not tested here) and costs more tokens (a token is a word piece, roughly three-quarters of an English word, and the unit an LLM is billed in). <strong>Item</strong> prompt:</p>
 <pre class="text"><code>System: You write concise taste profiles for a movie recommender.
-User: Given the item below, write a two-sentence profile capturing its themes, mood,
-and the kind of viewer who would love it. Then list 4 tags.
-Item: "Titanic" (1997) — genres: Romance, Drama; a period romance set on the doomed liner.</code></pre>
-<p><strong>Demand structured output.</strong> Free text is a parsing hazard; ask for <strong>JSON</strong> (most APIs have a “JSON mode” / schema-constrained decoding that <em>guarantees</em> parseable output):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"profile"</span><span class="fu">:</span> <span class="st">"A sweeping period romance set against disaster, emotionally driven and</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">character-first, with broad mainstream appeal. Best for viewers who love grand,</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">tear-jerking love stories more than plot mechanics."</span><span class="fu">,</span></span>
+User: Given the item below, write a two-sentence profile capturing its
+themes, mood, and the kind of viewer who would love it. Then list 4 tags.
+Item: "Titanic" (1997) — genres: Romance, Drama;
+  a period romance set on the doomed liner.</code></pre>
+<p><strong>Demand structured output.</strong> Free text is a parsing hazard; ask for <strong>JSON</strong>. Most APIs have a “JSON mode” / schema-constrained decoding that makes parseable output very likely (a reply cut off at the token limit can still fail, so §5 validates and retries):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"profile"</span><span class="fu">:</span> <span class="st">"A sweeping period romance set against disaster, emotionally</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">driven and character-first, with broad mainstream appeal. Best for viewers who</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">love grand, tear-jerking love stories more than plot mechanics."</span><span class="fu">,</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> <span class="dt">"tags"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"romance"</span><span class="ot">,</span> <span class="st">"period-drama"</span><span class="ot">,</span> <span class="st">"tragedy"</span><span class="ot">,</span> <span class="st">"mainstream"</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <strong>user</strong> profile is the same move over the user’s history:</p>
-<pre class="text"><code>User: Here is a user's rated history. Write a two-sentence taste profile and 5 tags, as JSON.
+<pre class="text"><code>User: Here is a user's rated history. Write a two-sentence taste profile
+  and 5 tags, as JSON.
 History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pre>
-<p>→ <code>{"profile": "Strongly prefers emotional, romance-driven films and musicals; lukewarm on action; values character and mood over spectacle.", "tags": ["romance","musical","drama","character-driven","low-action"]}</code></p>
-<p>That is the entire creative step. The profile is <strong>deterministic-enough</strong> (set a low temperature) and <strong>cheap</strong> (a few hundred tokens), and — crucially — it exists even for an item with <strong>zero interactions</strong>, which is the cold-start payoff (<em>From Graphs to LightGCN</em> §14: a pure-CF model has no vector for an unseen node; its <em>text</em> gives it one).</p>
+<p>The reply:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"profile"</span><span class="fu">:</span> <span class="st">"Strongly prefers emotional, romance-driven films and musicals.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">Lukewarm on action; values character and mood over spectacle."</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> <span class="dt">"tags"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"romance"</span><span class="ot">,</span> <span class="st">"musical"</span><span class="ot">,</span> <span class="st">"drama"</span><span class="ot">,</span> <span class="st">"character-driven"</span><span class="ot">,</span> <span class="st">"low-action"</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>These prompts simplify RLMRec’s: its item prompt returns a summary plus a short reasoning as JSON, and its user prompt reads the profiles and reviews of the user’s items, not raw ratings. A user with no history has no rated items to prompt on: a variant then runs over whatever text exists (a sign-up form, stated interests) as an ingestion job at sign-up, not a request-time call; with no text there is nothing to write a profile from.</p>
+<p>That is the entire creative step. The profile is <strong>deterministic-enough</strong> (a low sampling temperature, the setting that makes the model’s word choice less random, gives nearly the same words for the same input) and <strong>cheap</strong> (a few hundred tokens), and it exists even for an item with <strong>zero interactions</strong>, the cold-start payoff, the case of a user or item with no interactions yet (<em>From Graphs to LightGCN</em> §14: a pure-CF model has no vector for an unseen node; its <em>text</em> gives it one, and whether a model can use that vector is the fusion question of §4).</p>
 <hr>
 </section>
 <section id="step-2-profile-embedding" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-profile-embedding">3. Step 2 — profile → embedding</h2>
-<p>Encode each profile <strong>string</strong> into a fixed-length <strong>semantic vector</strong> with a frozen sentence-embedding model (<em>which</em> one is an <em>Implementation Choices</em> §2 question — a small, permissive embedder such as an e5 / BGE / Qwen-Embedding family model; <strong><span class="math inline">\(\ell_2\)</span>-normalize</strong> the output so dot product = cosine, as in <em>Training and Serving a Recommender</em> §7).</p>
-<p>The vectors now place <strong>similar tastes near each other</strong>, which is the whole point. Illustration (2-D, normalized, romance-vs-action axes): Ann’s romance-leaning profile embeds near <span class="math inline">\([0.9,0.1]\)</span>, a second romance-lover Bob near <span class="math inline">\([0.8,0.2]\)</span>, an action fan Cara near <span class="math inline">\([0.2,0.9]\)</span>. Then <span class="math display">\[
-\cos(\text{Ann},\text{Bob})=\frac{(0.9)(0.8)+(0.1)(0.2)}{\lVert\cdot\rVert\lVert\cdot\rVert}=0.99,
-\qquad
-\cos(\text{Ann},\text{Cara})=0.32 .
-\]</span> Ann and Bob land <strong>almost on top of each other</strong> from their <em>text alone</em> — even with <strong>no shared interactions</strong> — while the action fan is far. That is similarity a pure collaborative model could not see for a cold user.</p>
+<p>A profile is still text, and a ranking model can only do arithmetic on numbers. So encode each profile <strong>string</strong> into a fixed-length <strong>semantic vector</strong> with a frozen sentence-embedding model (frozen: used as released, not trained further; <em>which</em> one is an <em>Implementation Choices</em> §2 question — a small, permissively licensed embedder such as a model from the e5, BGE or Qwen-Embedding families of released text encoders; <strong><span class="math inline">\(\ell_2\)</span>-normalize</strong> the output so dot product = cosine, as in <em>Training and Serving a Recommender</em> §7).</p>
+<p>The vectors now place <strong>similar tastes near each other</strong>, which is the whole point. Illustration (2-D, <span class="math inline">\(\ell_2\)</span>-normalized, romance-vs-action axes): Ann’s romance-leaning profile embeds near <span class="math inline">\([0.994,0.110]\)</span>, a second romance lover <strong>Dave</strong> near <span class="math inline">\([0.970,0.243]\)</span>, and the action lover <strong>Cara</strong> near <span class="math inline">\([0.217,0.976]\)</span>. Because the vectors are unit length, the dot product <em>is</em> the cosine: <span class="math display">\[
+\begin{gathered}
+\cos(\text{Ann},\text{Dave})=(0.994)(0.970)+(0.110)(0.243)=0.99,\\[2pt]
+\cos(\text{Ann},\text{Cara})=(0.994)(0.217)+(0.110)(0.976)=0.32 .
+\end{gathered}
+\]</span> Ann and Dave land <strong>almost on top of each other</strong> from their <em>text alone</em> — and they share <strong>no interactions at all</strong> (Dave appears in no rating in this book) — while the action lover is far. Dave’s profile came from the interests he typed at sign-up, since the §2 recipe over rated history has nothing to read for him. That is similarity a pure collaborative model could not see for a cold user, and it exists only because Dave left some text: a cold user with no text stays cold.</p>
 <blockquote class="blockquote">
-<p><strong>These are <em>semantic</em>-space vectors, not the §5 MF factors.</strong> The embedding lives in the LLM encoder’s space, which is <strong>not</strong> the same as the backbone’s collaborative latent space. They must be <strong>aligned</strong> before they can help — which is step 3.</p>
+<p><strong>These are <em>semantic</em>-space vectors, not the matrix factorization (MF) factors of <em>Traditional Recommender Systems</em> §5.</strong> The embedding lives in the LLM encoder’s space, which is <strong>not</strong> the same as the backbone’s collaborative latent space. They have to be combined before a model can use both, which is what §4’s fusion step does — either by widening the CF model’s input (concat: stack the two vectors into one wider input, optionally after a learned adaptor as in KAR, the open-world knowledge-augmented recommendation framework of Xi et al., 2024) or by aligning the two spaces.</p>
 </blockquote>
 <hr>
 </section>
 <section id="step-3-fuse-the-vector-into-the-backbone" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-fuse-the-vector-into-the-backbone">4. Step 3 — fuse the vector into the backbone</h2>
-<p>Two standard ways to put the semantic vector to work; pick by how much you want to change the backbone.</p>
+<p>Each user and item now has two lists of numbers, one learned from clicks (Ann’s, Cara’s) and one read from its text, and the ranking model must use both. There are two standard ways to put the semantic vector to work; pick by how much you want to change the backbone.</p>
 <ul>
-<li><strong>Concatenate as a feature (simplest).</strong> Treat the semantic vector as extra input features alongside the ID — exactly the <strong>factorization-machine</strong> move of <em>Traditional RecSys</em> §8 (every feature gets to interact). No change to the CF model’s training objective; you just widen its input. Good first thing to try.</li>
-<li><strong>Align by contrast (RLMRec).</strong> Keep the collaborative embedding <span class="math inline">\(\mathbf e_i\)</span> and the semantic embedding <span class="math inline">\(\mathbf s_i\)</span> as <strong>two views of the same node</strong>, and add a contrastive term that <strong>pulls them together</strong> (InfoNCE) on top of the BPR loss — the cross-view alignment decoded in <em>SSL &amp; Contrastive Learning</em> §7 and <em>LLM × RecSys</em> §3. This <em>shapes</em> the collaborative space with semantics rather than just appending to it, and is the stronger (and more involved) option.</li>
+<li><strong>Concatenate as a feature (simplest; worked score below).</strong> Treat the semantic vector <span class="math inline">\(\mathbf s_i\)</span> (length <span class="math inline">\(d'\)</span>) as extra input features alongside the identifier (ID): the model’s input grows from the collaborative vector <span class="math inline">\(\mathbf e_i\)</span> (length <span class="math inline">\(d\)</span>) to the stacked <span class="math inline">\([\mathbf e_i;\mathbf s_i]\)</span> (length <span class="math inline">\(d+d'\)</span>). This is the feature-augmentation route of KAR (Xi et al., 2024), where a learned adaptor first maps the LLM’s vector into the recommendation space and shrinks it. No change to the training objective; you just widen the input. In a factorization machine (FM) or a multi-layer perceptron (MLP) scorer (<em>Traditional Recommender Systems</em> §8) the new features then interact with the others; in a plain dot-product model such as LightGCN they do not (below). It is the smaller change, so the usual first try (the table below compares the two).</li>
+<li><strong>Align by contrast (RLMRec).</strong> Keep the collaborative embedding <span class="math inline">\(\mathbf e_i\)</span> and the semantic embedding <span class="math inline">\(\mathbf s_i\)</span> as <strong>two views of the same node</strong> (a node is one user or one item) and train <span class="math inline">\(\mathbf e_i\)</span> so the two agree. RLMRec (Ren et al., 2024; its contrastive variant, RLMRec-Con; the generative RLMRec-Gen is not used) maps <span class="math inline">\(\mathbf s_i\)</span> into the collaborative space with a small neural network <span class="math inline">\(g\)</span> (the projection, written <span class="math inline">\(\sigma_\downarrow\)</span> in the <em>Self-Supervised &amp; Contrastive Learning</em> chapter: an MLP, needed because <span class="math inline">\(d'\)</span> and <span class="math inline">\(d\)</span> differ), measures agreement by cosine similarity, and adds one term <span class="math inline">\(\mathcal L_{\text{info}}\)</span> (an information noise-contrastive estimation (InfoNCE) term; <em>Self-Supervised &amp; Contrastive Learning</em> §7) to the recommender’s own loss <span class="math inline">\(\mathcal L_R\)</span> (Bayesian Personalized Ranking, BPR, for LightGCN): <span class="math display">\[
+\mathcal L=\mathcal L_R+\mathcal L_{\text{info}},\qquad
+\mathcal L_{\text{info}}=-\log\frac{\exp\!\big(\cos(g(\mathbf s_i),\mathbf e_i)\big)}
+{\sum_j\exp\!\big(\cos(g(\mathbf s_j),\mathbf e_i)\big)}
+\]</span> with <span class="math inline">\(\mathbf e_i\)</span> the collaborative vector, <span class="math inline">\(\mathbf s_i\)</span> the semantic vector, <span class="math inline">\(g\)</span> the learned map, <span class="math inline">\(\cos\)</span> the cosine, and <span class="math inline">\(j\)</span> running over the nodes of the batch (the group processed together in one training step).</li>
 </ul>
-<p>The decisive practical difference is <strong>what the serving path must carry</strong> — not whether the LLM runs (it never does at query time; both read <em>cached</em> vectors):</p>
+<p>The numerator of <span class="math inline">\(\mathcal L_{\text{info}}\)</span> is the <strong>pull</strong>: node <span class="math inline">\(i\)</span>’s own two views. The other nodes’ views <span class="math inline">\(g(\mathbf s_j)\)</span> in the denominator are the <strong>push</strong> (numbers in the worked term below). The paper writes no temperature, so the loss above has none (it is the case <span class="math inline">\(\tau=1\)</span>). A temperature <span class="math inline">\(\tau\)</span> is a number that divides every cosine inside the exponentials: a small <span class="math inline">\(\tau\)</span> sharpens the contrast between views and a large one flattens it; the <em>Self-Supervised &amp; Contrastive Learning</em> chapter, pointed to above, adds one. It is unrelated to the low sampling temperature of §2.</p>
+<p><strong>A worked concat score.</strong> For a dot-product scorer the stacked score splits into two separate sums, <span class="math inline">\([\mathbf e_u;\mathbf s_u]\cdot[\mathbf e_i;\mathbf s_i]=\mathbf e_u\!\cdot\!\mathbf e_i+\mathbf s_u\!\cdot\!\mathbf s_i\)</span>, with <span class="math inline">\(u\)</span> a user and <span class="math inline">\(i\)</span> an item. Take Ann (<span class="math inline">\(u\)</span>) with a trained collaborative vector <span class="math inline">\(\mathbf e_{\text{Ann}}=(0.9,0.2)\)</span> (the numbers the align example below reaches after training), against a romance item <span class="math inline">\(i\)</span> with <span class="math inline">\(\mathbf e_i=(0.5,0.1)\)</span> whose text embeds at the same point as Dave’s profile in §3, <span class="math inline">\(\mathbf s_i=(0.970,0.243)\)</span>. The collaborative part is <span class="math inline">\(0.45+0.02=0.47\)</span>, the semantic part is Ann’s <span class="math inline">\(\mathbf s_{\text{Ann}}=(0.994,0.110)\)</span> against the item’s <span class="math inline">\(\mathbf s_i\)</span>, <span class="math inline">\(0.99\)</span>, and the score is <span class="math inline">\(0.47+0.99=1.46\)</span>. No term multiplies a collaborative number by a semantic one: the two spaces add up and never meet.</p>
+<p>With a frozen <span class="math inline">\(\mathbf s\)</span> the <span class="math inline">\(0.99\)</span> is a fixed content score, which training cannot change; only a learned adaptor (KAR) or an FM or MLP scorer lets the model re-weigh it. One case is enough to show the split; the identity holds for any vectors under a dot-product scorer.</p>
+<p><strong>A worked align term, two nodes.</strong> Take the §3 vectors for Ann and Cara, with <span class="math inline">\(g\)</span> already trained so that <span class="math inline">\(g(\mathbf s_{\text{Ann}})=(0.994,0.110)\)</span> and <span class="math inline">\(g(\mathbf s_{\text{Cara}})=(0.217,0.976)\)</span>. Early in training Ann’s collaborative vector is <span class="math inline">\(\mathbf e_{\text{Ann}}=(0.3,0.9)\)</span>, which points toward Cara’s profile: its cosine is <span class="math inline">\(0.42\)</span> with her own and <span class="math inline">\(0.99\)</span> with Cara’s, so the term is <span class="math display">\[
+\mathcal L_{\text{info}}=-\log\frac{e^{0.42}}{e^{0.42}+e^{0.99}}=1.02 .
+\]</span></p>
+<p>After training moves it to <span class="math inline">\((0.9,0.2)\)</span> the two cosines swap (<span class="math inline">\(0.99\)</span> and <span class="math inline">\(0.42\)</span>) and the term falls to <span class="math inline">\(0.45\)</span>. Two points suffice here because only the cosines with her own and Cara’s profile change, and they swap; the term cannot reach <span class="math inline">\(0\)</span> while Cara’s view stays in the denominator. The loss pays for pulling <span class="math inline">\(\mathbf e_{\text{Ann}}\)</span> toward her own profile and for pushing it away from Cara’s; pulling alone is satisfied by mapping every node to the same vector, which the push rules out (if every node sat at one point, the term would be the log of the batch size, here <span class="math inline">\(\log 2=0.69\)</span>, worse than <span class="math inline">\(0.45\)</span>). This <em>shapes</em> the collaborative space with semantics rather than appending to it, and it is a training loss on <span class="math inline">\(\mathbf e_i\)</span> and <span class="math inline">\(g\)</span>, with no serving-time term.</p>
+<p>The decisive practical difference is <strong>what the serving path must carry</strong>, and what a <em>new</em> item gets — not whether the LLM runs (it never does at query time):</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 16%">
+<col style="width: 42%">
+<col style="width: 42%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -657,7 +724,7 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 <tr class="odd">
 <td>Training objective</td>
 <td>unchanged — just a wider input</td>
-<td>BPR loss + an InfoNCE align term (<em>SSL</em> §7)</td>
+<td>recommender loss + the contrastive term above (<em>Self-Supervised &amp; Contrastive Learning</em> §7)</td>
 </tr>
 <tr class="even">
 <td>Embedding dimension</td>
@@ -666,18 +733,24 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </tr>
 <tr class="odd">
 <td>Semantic vector <span class="math inline">\(\mathbf s_i\)</span> at serving</td>
-<td><strong>needed</strong> — stored, and concatenated into every score</td>
-<td><strong>not needed</strong> — <span class="math inline">\(\mathbf e_i\)</span> has absorbed it</td>
+<td><strong>needed</strong> — stored, and used in every score</td>
+<td><strong>not needed to score</strong> — <span class="math inline">\(\mathbf e_i\)</span> was trained to agree with it</td>
 </tr>
 <tr class="even">
+<td>A brand-new item</td>
+<td>has its <span class="math inline">\(\mathbf s_i\)</span> as soon as its text has been through steps 1–2 (a default until then), but its <span class="math inline">\(\mathbf e_i\)</span> half is still untrained (say zeros), so the score rests on <span class="math inline">\(\mathbf s_u\!\cdot\!\mathbf s_i\)</span> alone, a case training never saw by itself (not tested here)</td>
+<td>has <strong>no trained <span class="math inline">\(\mathbf e_i\)</span></strong> (no interactions to train it): score it with a fallback such as <span class="math inline">\(g(\mathbf s_i)\)</span> in place of <span class="math inline">\(\mathbf e_i\)</span> (a design choice the RLMRec paper does not describe), or retrain</td>
+</tr>
+<tr class="odd">
 <td>Reach for it when</td>
-<td>a quick win, or a feature-rich FM/CTR backbone</td>
-<td>the SOTA enhancer; keep the serving model lean</td>
+<td>the smaller change, or a feature-rich FM or click-through rate (CTR) backbone</td>
+<td>you want a lean serving model and the items already have interactions to train <span class="math inline">\(\mathbf e_i\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>That last row is the crux: concat keeps the semantic vector in the loop forever (a wider input, an extra table to store and join at scoring), whereas align lets the contrastive term <em>teach the collaborative space the semantics during training</em>, so at query time you ship the <strong>same <span class="math inline">\(d\)</span>-dim LightGCN</strong> with nothing extra on the serving path. That serving-side leanness is why <strong>align (RLMRec) is the modern default</strong>, and concat the quick first try.</p>
-<p>Either way the win is the same: the backbone gains a <strong>semantic prior</strong> that is strongest exactly where collaborative signal is weakest — new and long-tail items (<em>LLM × RecSys</em> §5).</p>
+<p>Concat keeps the semantic vector in the loop forever (a wider input, an extra table to store and join at scoring), whereas align lets the contrastive term <em>teach the collaborative space the semantics during training</em>, so at query time you ship the <strong>same <span class="math inline">\(d\)</span>-dim LightGCN</strong> (<em>From Graphs to LightGCN</em>; <span class="math inline">\(d\)</span> and <span class="math inline">\(d'\)</span> as defined in the two routes above) with nothing extra on the serving path — at the price that an item with no interactions yet has no trained vector.</p>
+<p>RLMRec compares itself with KAR, which feeds the semantic vector in as input features: the concat route in this appendix’s terms, though KAR itself uses a jointly trained adaptor, and the paper does not say whether its KAR baseline kept it. It reports align ahead, with relative gains in Recall@20 (the share of a user’s held-out liked items that appear in the top 20 of the list; <em>Evaluation Metrics</em> §4) over the base model on Amazon-book (<em>Datasets &amp; Benchmarks</em> §2): with LightGCN, <span class="math inline">\(+5.1\%\)</span> for RLMRec-Con, the align route, against <span class="math inline">\(+0.3\%\)</span> for KAR; with the self-supervised graph learning (SGL) backbone, <span class="math inline">\(+3.7\%\)</span> against <span class="math inline">\(-2.5\%\)</span> (Recall@20 <span class="math inline">\(0.1473\)</span> for the base model, <span class="math inline">\(0.1436\)</span> for KAR; its Table 2, as printed). That is one paper’s result on its datasets, so this appendix does not rank the routes in general.</p>
+<p>The shared benefit is a <strong>semantic prior</strong> (what the text says about a node before any clicks) that is expected to matter most where the collaborative signal is weakest, such as the long tail (the many items that each have few interactions). Take the romance item of the worked concat score above: its text alone, with no clicks, sits at cosine <span class="math inline">\(0.99\)</span> from Ann’s taste. That is an expectation, not a result: RLMRec’s stated motivation is sparse, noisy and biased implicit feedback, its paper reports no popularity breakdown (<em>Large Language Models and Recommendation</em> §3 and §5), and this appendix does not test it. For a brand-new item the two differ exactly as the table says.</p>
 <hr>
 </section>
 <section id="the-harness-turning-prompts-into-a-pipeline" class="level2">
@@ -685,19 +758,31 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 <p>A single prompt in a notebook is a demo. Generating profiles for <strong>millions</strong> of users and items, reliably and affordably, is an <strong>orchestration</strong> problem — the “harness” around the LLM call. The pieces that matter:</p>
 <ul>
 <li><strong>Versioned prompt templates.</strong> Keep the prompt in code as a parameterized, <strong>versioned</strong> template (not pasted strings). When you change the prompt, the profiles change — so the version is part of the cache key.</li>
-<li><strong>Structured output + validation.</strong> Request JSON, then <strong>validate against a schema</strong> and <strong>retry</strong> on a parse/validation failure (with a stricter reminder). Never let an unparseable generation enter the feature store.</li>
+<li><strong>Structured output + validation.</strong> Request JSON, then <strong>validate against a schema</strong> and <strong>retry</strong> on a parse/validation failure (with a stricter reminder). Never let an unparseable generation enter the feature store (the table described in the last bullet below).</li>
 <li><strong>Batching &amp; concurrency.</strong> Profiles are independent, so process them in <strong>batches</strong> (many items per request where the API allows) and with <strong>bounded concurrency</strong> (a worker pool), not one blocking call at a time. This is where the wall-clock lives.</li>
-<li><strong>Caching &amp; idempotency.</strong> Hash each input (the item text + the prompt version) and <strong>cache</strong> the profile; regenerate <strong>only</strong> when the input or prompt changes. A catalog is mostly static, so the steady-state cost is near zero — you generate once.</li>
-<li><strong>Cost &amp; rate limits.</strong> Budget up front: (number of users + items) × (tokens per profile) × (price per token). Because it is <strong>offline and one-time</strong>, this is a <em>batch</em> cost you can schedule on cheap/off-peak capacity — not a per-request tax (the enhancer advantage, <em>LLM × RecSys</em> §2.3).</li>
-<li><strong>An offline feature store.</strong> The output is a table: <code>id → (profile, vector, prompt_version, generated_at)</code>. The serving path reads vectors from this store and <strong>never calls the LLM</strong>; a scheduled job refreshes profiles for new or changed items.</li>
+<li><strong>Caching &amp; idempotency.</strong> Hash each input (the item text + the prompt version) and record the hash in a <strong>cache</strong> that indexes the stored profile; regenerate <strong>only</strong> when the input or prompt changes. A catalog is mostly static, so item profiles are generated once; a user’s history keeps growing, so user profiles need a <strong>refresh policy</strong> (say, regenerate after <span class="math inline">\(N\)</span> new interactions or weekly, whichever comes first — a design choice).</li>
+<li><strong>Cost &amp; rate limits.</strong> Budget up front: (number of users + items) × (tokens per profile, prompt plus reply) × (price per token). At an illustrative blended $0.50 per million tokens for prompt and reply together, 2 million users and items at an assumed 330 tokens each is <span class="math inline">\(660\)</span> million tokens, about $330 once; refreshing <span class="math inline">\(1\)</span> million active users weekly is <span class="math inline">\(330\)</span> million tokens, about $165 a week. The same 330 tokens spent at query time, for <span class="math inline">\(10\)</span> million requests a day, would be <span class="math inline">\(3.3\)</span> billion tokens, about $1,650 a day. So the 330 is an assumption and the budget a model, not a measurement.</li>
+<li><strong>What the budget leaves out.</strong> Three things would raise a real bill: a user’s history prompt is longer than <span class="math inline">\(330\)</span> tokens, replies are billed above prompts (a blended price hides the split), and the embedding step is billed on top. Because generation is <strong>offline and scheduled</strong>, it is a <em>batch</em> cost you can run on cheap/off-peak capacity — not a per-request tax (the enhancer advantage, <em>Large Language Models and Recommendation</em> §2.3).</li>
+<li><strong>An offline feature store.</strong> The output is a table: <code>id → (profile, vector, prompt_version, input_hash, generated_at)</code>. The serving path reads vectors from this store and <strong>never calls the LLM</strong>; a scheduled job refreshes profiles for new or changed items and users.</li>
 </ul>
-<pre class="text"><code>generate_profiles(items, prompt_v):
-  for batch in chunks(items, size=B):              # batching
-    todo = [x for x in batch if cache.miss(hash(x.text, prompt_v))]   # idempotency
-    outs = llm.batch(render(prompt_v, todo), json_schema=PROFILE)     # structured output
+<p>The loop below caches by hash, validates every reply, and stores only valid profiles, writing the store before the cache so that a crash leaves nothing cached that was not stored.</p>
+<pre class="text"><code>generate_profiles(items, prompt_v):     # B = items per LLM request
+  key(x) = hash(x.text, prompt_v)       # cache key: text + prompt version
+  for batch in chunks(items, size=B):   # batching
+    todo = [x for x in batch
+            if cache.miss(key(x))]      # idempotency
+    if not todo: continue               # all cached: no LLM call
+    outs = llm.batch(render(prompt_v, todo),
+                     json_schema=PROFILE)      # JSON shape of section 2
     for x, out in zip(todo, outs):
-      if not valid(out): out = retry(x, prompt_v)  # validate + retry
-      store.put(x.id, out.profile, embed(out.profile), prompt_v, now) # feature store</code></pre>
+      if not valid(out):
+        out = retry(x, prompt_v, max=2) # validate + bounded retry
+      if not valid(out):
+        log_and_skip(x); continue       # never store a failed profile
+      store.put(x.id, out.profile, embed(out.profile),
+                prompt_v, key(x), now)  # upsert: safe to repeat
+      cache.put(key(x))                 # key index over the store
+# skipped items stay uncached: the next run retries them</code></pre>
 <p>That loop — <em>batch, skip-cached, structured-call, validate, embed, store</em> — is the difference between “I tried a prompt” and “I have a feature pipeline.”</p>
 <hr>
 </section>
@@ -705,29 +790,30 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 <h2 class="anchored" data-anchor-id="does-the-feature-actually-help">6. Does the feature actually help?</h2>
 <p>Generating a profile is easy; <strong>proving it helps</strong> is the discipline. Two checks, both from <em>Evaluation Metrics</em>:</p>
 <ul>
-<li><strong>Ablate.</strong> Train the backbone <strong>with and without</strong> the LLM feature on the <em>same</em> protocol (full-ranking NDCG@K / Recall@K, mean ± std over seeds, a significance test — <em>Evaluation Metrics</em> §11). The honest question is the <em>delta</em>, not the headline.</li>
-<li><strong>Stratify by popularity.</strong> Report the gain on <strong>head vs.&nbsp;tail</strong> items separately (<em>Evaluation Metrics</em> §12.6). The semantic feature should help <strong>most on the cold tail</strong>; if the only lift is on the head, the profiles are adding little the collaborative signal didn’t already have.</li>
+<li><strong>Ablate.</strong> Train the backbone <strong>with and without</strong> the LLM feature on the <em>same</em> protocol (full-ranking NDCG@K (normalized discounted cumulative gain) / Recall@K, mean ± std over seeds, a significance test — <em>Evaluation Metrics</em> §11). The question is the <em>delta</em>, not the headline.</li>
+<li><strong>Stratify by popularity.</strong> Report the gain on <strong>head vs.&nbsp;tail</strong> items (the few most-interacted items against the many rarely-interacted ones) separately (<em>Evaluation Metrics</em> §12.6). The semantic feature should help <strong>most on the cold tail</strong> (expected, not tested here); if the only lift is on the head, the profiles are adding little the collaborative signal didn’t already have.</li>
 </ul>
 <p><strong>A worked ablation.</strong> Train two <em>identical</em> backbones — same LightGCN, same dimension, same five seeds — differing <strong>only</strong> in whether the semantic feature is fused. Say NDCG@10 comes out:</p>
 <ul>
 <li><em>no feature:</em> <span class="math inline">\(0.28,\,0.30,\,0.29,\,0.31,\,0.32\)</span> <span class="math inline">\(\to\)</span> mean <span class="math inline">\(\mathbf{0.300}\)</span></li>
 <li><em>+ LLM feature:</em> <span class="math inline">\(0.30,\,0.31,\,0.32,\,0.33,\,0.34\)</span> <span class="math inline">\(\to\)</span> mean <span class="math inline">\(\mathbf{0.320}\)</span></li>
 </ul>
-<p>The headline gap is <span class="math inline">\(+0.020\)</span> — but the honest test is <strong>paired</strong>, because the two runs share seeds: the per-seed deltas are <span class="math inline">\([+0.02,+0.01,+0.03,+0.02,+0.02]\)</span>, mean <span class="math inline">\(\bar d=0.020\)</span>, sample std <span class="math inline">\(0.00707\)</span>, so <span class="math inline">\(\text{SE}=0.00707/\sqrt5=0.00316\)</span> and the paired-<span class="math inline">\(t\)</span> (<em>Evaluation Metrics</em> §11d) is <span class="math inline">\(t=0.020/0.00316=6.3\)</span> on <span class="math inline">\(4\)</span> d.f., giving <span class="math inline">\(p=0.003\)</span> — comfortably under <span class="math inline">\(0.05\)</span>. The feature <strong>really</strong> helps. Had the per-seed deltas straddled zero, the <em>same</em> test would have returned <span class="math inline">\(p&gt;0.05\)</span>, and the honest report would be <strong>no significant gain</strong> — profile or not.</p>
-<p>And the honest caveat from <em>LLM × RecSys</em> §2.3: a <strong>low-quality or poorly aligned</strong> profile can <em>hurt</em>. The pipeline is only as good as the profiles and the alignment — measure, don’t assume.</p>
+<p>The headline gap is <span class="math inline">\(+0.020\)</span>, but the right test is <strong>paired</strong>, because the two runs share seeds: the per-seed deltas are <span class="math inline">\([+0.02,+0.01,+0.03,+0.02,+0.02]\)</span>, mean <span class="math inline">\(\bar d=0.020\)</span>, sample std <span class="math inline">\(0.00707\)</span>, so the standard error (SE) is <span class="math inline">\(0.00707/\sqrt5=0.00316\)</span> and the paired-<span class="math inline">\(t\)</span> (<em>Evaluation Metrics</em> §11d) is <span class="math display">\[t=\frac{0.020}{0.00316}=6.3\]</span> on <span class="math inline">\(4\)</span> degrees of freedom (d.f.), giving a two-sided <span class="math inline">\(p=0.003\)</span> (the five seeds treated as independent runs) — comfortably under <span class="math inline">\(0.05\)</span>. The gain is larger than the seed-to-seed noise on this protocol (an unpaired, pooled-variance two-sided <span class="math inline">\(t\)</span>-test on the same ten numbers gives <span class="math inline">\(t=2.0\)</span> on <span class="math inline">\(8\)</span> d.f., <span class="math inline">\(p=0.08\)</span>, because it ignores that each seed moved both runs together). Had the per-seed deltas been <span class="math inline">\([+0.04,+0.03,+0.02,+0.02,-0.01]\)</span> — the same mean, one seed worse — the <em>same</em> test gives <span class="math inline">\(t=2.4\)</span>, <span class="math inline">\(p=0.075\)</span>, and the correct report would be <strong>no significant gain</strong>: on these five seeds the feature cannot be told apart from noise.</p>
+<p>And the caveat from <em>Large Language Models and Recommendation</em> §2.3: a <strong>misaligned</strong> profile can <em>hurt</em>. RLMRec’s authors report that shuffling the profile vectors between nodes lowers performance (<em>Self-Supervised &amp; Contrastive Learning</em> §7), and KAR’s <span class="math inline">\(-2.5\%\)</span> (<span class="math inline">\(0.1473\to0.1436\)</span>) on the SGL backbone (§4) shows a semantic input ending below the base model; the paper’s only comment on KAR’s weaker results is a hedged guess that input features “may not effectively align” the text with behaviour and are “more susceptible to irrelevant noise”, which it does not test. That a merely poor profile hurts is plausible but not tested here. The pipeline is only as good as the profiles and the alignment — measure, don’t assume.</p>
 <hr>
 </section>
-<section id="where-this-leads-the-density-frontier" class="level2">
-<h2 class="anchored" data-anchor-id="where-this-leads-the-density-frontier">7. Where this leads — the density frontier</h2>
-<p>This appendix used <strong>one short profile per node</strong>. The open research question is <em>how rich and how faithful</em> that generated signal should be: longer multi-aspect profiles, several profiles per node, profiles distilled from reviews or knowledge, and <strong>how densely</strong> to generate them against cost — and, just as much, how to <strong>align</strong> that signal so it helps rather than drowns the collaborative structure. That density-and-alignment question is exactly the frontier <em>LLM × RecSys</em> §5 names as the most defensible LLM-for-RecSys contribution. The pipeline here is the on-ramp; how far to push its <strong>density and quality</strong> is live research.</p>
+<section id="where-this-leads-profile-density" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-leads-profile-density">7. Where this leads: profile density</h2>
+<p>This appendix used <strong>one short profile per node</strong>. Here <strong>density</strong> means how many profiles each user or item gets, counted here simply as profiles per node: this appendix has density 1, and a variant with 3 profiles per user triples the user-side generation, from <span class="math inline">\(330\)</span> million to <span class="math inline">\(990\)</span> million tokens per weekly refresh of §5’s 1 million users.</p>
+<p>The open research question, as this appendix reads it, is <em>how rich and how faithful</em> that generated signal should be: longer multi-aspect profiles, several profiles per node, profiles distilled from reviews or knowledge, how densely to generate them against cost, and, just as much, how to <strong>align</strong> that signal so it helps rather than drowns the collaborative structure. <em>Large Language Models and Recommendation</em> §5 asks two nearby questions for the enhancer line, whether the semantic view aligns with real collaborative structure and whether thin-data items gain most, and lists both as open. Profile coverage and profile accuracy are this appendix’s own reading, not questions §5 names. The pipeline here is the on-ramp; how far to push density and quality is live research.</p>
 <hr>
 </section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">8. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -736,6 +822,14 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td><strong>Backbone</strong></td>
+<td>The collaborative model that scores at serving time (LightGCN here; <em>From Graphs to LightGCN</em>), the one the LLM feature is fused into.</td>
+</tr>
+<tr class="even">
+<td><strong>Adaptor</strong></td>
+<td>A small trained network that maps the LLM’s vector into the recommender’s space and shrinks it, as in KAR (§4).</td>
+</tr>
 <tr class="odd">
 <td><strong>Profile</strong></td>
 <td>A short LLM-written description of a user’s taste or an item’s character, used as input to an embedder.</td>
@@ -750,7 +844,7 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </tr>
 <tr class="even">
 <td><strong>Structured output / JSON mode</strong></td>
-<td>Forcing the LLM to emit schema-valid JSON, so the result is reliably parseable.</td>
+<td>Forcing the LLM to emit schema-valid JSON, so the result is very likely parseable (§5 still validates).</td>
 </tr>
 <tr class="odd">
 <td><strong>Harness / orchestration</strong></td>
@@ -758,7 +852,7 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </tr>
 <tr class="even">
 <td><strong>Idempotency</strong></td>
-<td>Re-running the pipeline on unchanged input does no new work (hash → cache hit), so you generate each profile once.</td>
+<td>Re-running the pipeline on unchanged input does no new work (hash → cache hit), so a profile is regenerated only when its input or the prompt version changes.</td>
 </tr>
 <tr class="odd">
 <td><strong>Feature store</strong></td>
@@ -766,7 +860,19 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </tr>
 <tr class="even">
 <td><strong>Alignment</strong></td>
-<td>Pulling a node’s semantic vector and collaborative vector together (contrastive, <em>SSL &amp; Contrastive Learning</em> §7) so the two spaces agree.</td>
+<td>Pulling a node’s semantic vector and collaborative vector together (contrastive, <em>Self-Supervised &amp; Contrastive Learning</em> §7) so the two spaces agree.</td>
+</tr>
+<tr class="odd">
+<td><strong>Contrastive (InfoNCE) term</strong></td>
+<td>Added to the recommender’s loss: it <em>pulls</em> a node’s collaborative and projected semantic vectors together (the numerator) and <em>pushes</em> its collaborative vector away from other nodes’ semantic vectors (the denominator).</td>
+</tr>
+<tr class="even">
+<td><strong>Projection <span class="math inline">\(g\)</span></strong></td>
+<td>The small network that maps the semantic vector into the collaborative space so the two can be compared (§4).</td>
+</tr>
+<tr class="odd">
+<td><strong>Concat (early fusion)</strong></td>
+<td>Append the LLM feature vector to the ID embedding — the quick first try, at the cost of a fatter serving vector. A frozen vector adds a fixed content score; only an adaptor or an FM or MLP scorer lets the model re-weigh it (§4).</td>
 </tr>
 </tbody>
 </table>
@@ -774,13 +880,13 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 </section>
 <section id="references-resources" class="level2">
 <h2 class="anchored" data-anchor-id="references-resources">9. References &amp; resources</h2>
-<p><strong>Papers (the enhancer line — full citations in <em>LLM × RecSys</em>).</strong></p>
+<p><strong>Papers (the enhancer line — full citations in <em>Large Language Models and Recommendation</em>).</strong></p>
 <ul>
-<li>Ren, X., et al.&nbsp;(2024). <em>Representation learning with large language models for recommendation</em> (RLMRec). <em>WWW ’24</em>. arXiv:2310.15950 — the LLM-writes-a-profile → embed → <strong>align</strong> recipe this appendix operationalizes.</li>
-<li>Xi, Y., et al.&nbsp;(2024). <em>Towards open-world recommendation with knowledge augmentation from large language models</em> (KAR). <em>RecSys ’24</em>. arXiv:2306.10933 — LLM-generated reasoning/knowledge fused through an adapter (the <em>concatenate-as-feature</em> fusion).</li>
+<li>Ren, X., Wei, W., Xia, L., Su, L., Cheng, S., Wang, J., Yin, D., &amp; Huang, C. (2024). <em>Representation learning with large language models for recommendation</em> (RLMRec). <em>WWW ’24</em>. arXiv:2310.15950 — the LLM-writes-a-profile → embed → <strong>align</strong> recipe this appendix operationalizes. https://doi.org/10.1145/3589334.3645458</li>
+<li>Xi, Y., Liu, W., Lin, J., Cai, X., Zhu, H., Zhu, J., Chen, B., Tang, R., Zhang, W., &amp; Yu, Y. (2024). <em>Towards open-world recommendation with knowledge augmentation from large language models</em> (KAR). <em>RecSys ’24</em>, 12–22. arXiv:2306.10933 — LLM-generated reasoning/knowledge condensed by an adaptor into vectors that join the other input features (the <em>concat-style</em> fusion). https://doi.org/10.1145/3640457.3688104</li>
 </ul>
-<p><strong>Tools (dated — see <em>Implementation Choices</em> for the current picks).</strong> Embedding models (§2: e5 / BGE / Qwen-Embedding families), vector stores and the normalize→inner-product trick (§3), and small permissive LLMs for offline feature generation (§4) all live in that appendix, with mid-2026 benchmarks and the license gate.</p>
-<p><em>Online sources verified June 2026; treat all model names, prices, and API features as illustrative and re-verify before building.</em></p>
+<p><strong>Tools (dated — see <em>Implementation Choices</em> for the current picks).</strong> Embedding models (<em>Implementation Choices</em> §2: e5 / BGE / Qwen-Embedding families), vector stores and the normalize→inner-product trick (<em>Implementation Choices</em> §3), and small permissive LLMs for offline feature generation (<em>Implementation Choices</em> §4) all live in that appendix, with its dated benchmarks and the license gate.</p>
+<p><em>Provider documentation (JSON mode, batch endpoints, prices) dates from June 2026; treat all model names, prices, and API features as illustrative and re-verify before building.</em></p>
 
 
 </section>
@@ -1194,12 +1300,12 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/datasets-and-benchmarks.html" class="pagination-link" aria-label="Datasets &amp; Benchmarks">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Datasets &amp; Benchmarks</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/rl-recsys.html" class="pagination-link" aria-label="Reinforcement Learning for Recommendation">
-        <span class="nav-page-text"><span class="chapter-title">Reinforcement Learning for Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1213,7 +1319,7 @@ History: Titanic (5), The Notebook (5), La La Land (4), Die Hard (2).</code></pr
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

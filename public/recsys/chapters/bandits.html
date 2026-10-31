@@ -8,7 +8,7 @@
 
 <meta name="description" content="Learning online from feedback: multi-armed and contextual bandits, exploration versus exploitation, and how they drive online recommendation.">
 
-<title>Bandits &amp; Online Recommendation – Recommender Systems from Zero</title>
+<title>16&nbsp; Bandits &amp; Online Recommendation – Recommender Systems from Zero</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,21 +124,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -159,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/bandits.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/bandits.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Bandits & Online Recommendation","name":"Bandits & Online Recommendation","description":"Learning online from feedback: multi-armed and contextual bandits, exploration versus exploitation, and how they drive online recommendation.","url":"https://minastik.com/recsys/chapters/bandits.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"16  Bandits & Online Recommendation","name":"16  Bandits & Online Recommendation","description":"Learning online from feedback: multi-armed and contextual bandits, exploration versus exploitation, and how they drive online recommendation.","url":"https://minastik.com/recsys/chapters/bandits.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -191,11 +192,11 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Bandits &amp; Online Recommendation – Recommender Systems from Zero">
+<meta property="og:title" content="16&nbsp; Bandits &amp; Online Recommendation – Recommender Systems from Zero">
 <meta property="og:description" content="Learning online from feedback: multi-armed and contextual bandits, exploration versus exploitation, and how they drive online recommendation.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
-<meta name="twitter:title" content="Bandits &amp; Online Recommendation – Recommender Systems from Zero">
+<meta name="twitter:title" content="16&nbsp; Bandits &amp; Online Recommendation – Recommender Systems from Zero">
 <meta name="twitter:description" content="Learning online from feedback: multi-armed and contextual bandits, exploration versus exploitation, and how they drive online recommendation.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -250,7 +251,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/bandits.html"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/bandits.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,17 +288,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,17 +317,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,12 +346,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +369,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,17 +386,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -394,7 +407,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -402,7 +415,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,7 +432,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -434,12 +449,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -455,27 +472,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -486,7 +508,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -514,8 +549,8 @@ window.Quarto = {
   <li><a href="#thompson-sampling-the-bayesian-balance" id="toc-thompson-sampling-the-bayesian-balance" class="nav-link" data-scroll-target="#thompson-sampling-the-bayesian-balance">5. Thompson sampling: the Bayesian balance</a></li>
   <li><a href="#contextual-bandits-when-the-best-arm-depends-on-who-is-asking" id="toc-contextual-bandits-when-the-best-arm-depends-on-who-is-asking" class="nav-link" data-scroll-target="#contextual-bandits-when-the-best-arm-depends-on-who-is-asking">6. Contextual bandits: when the best arm depends on who is asking</a></li>
   <li><a href="#bandits-in-recommendation" id="toc-bandits-in-recommendation" class="nav-link" data-scroll-target="#bandits-in-recommendation">7. Bandits in recommendation</a></li>
-  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">8. Where this fits in the book</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">9. Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">8. Exercises</a></li>
+  <li><a href="#where-this-fits-in-the-book" id="toc-where-this-fits-in-the-book" class="nav-link" data-scroll-target="#where-this-fits-in-the-book">9. Where this fits in the book</a></li>
   <li><a href="#glossary" id="toc-glossary" class="nav-link" data-scroll-target="#glossary">10. Glossary</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">11. References</a></li>
   </ul>
@@ -524,9 +559,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/bandits.html"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/deep-ctr.html">Frontiers</a></li><li class="breadcrumb-item"><a href="../chapters/bandits.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Bandits &amp; Online Recommendation</span></h1>
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></h1>
 </div>
 
 
@@ -543,133 +578,397 @@ window.Quarto = {
 </header>
 
 
+<p>Every model so far learned from a fixed log, and how that log was collected was not part of the model. A live recommender does not get a dataset handed to it: it creates its own, because it only ever learns about the films it chose to show. Should Ann’s film site keep showing what it believes she likes, or risk a film it knows nothing about? This chapter builds the classic answers to that one trade-off, from zero: the multi-armed bandit, then three strategies, ε-greedy, Upper Confidence Bound (UCB) and Thompson sampling, and finally contextual bandits, which turn the whole thing into <em>online click-through rate (CTR) prediction with exploration</em>.</p>
+<p><strong>What this chapter assumes.</strong> Basic <strong>probability</strong>: a <strong>Bernoulli trial</strong> is one try with two outcomes (here click or no click) whose chance is an unknown number <span class="math inline">\(\mu\)</span>; expectation (the average over many tries); and the <strong>Beta</strong> distribution as a “distribution over a probability” (the Probability primer, §2). It also assumes the <strong>click / CTR</strong> label (<em>Click-Through Rate Prediction &amp; Feature Interactions</em> §1).</p>
+<p>Section 5 also uses the idea of adding up a curve’s heights (an integral), taken on trust where it appears. Section 6 uses vectors and matrices: the transpose <span class="math inline">\(\mathbf x^{\top}\)</span> (a column turned into a row), a matrix times a vector, the outer product, the identity and the inverse (<em>Linear Algebra for Machine Learning</em> §§1–3 and §6). The chapter connects to the <strong>feedback-loop</strong> caution of <em>Evaluation Metrics</em> §12 and is the one-step special case of reinforcement learning, which Appendix D (<em>Reinforcement Learning for Recommendation</em>) takes up. This is the second <strong>Frontiers</strong> chapter: calibrated depth, not a full course on bandit theory.</p>
 <section id="the-online-setting-bandit-feedback-and-the-exploreexploit-trade-off" class="level2">
 <h2 class="anchored" data-anchor-id="the-online-setting-bandit-feedback-and-the-exploreexploit-trade-off">1. The online setting: bandit feedback and the explore–exploit trade-off</h2>
-<p>The CTR chapter trained on a frozen log: a fixed table of impressions, each already labelled clicked / not-clicked. A live system is different in one decisive way — it runs in a <strong>loop</strong>, and at every step it must <strong>act</strong>:</p>
-<p><span class="math display">\[
+<p>Ann opens the film site and is shown Titanic, which she loves. Next week it shows her Titanic again, and the week after. Is the site right to repeat what works, or should it risk a film it knows nothing about? This section names that dilemma and the kind of feedback that causes it.</p>
+<p>The click-through rate (CTR) chapter trained on a frozen log: a fixed table of impressions (each time a film was shown to a viewer), each already labeled clicked / not-clicked. A live system is different in one decisive way: it runs in a <strong>loop</strong>, and at every step it must <strong>act</strong>: <span class="math display">\[
 \text{round } t:\quad \text{choose an item } a_t \;\to\; \text{show it} \;\to\; \text{observe reward } r_t\ (\text{click}=1) \;\to\; \text{update}.
 \]</span></p>
-<p>The catch is in the third arrow: you observe the reward <strong>only for the item you chose</strong> — never the counterfactual “what if I’d shown a different one?”. This is <strong>bandit feedback</strong> (the name comes from a <strong>slot machine</strong>, a <em>“one-armed bandit”</em>; a row of machines with unknown payouts is a <strong>multi-armed bandit</strong>, and pulling a lever = showing an item). It creates a tension absent from supervised learning:</p>
+<p>The catch is in the third arrow: you observe the reward <strong>only for the item you chose</strong>, never the counterfactual “what if I’d shown a different one?”. Show Ann the Matrix and you learn about the Matrix, and <strong>nothing</strong> about Titanic or Vendetta. This is <strong>bandit feedback</strong>. The name comes from the <strong>slot machine</strong>, a <em>“one-armed bandit”</em>: a row of machines with unknown payouts is a <strong>multi-armed bandit</strong>, and pulling a lever means showing an item. Supervised learning has no counterpart to what this feedback forces on the site, a choice between exploiting and exploring, set out below.</p>
 <ul>
-<li><strong>Exploit</strong> — show the item with the highest <em>estimated</em> reward so far. Safe, but if your estimates are wrong you never find out.</li>
-<li><strong>Explore</strong> — show an item you are <em>unsure</em> about, to improve your estimate. Costly now (it may flop), but it is the only way to discover a better item.</li>
+<li><strong>Exploit</strong> (Titanic again): show the item with the highest <em>estimated</em> reward so far. Safe, but if your estimates are wrong you never find out.</li>
+<li><strong>Explore</strong> (Vendetta): show an item you are <em>unsure</em> about, to improve your estimate. Costly now (it may flop), but it is the only way to discover a better item.</li>
 </ul>
-<p>This is not a corner case — it is the heart of three everyday recommendation problems: <strong>cold-start</strong> (a brand-new item has <em>no</em> data; only exploration gets it any), the <strong>feedback loop</strong> (a model that only ever exploits its current beliefs keeps showing the same items, so the data it collects confirms those beliefs — the rich-get-richer trap flagged in <em>Evaluation Metrics</em> §12), and simply <strong>non-stationarity</strong> (tastes drift, so yesterday’s best item must be re-checked). A good bandit algorithm is just a principled rule for <em>how much to explore, and which uncertain arm to try</em>.</p>
+<p>This is not a corner case. It is the heart of three everyday recommendation problems:</p>
+<ul>
+<li><strong>Cold-start.</strong> A brand-new item has no interactions, so a model that learns only from past clicks has no evidence about it. Item features can give a first guess (<em>Traditional Recommender Systems</em> §7), but only showing the item produces evidence about how people actually respond.</li>
+<li><strong>The feedback loop.</strong> A model that only ever exploits its current beliefs keeps showing the same items, so the data it collects confirms those beliefs: the rich-get-richer trap flagged in <em>Evaluation Metrics</em> §12.</li>
+<li><strong>Non-stationarity.</strong> Tastes drift over time, so yesterday’s best item must be re-checked: a film that converts at <span class="math inline">\(10\%\)</span> in January may convert at <span class="math inline">\(4\%\)</span> in June, and an average over both months describes neither.</li>
+</ul>
+<p>A good bandit algorithm is just a principled rule for <em>how much to explore, and which uncertain arm to try</em>.</p>
+<p><strong>In one line:</strong> showing one of our <span class="math inline">\(3\)</span> films reveals one click or no-click for just <span class="math inline">\(1\)</span> of them (a third of the picture, and far less in a real catalogue), so the site must trade repeating what it believes against trying what it does not know.</p>
 <hr>
 </section>
 <section id="the-multi-armed-bandit-and-regret" class="level2">
 <h2 class="anchored" data-anchor-id="the-multi-armed-bandit-and-regret">2. The multi-armed bandit and regret</h2>
-<p>Strip the problem to its core. There are <span class="math inline">\(K\)</span> <strong>arms</strong> (items). Each arm <span class="math inline">\(i\)</span> pays a reward drawn from an unknown distribution with unknown mean <span class="math inline">\(\mu_i\)</span> (think: arm <span class="math inline">\(i\)</span>’s true CTR). At each round you pull one arm and see its reward. Your goal over <span class="math inline">\(T\)</span> rounds is to <strong>maximize total reward</strong> — equivalently, to <strong>minimize regret</strong>.</p>
-<p><strong>Regret</strong> is the price of not knowing the best arm in advance: the reward you <em>would</em> have collected by always pulling the best arm, minus what you actually collected.</p>
+<p>Tonight the site can show Ann one of two films and cannot know in advance which she will click. Every wrong guess costs a click that the right guess would have earned. This section turns that cost into one number and counts it on a small example. The problem of choosing among arms in sequence was set out by Thompson (1933), and Robbins (1952) gave an early statement of it.</p>
+<p>Strip the problem to its core. There are <span class="math inline">\(K\)</span> <strong>arms</strong> (items): in the example below <span class="math inline">\(K=2\)</span>, the films Matrix and Titanic. Each pull of arm <span class="math inline">\(i\)</span> is a Bernoulli trial: a click or no click, with an unknown click chance <span class="math inline">\(\mu_i\)</span> (the arm’s true CTR, also its mean reward). At each round you pull one arm and see its reward. The rule that chooses the arm each round, using everything seen so far, is called a <strong>policy</strong> (a plan of action; “always pull the arm with more clicks so far” is one policy). Your goal over <span class="math inline">\(T\)</span> rounds is to <strong>maximize total reward</strong>, which is the same as to <strong>minimize regret</strong>.</p>
+<p><strong>Regret</strong> is the price of not knowing the best arm in advance, the “what might have been” of hindsight: the reward you would <em>on average</em> have collected by always pulling the best arm, minus what your policy on average collected.</p>
 <p><span class="math display">\[
 \text{Regret}(T) \;=\; \underbrace{T\,\mu^{*}}_{\text{always pull the best}} \;-\; \sum_{t=1}^{T}\mu_{a_t}
 \;=\; \sum_{t=1}^{T}\big(\mu^{*}-\mu_{a_t}\big),
 \]</span></p>
-<p>where <span class="math inline">\(\mu^{*}=\max_i \mu_i\)</span> is the best arm’s mean and <span class="math inline">\(a_t\)</span> is the arm you pulled at round <span class="math inline">\(t\)</span>. Every round you pull a sub-optimal arm, you add its <strong>gap</strong> <span class="math inline">\(\mu^{*}-\mu_i\)</span> to the regret. The whole game is to keep regret small — and the deep result of the field is that the <em>unavoidable</em> regret of any good algorithm grows only <strong>logarithmically</strong> in <span class="math inline">\(T\)</span> (you must keep exploring, but ever less often).</p>
-<p><strong>Why “logarithmic” — the shape of the bound.</strong> A good algorithm pulls a sub-optimal arm <span class="math inline">\(i\)</span> only about <span class="math inline">\(\ln T/\Delta_i^{2}\)</span> times (with gap <span class="math inline">\(\Delta_i=\mu^{*}-\mu_i\)</span>), so total regret grows like <span class="math inline">\(\sum_i \ln T/\Delta_i\)</span>. Read it two ways: the <span class="math inline">\(\ln T\)</span> is <em>why</em> exploration thins out as evidence accrues, and the <span class="math inline">\(1/\Delta_i\)</span> says a <strong>smaller gap is harder to detect</strong>, so a close-but-worse arm costs more pulls to rule out. (Intuition, not a proof — the bound is the classic UCB1 result of Lattimore &amp; Szepesvári.)</p>
-<p><strong>Worked example — regret by hand.</strong> Two arms: the best, “Matrix,” has <span class="math inline">\(\mu^{*}=0.6\)</span>; a worse one, “Comedy,” has <span class="math inline">\(\mu=0.3\)</span>, so its gap is <span class="math inline">\(0.6-0.3=0.3\)</span>. Suppose over a run your algorithm pulled Comedy <strong>3 times</strong> (and Matrix the rest). The regret contributed by those three pulls is <span class="math display">\[
+<p>where <span class="math inline">\(\mu^{*}=\max_i \mu_i\)</span> is the best arm’s mean and <span class="math inline">\(a_t\)</span> is the arm you pulled at round <span class="math inline">\(t\)</span>. The formula uses the arms’ <em>means</em>, so it counts the expected loss and not the luck of single clicks. Every round you pull a sub-optimal arm, you add its <strong>gap</strong> <span class="math inline">\(\Delta_i=\mu^{*}-\mu_i\)</span> to the regret.</p>
+<p><strong>Worked example: regret by hand.</strong> Two arms: the best, “Matrix,” has <span class="math inline">\(\mu^{*}=0.6\)</span>; a worse one, “Titanic,” has <span class="math inline">\(\mu=0.3\)</span>, so its gap is <span class="math inline">\(0.6-0.3=0.3\)</span>. (Here an arm’s click chance is the site-wide chance over many visitors, not one viewer’s taste.) Suppose over a run your policy pulled Titanic <strong>3 times</strong> (and Matrix the rest). The regret contributed by those three pulls is <span class="math display">\[
 3 \times (0.6 - 0.3) = \mathbf{0.9}.
-\]</span> That is <span class="math inline">\(0.9\)</span> clicks given up, in expectation, for the three explorations of the worse arm. A good algorithm makes those three pulls <em>buy</em> enough certainty that it then exploits Matrix for the remaining rounds — paying a small, bounded exploration cost to avoid a large one.</p>
+\]</span> That is <span class="math inline">\(0.9\)</span> clicks given up, in expectation, for three explorations of the worse arm.</p>
+<p><strong>How fast should regret grow?</strong> The best known policies keep growing, but slowly: the growth is <strong>logarithmic</strong>. Here <span class="math inline">\(\ln\)</span> is the natural logarithm, which grows slowly: <span class="math inline">\(\ln 100=4.6\)</span> and <span class="math inline">\(\ln 10{,}000=9.2\)</span>, so a hundred times more rounds only doubles it.</p>
+<p>Upper Confidence Bound 1 (UCB1), the rule built in §4 that adds a bonus to arms it has tried few times, pulls a sub-optimal arm only about <span class="math inline">\(\ln T/\Delta_i^{2}\)</span> times up to a constant factor, so its total regret grows like <span class="math inline">\(\sum_i \ln T/\Delta_i\)</span> (Auer, Cesa-Bianchi &amp; Fischer, 2002; the constants are theirs, not derived here). In this shape <span class="math inline">\(\ln T\)</span> says exploration thins out as evidence accrues, and <span class="math inline">\(1/\Delta_i\)</span> says a <strong>smaller gap is harder to detect</strong>, so a close-but-worse arm costs more pulls to rule out.</p>
+<p><em>Theory; a first reading can skip to the table below.</em> Can any policy do better than logarithmic growth? Not if it is <em>consistent</em>, meaning that on every bandit of the class (here <span class="math inline">\(K\)</span> arms with Bernoulli click rewards) its regret grows more slowly than any power <span class="math inline">\(T^{c}\)</span> with <span class="math inline">\(c&gt;0\)</span>. A tiny case: ε-greedy (defined just below) has regret <span class="math inline">\(0.015\,T\)</span> on the game above, which grows like <span class="math inline">\(T^{1}\)</span>, so it is not consistent; <span class="math inline">\(\ln T\)</span> grows more slowly than any <span class="math inline">\(T^{c}\)</span>. For consistent policies the regret must still grow at least logarithmically in <span class="math inline">\(T\)</span>. This is the lower bound of Lai and Robbins (1985). Lattimore and Szepesvári (2020) state it as Theorem 16.2 in their Chapter 16, for any class of arms whose distributions can be chosen independently of one another, Bernoulli click arms included; we use the result and do not prove it.</p>
+<p>A policy that never stops exploring at a fixed rate is not consistent, and its regret grows like <span class="math inline">\(T\)</span> itself. The simplest such policy is <strong>ε-greedy</strong>, built in §3: with probability <span class="math inline">\(\varepsilon\)</span> (here <span class="math inline">\(0.1\)</span>) pull a random arm, otherwise the arm with the best average so far; until each arm has been pulled once it picks at random, since an arm with no pulls has no average. The table sets it against UCB1 (built in §4: pull the arm whose average plus an uncertainty bonus is largest) on the game above, both breaking a tie between equal averages in favour of the first-listed arm, Matrix (the other tie rule is given below).</p>
+<p>Thompson sampling (§5) is not in the table, and the chapter makes no log-growth claim for it. The “seed 16” in its caption is the starting value that fixes the computer’s random draws, so the printed digits are those of one run.</p>
+<div id="tbl-bandits-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bandits-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.1: Average regret of two policies on the two-arm game above (<span class="math inline">\(\mu=0.6\)</span> and <span class="math inline">\(0.3\)</span>), over a batch of 200 simulated games, each game one play of the <span class="math inline">\(T\)</span> rounds (simulation, seed 16).
+</figcaption>
+<div aria-describedby="tbl-bandits-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Rounds <span class="math inline">\(T\)</span></th>
+<th style="text-align: right;">ε-greedy (<span class="math inline">\(\varepsilon=0.1\)</span>)</th>
+<th style="text-align: right;">UCB1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">4.2</td>
+<td style="text-align: right;">6.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">18.2</td>
+<td style="text-align: right;">23.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10,000</td>
+<td style="text-align: right;">152.7</td>
+<td style="text-align: right;">47.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Read the growth per tenfold more rounds, from the same batch of <span class="math inline">\(200\)</span> games. For ε-greedy divide the averages (<span class="math inline">\(18.2/4.2\)</span> and <span class="math inline">\(152.7/18.2\)</span>); for UCB1 subtract them (<span class="math inline">\(23.4-6.9\)</span> and <span class="math inline">\(47.2-23.4\)</span>); the entries are computed before rounding, as the table below shows.</p>
+<div id="tbl-bandits-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bandits-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.2: How regret grows with each tenfold increase in rounds, for the two rules (simulation, seed 16).
+</figcaption>
+<div aria-describedby="tbl-bandits-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">ε-greedy: regret multiplied by</th>
+<th style="text-align: right;">UCB1: regret added</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(100\to1{,}000\)</span></td>
+<td style="text-align: right;">4.3</td>
+<td style="text-align: right;">16.6</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1{,}000\to10{,}000\)</span></td>
+<td style="text-align: right;">8.4</td>
+<td style="text-align: right;">23.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Two tenfold steps show the trend: a straight line multiplies the regret by <span class="math inline">\(10\)</span> at each step, while <span class="math inline">\(\ln T\)</span> adds the same amount at each step. ε-greedy heads for the factor <span class="math inline">\(10\)</span> of straight-line growth. The formula <span class="math inline">\(\varepsilon\cdot\tfrac{K-1}{K}\cdot\Delta\cdot T\)</span> (derived in §3, where its value per round is worked out) gives <span class="math inline">\(1.5\)</span>, <span class="math inline">\(15\)</span> and <span class="math inline">\(150\)</span> at the three horizons, and the simulated <span class="math inline">\(4.2\)</span>, <span class="math inline">\(18.2\)</span> and <span class="math inline">\(152.7\)</span> sit above it early on. UCB1 instead <em>adds</em> an amount of the same order per tenfold, the signature of <span class="math inline">\(\ln T\)</span> (the “Does exploration stop?” paragraph below shows it more cleanly). The careful-reader box below accounts for the early excess and checks longer runs.</p>
+<p>The early rows are not a win for UCB1: at <span class="math inline">\(T=100\)</span> and <span class="math inline">\(T=1{,}000\)</span> it has lost more clicks than ε-greedy, because exploring carefully costs something up front. It pays off only later. In the same batch of <span class="math inline">\(200\)</span> games UCB1 is still behind at <span class="math inline">\(T=1{,}500\)</span> (<span class="math inline">\(27.5\)</span> against <span class="math inline">\(25.6\)</span> for ε-greedy) and ahead at <span class="math inline">\(T=2{,}000\)</span> (<span class="math inline">\(30.5\)</span> against <span class="math inline">\(33.1\)</span>). A larger check of <span class="math inline">\(50{,}000\)</span> games per rule (seed 16) puts the crossing near <span class="math inline">\(1{,}700\)</span> rounds (the simulation detail is in the careful-reader box below).</p>
+<p><strong>Does exploration stop?</strong> No.&nbsp;Over a batch of <span class="math inline">\(20\)</span> simulated games of UCB1 (seed 16) the worse arm was pulled <span class="math inline">\(76\)</span>, <span class="math inline">\(147\)</span> and <span class="math inline">\(213\)</span> times by <span class="math inline">\(T=1{,}000\)</span>, <span class="math inline">\(10{,}000\)</span> and <span class="math inline">\(100{,}000\)</span>. Regret is <span class="math inline">\(0.3\)</span> per worse-arm pull, so these games lose about <span class="math inline">\(23\)</span>, <span class="math inline">\(44\)</span> and <span class="math inline">\(64\)</span> clicks: roughly <span class="math inline">\(21\)</span> and then <span class="math inline">\(20\)</span> more per tenfold step, constant as <span class="math inline">\(\ln T\)</span> predicts (with only <span class="math inline">\(20\)</span> games a rough guide, not a match for the <span class="math inline">\(200\)</span>-game table). The count keeps growing, by about <span class="math inline">\(70\)</span> for each tenfold more rounds, but as a <em>share</em> of all rounds it falls from <span class="math inline">\(7.6\%\)</span> to <span class="math inline">\(1.5\%\)</span> to <span class="math inline">\(0.2\%\)</span>. That is what “exploration thins out” means. It never reaches zero, and a good policy makes each further pull of a worse arm rarer.</p>
+<p><strong>In one line:</strong> each pull of a worse arm costs its gap (<span class="math inline">\(3\times0.3=0.9\)</span> clicks), and a good policy’s total regret grows like <span class="math inline">\(\ln T\)</span> while a fixed-rate explorer’s grows like <span class="math inline">\(T\)</span>: by <span class="math inline">\(10{,}000\)</span> rounds, <span class="math inline">\(152.7\)</span> clicks lost against <span class="math inline">\(47.2\)</span>.</p>
+<p><strong>For the careful reader: how the simulations were run.</strong> Four notes sit behind the tables above. The printed digits are those of one seeded run, and another generator gives the same picture within the sampling error stated here.</p>
+<ul>
+<li><strong>The early excess.</strong> The first pulls of ε-greedy, made before any arm has an average, cost about <span class="math inline">\(0.45\)</span> in all (the table’s rule picks at random until both arms have been pulled: three rounds on average, <span class="math inline">\(0.15\)</span> each). That is little of the <span class="math inline">\(2.7\)</span> clicks by which <span class="math inline">\(4.2\)</span> exceeds <span class="math inline">\(1.5\)</span> at <span class="math inline">\(T=100\)</span>; the rest is probably early greedy mistakes, when a lucky click on the worse arm is believed (a likely cause that this run does not isolate; §3 counts how often a game starts that way).</li>
+<li><strong>A longer run.</strong> A separate run of <span class="math inline">\(20\)</span> games (seed 16) to <span class="math inline">\(100{,}000\)</span> rounds gives <span class="math inline">\(1{,}502\)</span> for ε-greedy, close to the formula’s <span class="math inline">\(1{,}500\)</span>.</li>
+<li><strong>Another random generator.</strong> A rerun agrees with the printed digits within sampling error, not to the last digit. The crossing is <span class="math inline">\(1{,}675\)</span> rounds with the rule of the table and <span class="math inline">\(1{,}727\)</span> if ε-greedy makes its first pulls in order as UCB1 does, with a sampling error of about <span class="math inline">\(6\)</span> rounds (one <strong>standard error</strong>: the typical amount the estimate would move if the whole check were run again).</li>
+<li><strong>Two conventions.</strong> UCB1’s <span class="math inline">\(t\)</span> is the number of the current round, one more than the pulls so far that §4 counts, which changes its regret by less than <span class="math inline">\(0.1\)</span>. And with equal averages broken at random instead of to the first-listed arm, ε-greedy loses a little more (in a batch of <span class="math inline">\(300{,}000\)</span> games about <span class="math inline">\(4.9\)</span> at <span class="math inline">\(T=100\)</span> and <span class="math inline">\(19.3\)</span> at <span class="math inline">\(T=1{,}000\)</span>, against about <span class="math inline">\(4.1\)</span> and <span class="math inline">\(18.2\)</span> with the table’s tie rule in the same batch of <span class="math inline">\(300{,}000\)</span> games), and the crossing moves down to about <span class="math inline">\(1{,}560\)</span>.</li>
+</ul>
 <hr>
 </section>
 <section id="ε-greedy-the-simplest-balance" class="level2">
 <h2 class="anchored" data-anchor-id="ε-greedy-the-simplest-balance">3. ε-greedy: the simplest balance</h2>
-<p>The crudest workable rule keeps a running <strong>empirical mean</strong> <span class="math inline">\(\hat\mu_i\)</span> for each arm (its clicks divided by its pulls) and flips a biased coin every round:</p>
+<p>Always showing Ann’s current favourite fails when the first click was luck: one lucky click on Vendetta could make the site show it forever, while Titanic is never tried again. The cheapest repair is to leave a small slice of evenings to chance. This section builds that rule and counts what the slice costs.</p>
+<p>The crudest workable rule keeps a running <strong>empirical mean</strong> <span class="math inline">\(\hat\mu_i\)</span> for each arm (its clicks divided by its pulls, so <span class="math inline">\(2\)</span> clicks in <span class="math inline">\(3\)</span> pulls give <span class="math inline">\(0.667\)</span>; an arm with no pulls has no mean yet, since <span class="math inline">\(0\)</span> clicks over <span class="math inline">\(0\)</span> pulls is undefined) and flips a biased coin every round:</p>
 <ul>
-<li>with probability <span class="math inline">\(1-\varepsilon\)</span>, <strong>exploit</strong>: pull <span class="math inline">\(\arg\max_i \hat\mu_i\)</span>;</li>
+<li>with probability <span class="math inline">\(1-\varepsilon\)</span>, <strong>exploit</strong>: pull <span class="math inline">\(\arg\max_i \hat\mu_i\)</span>, that is, the arm <span class="math inline">\(i\)</span> whose estimate <span class="math inline">\(\hat\mu_i\)</span> is largest;</li>
 <li>with probability <span class="math inline">\(\varepsilon\)</span>, <strong>explore</strong>: pull a <strong>uniformly random</strong> arm.</li>
 </ul>
-<p>The single knob <span class="math inline">\(\varepsilon\in[0,1]\)</span> (“epsilon,” the standard symbol for a small quantity) sets the explore rate. The name is exact: <em>greedy</em> means “take the best-looking option,” and the <span class="math inline">\(\varepsilon\)</span> is the small slice of the time you <em>don’t</em>.</p>
-<p><strong>Worked example — selection probabilities.</strong> With <span class="math inline">\(K=2\)</span> arms and <span class="math inline">\(\varepsilon=0.1\)</span>, the best arm is pulled when you exploit (prob <span class="math inline">\(1-\varepsilon=0.9\)</span>) <em>or</em> when you explore and the coin happens to land on it (prob <span class="math inline">\(\varepsilon\cdot\tfrac1K=0.1\cdot0.5=0.05\)</span>): <span class="math display">\[
+<p>The single knob <span class="math inline">\(\varepsilon\in[0,1]\)</span> (“epsilon,” the standard symbol for a small quantity) sets the explore rate. The name is exact: <em>greedy</em> means “take the best-looking option,” and the <span class="math inline">\(\varepsilon\)</span> is the small slice of the time you <em>don’t</em>. The rule is old and has no single source that this chapter cites.</p>
+<p><strong>Worked example: selection probabilities.</strong> With <span class="math inline">\(K=2\)</span> arms and <span class="math inline">\(\varepsilon=0.1\)</span>, the best arm is pulled when you exploit (prob <span class="math inline">\(1-\varepsilon=0.9\)</span>) <em>or</em> when you explore and the coin happens to land on it (prob <span class="math inline">\(\varepsilon\cdot\tfrac1K=0.1\cdot0.5=0.05\)</span>): <span class="math display">\[
 P(\text{best}) = 1-\varepsilon+\tfrac{\varepsilon}{K} = 0.9+0.05 = \mathbf{0.95},\qquad
 P(\text{other}) = \tfrac{\varepsilon}{K} = \mathbf{0.05}.
-\]</span> Simple and surprisingly hard to beat — but with two flaws you can read straight off the rule: it explores <strong>forever</strong> at rate <span class="math inline">\(\varepsilon\)</span> even once an arm is obviously best (wasteful), and when it explores it picks <strong>uniformly</strong>, wasting pulls on arms already known to be bad instead of on the genuinely <em>uncertain</em> ones. The next two methods fix exactly those.</p>
-<p><strong>The cost of exploring, as a number.</strong> That “forever” is not free: with <span class="math inline">\(K\)</span> arms, ε-greedy spends <span class="math inline">\(\varepsilon\cdot\frac{K-1}{K}\)</span> of <em>all</em> traffic on known-inferior arms permanently — at <span class="math inline">\(\varepsilon=0.1,\ K=10\)</span> that is <span class="math inline">\(0.1\times\frac{9}{10}=9\%\)</span> of impressions, forever. UCB and Thompson sampling (next) explore <em>adaptively</em>, so their exploration <strong>decays</strong> toward zero as certainty grows — which is exactly the logarithmic-regret behaviour of §2, and why production systems prefer them to a fixed <span class="math inline">\(\varepsilon\)</span>.</p>
+\]</span> Simple, and a fixed-<span class="math inline">\(\varepsilon\)</span> rule is often a strong baseline in practice (a claim from practice, not tested here). But it has two flaws you can read straight off the rule: it explores <strong>forever</strong> at rate <span class="math inline">\(\varepsilon\)</span> even once an arm is obviously best (wasteful), and when it explores it picks <strong>uniformly</strong>, wasting pulls on arms already known to be bad instead of on the genuinely <em>uncertain</em> ones. The next two methods fix exactly those.</p>
+<p><strong>The cost of exploring, as a number.</strong> That “forever” is not free. With <span class="math inline">\(K\)</span> arms, ε-greedy spends <span class="math inline">\(\varepsilon\cdot\frac{K-1}{K}\)</span> of <em>all</em> traffic on known-inferior arms permanently. At <span class="math inline">\(\varepsilon=0.1,\ K=10\)</span> that is <span class="math inline">\(0.1\times\frac{9}{10}=9\%\)</span> of impressions, forever, and it is why the ε-greedy column of the regret table in §2 grows like a straight line: on the two-arm game there (<span class="math inline">\(\Delta=0.3\)</span>) each round costs <span class="math inline">\(\varepsilon\cdot\frac12\cdot0.3=0.015\)</span> clicks, so <span class="math inline">\(T\)</span> rounds cost <span class="math inline">\(0.015\,T\)</span>.</p>
+<p><strong>The knob at its ends.</strong> At <span class="math inline">\(\varepsilon=0\)</span> the rule never explores: in <span class="math inline">\(2{,}000\)</span> games of <span class="math inline">\(2{,}000\)</span> rounds each (seed 16, <span class="math inline">\(\mu=0.6\)</span> and <span class="math inline">\(0.3\)</span>) it ended up pulling the <em>worse</em> arm more often in <span class="math inline">\(14.5\%\)</span> of them, locked in by an unlucky first click (about <span class="math inline">\(20.5\%\)</span> if equal averages are tied at random rather than to the better arm). The unlucky start is easy to count by hand: Matrix’s first pull misses (chance <span class="math inline">\(0.4\)</span>) and Titanic’s first pull clicks (<span class="math inline">\(0.3\)</span>), so <span class="math inline">\(0.4\times0.3=0.12\)</span>, or <span class="math inline">\(12\%\)</span> of games, begin with the worse arm looking better, a little below the measured <span class="math inline">\(14.5\%\)</span>, which also counts later early misses.</p>
+<p>At <span class="math inline">\(\varepsilon=1\)</span> every pull is random and each round costs half the gap, <span class="math inline">\(0.5\times0.3\)</span> clicks, ten times the cost per round at <span class="math inline">\(\varepsilon=0.1\)</span>. The useful values lie in between, and the next two methods avoid the choice. Upper Confidence Bound (UCB) and Thompson sampling (next) explore <em>adaptively</em>, so their exploration <strong>decays</strong> as certainty grows, which is what lets UCB1’s regret grow only like <span class="math inline">\(\ln T\)</span> (Auer et al., as in §2; this chapter makes no such claim for Thompson sampling). Many production systems prefer adaptive rules to a fixed <span class="math inline">\(\varepsilon\)</span> (a claim from practice, not tested here).</p>
+<p><strong>In one line:</strong> with <span class="math inline">\(K=2\)</span> and <span class="math inline">\(\varepsilon=0.1\)</span> the best arm is pulled with probability <span class="math inline">\(0.95\)</span> each round, and at <span class="math inline">\(K=10\)</span> the rule wastes <span class="math inline">\(9\%\)</span> of all impressions forever.</p>
 <hr>
 </section>
 <section id="ucb-optimism-under-uncertainty" class="level2">
 <h2 class="anchored" data-anchor-id="ucb-optimism-under-uncertainty">4. UCB: optimism under uncertainty</h2>
+<p>A fixed slice of chance wastes evenings on films the site already knows are weak, and spends them evenly even when one film has barely been tried. Suppose Titanic has been shown once and Matrix three times: which deserves the next try? This section builds a rule that answers by how little the site knows.</p>
 <p><strong>Upper Confidence Bound (UCB)</strong> replaces the coin flip with a principle: <strong>be optimistic about arms you are unsure of.</strong> Score each arm by its empirical mean <em>plus a bonus</em> that is large when the arm has been tried few times, and pull the highest score. The classic <strong>UCB1</strong> rule is</p>
 <p><span class="math display">\[
 \text{UCB}_i \;=\; \underbrace{\hat\mu_i}_{\text{exploit: how good it looks}} \;+\;
 \underbrace{\sqrt{\frac{2\ln t}{n_i}}}_{\text{explore: how unsure we are}},
 \]</span></p>
-<p>where <span class="math inline">\(t\)</span> is the total number of pulls so far and <span class="math inline">\(n_i\)</span> the number of pulls of arm <span class="math inline">\(i\)</span>. Decode the bonus: it <strong>shrinks</strong> as <span class="math inline">\(n_i\)</span> grows (more data <span class="math inline">\(\to\)</span> less uncertainty <span class="math inline">\(\to\)</span> smaller bonus) and <strong>grows slowly</strong> with <span class="math inline">\(t\)</span> (an arm ignored for a long time looks ever more “worth re-checking”). Pulling the highest <em>upper bound</em> means: either the arm really is good (high <span class="math inline">\(\hat\mu_i\)</span>) or we don’t yet know it isn’t (high bonus) — either way it deserves a pull. No random coin: exploration is <strong>targeted</strong> at the uncertain arms.</p>
-<p><strong>Worked example — UCB explores the worse-looking arm.</strong> After <span class="math inline">\(t=4\)</span> total pulls, arm <strong>A</strong> (Matrix) has been pulled <span class="math inline">\(n_A=3\)</span> times with <span class="math inline">\(2\)</span> clicks, so <span class="math inline">\(\hat\mu_A = 2/3 \approx 0.667\)</span>; arm <strong>B</strong> (Titanic) has been pulled <span class="math inline">\(n_B=1\)</span> time with <span class="math inline">\(0\)</span> clicks, so <span class="math inline">\(\hat\mu_B=0\)</span>. The bonuses use <span class="math inline">\(\ln 4 = 1.386\)</span>: <span class="math display">\[
-\text{UCB}_A = 0.667 + \sqrt{\tfrac{2(1.386)}{3}} = 0.667 + 0.961 = \mathbf{1.628},\qquad
-\text{UCB}_B = 0 + \sqrt{\tfrac{2(1.386)}{1}} = 0 + 1.665 = \mathbf{1.665}.
-\]</span> <strong>UCB pulls B</strong> (<span class="math inline">\(1.665 &gt; 1.628\)</span>) — the arm whose <em>mean</em> (0) is far worse, because it has barely been tried and its bonus dwarfs the gap. That is optimism doing its job: don’t write off an arm you’ve only seen once. (The UCB index can exceed <span class="math inline">\(1\)</span>; it is a score to compare, not a probability.)</p>
-<div id="fig-bandits-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>where <span class="math inline">\(t\)</span> is the total number of pulls so far and <span class="math inline">\(n_i\)</span> the number of pulls of arm <span class="math inline">\(i\)</span>. The example below and E3 use this count; §2’s simulation uses the round number, which is one more. Decode the bonus: it <strong>shrinks</strong> as <span class="math inline">\(n_i\)</span> grows (more data <span class="math inline">\(\to\)</span> less uncertainty <span class="math inline">\(\to\)</span> smaller bonus) and <strong>grows slowly</strong> with <span class="math inline">\(t\)</span> (an arm ignored for a long time looks ever more “worth re-checking”; for <span class="math inline">\(n_i=3\)</span> the bonus is <span class="math inline">\(0.961\)</span> at <span class="math inline">\(t=4\)</span> and <span class="math inline">\(1.752\)</span> at <span class="math inline">\(t=100\)</span>; at <span class="math inline">\(t=100\)</span> it is <span class="math inline">\(3.03\)</span>, <span class="math inline">\(1.75\)</span>, <span class="math inline">\(0.96\)</span> and <span class="math inline">\(0.30\)</span> for <span class="math inline">\(n_i=1\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(10\)</span> and <span class="math inline">\(100\)</span>). As <span class="math inline">\(n_i\)</span> falls toward <span class="math inline">\(0\)</span> the bonus grows without limit, and the formula does not allow <span class="math inline">\(n_i=0\)</span>, so implementations pull each arm once first.</p>
+<p>The score is an <em>upper confidence bound</em> in this sense: the bonus is sized so that the arm’s true click rate (a number between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>) is unlikely to lie above <span class="math inline">\(\hat\mu_i\)</span> plus the bonus; the constant <span class="math inline">\(2\)</span> and the <span class="math inline">\(\ln t\)</span> are from Auer et al.&nbsp;(2002), whose analysis is not repeated here.</p>
+<p>Pulling the highest <em>upper bound</em> means: either the arm really is good (high <span class="math inline">\(\hat\mu_i\)</span>) or we don’t yet know it isn’t (high bonus), and either way it deserves a pull. No random coin: exploration is <strong>targeted</strong> at the uncertain arms.</p>
+<p><strong>Worked example: UCB explores the worse-looking arm.</strong> The site shows one of two films to each visitor and counts clicks. After <span class="math inline">\(t=4\)</span> total pulls, arm <strong>M</strong> (Matrix) has been pulled <span class="math inline">\(n_M=3\)</span> times with <span class="math inline">\(2\)</span> clicks, so <span class="math inline">\(\hat\mu_M = 2/3 \approx 0.667\)</span>; arm <strong>T</strong> (Titanic; in this section and the next, <span class="math inline">\(T\)</span> names this arm, not the number of rounds) has been pulled <span class="math inline">\(n_T=1\)</span> time with <span class="math inline">\(0\)</span> clicks, so <span class="math inline">\(\hat\mu_T=0\)</span>. The bonuses use <span class="math inline">\(\ln 4 = 1.386\)</span>: <span class="math display">\[
+\begin{gathered}
+\text{UCB}_M = 0.667 + \sqrt{\tfrac{2(1.386)}{3}} = 0.667 + 0.961 = \mathbf{1.628},\\[4pt]
+\text{UCB}_T = 0 + \sqrt{\tfrac{2(1.386)}{1}} = 0 + 1.665 = \mathbf{1.665}.
+\end{gathered}
+\]</span></p>
+<p><strong>UCB pulls T</strong> (<span class="math inline">\(1.665 &gt; 1.628\)</span>): the arm whose <em>mean</em> (<span class="math inline">\(0\)</span>) is far worse, because it has barely been tried and its bonus dwarfs the gap. That is optimism doing its job: don’t write off an arm you’ve only seen once. (The UCB index can exceed <span class="math inline">\(1\)</span>; it is a score to compare, not a probability.)</p>
+<div id="fig-bandits-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Optimism under uncertainty (the §4 numbers).">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bandits-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/bandits-1.svg" class="img-fluid figure-img">
+<img src="../figs/bandits-1.svg" class="img-fluid figure-img" alt="Optimism under uncertainty (the §4 numbers).">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bandits-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong> Each arm is scored by its empirical mean (dot) plus an uncertainty bonus (the rise to the cap <span class="math inline">\(=\)</span> the UCB index). Well-sampled arm A has the higher <em>mean</em> (<span class="math inline">\(0.67\)</span>) but a small bonus; barely-tried arm B has mean <span class="math inline">\(0\)</span> yet a bonus so large its <em>upper bound</em> (<span class="math inline">\(1.67\)</span>) tops A’s (<span class="math inline">\(1.63\)</span>). UCB pulls the highest cap, not the highest dot — so it explores B. As an arm is pulled more, its bonus shrinks and its cap settles toward its true mean.
+Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong> Each arm is scored by its empirical mean (dot) plus an uncertainty bonus (the rise to the cap <span class="math inline">\(=\)</span> the UCB index). Well-sampled arm M has the higher <em>mean</em> (<span class="math inline">\(0.667\)</span>) but a smaller bonus (<span class="math inline">\(0.961\)</span>, against T’s <span class="math inline">\(1.665\)</span>); barely-tried arm T has mean <span class="math inline">\(0\)</span> yet a bonus so large its <em>upper bound</em> (<span class="math inline">\(1.665\)</span>) tops M’s (<span class="math inline">\(1.628\)</span>); the dashed line marks M’s cap, and T’s cap clears it by <span class="math inline">\(0.037\)</span>. UCB pulls the highest cap, not the highest dot, so it explores T. As an arm is pulled more, its bonus shrinks and its cap settles toward its true mean.
 </figcaption>
 </figure>
 </div>
+<p><strong>In one line:</strong> UCB scores arm M at <span class="math inline">\(1.628\)</span> and arm T at <span class="math inline">\(1.665\)</span>, so it tries T even though T’s mean (<span class="math inline">\(0\)</span>) is <span class="math inline">\(0.667\)</span> below M’s.</p>
 <hr>
 </section>
 <section id="thompson-sampling-the-bayesian-balance" class="level2">
 <h2 class="anchored" data-anchor-id="thompson-sampling-the-bayesian-balance">5. Thompson sampling: the Bayesian balance</h2>
-<p><strong>Thompson sampling</strong> explores by a different, beautifully simple idea: keep a <strong>probability distribution over each arm’s true CTR</strong>, and at each round <strong>sample one value from each arm’s distribution and pull whichever sample is largest.</strong> Arms you are unsure about have <em>wide</em> distributions, so they sometimes draw a high sample and get explored; arms you’ve pinned down have <em>narrow</em> distributions and get pulled only when they really are best. Exploration falls out of the <em>uncertainty itself</em>, with no extra knob.</p>
+<p>UCB’s bonus is one fixed formula, and it pushes toward the least-tried film, even when that film looks hopeless. Suppose the site instead held a rough guess for each film’s click chance and let each guess take a turn at random. This section builds that, and checks how often the underdog gets its turn.</p>
+<p><strong>Thompson sampling</strong> (named for W. R. Thompson, who described the idea in 1933) explores by a different, simple idea: keep a <strong>probability distribution over each arm’s true CTR</strong>, and at each round <strong>sample one value from each arm’s distribution and pull whichever sample is largest.</strong> Arms you are unsure about have <em>wide</em> distributions, so they sometimes draw a high sample and get explored; arms you’ve pinned down have <em>narrow</em> distributions and get pulled mostly when they really are best. Exploration falls out of the <em>uncertainty itself</em>, with no exploration-rate knob (the prior, below, is a choice, but it is not a rate). In round 1 of the ten-round table below, M draws <span class="math inline">\(0.25\)</span> and T draws <span class="math inline">\(0.28\)</span>, so T is pulled.</p>
 <p>For click/no-click rewards the natural distribution is the <strong>Beta</strong> distribution, <span class="math inline">\(\text{Beta}
-(\alpha,\beta)\)</span> — a distribution <em>over a probability</em> in <span class="math inline">\([0,1]\)</span>. Start each arm at the uniform prior <span class="math inline">\(\text{Beta}(1,1)\)</span>; after seeing <span class="math inline">\(s\)</span> clicks and <span class="math inline">\(f\)</span> non-clicks, the posterior is simply <span class="math display">\[
+(\alpha,\beta)\)</span>, a distribution <em>over a probability</em> in <span class="math inline">\([0,1]\)</span>. Your belief about an arm’s click chance before any data is the <strong>prior</strong>; start each arm at <span class="math inline">\(\text{Beta}(1,1)\)</span>, which is flat: every click chance between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> is equally likely. After seeing <span class="math inline">\(s\)</span> clicks and <span class="math inline">\(f\)</span> non-clicks, the updated belief is the <strong>posterior</strong>, <span class="math display">\[
 \text{Beta}(1+s,\ 1+f),\qquad \text{with mean } \frac{1+s}{(1+s)+(1+f)} .
-\]</span> (That clean “just add the counts” update is why Beta is used: it is the <strong>conjugate prior</strong> of the Bernoulli click — the posterior stays a Beta, so updating is bookkeeping, not integration.)</p>
-<p><strong>Worked example — Beta posteriors.</strong> Arm <strong>A</strong> has <span class="math inline">\(2\)</span> clicks and <span class="math inline">\(1\)</span> non-click <span class="math inline">\(\to
-\text{Beta}(1+2,\,1+1)=\text{Beta}(3,2)\)</span>, posterior mean <span class="math inline">\(\tfrac{3}{3+2}=\mathbf{0.60}\)</span>. Arm <strong>B</strong> has <span class="math inline">\(0\)</span> clicks and <span class="math inline">\(1\)</span> non-click <span class="math inline">\(\to \text{Beta}(1,2)\)</span>, posterior mean <span class="math inline">\(\tfrac{1}{1+2}=\mathbf{0.333}\)</span>. A’s distribution sits higher <em>and</em> is a touch narrower (it has seen more data), so most rounds A’s sample beats B’s and A is exploited — but B’s posterior is wide enough that it still occasionally samples above A and gets explored. As more data arrives, both posteriors narrow toward their true CTRs and the exploration self-extinguishes. In practice Thompson sampling matches or beats UCB while being trivial to implement.</p>
+\]</span> That clean “just add the counts” update is why Beta is used: it is the <strong>conjugate prior</strong> (“conjugate” means joined together: prior and posterior stay in one family) of the Bernoulli click, meaning the posterior stays a Beta, so updating is bookkeeping, not integration.</p>
+<p><strong>Worked example: Beta posteriors.</strong> Arm <strong>M</strong> has <span class="math inline">\(2\)</span> clicks and <span class="math inline">\(1\)</span> non-click <span class="math inline">\(\to
+\text{Beta}(1+2,\,1+1)=\text{Beta}(3,2)\)</span>, posterior mean <span class="math inline">\(\tfrac{3}{3+2}=\mathbf{0.60}\)</span>. Arm <strong>T</strong> has <span class="math inline">\(0\)</span> clicks and <span class="math inline">\(1\)</span> non-click <span class="math inline">\(\to \text{Beta}(1,2)\)</span>, posterior mean <span class="math inline">\(\tfrac{1}{1+2}=\mathbf{0.333}\)</span>. The spreads are close, with a standard deviation (a measure of width) of <span class="math inline">\(0.200\)</span> for M and <span class="math inline">\(0.236\)</span> for T, so with this little data the means do most of the separating.</p>
+<div id="fig-bandits-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The two posteriors of the worked example.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bandits-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figs/bandits-2.svg" class="img-fluid figure-img" alt="The two posteriors of the worked example.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bandits-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.2: <strong>The two posteriors of the worked example.</strong> Dashed lines mark the means, <span class="math inline">\(0.60\)</span> for M and <span class="math inline">\(0.33\)</span> for T. The curves overlap over most of their range, so one draw from each still picks T about <span class="math inline">\(20\%\)</span> of the time (the exact chance that T’s draw beats M’s is <span class="math inline">\(0.20\)</span>).
+</figcaption>
+</figure>
+</div>
+<p><strong>Worked example: ten rounds of draws.</strong> Each round draws once from each posterior and pulls the larger draw. Ten rounds, seed 1:</p>
+<div id="tbl-bandits-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bandits-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.3: Draws from Beta(3,2) for M and Beta(1,2) for T (simulation, seed 1: a different seed from the others, chosen as the first one whose ten rounds hold two wins for T, the expected number). The bottom row is the arm pulled.
+</figcaption>
+<div aria-describedby="tbl-bandits-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(t\)</span></th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+<th style="text-align: right;">6</th>
+<th style="text-align: right;">7</th>
+<th style="text-align: right;">8</th>
+<th style="text-align: right;">9</th>
+<th style="text-align: right;">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M draw</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.64</td>
+</tr>
+<tr class="even">
+<td>T draw</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td>Pull</td>
+<td style="text-align: right;">T</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">T</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+<td style="text-align: right;">M</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>In rounds 1 and 5 T’s draw is the larger, so T is pulled although its mean (<span class="math inline">\(0.333\)</span>) is below M’s (<span class="math inline">\(0.60\)</span>). Those are the exploration. In the long run, with both posteriors held fixed as in these ten rounds, integrating over both distributions gives <span class="math inline">\(P(\text{M's draw beats T's})=\mathbf{0.800}\)</span> exactly: add up, over every value <span class="math inline">\(x\)</span> that M’s draw could take, the height of M’s <span class="math inline">\(\text{Beta}(3,2)\)</span> curve at <span class="math inline">\(x\)</span>, which is <span class="math inline">\(12x^{2}(1-x)\)</span>, times the chance <span class="math inline">\(1-(1-x)^{2}\)</span> that T’s draw lies below <span class="math inline">\(x\)</span>; that integral is <span class="math inline">\(4/5\)</span> (a calculus fact taken on trust here; a <span class="math inline">\(100{,}000\)</span>-round simulation with seed 16 gives <span class="math inline">\(0.7995\)</span>, agreeing). So T’s draw wins the other <span class="math inline">\(20\%\)</span> of rounds, one in five, and two in ten is what to expect.</p>
+<p><strong>Exploration fades.</strong> Give each arm ten times the pulls (M: <span class="math inline">\(30\)</span> instead of <span class="math inline">\(3\)</span>; T: <span class="math inline">\(10\)</span> instead of <span class="math inline">\(1\)</span>) at the arms’ true rates of §2, <span class="math inline">\(0.6\)</span> and <span class="math inline">\(0.3\)</span>: M then has <span class="math inline">\(18\)</span> clicks and <span class="math inline">\(12\)</span> non-clicks, <span class="math inline">\(\text{Beta}(19,13)\)</span>, and T has <span class="math inline">\(3\)</span> clicks and <span class="math inline">\(7\)</span> non-clicks, <span class="math inline">\(\text{Beta}(4,8)\)</span>. T’s draw now beats M’s in only <span class="math inline">\(5.5\%\)</span> of rounds (a <span class="math inline">\(200{,}000\)</span>-round simulation, seed 16; the exact integral gives <span class="math inline">\(5.5\%\)</span> too).</p>
+<p>Ten times the pulls again (M: <span class="math inline">\(300\)</span> pulls, <span class="math inline">\(180\)</span> clicks, <span class="math inline">\(\text{Beta}(181,121)\)</span>; T: <span class="math inline">\(100\)</span> pulls, <span class="math inline">\(30\)</span> clicks, <span class="math inline">\(\text{Beta}(31,71)\)</span>) and T’s draw wins only about <span class="math inline">\(9\times10^{-8}\)</span> of rounds, roughly nine in a hundred million. Three sizes suffice because each ten-fold step multiplies the data and the underdog’s share falls every time. Across the three sizes, each ten times the last, the share falls from <span class="math inline">\(20\%\)</span> to <span class="math inline">\(5.5\%\)</span> to almost none. As data arrives both posteriors narrow toward their true CTRs, and the exploration extinguishes itself. Chapelle and Li (2011) report Thompson sampling as highly competitive with other methods on simulated and real data, and easy to implement.</p>
+<p><strong>In one line:</strong> with <span class="math inline">\(\text{Beta}(3,2)\)</span> for M and <span class="math inline">\(\text{Beta}(1,2)\)</span> for T, M’s draw wins <span class="math inline">\(80\%\)</span> of rounds and T’s the other <span class="math inline">\(20\%\)</span>; T’s share falls to about <span class="math inline">\(5.5\%\)</span> once the posteriors rest on <span class="math inline">\(30\)</span> and <span class="math inline">\(10\)</span> pulls, and to about nine in a hundred million at <span class="math inline">\(300\)</span> and <span class="math inline">\(100\)</span>.</p>
 <hr>
 </section>
 <section id="contextual-bandits-when-the-best-arm-depends-on-who-is-asking" class="level2">
 <h2 class="anchored" data-anchor-id="contextual-bandits-when-the-best-arm-depends-on-who-is-asking">6. Contextual bandits: when the best arm depends on who is asking</h2>
-<p>Plain bandits assume each arm has <em>one</em> CTR for everybody. Real recommendation does not: the Matrix is a great pull for a sci-fi fan on a Friday night and a poor one for someone else. A <strong>contextual bandit</strong> adds a <strong>context</strong> <span class="math inline">\(\mathbf x_t\)</span> (a feature vector for the user <span class="math inline">\(+\)</span> item <span class="math inline">\(+\)</span> situation — exactly the CTR features of <em>Click-Through Rate Prediction &amp; Feature Interactions</em> §2) and lets the expected reward depend on it. The standard linear form, <strong>LinUCB</strong>, assumes the reward is roughly linear in the context,</p>
+<p>So far every visitor gets the same choice: Ann, who loves Titanic, and Cara, who has not seen it, are treated alike. A film that is a good pull for one is a poor pull for the other. This section lets the choice depend on who is asking, and keeps the confidence bonus of the UCB section.</p>
+<p>Plain bandits assume each arm has <em>one</em> CTR for everybody. Real recommendation does not. A <strong>contextual bandit</strong> adds a <strong>context</strong> <span class="math inline">\(\mathbf x_t\)</span> (a feature vector for the user <span class="math inline">\(+\)</span> item <span class="math inline">\(+\)</span> situation, exactly the CTR features of <em>Click-Through Rate Prediction &amp; Feature Interactions</em> §2) and lets the expected reward depend on it. The standard linear form, <strong>LinUCB</strong> (linear UCB), assumes the reward is roughly linear in the context,</p>
 <p><span class="math display">\[
-\mathbb E[r \mid \mathbf x] \approx \boldsymbol\theta^{\top}\mathbf x,
+\mathbb E[r \mid \mathbf x] \approx \theta^{\top}\mathbf x ,
 \]</span></p>
-<p>estimates <span class="math inline">\(\boldsymbol\theta\)</span> by <strong>ridge regression</strong> (least-squares with an L2 penalty — <em>Loss Functions &amp; Regularizers</em>) on the data seen so far, and adds a UCB-style <strong>confidence bonus</strong> that is large for contexts unlike anything it has tried — the §4 idea, now in feature space. The payoff of the reframing is large: a contextual bandit is, almost exactly, <strong>online CTR prediction with built-in exploration</strong> — the DeepFM/DCN ranker of the CTR chapter, but choosing what to show <em>and</em> learning from the click it gets back, instead of training once on a frozen log. (Replace the linear <span class="math inline">\(\boldsymbol\theta^{\top}\mathbf x\)</span> with a neural CTR model and you have a <em>deep</em> contextual bandit.)</p>
+<p>where <span class="math inline">\(\theta\)</span> is a vector of weights, one per feature of <span class="math inline">\(\mathbf x\)</span>, and <span class="math inline">\(\theta^{\top}\mathbf x\)</span> (the row <span class="math inline">\(\theta^{\top}\)</span> times the column <span class="math inline">\(\mathbf x\)</span>) is their weighted sum. For example, describe a film by <span class="math inline">\((\text{romance},\text{action})\)</span>: Titanic, shown to a viewer who likes romance, is <span class="math inline">\(\mathbf x=(1,0)\)</span>, and with <span class="math inline">\(\theta=(0.5,0)\)</span> the estimate is <span class="math inline">\(0.5\times1+0\times0=0.5\)</span>. (Matrix, capitalised, is always the film; the array <span class="math inline">\(A\)</span> below is a matrix.)</p>
+<p>It estimates <span class="math inline">\(\theta\)</span> by <strong>ridge regression</strong>: least squares with an extra penalty on large coefficients (the <strong>L2</strong> penalty, <em>Loss Functions &amp; Regularizers</em> §5.1), which keeps a fit from swinging wildly on a few clicks (the example below shows it: one click gives <span class="math inline">\(\hat\theta=(0.5,0)\)</span>, not <span class="math inline">\((1,0)\)</span>). It keeps two running tallies, starting from the identity matrix <span class="math inline">\(I\)</span> (ones on the diagonal, zeros elsewhere; this start <em>is</em> the ridge penalty): <span class="math display">\[
+A = I + \sum \mathbf x\mathbf x^{\top},\qquad \mathbf b=\sum r\,\mathbf x,\qquad \hat\theta=A^{-1}\mathbf b,
+\]</span></p>
+<p>where both sums run over the contexts shown so far (and <span class="math inline">\(r\)</span> is the reward seen for each).</p>
+<p>The rule then scores a candidate context by an estimate plus a bonus, the §4 idea in feature space: <span class="math display">\[
+\text{score}(\mathbf x)\;=\;\hat\theta^{\top}\mathbf x\;+\;\alpha\sqrt{\mathbf x^{\top}A^{-1}\mathbf x}.
+\]</span></p>
+<p>The square root is small for contexts like those already seen and large for unlike ones; <span class="math inline">\(\alpha\)</span> is a knob that sets how much the bonus counts (the same letter as the first number of <span class="math inline">\(\text{Beta}(\alpha,\beta)\)</span> in §5, but a different job). After the chosen <span class="math inline">\(\mathbf x\)</span> is shown and reward <span class="math inline">\(r\)</span> seen, update <span class="math inline">\(A\leftarrow A+\mathbf x\mathbf x^{\top}\)</span> and <span class="math inline">\(\mathbf b\leftarrow \mathbf b+r\,\mathbf x\)</span>.</p>
+<p><strong>Reading the two new pieces.</strong> The <strong>inverse</strong> <span class="math inline">\(A^{-1}\)</span> undoes <span class="math inline">\(A\)</span>, so that <span class="math inline">\(AA^{-1}=I\)</span>. For a <strong>diagonal</strong> matrix (entries only on the diagonal; <span class="math inline">\(\text{diag}(a,b)\)</span> has <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> there and <span class="math inline">\(0\)</span> elsewhere) flip each diagonal entry: <span class="math inline">\(\text{diag}(2,1)^{-1}=\text{diag}(0.5,\,1)\)</span>. The <strong>quadratic form</strong> <span class="math inline">\(\mathbf x^{\top}A^{-1}\mathbf x\)</span> is one number: multiply the row <span class="math inline">\(\mathbf x^{\top}\)</span> by <span class="math inline">\(A^{-1}\)</span>, then by the column <span class="math inline">\(\mathbf x\)</span>. For <span class="math inline">\(\mathbf x=(1,0)\)</span>: <span class="math inline">\((1,0)\,\text{diag}(0.5,1)=(0.5,\,0)\)</span>, and <span class="math inline">\((0.5,0)\cdot(1,0)=0.5\)</span>. For <span class="math inline">\(\mathbf x=(0,1)\)</span> the same steps give <span class="math inline">\(1\)</span>. With a diagonal <span class="math inline">\(A\)</span> this is just <span class="math inline">\(\sum_j x_j^{2}/a_j\)</span>, so each pull along direction <span class="math inline">\(j\)</span> raises <span class="math inline">\(a_j\)</span> and shrinks that direction’s bonus.</p>
+<p><strong>Worked example: the film alone as context.</strong> Take as the context only the film’s two features, <span class="math inline">\((\text{romance},\text{action})\)</span>: the romance and action axes of the genre vectors in <em>Traditional Recommender Systems</em> §2 (its sci-fi axis is dropped here), so Titanic is <span class="math inline">\((1,0)\)</span> and Matrix is <span class="math inline">\((0,1)\)</span>. So far the site has shown Titanic once and Ann clicked (<span class="math inline">\(r=1\)</span>). With <span class="math inline">\(\mathbf x=(1,0)\)</span> the outer product <span class="math inline">\(\mathbf x\mathbf x^{\top}\)</span> is the matrix with a single <span class="math inline">\(1\)</span> in the top-left corner, and <span class="math inline">\(r\mathbf x=(1,0)\)</span>, so <span class="math display">\[
+A=\begin{pmatrix}2&amp;0\\0&amp;1\end{pmatrix},\quad \mathbf b=\begin{pmatrix}1\\0\end{pmatrix},\quad
+\hat\theta=A^{-1}\mathbf b=\begin{pmatrix}0.5\\0\end{pmatrix},\quad A^{-1}=\begin{pmatrix}0.5&amp;0\\0&amp;1\end{pmatrix}.
+\]</span></p>
+<p>One click gives <span class="math inline">\(\hat\theta=(0.5,0)\)</span>, half of the <span class="math inline">\(1\)</span> that least squares on that click alone would give: the identity start pulls the estimate toward <span class="math inline">\(0\)</span>, which is the ridge penalty at work. With <span class="math inline">\(\alpha=1\)</span>, the two candidates score <span class="math display">\[
+\begin{gathered}
+\text{Titanic: } 0.5+\sqrt{0.5}=0.5+0.707=\mathbf{1.207},\\[2pt]
+\text{Matrix: } 0+\sqrt{1}=0+1=\mathbf{1.000}.
+\end{gathered}
+\]</span></p>
+<p>Here <span class="math inline">\(\sqrt{0.5}=0.707\)</span> because <span class="math inline">\(0.707\times0.707\approx0.5\)</span>, and the <span class="math inline">\(0.5\)</span> and <span class="math inline">\(1\)</span> under the roots are the quadratic forms computed above. The site shows Titanic again. Raise the knob to <span class="math inline">\(\alpha=2\)</span> and the scores become <span class="math inline">\(0.5+1.414=1.914\)</span> for Titanic and <span class="math inline">\(0+2=2.000\)</span> for Matrix: now the unexplored action film wins. The bonus is large for Matrix because the site has not shown it yet, so no click has been seen in its direction.</p>
+<p>This example is still an ordinary two-arm UCB: every visitor would get the same scores. <strong>Worked example: two viewers, one model.</strong> To let the viewer matter, build the context as the film’s features multiplied entry by entry by the viewer’s <strong>taste weights</strong> <span class="math inline">\((\text{romance},\text{action})\)</span>, set by hand here (a real system learns them). Ann, who loved Titanic and rated Matrix <span class="math inline">\(1\)</span> (<em>Traditional Recommender Systems</em> §1), gets <span class="math inline">\((1,\,0.2)\)</span>, so Titanic is <span class="math inline">\((1,0)\)</span> and Matrix <span class="math inline">\((0,\,0.2)\)</span> for her. Cara, who rated Matrix <span class="math inline">\(4\)</span>, gets <span class="math inline">\((0.2,\,1)\)</span>, so for her Titanic is <span class="math inline">\((0.2,\,0)\)</span> and Matrix <span class="math inline">\((0,1)\)</span>. Keep the same <span class="math inline">\(A\)</span>, <span class="math inline">\(\mathbf b\)</span> and <span class="math inline">\(\alpha=1\)</span>: one model, built from Ann’s single click and shared by all viewers.</p>
+<div id="tbl-bandits-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bandits-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.4: Scores of the shared LinUCB model above (<span class="math inline">\(A=\text{diag}(2,1)\)</span>, <span class="math inline">\(\mathbf b=(1,0)\)</span>, <span class="math inline">\(\alpha=1\)</span>) for two viewers whose taste weights differ.
+</figcaption>
+<div aria-describedby="tbl-bandits-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Viewer</th>
+<th>Titanic</th>
+<th>Matrix</th>
+<th>Shown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ann</td>
+<td><span class="math inline">\(0.5+\sqrt{0.5}=1.207\)</span></td>
+<td><span class="math inline">\(0+\sqrt{0.04}=0.200\)</span></td>
+<td>Titanic</td>
+</tr>
+<tr class="even">
+<td>Cara</td>
+<td><span class="math inline">\(0.1+\sqrt{0.02}=0.241\)</span></td>
+<td><span class="math inline">\(0+\sqrt{1}=1.000\)</span></td>
+<td>Matrix</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Two entries decoded. For Cara’s Titanic, <span class="math inline">\(\hat\theta^{\top}\mathbf x=0.5\times0.2=0.1\)</span> and <span class="math inline">\(\mathbf x^{\top}A^{-1}\mathbf x=0.2^{2}\times0.5=0.02\)</span>. For Ann’s Matrix, <span class="math inline">\(\hat\theta^{\top}\mathbf x=0\)</span> and <span class="math inline">\(\mathbf x^{\top}A^{-1}\mathbf x=0.2^{2}\times1=0.04\)</span>, so the bonus is <span class="math inline">\(\sqrt{0.04}=0.200\)</span>. (For Cara’s Titanic with no data at all, <span class="math inline">\(A=I\)</span> and <span class="math inline">\(\mathbf b=\mathbf 0\)</span>, the bonus would be <span class="math inline">\(\sqrt{0.2^{2}}=0.200\)</span>, the figure used below.)</p>
+<p>The same model gives different answers to different viewers, which is what “depends on who is asking” means. Ann’s click also reached Cara, who was never shown anything: with no data at all her Titanic score would be <span class="math inline">\(0.200\)</span>, and with Ann’s click it is <span class="math inline">\(0.241\)</span>. Information travels through the shared features.</p>
+<p><strong>Online CTR with exploration.</strong> A contextual bandit is, almost exactly, <strong>online CTR prediction with built-in exploration</strong>: the DeepFM (deep factorization machine) or DCN (Deep &amp; Cross Network) ranker of the CTR chapter, but choosing what to show <em>and</em> learning from the click it gets back, instead of training once on a frozen log. (Replace the linear <span class="math inline">\(\theta^{\top}\mathbf x\)</span> with a neural CTR model and keep an uncertainty bonus, or a posterior over its weights, and you have a <em>deep</em> contextual bandit. The bonus is the hard part, because a plain network gives a click estimate but no measure of how unsure it is, and without one it only exploits, unless exploration is added another way, such as ε-greedy.)</p>
+<p><strong>In one line:</strong> LinUCB scores a film as estimate plus bonus: for Ann, Titanic gets <span class="math inline">\(0.5+0.707=1.207\)</span> and Matrix <span class="math inline">\(0+1=1.000\)</span>, so with <span class="math inline">\(\alpha=1\)</span> it repeats Titanic, and with <span class="math inline">\(\alpha=2\)</span> (<span class="math inline">\(1.914\)</span> against <span class="math inline">\(2.000\)</span>) it tries Matrix; with taste weights the same model shows Ann Titanic (<span class="math inline">\(1.207\)</span> against <span class="math inline">\(0.200\)</span>) and Cara Matrix (<span class="math inline">\(1.000\)</span> against <span class="math inline">\(0.241\)</span>).</p>
 <hr>
 </section>
 <section id="bandits-in-recommendation" class="level2">
 <h2 class="anchored" data-anchor-id="bandits-in-recommendation">7. Bandits in recommendation</h2>
+<p>The methods so far solved toy games. A real site has a news front page, brand-new films, a log of old impressions, and viewers whose evening changes what they want next. This section collects four places where bandits show up, and the point where they stop being enough.</p>
 <p>Where this actually shows up:</p>
 <ul>
-<li><strong>Personalized news (the canonical case).</strong> Li et al.&nbsp;(2010) framed Yahoo!’s front-page article selection as a contextual bandit and deployed <strong>LinUCB</strong>, with a measurable click lift over non-exploring baselines — the paper that put contextual bandits on the recommendation map.</li>
-<li><strong>Cold-start.</strong> A new item has no interaction history, so <em>every</em> model that only exploits ignores it forever; a bandit’s exploration term is precisely what gives a fresh item its first impressions and a fair chance to prove itself.</li>
-<li><strong>Offline evaluation by replay.</strong> You cannot A/B-test every idea online. Li et al.&nbsp;(2011) gave an <strong>unbiased replay</strong> estimator: scan a log of <em>randomly</em>-served impressions and keep only the rounds where the logged action matches the policy’s choice — a way to score a bandit policy on past data without bias (the bandit cousin of the full-ranking caution in <em>Evaluation Metrics</em>). More generally, replay is one of a family of <strong>off-policy estimators</strong>: <strong>inverse propensity scoring (IPS)</strong> reweights each logged reward by <span class="math inline">\(1/p\)</span> — the inverse probability the <em>logging</em> policy took that action — and <strong>doubly-robust</strong> estimators add a learned reward model to cut IPS’s variance. This is the same IPS machinery <em>Evaluation Metrics</em> §12.4 uses to debias MNAR feedback; plain replay is the special case that needs <em>randomized</em> logs and discards every non-matching round (low bias, high variance).</li>
-<li><strong>The step to full RL.</strong> A bandit assumes each action is <strong>one-shot</strong>: what you show now does not change <em>what situation you face next</em>. When it does — recommending episode 1 changes whether episode 2 is even relevant; a feed shapes the user’s session and their long-term return — the problem becomes <strong>reinforcement learning</strong>, where actions move a <strong>state</strong> and you optimize <strong>long-term</strong> reward. That is exactly the subject of the <em>Reinforcement Learning for Recommendation</em> appendix; a bandit is RL with a single state.</li>
+<li><strong>Personalized news.</strong> Li et al.&nbsp;(2010) framed Yahoo!’s front-page article selection as a contextual bandit and proposed <strong>LinUCB</strong>. They evaluated it offline, replaying logged random traffic from a Yahoo! Front Page Today Module dataset of over <span class="math inline">\(33\)</span> million events, and report a <span class="math inline">\(12.5\%\)</span> click lift (that many more clicks) over a context-free bandit (one that still explores but ignores the context). Their basic LinUCB keeps one weight vector per arm (they call it <em>disjoint</em>); the single shared weight vector of §6 is a simplified shared-weights form, near the shared part of their <em>hybrid</em> variant (which adds weights shared across arms to each arm’s own).</li>
+<li><strong>Cold-start.</strong> The problem of §1, answered by the exploration term: it is what gives a fresh item its first impressions and a fair chance to prove itself. A tiny case: at <span class="math inline">\(t=20\)</span> a film shown once with no click scores <span class="math inline">\(\sqrt{2\ln20}\approx2.45\)</span>, above an established film at <span class="math inline">\(0.5\)</span> shown <span class="math inline">\(10\)</span> times (<span class="math inline">\(0.5+\sqrt{2\ln20/10}\approx1.27\)</span>), so the newcomer is tried first.</li>
+<li><strong>Offline evaluation by replay.</strong> You cannot A/B-test every idea online. Li et al.&nbsp;(2011) analysed an <strong>unbiased replay</strong> estimator and showed it unbiased (right on average over many logs): scan a log of impressions served <em>uniformly at random</em>, independent of context, and keep only the rounds where the logged action matches the policy’s choice. That scores a bandit policy on past data without bias (the bandit cousin of the full-ranking caution in <em>Evaluation Metrics</em> §11b). With <span class="math inline">\(K\)</span> arms served uniformly at random, only <span class="math inline">\(1/K\)</span> of the log matches: <span class="math inline">\(50\%\)</span> for two films, <span class="math inline">\(10\%\)</span> for ten.</li>
+<li><strong>The step to full reinforcement learning (RL).</strong> A bandit assumes each action is <strong>one-shot</strong>: what you show now does not change <em>what situation you face next</em>. When it does (recommending episode 1 changes whether episode 2 is even relevant; a feed shapes the user’s session and their long-term return) the problem becomes <strong>reinforcement learning</strong>, where actions move a <strong>state</strong> and you optimize <strong>long-term</strong> reward (Sutton and Barto, 2018). That is the subject of Appendix D, <em>Reinforcement Learning for Recommendation</em>.</li>
 </ul>
-<p><strong>Bandit, A/B test, or full RL?</strong> A quick rule. Comparing <strong>a few fixed options and want to stop losing traffic to the loser fast</strong> → a <strong>bandit</strong>. Comparing <strong>two whole system versions for a ship/no-ship decision</strong> → an <strong>A/B test</strong> (the clean, unbiased comparison of <em>Evaluation Metrics</em> §11c). The <strong>action changes the next state</strong> (sessions, sequences, long-term return) → <strong>full RL</strong>.</p>
-<p><strong>Two deployment realities.</strong> Real systems rarely update after every pull: feedback arrives in <strong>batches</strong> and is often <strong>delayed or censored</strong> (a non-click now may be a click in an hour), so production bandits update in mini-batches and must tolerate stale rewards. And because tastes drift (the <strong>non-stationarity</strong> of §1), a stationary bandit slowly goes blind to change — the fix is a <strong>discounted or sliding-window</strong> variant (e.g.&nbsp;discounted UCB) that re-inflates uncertainty over time so the policy keeps re-checking arms it had written off.</p>
-<hr>
-</section>
-<section id="where-this-fits-in-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">8. Where this fits in the book</h2>
-<p>This chapter completes the <strong>Frontiers</strong> turn that <em>Click-Through Rate Prediction &amp; Feature Interactions</em> began. CTR prediction learns from a <strong>fixed log</strong>; bandits close the loop — the recommender now <strong>chooses what to show and learns from the feedback</strong>, paying for the privilege in <em>regret</em> and managing it through <em>exploration</em>. It draws its reward signal (the click) and its feature vector (the context) straight from the CTR chapter, and it inherits the <strong>feedback-loop</strong> worry of <em>Evaluation Metrics</em> §12 — exploration is, in part, the cure for a recommender that only ever confirms its own beliefs. It also points forward: relax the bandit’s “one-shot action” assumption and you get full <strong>reinforcement learning</strong>, taken up next in its appendix. Bandits are the bridge between the supervised models of the core ladder and the sequential decision-making at the field’s edge.</p>
+<p><strong>Scoring a policy that was never run.</strong> Scoring a policy from data logged by a <em>different</em> one is called <strong>off-policy</strong> evaluation. Replay is its simplest form. <strong>Inverse propensity scoring (IPS)</strong> reweights each logged reward by <span class="math inline">\(1/p\)</span>, where the <strong>propensity</strong> <span class="math inline">\(p\)</span> is the probability the logging policy took that action, so rarely-shown actions count more: a film shown with propensity <span class="math inline">\(0.1\)</span> counts <span class="math inline">\(10\)</span> clicks per click, one shown with <span class="math inline">\(0.5\)</span> counts <span class="math inline">\(2\)</span>. (Here <span class="math inline">\(p\)</span> is a propensity, not a click chance.) This is the same IPS machinery <em>Evaluation Metrics</em> §12.4 uses to debias missing-not-at-random (MNAR) feedback. Plain replay needs <em>randomized</em> logs and discards every non-matching round: unbiased on such logs, but high variance (the estimate jumps around from one log to the next).</p>
+<p><strong>Doubly-robust</strong> estimators (Dudík, Langford and Li, 2011) add a learned reward model, which cuts IPS’s <strong>variance</strong> (how much the estimate jumps around from one random log to the next) when that model is roughly right. A tiny case: the model says a film gets a click with chance <span class="math inline">\(0.3\)</span>, and the log shows a click at propensity <span class="math inline">\(0.1\)</span>. IPS scores that round <span class="math inline">\(1/0.1=10\)</span>; doubly-robust starts from the model’s <span class="math inline">\(0.3\)</span> and adds only the miss, <span class="math inline">\((1-0.3)/0.1=7\)</span>, for <span class="math inline">\(7.3\)</span> (for a round whose logged film the evaluated policy would also choose; any other round gets no correction). A close model leaves a small miss: if it says <span class="math inline">\(0.9\)</span>, the estimate is <span class="math inline">\(0.9+(1-0.9)/0.1=1.9\)</span>, far below IPS’s <span class="math inline">\(10\)</span> for this click. What the cited result adds is that over many rounds the estimate then swings less; one round cannot show that.</p>
+<p><strong>Bandit, A/B test, or full RL?</strong> A quick rule. Comparing <strong>a few fixed options and want to stop losing traffic to the loser fast</strong> <span class="math inline">\(\to\)</span> a <strong>bandit</strong>. Comparing <strong>two whole system versions for a ship/no-ship decision</strong> <span class="math inline">\(\to\)</span> an <strong>A/B test</strong> (the clean, unbiased comparison of <em>Evaluation Metrics</em> §11c). The <strong>action changes the next state</strong> (sessions, sequences, long-term return) <span class="math inline">\(\to\)</span> <strong>full RL</strong>. For instance, choosing among three headlines is a bandit, deciding whether a new ranker ships is an A/B test, and a playlist where today’s song changes what the listener wants next is full RL.</p>
+<p><strong>Two deployment realities</strong> (claims from practice, not tested here). Real systems rarely update after every pull: feedback arrives in <strong>batches</strong> and is often <strong>delayed</strong> (a click may arrive an hour late) or <strong>censored</strong> (we know only that no click has happened <em>yet</em>, not whether one will: a click that arrives an hour late reads as “no click” for the first hour), so production bandits tend to update in mini-batches (small groups of rounds at a time) and must tolerate stale rewards.</p>
+<p>Second, because tastes drift (the <strong>non-stationarity</strong> of §1), a stationary bandit slowly goes blind to change; a standard remedy in the bandit literature is a <strong>discounted or sliding-window</strong> variant (for example discounted UCB, Garivier and Moulines, 2011) that re-inflates uncertainty over time so the policy keeps re-checking arms it had written off. A tiny case: with a discount of <span class="math inline">\(0.9\)</span> per round (each round of age multiplies a click’s weight by <span class="math inline">\(0.9\)</span>), a click from <span class="math inline">\(10\)</span> rounds ago counts <span class="math inline">\(0.9^{10}\approx0.35\)</span> of a fresh one and a click from <span class="math inline">\(20\)</span> rounds ago about <span class="math inline">\(0.12\)</span>, so old evidence fades.</p>
+<p><strong>In one line:</strong> bandits fit a few fixed options with one-shot actions; replay on a randomized log of <span class="math inline">\(K=10\)</span> films keeps only <span class="math inline">\(1/K=10\%\)</span> of the rounds, and once an action changes the next state, the problem needs full reinforcement learning (RL), which Appendix D covers.</p>
 <hr>
 </section>
 <section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">9. Exercises</h2>
-<p>Ten problems on the chapter’s two-arm running example and tiny numbers. Solutions in the back-matter <em>Solutions</em> appendix.</p>
-<p><strong>E1.</strong> <em>(compute)</em> An algorithm pulls a sub-optimal arm with gap <span class="math inline">\(\mu^{*}-\mu = 0.25\)</span> a total of <span class="math inline">\(8\)</span> times over a run. What total regret do those pulls contribute? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E2.</strong> <em>(compute)</em> With <span class="math inline">\(K=4\)</span> arms and <span class="math inline">\(\varepsilon=0.2\)</span>, give the probability the best arm is pulled on a round, and the probability any one specific other arm is pulled. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E3.</strong> <em>(compute)</em> Recompute the §4 UCB scores at total pulls <span class="math inline">\(t=9\)</span> (so <span class="math inline">\(\ln t = 2.197\)</span>), keeping <span class="math inline">\(\hat\mu_A=0.667,\ n_A=3\)</span> and <span class="math inline">\(\hat\mu_B=0,\ n_B=1\)</span>. Which arm does UCB pull now? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E4.</strong> <em>(compute)</em> Arm A has been pulled <span class="math inline">\(n_A=50\)</span> times with <span class="math inline">\(\hat\mu_A=0.60\)</span>; arm B <span class="math inline">\(n_B=2\)</span> times with <span class="math inline">\(\hat\mu_B=0.50\)</span>, at <span class="math inline">\(t=52\)</span> (<span class="math inline">\(\ln 52 = 3.951\)</span>). Compute both UCB scores and say which is pulled. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E5.</strong> <em>(compute)</em> Under Thompson sampling with a <span class="math inline">\(\text{Beta}(1,1)\)</span> prior, an arm has seen <span class="math inline">\(4\)</span> clicks and <span class="math inline">\(6\)</span> non-clicks. Give its posterior <span class="math inline">\(\text{Beta}(\alpha,\beta)\)</span> and its posterior mean. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E6.</strong> <em>(concept)</em> Name the two specific weaknesses of ε-greedy that UCB removes, citing the two terms of the UCB formula. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E7.</strong> <em>(concept)</em> In UCB, why does the bonus contain <span class="math inline">\(n_i\)</span> in the denominator and <span class="math inline">\(\ln t\)</span> in the numerator? Describe what each does as the run proceeds. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E8.</strong> <em>(concept)</em> Thompson sampling has no <span class="math inline">\(\varepsilon\)</span> knob, yet it still explores. Where does the exploration come from, and why does it automatically fade as data accumulates? <em>(Answer in Appendix B.)</em></p>
-<p><strong>E9.</strong> <em>(extend)</em> You add a brand-new item (no impressions). Explain what each of ε-greedy, UCB, and Thompson sampling does with it on the very next round, and which gives it the strongest initial push. <em>(Answer in Appendix B.)</em></p>
-<p><strong>E10.</strong> <em>(apply)</em> A contextual bandit serves Ann (sci-fi fan, mobile, evening). Describe, in terms of §6, how it would <em>choose</em> an article to show her and how it <em>updates</em> after seeing whether she clicks — and state the one thing that makes it a contextual bandit rather than the supervised CTR model of the previous chapter. <em>(Answer in Appendix B.)</em></p>
+<h2 class="anchored" data-anchor-id="exercises">8. Exercises</h2>
+<p>Ten problems, most of them on the chapter’s set-ups and tiny numbers. Solutions in the back-matter <em>Solutions</em> appendix.</p>
+<p><strong>E1.</strong> <em>(compute)</em> An algorithm pulls a sub-optimal arm with gap <span class="math inline">\(\mu^{*}-\mu = 0.25\)</span> a total of <span class="math inline">\(8\)</span> times over a run. What total regret do those pulls contribute? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E2.</strong> <em>(compute)</em> With <span class="math inline">\(K=4\)</span> arms and <span class="math inline">\(\varepsilon=0.2\)</span>, give the probability the best arm is pulled on a round, and the probability any one specific other arm is pulled. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E3.</strong> <em>(compute)</em> Continue the §4 example. UCB pulled T and it was clicked, so now M has <span class="math inline">\(n_M=3\)</span> pulls with mean <span class="math inline">\(\hat\mu_M=0.667\)</span> and T has <span class="math inline">\(n_T=2\)</span> pulls with <span class="math inline">\(1\)</span> click. Take <span class="math inline">\(t\)</span> to be the total number of pulls now (<span class="math inline">\(\ln t = 1.609\)</span>). Compute both UCB scores. Which arm does UCB pull? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E4.</strong> <em>(compute)</em> Arm M has been pulled <span class="math inline">\(40\)</span> times with <span class="math inline">\(22\)</span> clicks; arm T <span class="math inline">\(10\)</span> times with <span class="math inline">\(4\)</span> clicks (<span class="math inline">\(t=50\)</span>, <span class="math inline">\(\ln 50 = 3.912\)</span>). Compute each arm’s mean and UCB score, say which arm is pulled, and whether it is the arm with the higher mean. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E5.</strong> <em>(compute)</em> Under Thompson sampling with a <span class="math inline">\(\text{Beta}(1,1)\)</span> prior, an arm has seen <span class="math inline">\(4\)</span> clicks and <span class="math inline">\(6\)</span> non-clicks. Give its posterior <span class="math inline">\(\text{Beta}(\alpha,\beta)\)</span> and its posterior mean. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E6.</strong> <em>(apply)</em> A site with <span class="math inline">\(K=20\)</span> films runs ε-greedy with <span class="math inline">\(\varepsilon=0.05\)</span>, and after a long time <span class="math inline">\(19\)</span> of the films are known to be poor. (a) What share of all impressions goes to those <span class="math inline">\(19\)</span> films, and what share to one specific poor film? (b) Run UCB1 on one poor film instead: after <span class="math inline">\(t=1{,}000{,}000\)</span> rounds it has been pulled <span class="math inline">\(n=10{,}000\)</span> times with mean <span class="math inline">\(0.1\)</span>, while the best film has mean <span class="math inline">\(0.5\)</span>. Compute the poor film’s UCB score and say whether it is pulled. (c) For the poor film to be pulled again, its bonus would have to reach <span class="math inline">\(0.4\)</span>: what value of <span class="math inline">\(\ln t\)</span> would that take? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E7.</strong> <em>(concept)</em> (Here <span class="math inline">\(T\)</span> is the number of rounds again.) In a simulation (20 runs, seed 16) of UCB1 on two arms with click chances <span class="math inline">\(0.7\)</span> and <span class="math inline">\(0.5\)</span>, the worse arm was pulled on average <span class="math inline">\(124\)</span>, <span class="math inline">\(323\)</span> and <span class="math inline">\(503\)</span> times by <span class="math inline">\(T=1{,}000\)</span>, <span class="math inline">\(10{,}000\)</span> and <span class="math inline">\(100{,}000\)</span> rounds. (a) Compute the worse arm’s share of all rounds at each of the three horizons. (b) Using the pattern of the counts, estimate the count at <span class="math inline">\(T=1{,}000{,}000\)</span>. (c) The same rule on two arms with click chances <span class="math inline">\(0.6\)</span> and <span class="math inline">\(0.5\)</span> (gap <span class="math inline">\(0.1\)</span> instead of <span class="math inline">\(0.2\)</span>): by what factor would you expect the worse-arm count to change at a given <span class="math inline">\(T\)</span>, given that UCB1 pulls a worse arm about <span class="math inline">\(\ln T/\Delta^{2}\)</span> times? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E8.</strong> <em>(apply)</em> A film has click chance known to be <span class="math inline">\(0.55\)</span>. Thompson sampling holds two other films whose posteriors are <span class="math inline">\(\text{Beta}(2,2)\)</span> and <span class="math inline">\(\text{Beta}(40,40)\)</span>, both with mean <span class="math inline">\(0.5\)</span>. (a) For each, find the chance that its draw lies above <span class="math inline">\(0.55\)</span> (for <span class="math inline">\(\text{Beta}(2,2)\)</span> the distribution function is <span class="math inline">\(3x^{2}-2x^{3}\)</span>; for <span class="math inline">\(\text{Beta}(40,40)\)</span> use a normal curve with the same mean and standard deviation). (b) Which of the two is explored more, and by what factor? (c) The <span class="math inline">\(\text{Beta}(2,2)\)</span> film is then shown <span class="math inline">\(400\)</span> times and clicked <span class="math inline">\(160\)</span> times: what is its posterior now, and is it still likely to be drawn above <span class="math inline">\(0.55\)</span>? <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E9.</strong> <em>(extend)</em> A brand-new film joins one established film (<span class="math inline">\(K=2\)</span>) whose posterior is <span class="math inline">\(\text{Beta}(61,41)\)</span> (60 clicks, 40 non-clicks, so <span class="math inline">\(100\)</span> pulls). Give for each rule the chance the new film is shown on the next round, and rank the three rules by it. For ε-greedy take <span class="math inline">\(\varepsilon=0.1\)</span>, assume the established film is the current best, and use the plain rule of section 3. Throughout, the new film has just had its first pull and found no click, so its average is <span class="math inline">\(0\)</span> and the total is <span class="math inline">\(t=101\)</span> pulls (<span class="math inline">\(\ln 101=4.615\)</span>). For UCB1, compute both scores. For Thompson sampling, the new film’s posterior is <span class="math inline">\(\text{Beta}(1,2)\)</span> (the flat <span class="math inline">\(\text{Beta}(1,1)\)</span> plus one non-click), so it beats any value <span class="math inline">\(x\)</span> with chance <span class="math inline">\((1-x)^2\)</span>; average that over the established film’s draw <span class="math inline">\(X\)</span>; here <span class="math inline">\(1-X\sim\text{Beta}(41,61)\)</span>, and <span class="math inline">\(\text{Beta}(a,b)\)</span> has second moment <span class="math inline">\(a(a+1)/((a+b)(a+b+1))\)</span>. <em>(Answer in the Solutions appendix.)</em></p>
+<p><strong>E10.</strong> <em>(apply)</em> A LinUCB site (§6, taste-weighted contexts, features <span class="math inline">\((\text{romance},\text{action})\)</span>: Titanic <span class="math inline">\((1,0)\)</span>, Matrix <span class="math inline">\((0,1)\)</span>) has so far served a viewer with taste weights <span class="math inline">\((0,1)\)</span>. It showed her Matrix <span class="math inline">\(4\)</span> times with <span class="math inline">\(2\)</span> clicks and Titanic never. Compute <span class="math inline">\(A\)</span>, <span class="math inline">\(\mathbf b\)</span> and <span class="math inline">\(\hat\theta\)</span>. Then, with <span class="math inline">\(\alpha=1.2\)</span>, score both films for Ann (taste weights <span class="math inline">\((1,\,0.5)\)</span> here, not §6’s) and for Cara (taste weights <span class="math inline">\((0.5,\,1)\)</span>), and say which film each is shown. If Ann clicks the film she is shown, what are <span class="math inline">\(A\)</span> and <span class="math inline">\(\mathbf b\)</span> afterwards, and what is the bonus of that film for Ann now, compared with before? <em>(Answer in the Solutions appendix.)</em></p>
+<hr>
+</section>
+<section id="where-this-fits-in-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits-in-the-book">9. Where this fits in the book</h2>
+<p>This chapter completes the <strong>Frontiers</strong> turn that <em>Click-Through Rate Prediction &amp; Feature Interactions</em> began. CTR prediction learns from a <strong>fixed log</strong>; bandits close the loop: the recommender now <strong>chooses what to show and learns from the feedback</strong>, paying for the privilege in <em>regret</em> and managing it through <em>exploration</em>.</p>
+<p>It draws its reward signal (the click) and its feature vector (the context) straight from the CTR chapter, and it inherits the <strong>feedback-loop</strong> worry of <em>Evaluation Metrics</em> §12: exploration is, in part, the cure for a recommender that only ever confirms its own beliefs. It also points forward: relax the bandit’s “one-shot action” assumption and you get full <strong>reinforcement learning</strong>, taken up in Appendix D. Bandits are the bridge between the supervised models of the core ladder and the sequential decision-making at the field’s edge.</p>
 <hr>
 </section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">10. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -691,24 +990,48 @@ Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong>
 <td>Try an uncertain option to learn (explore) vs.&nbsp;take the best-known one now (exploit).</td>
 </tr>
 <tr class="even">
-<td><strong>Regret</strong></td>
-<td><span class="math inline">\(\sum_t(\mu^{*}-\mu_{a_t})\)</span>: reward lost versus always pulling the best arm.</td>
+<td><strong>Policy</strong></td>
+<td>The rule that picks the arm each round, using everything seen so far (§2).</td>
 </tr>
 <tr class="odd">
+<td><strong>Regret</strong></td>
+<td><span class="math inline">\(\sum_t(\mu^{*}-\mu_{a_t})\)</span>: expected reward lost versus always pulling the best arm.</td>
+</tr>
+<tr class="even">
+<td><strong>Gap</strong> <span class="math inline">\(\Delta_i\)</span></td>
+<td><span class="math inline">\(\mu^{*}-\mu_i\)</span>: how much less an arm pays per pull than the best arm; each pull of it adds this to the regret (§2).</td>
+</tr>
+<tr class="odd">
+<td><strong>Consistent policy</strong></td>
+<td>One whose regret grows more slowly than any power <span class="math inline">\(T^{c}\)</span> on every bandit of the class; none can beat <span class="math inline">\(\ln T\)</span> growth (Lai and Robbins, §2).</td>
+</tr>
+<tr class="even">
 <td><strong>ε-greedy</strong></td>
 <td>Exploit the best estimate with prob <span class="math inline">\(1-\varepsilon\)</span>; pull a uniform-random arm with prob <span class="math inline">\(\varepsilon\)</span>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>UCB</strong></td>
-<td>Pull <span class="math inline">\(\arg\max_i\,[\hat\mu_i + \sqrt{2\ln t / n_i}\,]\)</span>: highest <em>upper bound</em> — optimism under uncertainty.</td>
+<td>Pull <span class="math inline">\(\arg\max_i\,[\hat\mu_i + \sqrt{2\ln t / n_i}\,]\)</span>, with <span class="math inline">\(t\)</span> the pulls so far and <span class="math inline">\(n_i\)</span> the pulls of arm <span class="math inline">\(i\)</span>: highest <em>upper bound</em>, optimism under uncertainty.</td>
+</tr>
+<tr class="even">
+<td><strong>Thompson sampling</strong></td>
+<td>(Thompson, 1933) Keep a posterior per arm; sample one value from each and pull the largest sample.</td>
 </tr>
 <tr class="odd">
-<td><strong>Thompson sampling</strong></td>
-<td>Keep a posterior per arm; sample one value from each and pull the largest sample.</td>
+<td><strong>Prior and posterior</strong></td>
+<td>Belief about a click chance before data (prior) and after data (posterior).</td>
 </tr>
 <tr class="even">
 <td><strong>Beta posterior</strong></td>
 <td><span class="math inline">\(\text{Beta}(1+s,1+f)\)</span> for <span class="math inline">\(s\)</span> clicks, <span class="math inline">\(f\)</span> non-clicks; conjugate to the Bernoulli click.</td>
+</tr>
+<tr class="odd">
+<td><strong>Conjugate prior</strong></td>
+<td>A prior whose posterior has the same form, so an update only adds counts: Beta for click data (§5).</td>
+</tr>
+<tr class="even">
+<td><strong>Bernoulli trial</strong></td>
+<td>One try with two outcomes, such as click / no click, with unknown chance <span class="math inline">\(\mu\)</span>.</td>
 </tr>
 <tr class="odd">
 <td><strong>Contextual bandit</strong></td>
@@ -716,11 +1039,35 @@ Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong>
 </tr>
 <tr class="even">
 <td><strong>LinUCB</strong></td>
-<td>Ridge-regression reward estimate <span class="math inline">\(\boldsymbol\theta^{\top}\mathbf x\)</span> plus a feature-space confidence bonus.</td>
+<td>Ridge-regression reward estimate <span class="math inline">\(\theta^{\top}\mathbf x\)</span> plus a feature-space confidence bonus <span class="math inline">\(\alpha\sqrt{\mathbf x^{\top}A^{-1}\mathbf x}\)</span> (§6).</td>
 </tr>
 <tr class="odd">
+<td><strong>Ridge / L2 penalty</strong></td>
+<td>A penalty on large coefficients added to least squares; in LinUCB it is the identity start <span class="math inline">\(A=I\)</span>.</td>
+</tr>
+<tr class="even">
 <td><strong>Offline replay</strong></td>
-<td>Unbiased evaluation of a bandit policy on a log of randomly-served actions (Li et al.&nbsp;2011).</td>
+<td>Unbiased evaluation of a bandit policy on a log of actions served uniformly at random, independent of context (Li et al.&nbsp;2011).</td>
+</tr>
+<tr class="odd">
+<td><strong>Non-stationarity</strong></td>
+<td>The arms’ true rates drift over time, so old evidence goes stale and a policy must keep exploring (§1).</td>
+</tr>
+<tr class="even">
+<td><strong>Off-policy, IPS, doubly-robust</strong></td>
+<td>Scoring a policy from another policy’s log; IPS reweights logged data by <span class="math inline">\(1/p(\text{action})\)</span>; doubly-robust adds a reward model that, when roughly right, cuts the variance, the run-to-run jitter of the estimate (§7).</td>
+</tr>
+<tr class="odd">
+<td><strong>Propensity</strong></td>
+<td>The probability <span class="math inline">\(p\)</span> that the logging policy took the action it did; a film shown with <span class="math inline">\(p=0.1\)</span> counts <span class="math inline">\(10\)</span> times per click (§7).</td>
+</tr>
+<tr class="even">
+<td><strong>Empirical mean</strong></td>
+<td>An arm’s clicks divided by its pulls so far, written <span class="math inline">\(\hat\mu_i\)</span>; <span class="math inline">\(2\)</span> clicks in <span class="math inline">\(3\)</span> pulls give <span class="math inline">\(0.667\)</span> (§3).</td>
+</tr>
+<tr class="odd">
+<td><strong>Censored reward</strong></td>
+<td>A reward not yet known: no click so far, but one may still come (§7).</td>
 </tr>
 </tbody>
 </table>
@@ -729,14 +1076,19 @@ Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">11. References</h2>
 <ul>
-<li><p>Auer, P., Cesa-Bianchi, N., &amp; Fischer, P. (2002). <em>Finite-time analysis of the multiarmed bandit problem</em>. <em>Machine Learning, 47</em>(2–3), 235–256. https://doi.org/10.1023/A:1013689704352 <em>(UCB1).</em></p></li>
-<li><p>Chapelle, O., &amp; Li, L. (2011). <em>An empirical evaluation of Thompson sampling</em>. In <em>Advances in Neural Information Processing Systems (NeurIPS) 24</em>, 2249–2257.</p></li>
-<li><p>Li, L., Chu, W., Langford, J., &amp; Schapire, R. E. (2010). <em>A contextual-bandit approach to personalized news article recommendation</em>. In <em>Proceedings of WWW</em>. arXiv:1003.0146 · https://doi.org/10.1145/1772690.1772758 <em>(LinUCB; ToT Award 2023).</em></p></li>
-<li><p>Li, L., Chu, W., Langford, J., &amp; Wang, X. (2011). <em>Unbiased offline evaluation of contextual-bandit-based news article recommendation algorithms</em>. In <em>Proceedings of WSDM</em>. arXiv:1003.5956 · https://doi.org/10.1145/1935826.1935878 <em>(offline replay).</em></p></li>
-<li><p>Lattimore, T., &amp; Szepesvári, C. (2020). <em>Bandit algorithms</em>. Cambridge University Press. https://doi.org/10.1017/9781108571401 <em>(the rigorous reference text).</em></p></li>
-<li><p>Sutton, R. S., &amp; Barto, A. G. (2018). <em>Reinforcement learning: An introduction</em> (2nd ed.). MIT Press. <em>(for the step from bandits to full RL — see the RL appendix).</em></p></li>
+<li>Auer, P., Cesa-Bianchi, N., &amp; Fischer, P. (2002). <em>Finite-time analysis of the multiarmed bandit problem</em>. <em>Machine Learning, 47</em>(2–3), 235–256. https://doi.org/10.1023/A:1013689704352 <em>(UCB1).</em></li>
+<li>Chapelle, O., &amp; Li, L. (2011). <em>An empirical evaluation of Thompson sampling</em>. In <em>Advances in Neural Information Processing Systems (NeurIPS) 24</em>, 2249–2257. <em>(Thompson sampling reported as highly competitive.)</em></li>
+<li>Dudík, M., Langford, J., &amp; Li, L. (2011). <em>Doubly robust policy evaluation and learning</em>. In <em>Proceedings of the 28th International Conference on Machine Learning (ICML)</em>. arXiv:1103.4601 <em>(the doubly-robust estimator for off-policy evaluation).</em></li>
+<li>Garivier, A., &amp; Moulines, E. (2011). On upper-confidence bound policies for switching bandit problems. In <em>Algorithmic Learning Theory</em>, LNCS 6925, 174–188. https://doi.org/10.1007/978-3-642-24412-4_16 <em>(discounted and sliding-window UCB for changing environments).</em></li>
+<li>Lai, T. L., &amp; Robbins, H. (1985). Asymptotically efficient adaptive allocation rules. <em>Advances in Applied Mathematics, 6</em>(1), 4–22. https://doi.org/10.1016/0196-8858(85)90002-8 <em>(the logarithmic lower bound for consistent policies; stated in Chapter 16 of Lattimore &amp; Szepesvári).</em></li>
+<li>Lattimore, T., &amp; Szepesvári, C. (2020). <em>Bandit algorithms</em>. Cambridge University Press. https://doi.org/10.1017/9781108571401 <em>(the rigorous reference text; its Chapter 16, Theorem 16.2, is the lower bound, valid for any class of independently chosen arm distributions, with Bernoulli arms in its table of divergences).</em></li>
+<li>Li, L., Chu, W., Langford, J., &amp; Schapire, R. E. (2010). <em>A contextual-bandit approach to personalized news article recommendation</em>. In <em>Proceedings of WWW</em>. arXiv:1003.0146 · https://doi.org/10.1145/1772690.1772758 <em>(LinUCB; offline evaluation on over 33 million logged events; named the 2023 Seoul Test of Time Award paper by the International World Wide Web Conference Committee, IW3C2).</em></li>
+<li>Li, L., Chu, W., Langford, J., &amp; Wang, X. (2011). <em>Unbiased offline evaluation of contextual-bandit-based news article recommendation algorithms</em>. In <em>Proceedings of WSDM</em>. arXiv:1003.5956 · https://doi.org/10.1145/1935826.1935878 <em>(offline replay).</em></li>
+<li>Robbins, H. (1952). Some aspects of the sequential design of experiments. <em>Bulletin of the American Mathematical Society, 58</em>(5), 527–535. https://doi.org/10.1090/S0002-9904-1952-09620-8 <em>(the early statement of the sequential choice among arms that this chapter formalises).</em></li>
+<li>Sutton, R. S., &amp; Barto, A. G. (2018). <em>Reinforcement learning: An introduction</em> (2nd ed.). MIT Press. <em>(for the step from bandits to full RL; see Appendix D).</em></li>
+<li>Thompson, W. R. (1933). On the likelihood that one unknown probability exceeds another in view of the evidence of two samples. <em>Biometrika, 25</em>(3–4), 285–294. https://doi.org/10.1093/biomet/25.3-4.285 <em>(the origin of the idea behind Thompson sampling).</em></li>
 </ul>
-<p><em>Online sources verified June 2026.</em></p>
+<p><em>Online sources checked October 2026: the Li et al.&nbsp;(2010) abstract on arXiv, the Chapelle and Li (2011) abstract, Chapter 16 of Lattimore and Szepesvári (2020), the arXiv and Crossref records of Dudík et al.&nbsp;(2011) and Garivier and Moulines (2011), the Crossref records of Robbins (1952) and Thompson (1933), the text of Li et al.&nbsp;(2010) for its disjoint and hybrid variants, and the IW3C2 press release of 2 May 2023 for the award.</em></p>
 
 
 </section>
@@ -1150,12 +1502,12 @@ Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/deep-ctr.html" class="pagination-link" aria-label="Click-Through Rate Prediction &amp; Feature Interactions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/implementation-choices.html" class="pagination-link" aria-label="Implementation Choices: A Practitioner's Field Guide">
-        <span class="nav-page-text"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1169,7 +1521,7 @@ Figure&nbsp;16.1: <strong>Optimism under uncertainty (the §4 numbers).</strong>
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

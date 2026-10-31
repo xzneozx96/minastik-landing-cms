@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+<meta name="description" content="The public datasets recommender research runs on and the benchmark protocols around them: data splits, k-core filtering, ranking scope and the pitfalls that make results incomparable.">
 
 <title>Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero</title>
 <style>
@@ -124,21 +124,22 @@ ul.task-list li input[type="checkbox"] {
       "name": "Recommender Systems from Zero",
       "alternateName": "A Hand-Checkable Path from Linear Algebra to Graph- and LLM-Based Collaborative Filtering",
       "url": "https://minastik.com/recsys/",
-      "sameAs": ["https://doi.org/10.5281/zenodo.20952963"],
+      "sameAs": ["https://doi.org/10.5281/zenodo.20952962"],
       "author": [
         { "@id": "https://orcid.org/0000-0002-2442-6263" },
         { "@id": "https://orcid.org/0000-0002-0572-2091" }
       ],
       "publisher": { "@type": "Organization", "name": "Zenodo" },
-      "datePublished": "2026-06-28",
+      "datePublished": "2026-06-27",
+      "dateModified": "2026-10-31",
       "inLanguage": "en",
       "bookFormat": "https://schema.org/EBook",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "creativeWorkStatus": "Published",
-      "version": "1.1",
+      "version": "2.0",
       "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952963" }
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.5281/zenodo.20952962" }
       ],
       "learningResourceType": ["Textbook", "Tutorial"],
       "educationalLevel": "Advanced undergraduate to graduate",
@@ -159,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 <link rel="canonical" href="https://minastik.com/recsys/chapters/datasets-and-benchmarks.html"><meta property="og:url" content="https://minastik.com/recsys/chapters/datasets-and-benchmarks.html"><meta property="og:type" content="article">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix B — Datasets & Benchmarks","name":"Appendix B — Datasets & Benchmarks","description":"Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.","url":"https://minastik.com/recsys/chapters/datasets-and-benchmarks.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["TechArticle","LearningResource"],"headline":"Appendix B — Datasets & Benchmarks","name":"Appendix B — Datasets & Benchmarks","description":"The public datasets recommender research runs on and the benchmark protocols around them: data splits, k-core filtering, ranking scope and the pitfalls that make results incomparable.","url":"https://minastik.com/recsys/chapters/datasets-and-benchmarks.html","inLanguage":"en","isAccessibleForFree":true,"license":"https://creativecommons.org/licenses/by/4.0/","learningResourceType":"Chapter","author":[{"@type":"Person","name":"Duong Tan Nghia","url":"https://orcid.org/0000-0002-2442-6263"},{"@type":"Person","name":"Tran Manh Hoang","url":"https://orcid.org/0000-0002-0572-2091"}],"isPartOf":{"@type":"Book","@id":"https://minastik.com/recsys/#book","name":"Recommender Systems from Zero"},"publisher":{"@type":"Organization","name":"Minastik Technology JSC","url":"https://minastik.com/"}}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -192,11 +193,11 @@ window.Quarto = {
 </script>
 
 <meta property="og:title" content="Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero">
-<meta property="og:description" content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+<meta property="og:description" content="The public datasets recommender research runs on and the benchmark protocols around them: data splits, k-core filtering, ranking scope and the pitfalls that make results incomparable.">
 <meta property="og:image" content="https://minastik.com/recsys/social-card.png">
 <meta property="og:site_name" content="Recommender Systems from Zero">
 <meta name="twitter:title" content="Appendix B — Datasets &amp; Benchmarks – Recommender Systems from Zero">
-<meta name="twitter:description" content="Common recommender-system datasets and benchmark protocols — splits, metrics and pitfalls — for evaluating models fairly and reproducibly.">
+<meta name="twitter:description" content="The public datasets recommender research runs on and the benchmark protocols around them: data splits, k-core filtering, ranking scope and the pitfalls that make results incomparable.">
 <meta name="twitter:image" content="https://minastik.com/recsys/social-card.png">
 <meta name="twitter:card" content="summary_large_image">
   <!-- minastik-brand -->
@@ -250,7 +251,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span class="chapter-title">Datasets &amp; Benchmarks</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -287,17 +288,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Linear Algebra for ML</span></a>
+  <a href="../chapters/linalg-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Linear Algebra for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Calculus for ML</span></a>
+  <a href="../chapters/calculus-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Calculus for Machine Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Probability &amp; Statistics for ML</span></a>
+  <a href="../chapters/math-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Probability &amp; Statistics for Machine Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -313,17 +317,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Loss Functions &amp; Regularizers</span></a>
+  <a href="../chapters/losses-and-regularizers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Loss Functions &amp; Regularizers</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Neural Networks &amp; Back-propagation</span></a>
+  <a href="../chapters/neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Neural Networks &amp; Back-propagation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Representation Learning &amp; the Transformer</span></a>
+  <a href="../chapters/nlp-and-transformers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Representation Learning &amp; the Transformer</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,12 +346,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Traditional Recommender Systems</span></a>
+  <a href="../chapters/traditional-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Traditional Recommender Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Evaluation Metrics</span></a>
+  <a href="../chapters/recsys-metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Evaluation Metrics</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,7 +369,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></a>
+  <a href="../chapters/sequential-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Sequential &amp; Session-Based Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,17 +386,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Graphs to LightGCN</span></a>
+  <a href="../chapters/gcn-to-lightgcn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">From Graphs to LightGCN</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SSL &amp; Contrastive Learning</span></a>
+  <a href="../chapters/gcl-and-ssl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Self-Supervised &amp; Contrastive Learning</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Spectral / Graph-Filter View</span></a>
+  <a href="../chapters/spectral-graph-filter-cf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Spectral / Graph-Filter View</span></span></a>
   </div>
 </li>
       </ul>
@@ -394,7 +407,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">The LLM Era</span></a>
+ <span class="menu-text">The Era of Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -402,7 +415,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LLM × RecSys: the Landscape</span></a>
+  <a href="../chapters/llm-recsys-survey.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Large Language Models and Recommendation: the Landscape</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,7 +432,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Training and Serving a Recommender</span></a>
+  <a href="../chapters/training-and-serving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Training and Serving a Recommender</span></span></a>
   </div>
 </li>
       </ul>
@@ -434,12 +449,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></a>
+  <a href="../chapters/deep-ctr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Click-Through Rate Prediction &amp; Feature Interactions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Bandits &amp; Online Recommendation</span></a>
+  <a href="../chapters/bandits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Bandits &amp; Online Recommendation</span></span></a>
   </div>
 </li>
       </ul>
@@ -455,27 +472,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></a>
+  <a href="../chapters/implementation-choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Datasets &amp; Benchmarks</span></a>
+  <a href="../chapters/datasets-and-benchmarks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Generating Features with LLMs</span></a>
+  <a href="../chapters/llm-feature-generation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reinforcement Learning for Recommendation</span></a>
+  <a href="../chapters/rl-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Reinforcement Learning for Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></a>
+  <a href="../chapters/federated-recsys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Federated &amp; Privacy-Preserving Recommendation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -486,7 +508,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Solutions to Exercises</span></a>
+  <a href="../chapters/notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">List of Symbols</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Solutions to Exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/acknowledgements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Acknowledgements</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -522,7 +557,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span class="chapter-title">Datasets &amp; Benchmarks</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/implementation-choices.html">Appendices</a></li><li class="breadcrumb-item"><a href="../chapters/datasets-and-benchmarks.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets &amp; Benchmarks</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Appendix B — Datasets &amp; Benchmarks</h1>
 </div>
@@ -541,25 +576,33 @@ window.Quarto = {
 </header>
 
 
+<p>Ann reads two papers. Both list LightGCN (a standard model that learns from the graph of who interacted with what) on a dataset called “Amazon-Book”; one reports Recall@20 (the share of a user’s held-out items found in the top 20 recommendations) of 0.0411 (He et al., 2020), the other 0.1411 (Ren et al., 2024). Neither is a typing error: the name does not say which file was used, or how it was cut into a training part and a test part. This appendix teaches the question to ask before any number is read: <em>which data, and which split?</em></p>
+<p><em>Purpose: after this appendix you can read “we tested on Amazon-Book” and say which file that is, how it was split, and whether its number may stand beside another paper’s. Assumes: the metrics of the Evaluation Metrics chapter, Recall@K and the normalized discounted cumulative gain (NDCG@K), and arithmetic with fractions; most other terms are defined where they first appear, and §8 repeats the main ones. This is a lookup appendix, not a chapter to read in order: §1 to §3 give the datasets and the split rules, §4 maps the field, §5 and §7 are cautions, and §6 is how the field gets its data today.</em></p>
 <section id="the-datasets-you-will-actually-meet" class="level2">
 <h2 class="anchored" data-anchor-id="the-datasets-you-will-actually-meet">1. The datasets you will actually meet</h2>
-<p>Academic recommendation runs on a surprisingly small set of public logs. It helps to group them by <strong>family</strong>, because the family fixes the loss and the metric more than the size does:</p>
+<p>Bob has a new recommender and asks the obvious question: which dataset do I download? Every paper answers with a name, and the name hides a choice, because one name can stand for several files (§2, §4). Academic recommendation runs on a surprisingly small set of public logs (a log is a file with one row per user action). Group them by <strong>family</strong>: the family suggests the usual task, and so the loss (the training objective) and the metric. Star ratings suggest predicting the number itself, with a squared-error loss and the root-mean-squared error (RMSE) of Evaluation Metrics; clicks suggest ranking, with a ranking loss and Recall@K. The family only suggests: as §4 shows, the protocol is ultimately fixed by the <em>research community</em>, not by the dataset.</p>
 <ul>
-<li><strong>Rating prediction</strong> (explicit stars) — MovieLens, Netflix, Book-Crossing.</li>
-<li><strong>Implicit top-<span class="math inline">\(N\)</span> / graph CF</strong> (clicks, check-ins, buys) — Gowalla, Yelp, Amazon, Steam, LastFM.</li>
-<li><strong>CTR / news / sequential</strong> (a binary click, often with rich features or a time axis) — Criteo, MIND, Taobao.</li>
+<li><strong>Rating prediction</strong> (explicit stars): MovieLens, Netflix, Book-Crossing.</li>
+<li><strong>Implicit top-<span class="math inline">\(N\)</span> / graph collaborative filtering (CF)</strong> (clicks, check-ins, buys; <em>top-<span class="math inline">\(N\)</span></em> means recommending each user the <span class="math inline">\(N\)</span> best items): Gowalla, Yelp, Amazon, Steam, <strong>LastFM</strong> (music listening logs). (Yelp and Amazon ship explicit stars, but the graph-CF trio <strong>binarizes</strong> them: every observed pair becomes a 1, and the neural graph collaborative filtering (NGCF) paper states no rating threshold. Some later papers threshold first, see §4.)</li>
+<li><strong>Click-through rate (CTR) / news</strong> (a binary click, often with rich side-features, i.e.&nbsp;extra columns about users or items): <strong>Criteo</strong> (a display-advertising click log), <strong>MIND</strong> (the Microsoft News Dataset), <strong>Taobao</strong> (Alibaba’s e-commerce behavior log: click / add-to-cart / favorite / buy, released through the Tianchi platform). The row label is an <strong>impression</strong>: one showing of an item, or of a list of items, to a user, together with the click or no-click that followed. If a page shows Bob five films and he clicks the second, that is five impressions (item by item): one click and four no-clicks. The question the model answers is <em>was this impression clicked?</em></li>
+<li><strong>Sequential / next-item</strong> (the same logs, but read as <em>time-ordered</em> sequences per user): MovieLens-1M, Amazon category subsets, Steam. This is a way of <em>using</em> a dataset, not a separate family of data; §4 shows it has its own protocol.</li>
 </ul>
-<p>For each, the four properties that actually change your modelling choice are: <strong>feedback</strong> (explicit ratings vs.&nbsp;implicit 0/1), <strong>timestamps?</strong> (needed for a temporal split, §3), <strong>side-features?</strong> (enables content / FM / cold-start), and <strong>license</strong>.</p>
+<p>For each, the four properties that actually change your modeling choice are: <strong>feedback</strong> (explicit ratings vs.&nbsp;implicit 0/1), <strong>timestamps?</strong> (needed for a time-based split, §3), <strong>side-features?</strong> (they enable content models and factorization machines (FM), which score items from their features, and <strong>cold-start</strong> models, which must serve a new user or item with no history, such as a user who joined today; §3 shows a cold item), and <strong>license</strong>.</p>
+<div id="tbl-datasets-and-benchmarks-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.1: A working subset of the public datasets in academic recommender-systems research, grouped by family. Scales are the owners’ figures, each taken from that dataset’s own page (§9 says to cite it); live datasets grow, so re-check before you quote one.
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>A working subset of the public datasets in academic recommender-systems research, grouped by the family that fixes the loss and metric. The <strong>Status</strong> tag reads <strong>Active</strong> (downloadable today), <strong>Restricted</strong> (gated — academic-only / revocable / by signed agreement), or <strong>Withdrawn</strong> (officially pulled — keep it for history, do not build on it). The other columns that drive a modelling choice are the <strong>feedback type</strong>, whether there are <strong>timestamps</strong> (for a temporal split), and whether there are <strong>side-features</strong> (for content / FM / cold-start).</caption>
 <colgroup>
+<col style="width: 16%">
+<col style="width: 9%">
+<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 4%">
 <col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 13%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 13%">
+<col style="width: 23%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -568,7 +611,7 @@ window.Quarto = {
 <th>Scale (approx.)</th>
 <th>Feedback</th>
 <th style="text-align: center;">Time</th>
-<th style="text-align: center;">Side-features</th>
+<th>Side-features</th>
 <th>Status &amp; license</th>
 </tr>
 </thead>
@@ -577,10 +620,10 @@ window.Quarto = {
 <td><strong>MovieLens</strong> (100K–32M)</td>
 <td>movies</td>
 <td>100K–32M ratings</td>
-<td>explicit 1–5</td>
+<td>explicit 0.5–5 (whole stars 1–5 in 100K/1M only)</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">genres, tags, tag-genome; demographics (100K/1M only)</td>
-<td><strong>Active</strong> — GroupLens; research, non-commercial</td>
+<td>genres, tags, tag-genome; demographics (100K/1M only)</td>
+<td><strong>Active</strong> — GroupLens (the University of Minnesota lab that publishes MovieLens); research, non-commercial</td>
 </tr>
 <tr class="even">
 <td><strong>Netflix Prize</strong></td>
@@ -588,7 +631,7 @@ window.Quarto = {
 <td>100M ratings</td>
 <td>explicit 1–5</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">title/year only</td>
+<td>title/year only</td>
 <td><strong>Withdrawn</strong> (de-anonymization); copies circulate — cite as history (§7)</td>
 </tr>
 <tr class="odd">
@@ -597,8 +640,8 @@ window.Quarto = {
 <td>233M (’18) → 571M (’23)</td>
 <td>explicit 1–5 + text</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">metadata, images; per category</td>
-<td><strong>Active</strong> — research; on HuggingFace</td>
+<td>metadata, images; per category</td>
+<td><strong>Active</strong> — research; on HuggingFace (a public dataset/model hosting hub)</td>
 </tr>
 <tr class="even">
 <td><strong>Yelp Open Dataset</strong></td>
@@ -606,82 +649,99 @@ window.Quarto = {
 <td>~7M reviews</td>
 <td>explicit 1–5 + text</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">attributes, social graph, check-ins</td>
-<td><strong>Active</strong> (rolling) — academic, <strong>revocable</strong></td>
+<td>attributes, social graph, check-ins</td>
+<td><strong>Restricted</strong> (rolling: the owner replaces the files from time to time) — academic only, <strong>revocable</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>Gowalla</strong></td>
 <td>check-ins</td>
-<td>~1M (10-core)</td>
+<td>6.4M raw check-ins; ~1M in the 10-core benchmark snapshot (every user and item has <span class="math inline">\(\ge 10\)</span> interactions; §3)</td>
 <td><strong>implicit</strong></td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">geo, friendship graph</td>
-<td><strong>Active</strong> — SNAP, public</td>
+<td>geo, friendship graph</td>
+<td><strong>Active</strong> — SNAP (Stanford’s network-dataset collection), public; no stated terms (§7)</td>
 </tr>
 <tr class="even">
 <td><strong>Steam</strong></td>
 <td>games</td>
-<td>~7M reviews</td>
+<td>~7.8M reviews</td>
 <td>implicit + reviews</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">genres, price, playtime</td>
+<td>genres, price, playtime</td>
 <td><strong>Active</strong> — research</td>
 </tr>
 <tr class="odd">
-<td><strong>LastFM</strong> (LFM-1b / 2b)</td>
+<td><strong>LastFM</strong> (<strong>LFM</strong>, short for Last.fm: the releases LFM-1b and LFM-2b)</td>
 <td>music</td>
 <td>1B–2B plays</td>
 <td><strong>implicit</strong></td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">demographics, genre</td>
-<td><strong>Withdrawn</strong> — LFM-2b pulled (license); LFM-1b gated</td>
+<td>demographics, genre</td>
+<td><strong>Withdrawn</strong> — both no longer distributed; LFM-1b’s page cites license issues (§7)</td>
 </tr>
 <tr class="even">
-<td><strong>MIND</strong></td>
+<td><strong>MIND</strong> (the Microsoft News Dataset)</td>
 <td>news</td>
 <td>1M users, &gt;15M impr.</td>
 <td><strong>implicit</strong> click</td>
 <td style="text-align: center;">yes</td>
-<td style="text-align: center;">title, abstract, body, entities</td>
-<td><strong>Active</strong> — Microsoft research license</td>
+<td>title, abstract, body, entities</td>
+<td><strong>Restricted</strong> — Microsoft Research license, research only</td>
 </tr>
 <tr class="odd">
 <td><strong>Criteo</strong></td>
 <td>display ads</td>
-<td>~45M rows</td>
+<td>~46M rows</td>
 <td><strong>implicit</strong> click</td>
 <td style="text-align: center;">—</td>
-<td style="text-align: center;">13 numeric + 26 categorical (hashed)</td>
-<td><strong>Active</strong> — public (Kaggle)</td>
+<td>13 numeric + 26 categorical (hashed)</td>
+<td><strong>Active</strong> — public (Kaggle, a data-science competition site)</td>
 </tr>
 <tr class="even">
 <td><strong>Book-Crossing</strong></td>
 <td>books</td>
-<td>1.1M ratings</td>
+<td>1.15M ratings</td>
 <td>explicit 1–10 + implicit</td>
 <td style="text-align: center;">no</td>
-<td style="text-align: center;">age, location, metadata</td>
-<td><strong>Active</strong> — public (GroupLens)</td>
+<td>age, location, metadata</td>
+<td><strong>Active</strong> — public (GroupLens); no stated terms (§7)</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Inside the families: which variant carries what.</strong> Several entries above are not one dataset but a <em>family</em> of releases, and a beginner can lose hours to the wrong one (MovieLens alone has seven). The matrices below show, per family, what data each variant actually gives you.</p>
+</div>
+</figure>
+</div>
+<p>Reading Table B.1:</p>
+<ul>
+<li><strong>Status.</strong> <strong>Active</strong> means downloadable today; <strong>Restricted</strong>, gated (academic-only, revocable, or by signed agreement); <strong>Superseded</strong>, replaced by a newer release of the same family; <strong>Frozen</strong>, a benchmark snapshot that now lives in a code repository rather than with the vendor; <strong>Withdrawn</strong>, officially pulled (keep it for history, do not build on it).</li>
+<li><strong>Time.</strong> <em>yes</em> means the rows carry usable timestamps, <em>no</em> that there is no time information, and <em>—</em> that the rows are delivered in time order but carry no timestamp you can read (the owners’ description of Criteo, not re-checked here).</li>
+<li><strong>LastFM.</strong> LFM-1b holds more than one billion play events and LFM-2b more than two billion; both are no longer distributed (§7).</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Which one do I pick?</strong> Rules of thumb from practice, not tested here. First test of a rating or next-item idea: MovieLens-1M, small and frozen, with timestamps. Comparing with published graph-CF numbers: the trio of §2, on its frozen files. Click prediction: Criteo; news: MIND. New work on reviews: Amazon Reviews 2023. Before any of them, read the Status cell: a Withdrawn set is history, not a benchmark.</p>
+</blockquote>
+<p><strong>Inside the families: which variant carries what.</strong> Several entries above are not one dataset but a <em>family</em> of releases, and a beginner can lose hours to the wrong one (MovieLens alone has the seven below, plus a 32M release, which the note under the table covers). The tables below show, per family, what data each variant actually gives you.</p>
+<div id="tbl-datasets-and-benchmarks-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.2: <strong>The MovieLens family.</strong> Every <em>numbered</em> release is a <strong>frozen</strong> benchmark; the two <em>latest</em> sets are development data that <strong>change over time</strong> and must not be used for reported results. <strong>User demographics</strong> exist only in <strong>100K/1M</strong>; the <strong>tag genome</strong> (a movie <span class="math inline">\(\times\)</span> tag relevance matrix: about 1,100 tags in 20M, 1,129 in 25M) only in <strong>20M/25M</strong> among the frozen releases (the development set <em>latest-full</em> carries it too); <strong>10M</strong> first added free-text tags. Source: the GroupLens pages; Harper &amp; Konstan (2015).
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption><strong>The MovieLens family.</strong> Every <em>numbered</em> release is a <strong>frozen</strong> benchmark; the two <em>latest</em> sets are development data that <strong>change over time</strong> and must not be used for reported results. Pick by the data you need: <strong>user demographics</strong> (age/gender/occupation) exist only in <strong>100K/1M</strong>; the <strong>tag genome</strong> (a movie <span class="math inline">\(\times\)</span> tag relevance matrix — 1,128 tags in 20M, 1,129 in 25M) only in <strong>20M/25M</strong>; <strong>10M</strong> first added free-text tags. Ratings are whole-star 1–5 in 100K/1M, half-star 0.5–5 from 10M on. (User <span class="math inline">\(\times\)</span> item counts grow with size: 943 <span class="math inline">\(\times\)</span> 1.7K at 100K up to 162K <span class="math inline">\(\times\)</span> 62K at 25M.) GroupLens now also ships a <strong>32M</strong> frozen release (2023). Source: GroupLens; Harper &amp; Konstan (2015).</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 18%">
+<col style="width: 32%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>MovieLens variant</th>
 <th>Ratings</th>
-<th style="text-align: center;">Scale</th>
+<th style="text-align: center;">Rating range</th>
 <th style="text-align: center;">Tags</th>
 <th style="text-align: center;">Tag-genome</th>
 <th style="text-align: center;">Demographics</th>
@@ -754,15 +814,24 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p>Ratings are whole-star 1–5 in 100K/1M, half-star 0.5–5 from 10M on. User <span class="math inline">\(\times\)</span> item counts grow with size: 943 <span class="math inline">\(\times\)</span> 1.7K at 100K, 6,040 <span class="math inline">\(\times\)</span> 3,706 rated movies at 1M, up to 162,541 <span class="math inline">\(\times\)</span> 62,423 at 25M (the 25M README’s counts; the GroupLens page rounds them to 162,000 and 62,000). GroupLens also ships a <strong>32M</strong> frozen release (collected 10/2023, released 5/2024; 200,948 users <span class="math inline">\(\times\)</span> 87,585 movies; its page does not state whether it carries the tag genome, so it has no row here); that page lists 32M under “recommended for new research” and 25M under “older datasets”.</p>
+<div id="tbl-datasets-and-benchmarks-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.3: <strong>The Amazon Reviews family</strong> grows by <em>release year</em>; each version re-crawls all categories. Papers use a <em>single category</em>, most often <strong>Books</strong>, <strong>Beauty</strong>, <strong>Sports</strong> or <strong>Toys</strong>. Use <strong>2023</strong> for new work. The 2014 count has two merged forms: its page gives 83.68M after duplicate items are removed and 82.83M after every duplicate is removed, and the 2023 page tabulates the 82.83M. Sources: the release pages; McAuley et al.&nbsp;(2015); Ni et al.&nbsp;(2019); Hou et al.&nbsp;(2026), the paper describing the 2023 release (the release itself dates from 2023).
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption><strong>The Amazon Reviews family</strong> grows by <em>release year</em>, not a size-suffix; each version re-crawls all categories. Papers use a <em>single category</em> — most often <strong>Books</strong>, <strong>Beauty</strong>, <strong>Sports</strong>, or <strong>Toys</strong>. The graph-CF <strong>“Amazon-Book”</strong> benchmark is a <strong>10-core subset of the 2014 Books category</strong> (about 52.6K users, 91.6K items, 3.0M interactions) frozen in the NGCF/LightGCN repos — a benchmark <em>artifact</em>, not the live category (which is far larger). Use <strong>2023</strong> for new work. Sources: Ni et al.&nbsp;(2019); Hou et al.&nbsp;(2024).</caption>
 <colgroup>
-<col style="width: 15%">
-<col style="width: 15%">
-<col style="width: 15%">
-<col style="width: 21%">
-<col style="width: 15%">
-<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 37%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -778,36 +847,56 @@ window.Quarto = {
 <tr class="odd">
 <td><strong>2014</strong></td>
 <td>McAuley et al.</td>
-<td>~143M</td>
-<td style="text-align: center;">~24</td>
-<td>ratings, text, also-bought graph</td>
-<td>superseded</td>
+<td>142.8M raw (83.7M once duplicate items are removed)</td>
+<td style="text-align: center;">24</td>
+<td>ratings, text, descriptions, price, brand, sales rank, image features, also-bought graph</td>
+<td><strong>Superseded</strong></td>
 </tr>
 <tr class="even">
 <td><strong>2018</strong></td>
 <td>Ni, Li &amp; McAuley</td>
-<td>233M</td>
-<td style="text-align: center;">~30</td>
-<td><span class="math inline">\(+\)</span> price, brand, image features</td>
+<td>233.1M</td>
+<td style="text-align: center;">29</td>
+<td><span class="math inline">\(+\)</span> 90M reviews (to Oct 2018), 5 categories, transaction metadata (color / size / package), buyer photos, bullet-point descriptions, technical-details tables</td>
 <td><strong>Active</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>2023</strong></td>
 <td>Hou et al.&nbsp;(McAuley Lab)</td>
-<td><strong>571M</strong></td>
+<td><strong>571.5M</strong></td>
 <td style="text-align: center;">33</td>
-<td><span class="math inline">\(+\)</span> richer metadata; HuggingFace-hosted</td>
+<td><span class="math inline">\(+\)</span> reviews through Sep 2023 (54.5M users, 48.2M items); richer item metadata; HuggingFace-hosted</td>
 <td><strong>Active — current</strong></td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p>Three cautions apply to the table: what 2018 added comes first, then the Amazon-Book snapshot, then the way the name fails to identify the file.</p>
+<ul>
+<li><strong>What 2018 added.</strong> Price, brand and image features were already in the 2014 release, and the 2018 page says so: it keeps them “as in the previous version” and adds volume plus finer metadata.</li>
+<li><strong>Amazon-Book is a snapshot.</strong> The graph-CF <strong>“Amazon-Book”</strong> benchmark is a 10-core subset of Amazon’s Books reviews (52,643 users, 91,599 items, 2,984,108 interactions) frozen in the code repositories of neural graph collaborative filtering (<strong>NGCF</strong>) and <strong>LightGCN</strong>, the two standard graph-CF models (§2). NGCF names no release year and cites He &amp; McAuley (2016) for the reviews; the 2014 release is the likely source, an inference and not NGCF’s statement. It is a benchmark <em>artifact</em>, not the live category, which is far larger.</li>
+<li><strong>The name does not identify the file.</strong> NGCF writes <em>Amazon-book</em> in its experiments text but <em>Amazon-Book</em> in its statistics table, and papers using exactly the name often mean different files: §4 sets three beside this one, the large-language-model recommender RLMRec’s 11,000 users, the knowledge-graph attention network (KGAT)’s 70,679 and the contrastive graph model LightGCL’s 78,578, against 52,643. Always check the user and item counts.</li>
+</ul>
+<p>Three more cautions, about the families in the table below:</p>
+<ul>
+<li><strong>Frozen artifacts.</strong> Three rows of the table below are evaluation artifacts, not live datasets: the graph-CF trio’s <em>Yelp2018</em>, <em>Amazon-Book</em> and <em>Gowalla</em> snapshots (§2). They live only in the benchmark repositories (Gowalla and Amazon-Book in NGCF’s and LightGCN’s, Yelp2018 in LightGCN’s alone), so do not try to re-download them from the vendor.</li>
+<li><strong>Near-identical names.</strong> The frozen 52.6K-user <strong>Amazon-Book</strong> artifact and the live <strong>Amazon Reviews Books category</strong>, orders of magnitude larger, are two different objects; the spelling will not tell them apart, so check the user and item counts.</li>
+<li><strong>MIND-small</strong> is a 50K-user sample for quick iteration (no test split). Book-Crossing’s implicit feedback is coded <strong>0</strong>: an interaction <em>without</em> a grade, not a low score.</li>
+</ul>
+<div id="tbl-datasets-and-benchmarks-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.4: <strong>The remaining well-known families and their variants / snapshots.</strong> Counts are as the owners’ pages and the source papers gave them (read on the verification date). Sources: official dataset pages; Wang et al.&nbsp;(2019, NGCF) and He et al.&nbsp;(2020, LightGCN) for the three frozen snapshots; Ziegler et al.&nbsp;(2005); Wan &amp; McAuley (2018).
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption><strong>The remaining well-known families and their variants / snapshots.</strong> Two rows are <strong>frozen evaluation artifacts</strong>, not live datasets — <em>Yelp2018</em> and the graph-CF <em>Amazon-Book</em> — that live only in the benchmark repos, so do not try to re-download them from the vendor (§2). <em>MIND-small</em> is a 50K-user sample for quick iteration (no test split). Book-Crossing’s implicit feedback is coded <strong>0</strong> — an interaction <em>without</em> a grade, not a low score. Sources: official dataset pages; Ziegler et al.&nbsp;(2004); Wan &amp; McAuley (2018).</caption>
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 43%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -819,28 +908,40 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Yelp</strong> Open Dataset (rolling)</td>
-<td>~7M reviews · 150K businesses · ~1.9M users</td>
+<td><strong>Yelp</strong> Open Dataset (rolling, as above)</td>
+<td>~7M reviews · 150K businesses · 11 metropolitan areas (Yelp’s own page publishes no user count)</td>
 <td>text + stars, business attributes, <strong>friend graph</strong>, check-ins, tips</td>
-<td><strong>Active</strong> — academic, revocable</td>
+<td><strong>Restricted</strong> — academic only, revocable</td>
 </tr>
 <tr class="even">
 <td><strong>Yelp2018</strong> (snapshot)</td>
-<td>31.7K users · 38K items · 1.56M (10-core)</td>
+<td>31,668 users · 38,048 items · 1,561,406 (10-core)</td>
 <td>interactions only</td>
-<td><strong>Frozen</strong> — in NGCF/LightGCN repos</td>
+<td><strong>Frozen</strong> — in the LightGCN repositories; the NGCF repository ships only Gowalla and Amazon-Book (this revised copy is LightGCN’s and the latest NGCF arXiv version’s, not NGCF’s first one, §4)</td>
+</tr>
+<tr class="odd">
+<td><strong>Amazon-Book</strong> (graph-CF snapshot)</td>
+<td>52,643 users · 91,599 items · 2,984,108 (10-core, Amazon Books)</td>
+<td>interactions only</td>
+<td><strong>Frozen</strong> — in the NGCF / LightGCN repositories</td>
+</tr>
+<tr class="even">
+<td><strong>Gowalla</strong> (graph-CF snapshot)</td>
+<td>29,858 users · 40,981 items · 1,027,370 (10-core)</td>
+<td>interactions only</td>
+<td><strong>Frozen</strong> — in the NGCF / LightGCN repositories</td>
 </tr>
 <tr class="odd">
 <td><strong>MIND-large</strong> (news)</td>
 <td>1M users · ~160K news · &gt;15M impressions</td>
 <td>title, abstract, body, category, entities</td>
-<td><strong>Active</strong> — MS research license</td>
+<td><strong>Restricted</strong> — Microsoft Research license</td>
 </tr>
 <tr class="even">
 <td><strong>MIND-small</strong></td>
-<td>50K sampled users (train+dev)</td>
+<td>50K sampled users (train + dev, i.e.&nbsp;validation)</td>
 <td>a subset of MIND-large</td>
-<td><strong>Active</strong></td>
+<td><strong>Restricted</strong> — same license</td>
 </tr>
 <tr class="odd">
 <td><strong>Book-Crossing</strong></td>
@@ -849,43 +950,58 @@ window.Quarto = {
 <td><strong>Active</strong> — GroupLens</td>
 </tr>
 <tr class="even">
-<td><strong>Goodreads</strong> (UCSD)</td>
-<td>~228M interactions · 876K users · 2.36M books</td>
-<td>reviews, <strong>shelves</strong>, spoiler tags</td>
-<td><strong>Active</strong> — academic</td>
+<td><strong>Goodreads</strong> (from UCSD, the University of California, San Diego)</td>
+<td>~229M interactions · 876K users · 2.36M books</td>
+<td>reviews, <strong>shelves</strong> (a user’s <em>to-read</em> / <em>currently-reading</em> / <em>read</em> lists)</td>
+<td><strong>Restricted</strong> — academic</td>
 </tr>
 <tr class="odd">
-<td><strong>Amazon-Books</strong></td>
-<td>= Amazon Reviews “Books” category</td>
+<td><strong>Amazon Reviews – Books category</strong> (live; <em>not</em> the Amazon-Book snapshot above)</td>
+<td>= the whole “Books” category of the release you pick</td>
 <td>(see the Amazon table)</td>
 <td><strong>Active</strong></td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p><strong>In one line:</strong> pick the family that matches your task, then the variant, and never trust a dataset name without its counts.</p>
 <hr>
 </section>
 <section id="the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book" class="level2">
 <h2 class="anchored" data-anchor-id="the-standard-graph-cf-trio-gowalla-yelp2018-amazon-book">2. The standard graph-CF trio: Gowalla, Yelp2018, Amazon-Book</h2>
-<p>The graph chapters (<em>From Graphs to LightGCN</em>, <em>SSL &amp; Contrastive Learning</em>) — and nearly every graph-CF paper — report on the <strong>same three datasets</strong>: <strong>Gowalla</strong>, <strong>Yelp2018</strong>, and <strong>Amazon-Book</strong>. This is not a coincidence, and knowing <em>why</em> saves a beginner real confusion:</p>
+<p>Cara opens three papers on recommenders built on the user–item graph (graph-CF, defined just below) and finds the same three dataset names in all of them. Is that laziness or design? The graph chapters (<em>From Graphs to LightGCN</em>, <em>Self-Supervised &amp; Contrastive Learning</em>), and most graph collaborative-filtering (graph-CF) papers, report on the <strong>same three datasets</strong>: <strong>Gowalla</strong>, <strong>Yelp2018</strong>, and <strong>Amazon-Book</strong>. This is not a coincidence, and knowing <em>why</em> saves a beginner real confusion:</p>
 <ol type="1">
-<li><strong>They are implicit / one-class.</strong> Graph CF models the user–item interaction <em>graph</em>; explicit star ratings are discarded and every observed pair is a binary edge. All three are pure interaction logs, not rating-prediction tasks.</li>
-<li><strong>They span a sparsity range</strong> (~<span class="math inline">\(0.08\%\)</span>–<span class="math inline">\(0.13\%\)</span> density) and three domains (check-ins, local-business, books), so a method cannot win by overfitting one density regime.</li>
-<li><strong>The preprocessing is frozen.</strong> Everyone reuses the <em>same</em> 10-core-filtered, fixed train/test split released with <strong>NGCF</strong> (the paper LightGCN built on). That shared split — not any statistical superiority — is the real reason the trio dominates: it lets papers quote each other’s numbers as directly comparable.</li>
+<li><p><strong>They are implicit / one-class</strong> — only <em>positive</em> events are recorded, and a missing user–item pair means “unknown”, never “disliked”. Graph CF models the user–item interaction <em>graph</em>; explicit star ratings are discarded (NGCF states no rating threshold; §4 shows later papers that filter low ratings first) and every observed pair is a binary edge. All three are pure interaction logs, not rating-prediction tasks.</p>
+<p>(One-class data is exactly why §4 must argue about <em>negative sampling</em>, scoring the held-out item against a few randomly drawn items the user never touched and treating them as non-relevant, and about <em>full-catalog ranking</em>, scoring it against every item the user has not touched: there are no recorded negatives to rank against, so the protocol has to invent them.)</p></li>
+<li><p><strong>They span three domains</strong> (check-ins, local business, books), but, as the arithmetic below shows, <em>not</em> a range of densities. <strong>Density</strong>, interactions divided by users <span class="math inline">\(\times\)</span> items, works out as <span class="math display">\[
+\underbrace{\tfrac{1{,}027{,}370}{29{,}858\times40{,}981}}_{\text{Gowalla}}\!\approx 0.084\%,\quad
+\underbrace{\tfrac{1{,}561{,}406}{31{,}668\times38{,}048}}_{\text{Yelp2018}}\!\approx 0.130\%,\quad
+\underbrace{\tfrac{2{,}984{,}108}{52{,}643\times91{,}599}}_{\text{Amazon-Book}}\!\approx 0.062\%.
+\]</span></p>
+<p>So Amazon-Book is the sparsest and Yelp2018 the densest, and the <em>densest is only about <span class="math inline">\(2.1\times\)</span> the sparsest</em> (<span class="math inline">\(0.130/0.062\)</span>). They do <strong>not</strong> span density <em>regimes</em>: all three have <span class="math inline">\(99.87\%\)</span> <strong>sparsity</strong> (the unfilled share, <span class="math inline">\(1-\)</span> density) or more.</p>
+<p>Whatever else the trio varies, it does not vary this, and the trio’s density is not the density of recommender data in general: MovieLens-1M, for one, is about <span class="math inline">\(4.5\%\)</span> dense (<span class="math inline">\(1{,}000{,}209/(6{,}040\times3{,}706)\)</span>).</p></li>
+<li><p><strong>The preprocessing is frozen, inside one lineage.</strong> NGCF (the paper LightGCN built on), LightGCN and the papers that reuse their files share one 10-core-filtered, fixed train/test split, with one exception (Yelp2018 is a revised file in LightGCN and in NGCF’s latest arXiv version, but not in NGCF’s first one, §4). A main reason the trio dominates is probably this shared split and not any statistical superiority: it lets those papers quote each other’s numbers as directly comparable (a claim from practice, not tested here). The lineage has limits, and §4 shows where it breaks: KGAT, SimGCL (a contrastive graph-CF model), LightGCL and RLMRec keep the names but not all of the files.</p></li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Why this matters (and its catch).</strong> Comparability is the whole point — but the frozen split is itself a known hazard (§3): if it was made by a <em>random</em> rather than a <em>temporal</em> cut, every model trained on it inherits the same future-leak. Comparable is not the same as correct.</p>
+<p><strong>Why this matters (and its catch).</strong> Comparability is the whole point, but the frozen split is itself a known hazard (§3). NGCF’s own paper says it: <em>“we randomly select 80% of historical interactions of each user to constitute the training set, and treat the remaining as the test set.”</em> That is a <strong>random per-user split</strong>, not a time-based one (§4) — so every model trained on it inherits the same future-leak. Comparable is not the same as correct.</p>
 </blockquote>
+<p><strong>In one line:</strong> the trio is the shared yardstick of one lineage of graph-CF papers: comparable on its frozen files, but cut at random, so not leak-free.</p>
 <hr>
 </section>
 <section id="splitting-without-leaking-the-future-the-keystone" class="level2">
 <h2 class="anchored" data-anchor-id="splitting-without-leaking-the-future-the-keystone">3. Splitting without leaking the future (the keystone)</h2>
-<p>A model is graded by holding out some interactions as a <strong>test set</strong>. <em>How</em> you choose them decides whether the score is honest. Two protocols dominate, and the difference is the single most important idea in this appendix.</p>
+<p>Ann trains a model on her shop’s click log, tests it on the same log, and gets a wonderful score. A colleague asks: did any test click happen <em>before</em> a training click? If so, the model has seen the future. A model is graded by holding out some interactions as a <strong>test set</strong>, and <em>how</em> you choose them decides whether the score is honest. <strong>Three</strong> protocols dominate, and telling them apart is the single most important idea in this appendix. This book uses these three names and no others — “temporal split” on its own is ambiguous in the literature and is never used bare here, because two of the three are temporal.</p>
 <ul>
-<li><strong>Random split</strong> — hold out a random fraction of all interactions. Simple, and <strong>wrong for any data with time</strong>: it can put a user’s <em>later</em> interactions in train and an <em>earlier</em> one in test, so the model trains on the future to predict the past. The score inflates.</li>
-<li><strong>Temporal / leave-one-last split</strong> — for each user, sort by time and hold out their <strong>chronologically last</strong> interaction (and often the second-last for validation). This grades the model the way it is used: <strong>predict the next thing from everything before it.</strong> It is the honest default, and mandatory for sequential models (<em>Sequential &amp; Session-Based Recommendation</em> §6).</li>
+<li><strong>Random split</strong> — hold out a random fraction of the interactions (papers differ: the fraction is taken <em>per user</em> or <em>globally</em>); the variant called <strong><span class="math inline">\(k\)</span>-fold</strong> cuts the data into <span class="math inline">\(k\)</span> parts, tests on each part in turn, trains on the rest and averages. Simple, and <strong>wrong for any data with time</strong>: it can put a user’s <em>later</em> interactions in train and an <em>earlier</em> one in test, so the model trains on the future to predict the past. The score can inflate (the finding of Ji et al., 2023, §9, not tested here; the box after the worked example shows the mechanism).</li>
+<li><strong>Leave-one-out (LOO)</strong> — for each user, sort by time and hold out <strong>one</strong> interaction: the <strong>chronologically last</strong> one unless the paper says otherwise, and often the second-last as a <strong>validation</strong> item (a held-out check used to tune settings and to decide when to stop training, kept separate from the final test). Some papers write “leave-one-out” for a <em>random</em> held-out interaction — check which one a paper means. Holding out the last one grades the model the way it is used: <strong>predict the next thing from everything before it.</strong> It is the standard for next-item models, which compare themselves with published leave-one-out numbers (<em>Sequential &amp; Session-Based Recommendation</em> §6), though not the strictest rule. It is leak-free <strong>within</strong> a user — but <em>not across</em> them: one user’s held-out interaction may predate another user’s training data, so the model can learn from the future of the population.</li>
+<li><strong>Global temporal split</strong> — one cut-off timestamp for <em>everybody</em>: train on everything before it, test on everything after. This is the strictest of the three and the only one that is leak-free across users; it is the one <em>Evaluation Metrics</em> §11a calls the most honest, and <em>Implementation Choices</em> §5 records that the choice can reorder a leaderboard (Ji et al., 2023). Its price is shown below.</li>
 </ul>
-<p>Almost always, a <strong>k-core filter</strong> runs <em>first</em>: repeatedly drop users and items with fewer than <span class="math inline">\(k\)</span> interactions until none remain (papers use <span class="math inline">\(k=10\)</span>; we use <span class="math inline">\(k=2\)</span> to keep it tiny). This removes the noisiest cold cases so the comparison is stable.</p>
-<p><strong>Worked example — k-core then leave-one-last, by hand.</strong> Four users over five items, with timestamps <span class="math inline">\(t\)</span>:</p>
+<p>Both of the last two are <em>temporal</em>; only the global one is leak-free across users. That is why this appendix never writes bare “temporal” for a per-user hold-out.</p>
+<p><strong>The rule this book uses.</strong> <em>Evaluation Metrics</em> §11a says: prefer the global temporal split whenever timestamps exist, and leave-one-out is still the standard split for next-item (sequential) models. This appendix adds three things of its own, which that section does not say: the price of the global cut (lost test coverage, shown below); leave-one-out also when one global cut would leave most users untestable; and never a random split on data with time, except to compare with an earlier paper, and then label the number as leaky.</p>
+<p>Almost always, a <strong>k-core filter</strong> runs <em>first</em>: repeatedly drop users and items with fewer than <span class="math inline">\(k\)</span> interactions until none remain. There is no universal <span class="math inline">\(k\)</span>: the graph-CF papers (NGCF, LightGCN and their successors) use <span class="math inline">\(k=10\)</span>, while <strong>SASRec</strong> (a Transformer next-item model, §4) discards <em>“users and items with fewer than 5 related actions”</em> and <strong>BERT4Rec</strong> (its bidirectional relative) keeps <em>“users with at least five feedbacks”</em> — so <span class="math inline">\(k=5\)</span> in the sequential literature. We use <span class="math inline">\(k=2\)</span> to keep the example tiny. This removes most of the noisiest cold cases from the data — though, as the example below shows, not necessarily from the <em>training set</em>.</p>
+<p><strong>Worked example — k-core then leave-one-out, by hand.</strong> Four users over five items, with timestamps <span class="math inline">\(t\)</span>, as the table below lists them.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -896,7 +1012,7 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td><strong>U1</strong></td>
-<td>A@1, B@2, C@3</td>
+<td>A@1, B@3, C@4</td>
 </tr>
 <tr class="even">
 <td><strong>U2</strong></td>
@@ -913,40 +1029,90 @@ window.Quarto = {
 </tbody>
 </table>
 <p><em>Step 1 — 2-core filter.</em> Count interactions: users U1=3, U2=2, U3=3, <strong>U4=1</strong>; items A=3, B=2, C=2, <strong>D=1</strong>, <strong>E=1</strong>. Drop everything below <span class="math inline">\(2\)</span>: out goes <strong>U4</strong> (only one interaction) and items <strong>D</strong> and <strong>E</strong>. Re-check what remains — U1=3, U2=2, U3=2; A=3, B=2, C=2 — all <span class="math inline">\(\ge 2\)</span>, so we stop (the filter is <strong>iterative</strong>; here one pass suffices).</p>
-<p><em>Step 2 — leave-one-last.</em> For each surviving user, hold out the <strong>last by time</strong>:</p>
-<p><span class="math display">\[
-\text{TEST}=\{\text{U1}\!:\!\text{C@3},\ \text{U2}\!:\!\text{B@2},\ \text{U3}\!:\!\text{C@2}\},\qquad
-\text{TRAIN}=\{\text{U1}\!:\!\text{A,B},\ \text{U2}\!:\!\text{A},\ \text{U3}\!:\!\text{A}\}.
+<p><em>Why “iterative” is not decoration.</em> Change one thing — suppose U3 had interacted only with C@2 and D@3. Pass 1 still drops U4, D and E, which leaves U3 holding just C: <strong>pass 2</strong> drops U3 for having one interaction, which leaves C with only U1: <strong>pass 3</strong> drops item C, and only <strong>pass 4</strong> finds nothing left to drop. An item that passed the first check — item C, held by exactly <span class="math inline">\(k=2\)</span> users — is gone by the end. A single threshold applied once cannot do this; the cascade stops only when every surviving user <em>and</em> every surviving item has <span class="math inline">\(\ge k\)</span>.</p>
+<p><em>Step 2 — leave-one-out.</em> For each surviving user, hold out the <strong>chronologically last</strong> interaction: <span class="math display">\[
+\text{TEST}=\{\text{U1}\!:\!\text{C@4},\ \text{U2}\!:\!\text{B@2},\ \text{U3}\!:\!\text{C@2}\},\qquad
+\text{TRAIN}=\{\text{U1}\!:\!\text{A@1, B@3},\ \text{U2}\!:\!\text{A@1},\ \text{U3}\!:\!\text{A@1}\}.
 \]</span></p>
 <p>Note the subtlety that trips people up: <strong>U3’s chronologically last interaction was D@3 — but D was removed by the k-core filter</strong>, so U3’s held-out test item is the <em>next-latest survivor</em>, C@2. Filtering happens <strong>before</strong> splitting; the order matters.</p>
-<div id="fig-datasets-and-benchmarks-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-datasets-and-benchmarks-1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="k-core then leave-one-out, on the worked example.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/datasets-and-benchmarks-1.svg" class="img-fluid figure-img">
+<img src="../figs/datasets-and-benchmarks-1.svg" class="img-fluid figure-img" alt="k-core then leave-one-out, on the worked example.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datasets-and-benchmarks-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</strong> U4 and items D, E are removed by the 2-core filter (U4 and D@3 shown only by their absence). For each surviving user the <strong>last interaction by time</strong> (orange) is the test target; everything earlier (teal) is training. U3’s true last item, <code>D@3</code>, was filtered out <em>before</em> the split, so its test item is the next-latest survivor, <code>C@2</code> — filtering precedes splitting.
+Figure&nbsp;B.1: <strong>k-core then leave-one-out, on the worked example.</strong> U4 and items D, E are removed by the 2-core filter (U4 and E shown only by their absence; D@3 is drawn dashed). For each surviving user the <strong>chronologically last interaction</strong> (orange) is the test target; everything earlier (teal) is training. U3’s true last item, <code>D@3</code>, was filtered out <em>before</em> the split, so its test item is the next-latest survivor, <code>C@2</code> — filtering precedes splitting. Read the clocks across the rows and the cross-user leak is visible: U1’s <em>training</em> item <code>B@3</code> is later than U2’s <em>test</em> item <code>B@2</code>.
 </figcaption>
 </figure>
 </div>
+<p><strong>Three things this tiny example is now big enough to show.</strong></p>
+<p><em>(a) The filter’s guarantee does not survive the split.</em> Look at the training set again. Only items <strong>A</strong> and <strong>B</strong> appear in it — yet <strong>C</strong> is the test target for <em>two</em> of the three users (U1’s C@4 and U3’s C@2). The 2-core guarantee held on the <em>full</em> data, not on the training set: holding out each user’s last interaction turned a surviving item <strong>cold</strong> again (an item with no training history). U2 and U3 keep one training interaction each. Ask the obvious question — <em>how can a model rank C when it never saw C?</em> — and the answer is that a model that has only the interactions cannot do better than guess (a content model has side-features).</p>
+<p>Real pipelines (a claim from practice, not tested here) use a large <span class="math inline">\(k\)</span> (10), which makes such items rarer but does not remove them. They also drop test items that never appear in training, or report those cases separately; whichever a paper did, check.</p>
+<p><em>(b) Leave-one-out leaks across users.</em> Compare the clocks. The latest <strong>training</strong> event is U1’s B@3, at <span class="math inline">\(t=3\)</span>. The earliest <strong>test</strong> events are U2’s B@2 and U3’s C@2, at <span class="math inline">\(t=2\)</span>. So the model is shown an interaction from <span class="math inline">\(t=3\)</span> and then asked to predict what U2 and U3 did at <span class="math inline">\(t=2\)</span> — and worse, the very item it must predict for U2, item <strong>B</strong>, it has already watched U1 adopt <em>afterwards</em>. Nothing is leaked inside any one user’s own history; the leak is across the population.</p>
+<p><em>(c) The global temporal split fixes that — and here is its price.</em> Put one cut-off at <span class="math inline">\(t=2.5\)</span> for everybody. Then</p>
+<p><span class="math display">\[
+\text{TRAIN}=\{\text{U1}\!:\!\text{A@1},\ \text{U2}\!:\!\text{A@1, B@2},\ \text{U3}\!:\!\text{A@1, C@2}\},
+\qquad
+\text{TEST}=\{\text{U1}\!:\!\text{B@3, C@4}\}.
+\]</span></p>
+<p>Every training event now precedes every test event, so the cross-user leak in (b) is gone. But <strong>U2 and U3 have nothing left to be tested on</strong> — the whole evaluation rests on U1. That is the real trade a global cut makes: honesty about time, paid for in test coverage (and, on real data, in whole cohorts of users who never appear in the test set).</p>
 <blockquote class="blockquote">
-<p><strong>Why not just split randomly?</strong> Because recommendation is a forecast. A random split that trains on U1’s C@3 and tests on U1’s A@1 is grading the model on a question it has already been shown the answer to. Every honest evaluation in this book uses a temporal hold-out.</p>
+<p><strong>Why not just split randomly?</strong> Because recommendation is a forecast. A random split that trains on U1’s C@4 and tests on U1’s A@1 asks the model to predict U1’s <em>past</em> after showing it U1’s <em>future</em> — information it will never have when it is actually used. (That is a <strong>future</strong> leak, not an answer leak: the model is not handed A, it is handed later behaviour, such as U1 liking C@4, that carries information about U1’s earlier choices.) An honest evaluation should use a time-based hold-out — and note that the graph-CF numbers the graph chapters quote from He et al.&nbsp;(2020) do <em>not</em>: they were measured on NGCF’s <strong>random per-user split</strong> (§2, §4). Read them as comparable, not as leak-free.</p>
 </blockquote>
+<p><strong>In one line:</strong> filter first, then split by time: one global cut when the test coverage allows, leave-one-out for next-item models, and a random split only as a labelled, leaky comparison.</p>
 <hr>
 </section>
 <section id="the-benchmark-map-which-model-which-dataset-which-protocol" class="level2">
 <h2 class="anchored" data-anchor-id="the-benchmark-map-which-model-which-dataset-which-protocol">4. The benchmark map: which model, which dataset, which protocol</h2>
-<p>The sections so far gave you the datasets (§1), the trio everyone shares (§2), and how to split without leaking the future (§3). This section assembles them into the map the rest of the literature actually lives on: <strong>for each research community, the datasets it runs on, the models most often cited on them, and the one evaluation protocol they all share.</strong> Read alongside the <em>LLM × RecSys: the Landscape</em> chapter — which surveys the <em>models</em> in depth — it is, in one place, the answer to the question a practitioner or reviewer asks first: <em>which model, on which dataset, under which protocol?</em></p>
-<p>One idea organizes the whole map, and it is the opposite of what a beginner expects: <strong>the protocol is fixed by the research community, not by the dataset.</strong> MovieLens-1M alone is evaluated three incompatible ways — as RMSE rating-prediction (the Netflix-Prize lineage), as leave-one-out ranking against 99 sampled negatives (the NCF lineage), and as leave-one-out <em>next-item</em> prediction against 100 sampled negatives (the SASRec / BERT4Rec lineage). A number is therefore comparable to another only when the <strong>regime, the split, and the ranking scope all match</strong> — the concrete form of the reproducibility warning §5 sharpens. (The metric <em>definitions</em> — Recall@<span class="math inline">\(K\)</span>, NDCG@<span class="math inline">\(K\)</span>, MRR, AUC, RMSE — and the sampled-vs-full argument live in <em>Evaluation Metrics</em>; here they are only labels.)</p>
+<p>Bob is handed a results table from a paper and a skeptic’s first question: can your number sit beside these? This section is the map that answers it: <strong>for each research community, the datasets it runs on, the models usually compared on them, and the protocol they are compared under</strong>. The protocol is often one a later benchmark paper re-ran (<em>FuxiCTR</em>, an open benchmark for click-through-rate prediction models; the MIND dataset paper; the full-ranking re-scoring in later sequential papers), not the one each model’s own paper used. Read it alongside the <em>Large Language Models and Recommendation</em> chapter, which surveys <strong>large language models (LLMs)</strong> and the recommenders built on them. It answers, in one place, the question a practitioner or a skeptical reader asks first: <em>which model, on which dataset, under which protocol?</em></p>
+<p>Figure B.2, at the end of this section, draws the choices as a tree.</p>
+<p>One idea organizes the whole map, and it is the opposite of what a beginner expects: <strong>the protocol is fixed by the research community, not by the dataset.</strong> MovieLens-1M alone is evaluated three incompatible ways — as root-mean-squared-error (RMSE) rating prediction (the Netflix-Prize lineage), as leave-one-out ranking against 99 sampled negatives (the <strong>NCF</strong> — neural collaborative filtering — lineage), and as leave-one-out <em>next-item</em> prediction against 100 sampled negatives (the SASRec / BERT4Rec lineage). A number is therefore comparable to another only when the <strong>regime</strong> (a research community’s package of datasets, models and one protocol), <strong>the split, and the ranking scope</strong> (how many candidate items the held-out one is ranked against) <strong>all match</strong>, the concrete form of the reproducibility warning §5 sharpens.</p>
+<p><strong>The metric acronyms, in one line</strong>, so the table below reads: the <strong>root-mean-squared error (RMSE)</strong> of a predicted star rating (lower is better); the <strong>mean absolute error (MAE)</strong>, the same idea without the squaring; the <strong>mean average precision (MAP)</strong> (<em>Evaluation Metrics</em> §6); the <strong>hit rate (HR)</strong> at <span class="math inline">\(K\)</span>, written HR@<span class="math inline">\(K\)</span> — <em>was the held-out item in the top <span class="math inline">\(K\)</span>?</em>; <strong>Recall@<span class="math inline">\(K\)</span></strong>, the share of a user’s held-out items found in the top <span class="math inline">\(K\)</span>; the <strong>normalized discounted cumulative gain (NDCG)</strong> at <span class="math inline">\(K\)</span>, which also rewards putting them near the top; the <strong>mean reciprocal rank (MRR)</strong>, the average of <span class="math inline">\(1/(\text{rank of the held-out
+item})\)</span>; the <strong>area under the receiver-operating-characteristic curve (AUC)</strong>, the chance that a random clicked impression outscores a random unclicked one; and <strong>LogLoss</strong>, the binary cross-entropy of a predicted click probability. Their full <em>definitions</em>, and the sampled-vs-full argument, live in <em>Evaluation Metrics</em>; here they are only labels.</p>
+<p><strong>Before the table: why “ranking scope” is a column at all.</strong> It is the one entry a beginner skips and a careful reader never does, so work it once on §3’s own example. Put U1’s test item <strong>C</strong> in a catalog of 1,000 items. U1 trained on A and B, so those two are excluded and <strong>998</strong> candidates are ranked: C and 997 negatives. Suppose the model puts C <strong>50th</strong> — so 49 candidates outscore it.</p>
+<ul>
+<li><strong>Full ranking</strong> (all 998): C is 50th, which is not in the top 10, so <span class="math inline">\(\text{HR@10}=0\)</span>.</li>
+<li><strong>Sampled</strong> (the legacy protocol): C is ranked against only <strong>99</strong> negatives drawn at random from the 997. On average just <span class="math inline">\(99\times 49/997 \approx 4.87\)</span> of the 49 better candidates get drawn, so C lands about <strong>6th</strong>, and <span class="math inline">\(\text{HR@10}=1\)</span> with probability <span class="math inline">\(\approx 0.982\)</span>: the chance that 9 or fewer of the 49 better candidates are among the 99 drawn (a hypergeometric tail: the sum counts every way a random draw of 99 from the 997 can contain <span class="math inline">\(k\)</span> of the 49 better items, for <span class="math inline">\(k=0\)</span> to 9, as a share of all possible draws of 99; <span class="math inline">\(\sum_{k=0}^{9}\binom{49}{k}\binom{948}{99-k}\big/\binom{997}{99}\)</span>, too long to add by hand, so summed by program).</li>
+</ul>
+<p>Same model, same test item, same held-out data: the sampled score is <span class="math inline">\(1\)</span> with probability <span class="math inline">\(0.982\)</span> and the full score is <span class="math inline">\(0\)</span>. That is why two numbers cannot be compared until their <strong>Ranking scope</strong> cells match: a gain measured under one scope says little about the other.</p>
+<p><strong>A key to the names in the benchmark maps, so none of them arrives bare.</strong> It is a lookup list: skim it now, and return to it when a name in the two benchmark-map tables below is unfamiliar.</p>
+<ul>
+<li>matrix factorization (<strong>MF</strong>), the rating-prediction workhorse;</li>
+<li><strong>SVD++</strong> and <strong>timeSVD++</strong>, Koren’s extensions of the singular value decomposition (<strong>SVD</strong>) line, adding implicit feedback and, in timeSVD++, drift over time;</li>
+<li><strong>RBM-CF</strong>, a collaborative filter built on a restricted Boltzmann machine (<strong>RBM</strong>);</li>
+<li><strong>BellKor</strong>, the Netflix-Prize-winning blend of matrix-factorization and neighborhood models;</li>
+<li>neural collaborative filtering (<strong>NCF</strong>), which replaces the dot product with a learned network, and <strong>NeuMF</strong> (short for <em>neural matrix factorization</em>), its authors’ own model;</li>
+<li><strong>GRU4Rec</strong>, a recurrent session model that reads the sequence one step at a time;</li>
+<li><strong>Caser</strong>, a convolutional sequence model;</li>
+<li><strong>SASRec</strong> and <strong>BERT4Rec</strong>, Transformer sequence models (they weigh every earlier item by attention), one-directional and bidirectional;</li>
+<li><strong>S3-Rec</strong>, a self-supervised sequential model pre-trained on item attributes;</li>
+<li><strong>CL4SRec</strong>, a <em>contrastive</em> sequential model that augments each user’s sequence and learns to pull two views of the same sequence together;</li>
+<li><strong>DuoRec</strong>, a contrastive sequential model aimed at <em>representation degeneration</em>, item vectors collapsing into a narrow region;</li>
+<li><strong>FEARec</strong>, a sequential model that filters the sequence in the <em>frequency domain</em>, as one filters a signal, before attending;</li>
+<li>neural graph collaborative filtering (<strong>NGCF</strong>) and <strong>LightGCN</strong>, the two standard graph-convolution collaborative filters;</li>
+<li>disentangled graph collaborative filtering (<strong>DGCF</strong>) and disentangled contrastive collaborative filtering (<strong>DCCF</strong>), graph-CF variants whose embeddings are <em>disentangled</em>, split into parts meant to capture different reasons for an interaction, plus <strong>GCCF</strong>, a simplified graph-convolution collaborative filter, and <strong>AutoCF</strong>, an automated self-supervised collaborative filter of the same family;</li>
+<li>self-supervised graph learning (<strong>SGL</strong>), <strong>SimGCL</strong> and <strong>LightGCL</strong>, contrastive graph-CF models;</li>
+<li>the knowledge-graph attention network (<strong>KGAT</strong>);</li>
+<li>for click-through rate, <strong>Wide &amp; Deep</strong>, deep factorization machine (<strong>DeepFM</strong>), the deep &amp; cross network (<strong>DCN</strong>), <strong>xDeepFM</strong>, <strong>AutoInt</strong>, a network that learns feature interactions by self-attention, and the deep interest network (<strong>DIN</strong>), which attends over the user’s behavior history (it has no table row; see the bullet after Table B.5);</li>
+<li>for news, neural recommenders built on a deep knowledge-aware network (<strong>DKN</strong>), neural personalized attention (<strong>NPA</strong>), neural attentive multi-view learning (<strong>NAML</strong>), long- and short-term user representations (<strong>LSTUR</strong>) and neural news recommendation with multi-head self-attention (<strong>NRMS</strong>);</li>
+<li><strong>RLMRec</strong>, which attaches large-language-model-written user and item profiles to a collaborative backbone (the base model the method is added to).</li>
+</ul>
+<p><em>Datasets named only here.</em> <strong>Pinterest</strong>: implicit “pin” events on images. <strong>Avazu</strong>: a mobile-advertising click log. <strong>Alibaba-iFashion</strong>: clicks on fashion outfits. <strong>Taobao</strong>: the Alibaba behavior log of §1 (no table row; cite its Tianchi page). <strong>Amazon Games / Sports / Toys / Beauty</strong>: single-category subsets of Amazon Reviews. <strong>ML-20M</strong>: MovieLens-20M (papers abbreviate MovieLens as <strong>ML</strong>). Note that <strong>“Yelp”</strong> in the sequential and LLM-augmented rows is each paper’s own subset of the live <em>Yelp Open Dataset</em>, <strong>not</strong> the frozen Yelp2018 snapshot of §2.</p>
+<p>Two notations in the table below. A ratio such as 8:1:1 (train : validation : test) means that 80%, 10% and 10% of the interactions go to the three parts, and 3:1:1 means 60%, 20% and 20%. “10-core” means every user and item has at least 10 interactions (§1).</p>
+<div id="tbl-datasets-and-benchmarks-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.5: The field’s <strong>benchmark map</strong>: each research community (regime) pairs public datasets with its most-cited models and <strong>one shared evaluation protocol</strong> (split <span class="math inline">\(+\)</span> ranking scope <span class="math inline">\(+\)</span> metrics). Two numbers are comparable only when regime, split and scope all match. Model names are in the key above and the model papers in §9 or in the chapters listed below (BellKor is named without a citation); metric definitions live in <em>Evaluation Metrics</em>; model definitions in the chapters that introduce them (<em>Traditional Recommender Systems</em>, <em>Click-Through Rate Prediction &amp; Feature Interactions</em>, <em>Sequential &amp; Session-Based Recommendation</em>, <em>From Graphs to LightGCN</em>, <em>Self-Supervised &amp; Contrastive Learning</em>, <em>Large Language Models and Recommendation</em>).
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>The field’s <strong>benchmark map</strong> — each research community (regime) pairs a set of public datasets with its most-cited models and <strong>one shared evaluation protocol</strong> (split <span class="math inline">\(+\)</span> ranking scope <span class="math inline">\(+\)</span> metrics). The deciding fact: the protocol is set by the <em>community</em>, not the dataset — MovieLens-1M appears under three regimes with three protocols. Two numbers are comparable only when regime, split, and scope all match. Model definitions live in the chapters that introduce each family (<em>Traditional Recommender Systems</em>, <em>Sequential &amp; Session-Based Recommendation</em>, <em>From Graphs to LightGCN</em>, <em>LLM × RecSys</em>); metric definitions live in <em>Evaluation Metrics</em>.</caption>
 <colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 17%">
+<col style="width: 26%">
+<col style="width: 11%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -963,7 +1129,7 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <td><strong>Rating prediction</strong></td>
 <td>Netflix Prize; MovieLens 100K/1M/10M</td>
 <td>MF / SVD++ (’08), timeSVD++ (’09), RBM-CF (’07), BellKor (’09)</td>
-<td>random or <span class="math inline">\(k\)</span>-fold over ratings</td>
+<td>Netflix: each user’s <strong>most recent</strong> ratings held out; MovieLens: random or <span class="math inline">\(k\)</span>-fold over ratings (what the papers cited here did; the ratings carry timestamps, so a time split is possible, §3)</td>
 <td>predict the star value</td>
 <td><strong>RMSE</strong> (MAE)</td>
 </tr>
@@ -971,39 +1137,39 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <td><strong>Implicit top-<span class="math inline">\(N\)</span>, sampled</strong></td>
 <td>MovieLens-1M; Pinterest</td>
 <td>NeuMF / NCF (’17)</td>
-<td>leave-one-out (last by time)</td>
+<td>leave-one-out (each user’s “latest interaction”, per the NCF paper)</td>
 <td>vs.&nbsp;<strong>99</strong> sampled negatives</td>
 <td><strong>HR@10, NDCG@10</strong></td>
 </tr>
 <tr class="odd">
 <td><strong>Sequential, sampled</strong></td>
-<td>MovieLens-1M; Amazon Beauty/Games; Steam (BERT4Rec adds ML-20M)</td>
-<td>GRU4Rec (’16), Caser (’18), SASRec (’18), BERT4Rec (’19)</td>
-<td>leave-one-out</td>
-<td>vs.&nbsp;<strong>100</strong> sampled negatives</td>
+<td>MovieLens-1M; Amazon Beauty/Games; Steam (BERT4Rec adds ML-20M); Amazon Sports/Toys, Yelp</td>
+<td>GRU4Rec (’16), Caser (’18), SASRec (’18), BERT4Rec (’19), S3-Rec (’20)</td>
+<td>leave-one-out (last by time)</td>
+<td>vs.&nbsp;<strong>100</strong> sampled negatives (S3-Rec: <strong>99</strong>)</td>
 <td><strong>HR@10, NDCG@10, MRR</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Sequential, full</strong></td>
-<td>+ Amazon Sports/Toys; Yelp</td>
-<td>S3-Rec (’20), CL4SRec (’22), DuoRec (’22), FEARec (’23)</td>
-<td>leave-one-out</td>
+<td>Amazon Beauty / Sports; Yelp; MovieLens-1M — CL4SRec reuses S3-Rec’s preprocessing</td>
+<td>CL4SRec (’22), DuoRec (’22), FEARec (’23); and DuoRec’s own tables re-score GRU4Rec / SASRec / BERT4Rec / S3-Rec</td>
+<td>leave-one-out (last by time)</td>
 <td><strong>full ranking</strong> (all items)</td>
-<td>HR / NDCG <span class="citation" data-cites="10,20">@10,20</span>, MRR</td>
+<td>HR / NDCG @<span class="math inline">\(K\)</span>, MRR (the <span class="math inline">\(K\)</span> values vary by paper)</td>
 </tr>
 <tr class="odd">
-<td><strong>Graph CF (the trio)</strong></td>
-<td>Gowalla, Yelp2018, Amazon-Book (SGL adds iFashion; KGAT adds LastFM)</td>
+<td><strong>Graph CF (the trio, §2)</strong></td>
+<td>Gowalla, Yelp2018, Amazon-Book (SGL swaps Gowalla for iFashion; KGAT uses its <em>own</em> Amazon-book / Yelp2018 files plus Last-FM)</td>
 <td>NGCF (’19), LightGCN (’20), DGCF (’20), SGL (’21), SimGCL (’22), LightGCL (’23)</td>
-<td><strong>random</strong> per-user 80/20, 10-core</td>
+<td>NGCF-lineage files: <strong>random</strong> per-user 80/20, 10-core (§3; SGL restates it as 7:1:2; SimGCL and LightGCL use their own splits or files, see below)</td>
 <td><strong>full ranking</strong> (all items)</td>
 <td><strong>Recall@20, NDCG@20</strong></td>
 </tr>
 <tr class="even">
 <td><strong>CTR prediction</strong></td>
 <td>Criteo, Avazu</td>
-<td>Wide&amp;Deep (’16), DeepFM (’17), DCN (’17), xDeepFM (’18), AutoInt (’19), DIN (’18)</td>
-<td>random 8:1:1</td>
+<td>Wide&amp;Deep (’16), DeepFM (’17), DCN (’17), xDeepFM (’18), AutoInt (’19)</td>
+<td>random 8:1:1 (train : validation : test)</td>
 <td>per-impression binary click</td>
 <td><strong>AUC, LogLoss</strong></td>
 </tr>
@@ -1013,36 +1179,58 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <td>DKN (’18), NPA (’19), NAML (’19), LSTUR (’19), NRMS (’19)</td>
 <td>impression / time-ordered</td>
 <td>within each impression</td>
-<td><strong>AUC, MRR, nDCG@5/10</strong></td>
+<td><strong>AUC, MRR, NDCG@5/10</strong></td>
 </tr>
 <tr class="even">
-<td><strong>LLM-augmented CF</strong> <em>(this book)</em></td>
-<td>ML-20M (genome subset); Amazon-Books; ML-1M</td>
-<td>RLMRec R1/R1-plus/R2/R3, LightGCN + contrastive backbones, SASRec</td>
-<td><strong>global temporal</strong> (by date), 10-core</td>
+<td><strong>LLM-augmented CF</strong></td>
+<td>RLMRec’s <strong>own</strong> subsets of Amazon-book, Yelp and Steam — <em>not</em> the trio’s files</td>
+<td>RLMRec (’24) over GCCF / LightGCN / SGL / SimGCL / DCCF / AutoCF backbones, all re-trained</td>
+<td>3:1:1 (train : validation : test) on those subsets, after <span class="math inline">\(k\)</span>-core; the paper does not say whether the cut is random</td>
 <td><strong>full ranking</strong> (all items)</td>
-<td>NDCG / Recall <span class="citation" data-cites="10,20,50">@10,20,50</span>, MRR; 5-seed paired-<span class="math inline">\(t\)</span></td>
+<td><strong>Recall / NDCG <span class="citation" data-cites="5,10,20">@5,10,20</span></strong></td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p>What the rows are and are not: they record how these models are <em>compared today</em>, which for several is not how their own papers evaluated.</p>
+<ul>
+<li><strong>GRU4Rec</strong> was introduced for <em>session</em>-based next-click data (RecSys Challenge 2015 click-streams, Recall@20 / MRR@20) and appears in the sequential row because later work re-ran it per user.</li>
+<li><strong>DIN</strong> needs a user-behavior sequence, which Criteo and Avazu do not have; its own paper uses Amazon Electronics, MovieLens-20M and an Alibaba advertising log, so it is not in the CTR row.</li>
+<li>The five <strong>news</strong> models all predate MIND (2020) and were re-run on it by the MIND paper.</li>
+<li><strong>Caser</strong>’s own paper splits each user’s sequence 70/10/20 and reports Precision, Recall and mean average precision (MAP).</li>
+</ul>
 <p>A few precise points the table compresses, each worth knowing before you trust a leaderboard:</p>
 <ul>
-<li><strong>The sequential shift (the two sequential rows).</strong> Early next-item models ranked the held-out item against a small <strong>sample of 100 negatives</strong> (BERT4Rec’s drawn by item popularity; SASRec’s paper says only “randomly sampled”) and reported HR@10 / NDCG@10. After Krichene &amp; Rendle (2020) showed sampled metrics can <em>reverse</em> which model looks better (§5), the field moved to <strong>full ranking over the whole catalogue</strong>; S3-Rec, CL4SRec, DuoRec and later work report unsampled metrics, and modern re-benchmarks re-score even SASRec and BERT4Rec that way. One model, two very different headline numbers — always check which.</li>
-<li><strong>NCF vs.&nbsp;sequential negatives.</strong> The NCF protocol pairs the test item with <strong>99</strong> sampled negatives (a 100-item list); the SASRec / BERT4Rec protocol uses <strong>100</strong> (a 101-item list). The one-item difference is real, and it is exactly the kind of detail that makes two “leave-one-out HR@10” numbers quietly non-comparable.</li>
-<li><strong>The trio’s split is <em>random</em>, not temporal (§2, §3).</strong> NGCF released a fixed per-user 80/20 split (10% of train held out for validation, 10-core filtered); LightGCN and every contrastive successor reuse it <em>verbatim</em> — which is precisely why their numbers are mutually quotable. But because the cut is random, it does not test temporal generalization: here “comparable” still is not “leak-free.”</li>
-<li><strong>Dataset lineage, kept straight.</strong> <em>Alibaba-iFashion</em> enters this list with <strong>SGL</strong> (2021), not the original trio; <em>LastFM / Last-FM</em> is the third member of <strong>KGAT</strong>’s <em>knowledge-graph</em> trio, not of the NGCF general-CF trio.</li>
-<li><strong>This book’s own studies (last row).</strong> The <em>LLM × RecSys</em> chapter’s experiments (LLM-MovieLens) sit in the graph-CF / full-ranking regime but deliberately adopt the <strong>leak-free protocol §3 argues for</strong>: a <em>global temporal</em> split by calendar date (not the trio’s random cut), full ranking over all items, NDCG / Recall @{10, 20, 50} and MRR averaged over five seeds with paired <span class="math inline">\(t\)</span>-tests. It is a worked instance of doing it the honest way on a modern LLM-augmented setup.</li>
+<li><strong>The sequential shift (the two sequential rows).</strong> Early next-item models ranked the held-out item against a small <strong>sample of negatives</strong> and reported HR@10 / NDCG@10: SASRec (Kang &amp; McAuley, 2018) <em>“randomly sample[s] 100 negative items”</em> and ranks <em>“these 101 items”</em>; BERT4Rec (Sun et al., 2019) pairs each test item with <em>“100 randomly sampled negative items”</em> drawn <em>“according to their popularity”</em>; <strong>S3-Rec</strong> (Zhou et al., 2020), despite being the newest of the three, pairs the test item with <em>“99 randomly sampled negative items”</em>, which is why it sits in the <strong>sampled</strong> row, not the full one.</li>
+<li><strong>Why the field moved to full ranking.</strong> Krichene &amp; Rendle (2020) showed sampled metrics can <em>reverse</em> which model looks better (<em>Evaluation Metrics</em> §11b). After that, CL4SRec (Xie et al., 2022) <em>“evaluate[s] each method on the whole item set without sampling”</em>, and DuoRec (Qiu et al., 2022) does the same, as reported there and not tested here: it ranks <em>“over the whole item set”</em> and re-scores GRU4Rec, Caser, SASRec, BERT4Rec and S3-Rec that way in its own tables. One model, two very different headline numbers: always check which.</li>
+<li><strong>NCF vs.&nbsp;sequential negatives.</strong> The NCF paper (He et al., 2017) says it samples 100 items the user has not touched and ranks the test item among them; its released evaluation files carry exactly <strong>99</strong> negative item IDs per test pair (a 100-item list with the test item), and the 99 of Table B.5 means these files. The SASRec / BERT4Rec protocol uses <strong>100</strong> (a 101-item list). The one-item difference is real, and it is exactly the kind of detail that makes two “leave-one-out HR@10” numbers quietly non-comparable.</li>
+<li><strong>The trio’s split is <em>random</em>, not time-based (§2, §3).</strong> NGCF (Wang et al., 2019) released a fixed per-user 80/20 split (10% of the training part held out for validation, 10-core filtered). <strong>LightGCN</strong> reuses it for two of the three: it says it requested the datasets <em>“including train/test splits”</em> from NGCF’s authors, and that Gowalla and Amazon-Book <em>“are exactly the same as the NGCF paper used”</em>. The third is the exception, in the paper’s own words (reported there, not tested here): Yelp2018 <em>“is a revised version”</em>; <em>“the previous version did not filter out cold-start items in the testing set”</em>, the authors shared only the revised one, and so LightGCN <em>“re-run[s] NGCF on the Yelp2018 data”</em>.</li>
+<li><strong>Yelp2018 exists in two NGCF versions.</strong> NGCF’s first arXiv version (May 2019) lists Yelp2018 as 31,831 users, 40,841 items and 1,666,869 interactions. Its latest version (July 2020, after LightGCN) says in a footnote that the earlier test set did not filter out cold-start items, so it reran all methods on a revised file, now marked with a star after its name, with LightGCN’s counts of Table B.4. That revised file is the one this appendix’s Yelp2018 row describes. Numbers from NGCF’s earlier version (the ACM-published one, by the later version’s first-page note) and LightGCN’s sit on different files on Yelp2018.</li>
+<li><strong>NGCF’s later version changed its NDCG, on all three datasets.</strong> A second footnote says the earlier NDCG implementation differed slightly from the standard definition, so the authors re-implemented it and reran all methods. NGCF-3 (the three-layer model, the paper’s headline row) NDCG@20 fell from 0.2237 to 0.1327 on Gowalla, 0.0926 to 0.0477 on Yelp2018 and 0.0630 to 0.0261 on Amazon-Book, while recall barely moved on the two datasets whose files did not change (Gowalla 0.1547 to 0.1569, Amazon-Book 0.0344 to 0.0337). Quote any NGCF number, recall or NDCG, only with the version named.</li>
+<li><strong>SGL’s 7:1:2 is the same protocol in rounder arithmetic.</strong> SGL (Wu et al., 2021) says it follows NGCF’s strategy, and NGCF’s 80/20 with a tenth of the training part held back is 72:8:20, i.e.&nbsp;7.2:0.8:2. SGL’s own statistics table repeats Yelp2018 and Amazon-Book at exactly LightGCN’s counts, so on those two datasets the numbers <em>are</em> comparable. What SGL changes is the third dataset: out goes Gowalla, in comes <strong>Alibaba-iFashion</strong>, which SGL samples itself (300,000 users <span class="math inline">\(\times\)</span> 81,614 items <span class="math inline">\(\times\)</span> 1,607,813 interactions).</li>
+<li><strong>Drift sets in later.</strong> SimGCL (Yu et al., 2022) reuses those same two datasets but cuts its own 7:1:2 split and takes as its third <em>Douban-Book</em>, a 1-5 star book-rating set it binarizes itself; LightGCL (Cai et al., 2023) keeps the <em>names</em> while running different files, its <em>Amazon-book</em> being 78,578 <span class="math inline">\(\times\)</span> 77,801 <span class="math inline">\(\times\)</span> 2,240,156. Check the user / item counts and the split ratio before quoting one paper against another. And because the cut is random, none of the NGCF lineage tests generalization over time: here “comparable” still is not “leak-free.”</li>
+<li><strong>Dataset lineage, kept straight (same name, different file).</strong> <em>Alibaba-iFashion</em> enters this list with <strong>SGL</strong> (2021), not the original trio. <em>Last-FM</em> belongs to <strong>KGAT</strong>’s <em>knowledge-graph</em> trio, a regime in which the model also sees a graph of facts linking items to entities (song <span class="math inline">\(\to\)</span> artist <span class="math inline">\(\to\)</span> genre), and that trio is <strong>not</strong> the NGCF files despite sharing two names.</li>
+<li><strong>KGAT’s files, in numbers.</strong> KGAT’s (Wang et al., 2019) Amazon-book is 70,679 users <span class="math inline">\(\times\)</span> 24,915 items <span class="math inline">\(\times\)</span> 847,733 interactions against the trio’s 52,643 <span class="math inline">\(\times\)</span> 91,599 <span class="math inline">\(\times\)</span> 2,984,108: <span class="math inline">\(1.3\times\)</span> the users but <span class="math inline">\(0.27\times\)</span> the items and <span class="math inline">\(0.28\times\)</span> the interactions. Its Yelp2018 is 45,919 <span class="math inline">\(\times\)</span> 45,538 <span class="math inline">\(\times\)</span> 1,185,068 against 31,668 <span class="math inline">\(\times\)</span> 38,048 <span class="math inline">\(\times\)</span> 1,561,406. KGAT’s numbers therefore cannot be read against LightGCN’s, and neither can its Last-FM subset be read as LFM-1b or LFM-2b (§7).</li>
+<li><strong>The LLM-augmented row does <em>not</em> reuse the trio’s files (last row).</strong> This is the trap the rest of §4 warns about, and the most recent regime walks straight into it. <strong>RLMRec</strong> (Ren et al., 2024) needs a language-model-written profile for every user and every item, so it builds its own much smaller subsets. Its statistics table gives Amazon-book as <strong>11,000 users <span class="math inline">\(\times\)</span> 9,332 items <span class="math inline">\(\times\)</span> 120,464 interactions</strong> (about <span class="math inline">\(4\%\)</span> of the trio’s Amazon-Book interactions), Yelp as <span class="math inline">\(11{,}091\times11{,}010\times166{,}620\)</span> and Steam as <span class="math inline">\(23{,}310\times5{,}237\times316{,}190\)</span>. It filters ratings below 3 on the first two, applies a <span class="math inline">\(k\)</span>-core, then splits <em>“into training, validation, and testing sets using a 3:1:1 ratio”</em> and re-trains <strong>every backbone itself</strong>. The paper does not say whether that cut is random or by time; its released code would settle it (not checked here).</li>
+<li><strong>A contrast, with each number’s owner.</strong> Ren et al.&nbsp;(2024, Table 1) report Recall@20 <span class="math inline">\(=0.1411\)</span> for LightGCN on RLMRec’s own Amazon-book, and He et al.&nbsp;(2020, Table 4) report <span class="math inline">\(0.0411\)</span> for LightGCN on the trio’s Amazon-Book (reported there, not tested here). The files differ (11,000 users against 52,643), so the two numbers describe two benchmarks and not a disagreement about one model. <strong>RLMRec’s lifts (its gains over the base models) are readable only against the backbones it re-ran itself</strong>, never against LightGCN’s published trio numbers.</li>
 </ul>
-<p>The <strong>protocol anchors</strong> — the papers whose numbers later work quotes itself <em>against</em> — are, by regime: rating prediction, the <strong>Netflix Prize</strong> and Koren’s matrix-factorization line; the sampled top-<span class="math inline">\(N\)</span> regime, <strong>NCF</strong> (He et al., 2017); early sequential, <strong>SASRec</strong> (2018) and <strong>BERT4Rec</strong> (2019); the shift to full ranking, <strong>Krichene &amp; Rendle</strong> (2020); graph CF, <strong>NGCF</strong> (2019, which released the split) and <strong>LightGCN</strong> (2020); CTR, <strong>Wide &amp; Deep</strong> (2016) onward, standardized by the <strong>FuxiCTR</strong> open benchmark (2021); news, the <strong>MIND</strong> dataset paper (Wu et al., 2020). Full citations are in §9.</p>
+<p>The <strong>protocol anchors</strong>, the papers whose numbers later work quotes itself <em>against</em>, are, by regime: rating prediction, the <strong>Netflix Prize</strong> and Koren’s matrix-factorization line; the sampled top-<span class="math inline">\(N\)</span> regime, <strong>NCF</strong> (He et al., 2017); early sequential, <strong>SASRec</strong> (2018) and <strong>BERT4Rec</strong> (2019); the shift to full ranking, <strong>Krichene &amp; Rendle</strong> (2020); graph CF, <strong>NGCF</strong> (2019, which released the split) and <strong>LightGCN</strong> (2020); CTR, <strong>Wide &amp; Deep</strong> (2016) onward, standardized by the <strong>FuxiCTR</strong> open benchmark (2021); news, the <strong>MIND</strong> dataset paper (Wu et al., 2020). Full citations for these anchors are in §9, which also lists most of the other models named above (BellKor has no citation here); the rest are cited in the chapters that introduce them (the chapters listed under Table B.5).</p>
+<div id="tbl-datasets-and-benchmarks-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-datasets-and-benchmarks-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.6: The same map indexed <strong>by dataset</strong> — the lookup for <em>“I have this dataset (or I’m reading a paper that uses it): who runs on it, and how?”</em> One dataset can host several regimes (MovieLens-1M hosts three protocols). <em>Yelp2018</em>, <em>Amazon-Book</em> and <em>Gowalla</em> here mean the frozen NGCF-split snapshots of §2, not the raw dumps of §1, and, in the RLMRec rows, not even those. “LOO” is leave-one-out (§3; check which one a paper means). “sampled <span class="math inline">\(\to\)</span> full” marks the regimes that moved to full ranking after Krichene &amp; Rendle (2020).
+</figcaption>
+<div aria-describedby="tbl-datasets-and-benchmarks-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
-<caption>The same map indexed <strong>by dataset</strong> — the lookup for <em>“I have this dataset (or I’m reading a paper that uses it): who runs on it, and how?”</em> One dataset can host several regimes (MovieLens-1M is the clearest case, hence three protocols). <em>Yelp2018</em> and <em>Amazon-Book</em> are the frozen NGCF-split versions, not the raw <em>Yelp Open Dataset</em> / <em>Amazon Reviews</em> dumps of §1. “LOO” <span class="math inline">\(=\)</span> leave-one-out (hold out each user’s last interaction by time, §3); “sampled <span class="math inline">\(\to\)</span> full” marks the regimes that began with sampled negatives and moved to full ranking after Krichene &amp; Rendle (2020).</caption>
 <colgroup>
+<col style="width: 12%">
+<col style="width: 10%">
 <col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 36%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1057,7 +1245,7 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <tbody>
 <tr class="odd">
 <td><strong>MovieLens-1M</strong></td>
-<td>explicit <span class="math inline">\(\to\)</span> implicit</td>
+<td>explicit <span class="math inline">\(\to\)</span> implicit (ratings binarized to 1)</td>
 <td>rating · NCF · sequential</td>
 <td>MF, NeuMF, SASRec, BERT4Rec</td>
 <td>random ratings <em>or</em> LOO · sampled</td>
@@ -1066,65 +1254,65 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <tr class="even">
 <td><strong>MovieLens-20M</strong></td>
 <td>explicit <span class="math inline">\(\to\)</span> implicit</td>
-<td>graph CF · this book · BERT4Rec</td>
-<td>LightGCN, RLMRec, BERT4Rec</td>
-<td>temporal · full</td>
-<td>NDCG@10 / Recall@20</td>
+<td>BERT4Rec</td>
+<td>BERT4Rec</td>
+<td>LOO · 100 sampled</td>
+<td>HR@10 / NDCG@10</td>
 </tr>
 <tr class="odd">
 <td><strong>Netflix Prize</strong></td>
 <td>explicit</td>
 <td>rating prediction <em>(history)</em></td>
 <td>MF, SVD++, BellKor</td>
-<td>fixed Probe/Quiz/Test · —</td>
+<td>a fixed hold-out of each user’s <strong>most recent</strong> ratings — a per-user cut on time, like leave-one-out but with about nine items — split into Probe (public validation), Quiz (leaderboard) and Test (final, hidden) · —</td>
 <td><strong>RMSE</strong></td>
 </tr>
 <tr class="even">
 <td><strong>Amazon-Book</strong></td>
-<td>implicit</td>
-<td>graph CF (trio)</td>
-<td>NGCF, LightGCN, SGL</td>
-<td>random 80/20, 10-core · full</td>
+<td>implicit (binarized stars)</td>
+<td>graph CF (trio); LLM-augmented CF (RLMRec, on its <em>own</em> subset)</td>
+<td>NGCF, LightGCN, SGL, RLMRec</td>
+<td>random 80/20, 10-core · full (SGL restates 7:1:2; RLMRec: 3:1:1 on its own subset)</td>
 <td>Recall@20 / NDCG@20</td>
 </tr>
 <tr class="odd">
 <td><strong>Amazon Beauty / Sports / Toys</strong></td>
-<td>implicit</td>
+<td>implicit (binarized stars)</td>
 <td>sequential</td>
-<td>SASRec, BERT4Rec, S3-Rec</td>
+<td>SASRec, BERT4Rec, S3-Rec, CL4SRec</td>
 <td>LOO · sampled <span class="math inline">\(\to\)</span> full</td>
 <td>HR@10 / NDCG@10</td>
 </tr>
 <tr class="even">
 <td><strong>Yelp2018</strong></td>
-<td>implicit</td>
+<td>implicit (binarized stars)</td>
 <td>graph CF (trio)</td>
 <td>NGCF, LightGCN, SimGCL</td>
-<td>random 80/20, 10-core · full</td>
+<td>random 80/20, 10-core · full (SimGCL: its own 7:1:2)</td>
 <td>Recall@20 / NDCG@20</td>
 </tr>
 <tr class="odd">
 <td><strong>Gowalla</strong></td>
 <td>implicit</td>
-<td>graph CF (trio); POI</td>
-<td>LightGCN, SGL, LightGCL</td>
+<td>graph CF (trio); point-of-interest (POI)</td>
+<td>NGCF, LightGCN, DGCF</td>
 <td>random 80/20, 10-core · full</td>
 <td>Recall@20 / NDCG@20</td>
 </tr>
 <tr class="even">
 <td><strong>Steam</strong></td>
 <td>implicit</td>
-<td>sequential</td>
-<td>SASRec, BERT4Rec</td>
-<td>LOO · sampled <span class="math inline">\(\to\)</span> full</td>
-<td>HR@10 / NDCG@10</td>
+<td>sequential; LLM-augmented CF (RLMRec, own subset)</td>
+<td>SASRec, BERT4Rec, RLMRec</td>
+<td>LOO · sampled <span class="math inline">\(\to\)</span> full (RLMRec: 3:1:1 · full)</td>
+<td>HR@10 / NDCG@10 (RLMRec: Recall / NDCG <span class="citation" data-cites="5,10,20">@5,10,20</span>)</td>
 </tr>
 <tr class="odd">
 <td><strong>LastFM / Last-FM</strong></td>
 <td>implicit</td>
-<td>knowledge-graph CF</td>
+<td>knowledge-graph CF — the model also sees a graph of facts linking items to entities (song <span class="math inline">\(\to\)</span> artist <span class="math inline">\(\to\)</span> genre)</td>
 <td>KGAT</td>
-<td>random 80/20, 10-core · full</td>
+<td>random 80/20, 10-core · full — <strong>on KGAT’s own file</strong>, not the trio’s or LFM-1b (§7)</td>
 <td>Recall@20 / NDCG@20</td>
 </tr>
 <tr class="even">
@@ -1133,72 +1321,91 @@ Figure&nbsp;B.1: <strong>k-core then leave-one-last, on the worked example.</str
 <td>news</td>
 <td>NRMS, NAML, LSTUR</td>
 <td>impression / time · within-impression</td>
-<td>AUC / MRR / nDCG@5,10</td>
+<td>AUC / MRR / NDCG@5,10</td>
 </tr>
 <tr class="odd">
 <td><strong>Criteo / Avazu</strong></td>
 <td>implicit click</td>
 <td>CTR</td>
 <td>DeepFM, DCN, xDeepFM</td>
-<td>random 8:1:1 · per-impression</td>
+<td>random 8:1:1 (train : validation : test) · per-impression</td>
 <td>AUC / LogLoss</td>
 </tr>
 </tbody>
 </table>
-<blockquote class="blockquote">
-<p><strong>How to use the two tables.</strong> Go <em>down</em> the benchmark map when you are <strong>choosing how to run an experiment</strong>: pick the regime that matches your task and inherit its split, scope, and metrics wholesale, so your numbers join an existing conversation instead of starting a private one. Go <em>into</em> the dataset index when you are <strong>reading a paper or holding a dataset</strong>: look up what its community does, and you will know whether a headline number is full-ranking or sampled, temporal or random, <em>before</em> you decide how much to trust it.</p>
-</blockquote>
-<div id="fig-datasets-and-benchmarks-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+</div>
+</figure>
+</div>
+<div id="fig-datasets-and-benchmarks-2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Choosing — and reading — an evaluation protocol.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figs/datasets-and-benchmarks-2.svg" class="img-fluid figure-img">
+<img src="../figs/datasets-and-benchmarks-2.svg" class="img-fluid figure-img" alt="Choosing — and reading — an evaluation protocol.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datasets-and-benchmarks-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</strong> Explicit-rating tasks split at random and report RMSE; implicit-feedback tasks should split by <em>time</em> (§3) and then rank over the <em>full</em> catalogue (Recall/NDCG@<span class="math inline">\(K\)</span>, the honest modern default) rather than against a handful of sampled negatives (HR/NDCG@10), which Krichene &amp; Rendle (2020) showed can reverse model rankings. Each <em>ranking</em> regime in the map above is a leaf of this tree; the CTR and news regimes split differently (random or impression-based) and report AUC-family metrics instead.
+Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</strong> Solid arrows: what to do (split by <em>time</em>, §3, then rank over the <em>full</em> catalog). Dashed grey: the legacy sampled-negatives branch. Dashed orange: what the NGCF-lineage graph-CF papers did, a <strong>random per-user</strong> split. Sampled negatives (HR/NDCG@10) can reverse model rankings (Krichene &amp; Rendle, 2020). The CTR and news regimes split differently again and report AUC-family metrics (§4).
 </figcaption>
 </figure>
 </div>
+<blockquote class="blockquote">
+<p><strong>How to use the two tables.</strong> Go <em>down</em> the benchmark map when you are <strong>choosing how to run an experiment</strong>: pick the regime that matches your task and inherit its split, scope and metrics, so your numbers join an existing conversation. Where that inherited protocol is random or sampled, also report a time-based, full-ranking result (a global temporal split when timestamps allow, else leave-one-out, §3), because comparable is not the same as correct (§2, §3); it costs one extra run and answers the skeptic’s first question (a claim from practice, not tested here). Go <em>into</em> the dataset index when you are <strong>reading a paper or holding a dataset</strong>: look up what its community does, and you will know whether a headline number is full-ranking or sampled, time-based or random, <em>before</em> you decide how much to trust it.</p>
+</blockquote>
+<p><strong>In one line:</strong> the protocol belongs to the community, not the dataset, so before you set two numbers side by side check that the regime, the split and the ranking scope all match.</p>
 <hr>
 </section>
 <section id="two-evaluation-traps-the-data-side-creates" class="level2">
 <h2 class="anchored" data-anchor-id="two-evaluation-traps-the-data-side-creates">5. Two evaluation traps the data side creates</h2>
-<p>Beyond the split, two well-documented pitfalls live on the data side; both are reasons to distrust a headline number.</p>
+<p>Cara’s model finds the held-out film in the top 3 for half of her users (a hit rate, HR@3, of <span class="math inline">\(0.5\)</span>, §4) when each user’s last interaction is held out (leave-one-out, §3), and she wonders whether that is good. It depends on what a lazy baseline scores on the same data. Beyond the split, two well-documented pitfalls live on the data side, each with a companion bullet (the popularity-aware views, what the critique teaches); both are reasons to distrust a headline number.</p>
 <ul>
-<li><strong>Popularity bias in evaluation.</strong> A few blockbusters collect most test interactions (the long tail of <em>From Graphs to LightGCN</em> §13), so a recommender that simply pushes popular items scores well on Recall/NDCG without personalizing at all. Report a popularity-aware view (coverage, tail-Recall) alongside the headline metric.</li>
-<li><strong>The reproducibility critique.</strong> Ferrari Dacrema, Cremonesi &amp; Jannach (“<em>Are we really making much progress?</em>”, RecSys 2019) re-evaluated a wave of neural recommenders and found most could not be reproduced, and the reproducible ones were often <strong>beaten by a well-tuned classical baseline</strong> (item-kNN, matrix factorization). The lesson for a from-zero reader: a strong, <em>tuned</em> baseline is mandatory, and a gain is meaningless without identical splits, full-ranking metrics (the sampled-vs-full caution of <em>Evaluation Metrics</em>), and released code.</li>
+<li><strong>Popularity bias in evaluation.</strong> A few blockbusters collect most test interactions (the long tail of <em>From Graphs to LightGCN</em> §13), so a recommender that simply pushes popular items scores well on Recall/NDCG without personalizing at all. Put a number on it: under leave-one-out every user has exactly <strong>one</strong> held-out item, so if the three most popular items account for half of all held-out items, then a list that shows <em>those same three</em> to everyone, with no personalization in it, scores at least <span class="math inline">\(\text{HR@3}=0.5\)</span> (a user who already has one of the three gets another item in its place, which can only add hits). Whatever your model scores, that is the floor it has to beat; if Cara’s data were like this, her <span class="math inline">\(0.5\)</span> would sit exactly on it.</li>
+<li><strong>Popularity-aware views.</strong> Report them alongside the headline metric. <strong>Coverage</strong> is the share of the catalog the system ever recommends: if 40 of 1,000 items ever appear in anyone’s list, coverage is 4%. <strong>Tail-Recall</strong> is Recall computed only over long-tail items, i.e.&nbsp;excluding the few blockbusters: if 200 held-out items are in the tail and the lists find 30 of them, it is <span class="math inline">\(30/200=0.15\)</span> (made-up numbers).</li>
+<li><strong>The reproducibility critique.</strong> Ferrari Dacrema, Cremonesi &amp; Jannach (“<em>Are we really making much progress?</em>”, RecSys 2019) examined 18 neural-recommendation algorithms from top conferences and report that only 7 could be reproduced with reasonable effort, and that 6 of those were often <strong>beaten by comparably simple heuristics</strong> based on nearest-neighbor or graph-based techniques (reported there, not tested here). A typical such baseline is <strong>item-kNN</strong>: recommend the items most similar, by who interacted with both, to the ones a user already liked: if Ann and Cara both watched films A and C, a user who liked A is offered C.</li>
+<li><strong>What the critique teaches.</strong> A strong, <em>tuned</em> baseline is mandatory, and a gain is meaningless without identical splits, released code, and — for top-<span class="math inline">\(N\)</span> ranking tasks — full-ranking metrics (the sampled-vs-full caution of <em>Evaluation Metrics</em>). Rating prediction, CTR and news are scored differently (§4), so “full ranking” is a requirement <em>of the ranking regimes</em>, not of every number. <em>Implementation Choices</em> §5 turns this finding into the operational checklist — five pitfalls (three of them documented in the literature) and the <strong>tuple rule</strong>: quote a number only together with its whole tuple, which there has eight fields. The five that this appendix covers are model, dataset, split, ranking scope and metric@<span class="math inline">\(K\)</span>; the other three (the <span class="math inline">\(k\)</span>-core filter, which §3 here only illustrates, the training sampler and the tuning budget) are left to Implementation Choices.</li>
 </ul>
+<p><strong>In one line:</strong> a headline number can hide a popularity shortcut or an untuned baseline, so ask what the lazy baseline scores and whether the baselines were tuned.</p>
 <hr>
 </section>
 <section id="how-the-field-gets-data-today" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-field-gets-data-today">6. How the field gets data today</h2>
-<p>You rarely parse a raw dump by hand any more — the work has moved into toolkits and metadata standards:</p>
+<p>Bob would rather not write a file parser and a splitter for every dataset he tries. He rarely has to: the work has moved into toolkits and metadata standards.</p>
 <ul>
-<li><strong>Curated catalogs.</strong> Julian McAuley’s <em>Recommender Systems Datasets</em> page (UCSD) is the community’s de-facto index; several GitHub “awesome-datasets” lists mirror it.</li>
-<li><strong>Benchmark frameworks</strong> ship datasets in a unified format and run dozens of models on them under one protocol — the modern way to “present” a dataset: <strong>RecBole</strong> (~40 datasets, 90+ models, the <code>.inter</code>/<code>.user</code>/<code>.item</code> atomic format), <strong>Cornac</strong> (multimodal/side-info focus), <strong>Elliot</strong> (reproducibility-first: one config drives models + HPO + metrics + significance tests), <strong>Microsoft Recommenders</strong>, and <strong>LensKit</strong>.</li>
-<li><strong>Hosting &amp; metadata.</strong> <strong>HuggingFace Datasets</strong> is now a primary host (Amazon-Reviews-2023 lives there with standard splits); <strong>Croissant</strong> (MLCommons, 2024) is the emerging machine-readable metadata standard — a record now <em>required</em> for NeurIPS dataset submissions.</li>
+<li><strong>Curated catalogs.</strong> Julian McAuley’s <em>Recommender Systems Datasets</em> page (at UCSD) is a widely used index (the author’s reading, not tested here); several GitHub “awesome-datasets” lists mirror it.</li>
+<li><strong>Benchmark frameworks</strong> ship datasets in a unified format and run dozens of models on them under one protocol — the modern way to “present” a dataset: <strong>RecBole</strong> (release v1.2.1 of 23 February 2025, whose README lists 94 models and 44 datasets, though its own comparison table lists 43; and an <em>atomic format</em>, one plain-text file each for interactions, <code>.inter</code>, user features, <code>.user</code>, and item features, <code>.item</code>), <strong>Cornac</strong> (multimodal / side-information focus), <strong>Elliot</strong> (reproducibility-first: one configuration file drives models <span class="math inline">\(+\)</span> hyper-parameter optimization (HPO, searching the settings automatically) <span class="math inline">\(+\)</span> metrics <span class="math inline">\(+\)</span> significance tests, which check that a gain is larger than chance), <strong>Microsoft Recommenders</strong> (notebooks for an end-to-end pipeline, from data preparation to deployment), and <strong>LensKit</strong> (a Python toolkit for offline recommender experiments).</li>
+<li><strong>Hosting &amp; metadata</strong> — <em>metadata</em> here meaning the machine-readable description that travels with a dataset: what its columns are, where it came from, how it may be used. <strong>HuggingFace Datasets</strong> hosts Amazon-Reviews-2023 with standard splits (its project page links there); <strong>Croissant</strong> (from <strong>MLCommons</strong>, the industry–academic machine-learning benchmarking consortium, 2024) is a machine-readable metadata standard.</li>
+<li><strong>Croissant at NeurIPS, 2024 to 2026.</strong> NeurIPS tightened it in steps. Its 2024 Datasets &amp; Benchmarks call encouraged it (<em>“We encourage the authors to use Croissant format”</em>) and listed a Croissant record URL among the supplementary items; the 2025 call put the Croissant file under its “required” dataset and code items, worded <em>“should use the Croissant machine-readable format”</em>, and the organizers’ post of 10 March 2025 made proper hosting with a Croissant description a requirement.</li>
+<li><strong>Croissant at NeurIPS in 2026.</strong> The 2026 call of the renamed Evaluations and Datasets track says dataset authors <em>“must use the Croissant machine-readable format”</em>, but only <em>“request[s]”</em> both the core and the Responsible Artificial Intelligence (RAI) fields. The organizers’ post of 4 May 2026 is stricter: all dataset submissions <em>“must now include”</em> the RAI metadata in the Croissant file, and those without it <em>“will be flagged during review”</em>. The track’s hosting page also says the RAI metadata <em>“must be included”</em>. The sources differ in force on the RAI fields.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>In practice.</strong> Don’t hand-roll loading and splitting. Pick a framework (RecBole or Elliot for research comparability; Microsoft Recommenders for an end-to-end pipeline), use its built-in <strong>temporal</strong> split, and report the framework + version so others can reproduce you. If you must publish a dataset, attach a <strong>Croissant</strong> record.</p>
+<p><strong>In practice</strong> (advice from practice, not tested here). Don’t hand-roll loading and splitting. Pick a framework (RecBole or Elliot for research comparability; Microsoft Recommenders for an end-to-end pipeline), use its built-in <strong>time-based</strong> split (a global temporal split if you can afford the lost test coverage, else leave-one-out, §3) and report the framework <span class="math inline">\(+\)</span> version so others can reproduce you. If you must publish a dataset, attach a <strong>Croissant</strong> record.</p>
 </blockquote>
+<p><strong>In one line:</strong> use a framework’s loader and its time-based split, and name the framework and its version.</p>
 <hr>
 </section>
 <section id="active-deprecated-and-a-licensing-caution" class="level2">
 <h2 class="anchored" data-anchor-id="active-deprecated-and-a-licensing-caution">7. Active, deprecated, and a licensing caution</h2>
-<p>Famous datasets split into two groups, and a from-zero reader should know both: the <strong>active</strong> ones you actually build on, and the <strong>deprecated / withdrawn</strong> ones that shaped the field but are no longer safe — or even possible — to use. The withdrawn ones are still worth knowing by name (you will meet them in older papers); they are never worth training on.</p>
+<p>Ann finds a famous dataset on a mirror site. May she train on it? Famous datasets mostly split into two groups, and a from-zero reader should know both: the <strong>active</strong> ones you actually build on, and the <strong>deprecated / withdrawn</strong> ones that shaped the field but are no longer safe, or even possible, to use. The withdrawn ones are still worth knowing by name (you will meet them in older papers); they are never worth training on.</p>
 <ul>
-<li><strong>Netflix Prize</strong> (2006) — the dataset that launched modern collaborative-filtering research, <strong>withdrawn</strong> after researchers de-anonymized its users and a privacy lawsuit (<em>Doe v. Netflix</em>) followed. There is no official download; unofficial copies circulate, but <strong>cite it as history, do not train on it</strong>.</li>
-<li><strong>LastFM LFM-2b / LFM-1b</strong> — the large listening-history sets are <strong>no longer officially distributed</strong> (“license issues”; LFM-1b was historically the more available of the two). Treat as restricted and check current terms.</li>
-<li><strong>Yahoo! Webscope (e.g.&nbsp;the R3 music-ratings set)</strong> — still available, but <strong>only by signed agreement</strong> (academic use). R3 remains the classic <em>missing-not-at-random</em> benchmark — it pairs users’ organic ratings with a <strong>randomly-surveyed</strong> set — so it recurs in debiasing work despite the access gate.</li>
+<li><strong>Netflix Prize</strong> (2006): a famous early rating benchmark, <strong>withdrawn</strong> after researchers de-anonymized its users (Narayanan &amp; Shmatikov, 2008). A federal privacy lawsuit and an inquiry by the Federal Trade Commission of the United States followed, and Netflix cancelled a planned second contest in March 2010 (reported by the Electronic Privacy Information Center, 2010). There is no official download; unofficial copies circulate, but <strong>cite it as history, do not train on it</strong>. For §3: this benchmark already held out each user’s <em>most recent</em> ratings (Bennett &amp; Lanning, 2007: nine per user, or half of the ratings for users with fewer than 18), so the time-based idea is not new.</li>
+<li><strong>LastFM LFM-2b / LFM-1b</strong>: both large listening-history sets are <strong>no longer officially distributed</strong>. The LFM-1b page says <em>“The dataset is not available for download anymore due to license issues”</em>; LFM-2b is also no longer distributed (check its page). The origin papers are Schedl (2016) for LFM-1b and Schedl et al.&nbsp;(2022) for LFM-2b. The §1 table tags both <strong>Withdrawn</strong>; treat any circulating copy as restricted and check current terms. Do not confuse either with the small <strong>Last-FM</strong> file that ships with KGAT’s code (23,566 users <span class="math inline">\(\times\)</span> 48,123 items) and is what knowledge-graph papers actually run on (§4); cite that one as KGAT’s, and read its terms before building on it.</li>
+<li><strong>Yahoo! Webscope (e.g.&nbsp;the R3 music-ratings set)</strong>: still available, but <strong>only by signed agreement</strong> (academic use; the terms sit behind the access gate and were not re-read for this appendix). R3 remains the classic <em>missing-not-at-random</em> benchmark (the ratings are missing because of what users chose to rate, not by chance): it pairs users’ organic ratings with a <strong>randomly-surveyed</strong> set, so it recurs in <em>debiasing</em> work (methods that correct for users rating mostly what they chose to see) despite the access gate.</li>
 </ul>
-<p>Most <strong>active</strong> datasets — MovieLens, Gowalla, Yelp, Amazon, MIND, Steam, Book-Crossing, Goodreads — are free <strong>for research, non-commercial</strong> use <em>with attribution</em> (Yelp’s license is notably <strong>revocable</strong>). Always read the specific license before any commercial use.</p>
+<p>The datasets you can still obtain (MovieLens, Gowalla, Yelp, Amazon, MIND, Steam, Book-Crossing, Goodreads) are all free to <em>get</em>, but they do not all grant the same thing, and the only trustworthy source for what each grants is that dataset’s own page (read on the verification date unless noted). Do not read “free” as “open”. Always read the specific license, and re-read it, because these change, before any commercial use.</p>
+<ul>
+<li><strong>MovieLens</strong> may be used <em>“for any research purposes”</em> but not <em>“for any commercial or revenue-bearing purposes without first obtaining permission”</em>, and asks to be cited.</li>
+<li><strong>Yelp, MIND and Goodreads</strong> each gate the data to educational, research or academic use: the Yelp landing page says the data is <em>“intended for educational use”</em>, and MIND ships under Microsoft Research License Terms you must accept first; the Goodreads page says <em>“academic use only”</em>.</li>
+<li><strong>Yelp’s Data Agreement</strong> is shown at download, and its text could not be re-read for this appendix. As read in June 2026 it grants a license that is <em>“royalty-free, non-exclusive, revocable, non-sublicensable, non-transferable”</em> and <em>“solely for academic use”</em>, running for a twelve-month term that either side may end at any time; treat the quotation as June 2026 and re-read it before relying on it.</li>
+<li><strong>Amazon and Steam</strong>: the pages ask only that you cite the right paper.</li>
+<li><strong>Gowalla and Book-Crossing</strong>: SNAP’s Gowalla page and GroupLens’s Book-Crossing page state no terms at all, which is not the same as granting them.</li>
+</ul>
+<p>Only some of these are <strong>Active</strong> in §1’s sense (just download it); Yelp, MIND and Goodreads are tagged <strong>Restricted</strong> there because they are gated, revocable, or both.</p>
+<p><strong>In one line:</strong> before you train on a dataset, check its Status and read its own license page, because free to download does not mean free to use.</p>
 <hr>
 </section>
 <section id="glossary" class="level2">
 <h2 class="anchored" data-anchor-id="glossary">8. Glossary</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 23%">
+<col style="width: 76%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1209,35 +1416,91 @@ Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</s
 <tbody>
 <tr class="odd">
 <td><strong>Explicit / implicit feedback</strong></td>
-<td>Stated ratings (1–5) vs.&nbsp;behavioural <span class="math inline">\(0/1\)</span> (click/buy); the latter is positives-only.</td>
+<td>Stated ratings (e.g.&nbsp;1–5 stars, but 1–10 in Book-Crossing and 0.5–5 in MovieLens 10M and later) vs.&nbsp;behavioral <span class="math inline">\(0/1\)</span> (click/buy); the latter is positives-only.</td>
+</tr>
+<tr class="even">
+<td><strong>Density</strong></td>
+<td>Interactions <span class="math inline">\(\div\)</span> (users <span class="math inline">\(\times\)</span> items) — the share of the user–item grid that is filled. The graph-CF trio sits near <span class="math inline">\(0.1\%\)</span> (§2), but MovieLens-1M is about <span class="math inline">\(4.5\%\)</span> (<span class="math inline">\(1{,}000{,}209/(6{,}040\times3{,}706)\)</span>) and Netflix about <span class="math inline">\(1.2\%\)</span> (<span class="math inline">\(100{,}480{,}507/(480{,}189\times17{,}770)\)</span>), so check.</td>
+</tr>
+<tr class="odd">
+<td><strong>Sparsity</strong></td>
+<td><span class="math inline">\(1-\)</span> density: the share of the user–item grid that is <em>empty</em> (§2).</td>
 </tr>
 <tr class="even">
 <td><strong>k-core filter</strong></td>
-<td>Iteratively drop users/items with <span class="math inline">\(&lt;k\)</span> interactions until none remain; stabilizes the data.</td>
+<td>Iteratively drop users/items with <span class="math inline">\(&lt;k\)</span> interactions until none remain; stabilizes the data. The guarantee holds <em>before</em> the split, not after it (§3).</td>
 </tr>
 <tr class="odd">
 <td><strong>Random split</strong></td>
-<td>Hold out a random fraction of interactions — <strong>leaks the future</strong> for time-ordered data.</td>
+<td>Hold out a random fraction of interactions, per user or globally (say which) — <strong>leaks the future</strong> for time-ordered data.</td>
 </tr>
 <tr class="even">
-<td><strong>Temporal / leave-one-last split</strong></td>
-<td>Hold out each user’s chronologically last interaction; the honest, leak-free default.</td>
+<td><strong>Leave-one-out (LOO)</strong></td>
+<td>Hold out <strong>one</strong> interaction per user — the chronologically last unless stated otherwise, often the second-last for validation. Leak-free within a user, not across users (§3). Some papers use the name for a <em>random</em> held-out interaction: check.</td>
 </tr>
 <tr class="odd">
+<td><strong>Global temporal split</strong></td>
+<td>One cut-off timestamp for everybody: train before it, test after. The only one of the three that is leak-free across users; its price is that some users get no test item at all (§3).</td>
+</tr>
+<tr class="even">
+<td><strong>Frozen split</strong></td>
+<td>A train/test partition released as files and reused unchanged by later papers of one lineage (the trio’s defining feature, §2), which makes their numbers mutually quotable; not every graph-CF paper reuses it (§4).</td>
+</tr>
+<tr class="odd">
+<td><strong>Full ranking vs.&nbsp;sampled negatives</strong></td>
+<td>Score the held-out item against <em>every</em> item the user has not seen, or against a handful (99–100) drawn at random (<strong>negative sampling</strong>; a <em>negative</em> is an item the user did not interact with, treated as non-relevant). The two give different numbers for the same model (§4).</td>
+</tr>
+<tr class="even">
 <td><strong>Graph-CF trio</strong></td>
 <td>Gowalla / Yelp2018 / Amazon-Book — the frozen-split benchmark of graph-CF papers.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Popularity bias (in eval)</strong></td>
 <td>Popular items dominate the test set, so pushing them inflates accuracy metrics.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Benchmark framework</strong></td>
 <td>RecBole / Cornac / Elliot / Microsoft Recommenders / LensKit — unified datasets + models + protocol.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>Croissant</strong></td>
-<td>MLCommons machine-readable dataset-metadata standard (2024); required for NeurIPS dataset tracks.</td>
+<td>MLCommons machine-readable dataset-metadata standard (2024); NeurIPS encouraged a record in 2024, worded it “should use” in 2025 and “must use” in 2026, with the Responsible Artificial Intelligence (RAI) fields only requested in the 2026 call (the organizers’ post of 4 May 2026 requires them, §6).</td>
+</tr>
+<tr class="even">
+<td><strong>Impression</strong></td>
+<td>One showing of an item, or of a list of items, to a user, with the click or no-click that followed (§1).</td>
+</tr>
+<tr class="odd">
+<td><strong>Cold-start</strong></td>
+<td>A new user or item with no interaction history, so a model has nothing to learn it from (§1, §3).</td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">\(k\)</span>-fold</strong></td>
+<td>Cut the data into <span class="math inline">\(k\)</span> parts; test on each in turn, train on the rest, average (§3). A random scheme.</td>
+</tr>
+<tr class="odd">
+<td><strong>Item-kNN</strong></td>
+<td>Recommend the items most similar, by who interacted with both, to those the user already liked; a strong simple baseline (§5).</td>
+</tr>
+<tr class="even">
+<td><strong>Debiasing</strong></td>
+<td>Methods that correct for users rating mostly what they chose to see (§7).</td>
+</tr>
+<tr class="odd">
+<td><strong>Ranking scope</strong></td>
+<td>How many candidate items the held-out one is ranked against: all of them (full ranking) or a sample. Printed in Table B.5 as its own column (§4).</td>
+</tr>
+<tr class="even">
+<td><strong>HR@<span class="math inline">\(K\)</span>, MRR, AUC</strong></td>
+<td>Hit rate: was the held-out item in the top <span class="math inline">\(K\)</span>; mean reciprocal rank: the average of <span class="math inline">\(1/\text{rank}\)</span>; area under the receiver-operating-characteristic (ROC) curve: the chance a clicked impression outscores an unclicked one. Labels here; definitions in <em>Evaluation Metrics</em> (§4).</td>
+</tr>
+<tr class="odd">
+<td><strong>Backbone, lift</strong></td>
+<td>The base model a method is added to, and the gain over it (§4, RLMRec).</td>
+</tr>
+<tr class="even">
+<td><strong>Regime</strong></td>
+<td>A research community’s shared package of datasets + models + one evaluation protocol. Numbers are comparable <strong>only inside a regime, and only when split, preprocessing and ranking scope match as well</strong> (§4).</td>
 </tr>
 </tbody>
 </table>
@@ -1245,26 +1508,58 @@ Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</s
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">9. References</h2>
-<p>Ordered alphabetically. The benchmark-map entries (§4) are grouped here with the dataset and reproducibility references; each carries a short note on <em>what it anchors</em>.</p>
+<p>Ordered alphabetically. These are the <strong>protocol anchors of §4</strong>, the papers whose numbers later work quotes itself against, the papers of the models whose splits or file counts §4 quotes, the source papers of the datasets §1 and §2 lean on hardest, and the reproducibility references. Each carries a short note on <em>what it anchors</em>. It is not a source list for every dataset named in this appendix: for the rest (Criteo, Avazu, Taobao, Pinterest, Alibaba-iFashion, Yahoo! R3, and the benchmark frameworks other than <strong>RecBole</strong>, which is listed below), cite the dataset’s or project’s own page; BellKor (§4) is named without a citation.</p>
 <ul>
+<li><p>An, M., Wu, F., Wu, C., Zhang, K., Liu, Z., &amp; Xie, X. (2019). <em>Neural news recommendation with long- and short-term user representations</em> (LSTUR). In <em>Proceedings of ACL</em> (pp.&nbsp;336–345). https://doi.org/10.18653/v1/P19-1033 <em>(a news-regime model, re-run on MIND, §4)</em></p></li>
+<li><p>Bennett, J., &amp; Lanning, S. (2007). <em>The Netflix Prize</em>. In <em>Proceedings of KDD Cup and Workshop 2007</em> <em>(the rating-prediction benchmark — and the source for its probe / quiz / test sets being drawn from each user’s most recent ratings, §4, §7)</em></p></li>
+<li><p>Cai, X., Huang, C., Xia, L., &amp; Ren, X. (2023). <em>LightGCL: Simple yet effective graph contrastive learning for recommendation</em>. In <em>Proceedings of ICLR</em>. arXiv:2302.08191 <em>(its own Amazon-book file, 78,578 users, §4)</em></p></li>
 <li><p>Cheng, H.-T., Koc, L., Harmsen, J., et al.&nbsp;(2016). <em>Wide &amp; Deep learning for recommender systems</em>. In <em>Proceedings of the 1st Workshop on Deep Learning for Recommender Systems (DLRS @ RecSys)</em>. arXiv:1606.07792 <em>(the CTR wide-and-deep anchor)</em></p></li>
-<li><p>Ferrari Dacrema, M., Cremonesi, P., &amp; Jannach, D. (2019). <em>Are we really making much progress? A worrying analysis of recent neural recommendation approaches</em>. In <em>Proceedings of the 13th ACM Conference on Recommender Systems (RecSys)</em>. https://doi.org/10.1145/3298689.3347058</p></li>
-<li><p>Harper, F. M., &amp; Konstan, J. A. (2015). <em>The MovieLens datasets: History and context</em>. <em>ACM Transactions on Interactive Intelligent Systems, 5</em>(4). https://doi.org/10.1145/2827872</p></li>
-<li><p>He, X., Liao, L., Zhang, H., Nie, L., Hu, X., &amp; Chua, T.-S. (2017). <em>Neural collaborative filtering (NCF / NeuMF)</em>. In <em>Proceedings of WWW</em>. arXiv:1708.05031 <em>(the leave-one-out + 99-sampled-negatives top-<span class="math inline">\(N\)</span> protocol)</em></p></li>
-<li><p>He, X., Deng, K., Wang, X., Li, Y., Zhang, Y., &amp; Wang, M. (2020). <em>LightGCN: Simplifying and powering graph convolution network for recommendation</em>. In <em>Proceedings of SIGIR</em>. arXiv:2002.02126 <em>(reuses NGCF’s split; the de-facto graph-CF backbone)</em></p></li>
-<li><p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation (SASRec)</em>. In <em>Proceedings of ICDM</em>. arXiv:1808.09781 <em>(leave-one-out + 100 sampled negatives)</em></p></li>
+<li><p>Cho, E., Myers, S. A., &amp; Leskovec, J. (2011). <em>Friendship and mobility: User movement in location-based social networks</em>. In <em>Proceedings of the 17th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD)</em> (pp.&nbsp;1082–1090). https://doi.org/10.1145/2020408.2020579 <em>(the original Gowalla check-in data, as distributed by SNAP; NGCF cites Liang et al.&nbsp;below for it — §1, §2)</em></p></li>
+<li><p>Du, X., Yuan, H., Zhao, P., Qu, J., Zhuang, F., Liu, G., &amp; Sheng, V. S. (2023). <em>Frequency enhanced hybrid attention network for sequential recommendation</em> (FEARec). In <em>Proceedings of SIGIR</em>. arXiv:2304.09184 <em>(a full-ranking sequential model, §4)</em></p></li>
+<li><p>Electronic Privacy Information Center (2010). <em>Netflix cancels contest over privacy concerns</em>. https://archive.epic.org/2010/03/netflix-cancels-contest-over-p.html <em>(the lawsuit and the cancelled second contest, §7)</em></p></li>
+<li><p>Ferrari Dacrema, M., Cremonesi, P., &amp; Jannach, D. (2019). <em>Are we really making much progress? A worrying analysis of recent neural recommendation approaches</em>. In <em>Proceedings of the 13th ACM Conference on Recommender Systems (RecSys)</em>. https://doi.org/10.1145/3298689.3347058 <em>(tuned classical baselines beat most neural recommenders — §5)</em></p></li>
+<li><p>Harper, F. M., &amp; Konstan, J. A. (2015). <em>The MovieLens datasets: History and context</em>. <em>ACM Transactions on Interactive Intelligent Systems, 5</em>(4). https://doi.org/10.1145/2827872 <em>(the MovieLens family — §1)</em></p></li>
+<li><p>He, R., &amp; McAuley, J. (2016). <em>Ups and downs: Modeling the visual evolution of fashion trends with one-class collaborative filtering</em>. In <em>Proceedings of the 25th International Conference on World Wide Web (WWW)</em> (pp.&nbsp;507–517). https://doi.org/10.1145/2872427.2883037 <em>(the source NGCF cites for its Amazon-Book reviews, §1)</em></p></li>
+<li><p>He, X., Deng, K., Wang, X., Li, Y., Zhang, Y., &amp; Wang, M. (2020). <em>LightGCN: Simplifying and powering graph convolution network for recommendation</em>. In <em>Proceedings of SIGIR</em>. arXiv:2002.02126 <em>(reuses NGCF’s split for Gowalla and Amazon-Book, with a revised Yelp2018 that NGCF’s later arXiv version also adopts; the de-facto graph-CF backbone)</em></p></li>
+<li><p>He, X., Liao, L., Zhang, H., Nie, L., Hu, X., &amp; Chua, T.-S. (2017). <em>Neural collaborative filtering</em> (NCF / NeuMF). In <em>Proceedings of WWW</em>. arXiv:1708.05031 <em>(the leave-one-out + 99-sampled-negatives top-<span class="math inline">\(N\)</span> protocol)</em></p></li>
+<li><p>Hidasi, B., Karatzoglou, A., Baltrunas, L., &amp; Tikk, D. (2016). <em>Session-based recommendations with recurrent neural networks</em> (GRU4Rec). In <em>Proceedings of ICLR</em>. arXiv:1511.06939 <em>(session click-streams, Recall@20 / MRR@20, §4)</em></p></li>
+<li><p>Hou, Y., Li, J., Fu, X., He, Z., Yan, A., Chen, X., &amp; McAuley, J. (2026). <em>Bridging language and items for retrieval and recommendation: Benchmarking LLMs as semantic encoders</em>. In <em>Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (ACL), Volume 1: Long Papers</em> (pp.&nbsp;3251–3265). https://doi.org/10.18653/v1/2026.acl-long.147 <em>(the Amazon Reviews 2023 release — 571.5M reviews, 33 categories, as its dataset page gives them; the release was first described in the 2024 preprint arXiv:2403.03952v1, whose title lacked the subtitle and had six authors)</em></p></li>
+<li><p>Ji, Y., Sun, A., Zhang, J., &amp; Li, C. (2023). <em>A critical study on data leakage in recommender system offline evaluation</em>. <em>ACM Transactions on Information Systems, 41</em>(3), 1–27. https://doi.org/10.1145/3569930 <em>(splits that ignore the global timeline let a model see items from after the test point — the case for a global temporal split, §3)</em></p></li>
+<li><p>Kang, W.-C., &amp; McAuley, J. (2018). <em>Self-attentive sequential recommendation</em> (SASRec). In <em>Proceedings of ICDM</em>. arXiv:1808.09781 <em>(leave-one-out + 100 sampled negatives; also introduced the Steam dataset)</em></p></li>
+<li><p>Koren, Y. (2008). <em>Factorization meets the neighborhood: A multifaceted collaborative filtering model</em>. In <em>Proceedings of the 14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD)</em> (pp.&nbsp;426–434). https://doi.org/10.1145/1401890.1401944 <em>(SVD++, §4)</em></p></li>
+<li><p>Koren, Y. (2009). <em>Collaborative filtering with temporal dynamics</em>. In <em>Proceedings of the 15th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD)</em> (pp.&nbsp;447–456). https://doi.org/10.1145/1557019.1557072 <em>(timeSVD++, §4)</em></p></li>
 <li><p>Koren, Y., Bell, R., &amp; Volinsky, C. (2009). <em>Matrix factorization techniques for recommender systems</em>. <em>Computer, 42</em>(8), 30–37. https://doi.org/10.1109/MC.2009.263 <em>(the rating-prediction MF line behind the Netflix Prize)</em></p></li>
 <li><p>Krichene, W., &amp; Rendle, S. (2020). <em>On sampled metrics for item recommendation</em>. In <em>Proceedings of KDD</em>. https://doi.org/10.1145/3394486.3403226 <em>(the case against sampled metrics — why the field moved to full ranking)</em></p></li>
-<li><p>Narayanan, A., &amp; Shmatikov, V. (2008). <em>Robust de-anonymization of large sparse datasets</em>. In <em>IEEE Symposium on Security and Privacy</em> <em>(the Netflix Prize de-anonymization)</em>. https://doi.org/10.1109/SP.2008.33</p></li>
+<li><p>Liang, D., Charlin, L., McInerney, J., &amp; Blei, D. M. (2016). <em>Modeling user exposure in recommendation</em>. In <em>Proceedings of the 25th International Conference on World Wide Web (WWW)</em> (pp.&nbsp;951–961). https://doi.org/10.1145/2872427.2883090 <em>(the source NGCF cites for its Gowalla data, §1)</em></p></li>
+<li><p>McAuley, J., Targett, C., Shi, Q., &amp; van den Hengel, A. (2015). <em>Image-based recommendations on styles and substitutes</em>. In <em>Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)</em> (pp.&nbsp;43–52). https://doi.org/10.1145/2766462.2767755 <em>(the Amazon Reviews 2014 release, the likely source of the trio’s Amazon-Book; NGCF names no year, §1, §2)</em></p></li>
+<li><p>MLCommons (2024). <em>Croissant: A metadata format for ML-ready datasets</em>. MLCommons Croissant working group. https://docs.mlcommons.org/croissant/ <em>(the dataset-metadata standard — §6)</em></p></li>
+<li><p>Narayanan, A., &amp; Shmatikov, V. (2008). <em>Robust de-anonymization of large sparse datasets</em>. In <em>IEEE Symposium on Security and Privacy</em> <em>(the Netflix Prize de-anonymization — §7)</em>. https://doi.org/10.1109/SP.2008.33</p></li>
+<li><p>Ni, J., Li, J., &amp; McAuley, J. (2019). <em>Justifying recommendations using distantly-labeled reviews and fine-grained aspects</em>. In <em>Proceedings of EMNLP-IJCNLP</em> (pp.&nbsp;188–197). https://aclanthology.org/D19-1018/ <em>(the Amazon Reviews 2018 release — 233.1M reviews)</em></p></li>
+<li><p>Qiu, R., Huang, Z., Yin, H., &amp; Wang, Z. (2022). <em>Contrastive learning for representation degeneration problem in sequential recommendation</em> (DuoRec). In <em>Proceedings of WSDM</em> (pp.&nbsp;813–823). https://doi.org/10.1145/3488560.3498433 <em>(a full-ranking sequential model, §4)</em></p></li>
+<li><p>Ren, X., Wei, W., Xia, L., Su, L., Cheng, S., Wang, J., Yin, D., &amp; Huang, C. (2024). <em>Representation learning with large language models for recommendation</em> (RLMRec). In <em>Proceedings of the ACM Web Conference (WWW)</em> (pp.&nbsp;3464–3475). https://doi.org/10.1145/3589334.3645458 <em>(the LLM-augmented row, and its own subsets of Amazon-book / Yelp / Steam with a 3:1:1 split, §4; Table 1 reports Recall and NDCG at 5, 10 and 20)</em></p></li>
+<li><p>Salakhutdinov, R., Mnih, A., &amp; Hinton, G. (2007). <em>Restricted Boltzmann machines for collaborative filtering</em>. In <em>Proceedings of the 24th International Conference on Machine Learning (ICML)</em> (pp.&nbsp;791–798). https://doi.org/10.1145/1273496.1273596 <em>(RBM-CF, §4)</em></p></li>
+<li><p>Schedl, M. (2016). <em>The LFM-1b dataset for music retrieval and recommendation</em>. In <em>Proceedings of the 2016 ACM International Conference on Multimedia Retrieval (ICMR)</em> (pp.&nbsp;103–110). https://doi.org/10.1145/2911996.2912004 <em>(the LFM-1b release, §7)</em></p></li>
+<li><p>Schedl, M., Brandl, S., Lesota, O., Parada-Cabaleiro, E., Penz, D., &amp; Rekabsaz, N. (2022). <em>LFM-2b: A dataset of enriched music listening events for recommender systems research and fairness analysis</em>. In <em>Proceedings of the ACM SIGIR Conference on Human Information Interaction and Retrieval (CHIIR)</em> (pp.&nbsp;337–341). https://doi.org/10.1145/3498366.3505791 <em>(the LFM-2b release, §7)</em></p></li>
 <li><p>Sun, F., Liu, J., Wu, J., Pei, C., Lin, X., Ou, W., &amp; Jiang, P. (2019). <em>BERT4Rec: Sequential recommendation with bidirectional encoder representations from Transformer</em>. In <em>Proceedings of CIKM</em>. arXiv:1904.06690 <em>(leave-one-out + 100 popularity-sampled negatives)</em></p></li>
-<li><p>Wang, X., He, X., Cao, Y., Liu, M., &amp; Chua, T.-S. (2019). <em>KGAT: Knowledge graph attention network for recommendation</em>. In <em>Proceedings of KDD</em>. arXiv:1905.07854 <em>(the knowledge-graph trio: Amazon-Book / LastFM / Yelp2018)</em></p></li>
-<li><p>Wang, X., He, X., Wang, M., Feng, F., &amp; Chua, T.-S. (2019). <em>Neural graph collaborative filtering (NGCF)</em>. In <em>Proceedings of SIGIR</em>. arXiv:1905.08108 <em>(released the random per-user 80/20 split the graph-CF trio reuses verbatim)</em></p></li>
+<li><p>Tang, J., &amp; Wang, K. (2018). <em>Personalized top-N sequential recommendation via convolutional sequence embedding</em> (Caser). In <em>Proceedings of WSDM</em> (pp.&nbsp;565–573). https://doi.org/10.1145/3159652.3159656 <em>(its own 70/10/20 split, §4)</em></p></li>
+<li><p>Wan, M., &amp; McAuley, J. (2018). <em>Item recommendation on monotonic behavior chains</em>. In <em>Proceedings of the 12th ACM Conference on Recommender Systems (RecSys)</em> (pp.&nbsp;86–94). https://doi.org/10.1145/3240323.3240369 <em>(the UCSD Goodreads dataset)</em></p></li>
+<li><p>Wang, H., Zhang, F., Xie, X., &amp; Guo, M. (2018). <em>DKN: Deep knowledge-aware network for news recommendation</em>. In <em>Proceedings of the 2018 World Wide Web Conference (WWW)</em> (pp.&nbsp;1835–1844). https://doi.org/10.1145/3178876.3186175 <em>(a news-regime model, re-run on MIND, §4)</em></p></li>
+<li><p>Wang, X., He, X., Cao, Y., Liu, M., &amp; Chua, T.-S. (2019). <em>KGAT: Knowledge graph attention network for recommendation</em>. In <em>Proceedings of KDD</em>. arXiv:1905.07854 <em>(its own knowledge-graph trio: Amazon-book / Last-FM / Yelp2018 — the same names as, but different files from, the NGCF trio, §4)</em></p></li>
+<li><p>Wang, X., He, X., Wang, M., Feng, F., &amp; Chua, T.-S. (2019). <em>Neural graph collaborative filtering</em> (NGCF). In <em>Proceedings of SIGIR</em>. arXiv:1905.08108 <em>(released the random per-user 80/20 split that LightGCN reuses; the latest arXiv version, July 2020, replaces the Yelp2018 file, re-implements NDCG and reruns all methods, so quote any NGCF number with the version named; later graph-CF papers keep the dataset names but often re-split)</em></p></li>
+<li><p>Wu, C., Wu, F., An, M., Huang, J., Huang, Y., &amp; Xie, X. (2019). <em>Neural news recommendation with attentive multi-view learning</em> (NAML). In <em>Proceedings of IJCAI</em> (pp.&nbsp;3863–3869). https://doi.org/10.24963/ijcai.2019/536 <em>(a news-regime model, re-run on MIND, §4)</em></p></li>
+<li><p>Wu, C., Wu, F., An, M., Huang, J., Huang, Y., &amp; Xie, X. (2019). <em>NPA: Neural news recommendation with personalized attention</em>. In <em>Proceedings of KDD</em> (pp.&nbsp;2576–2584). https://doi.org/10.1145/3292500.3330665 <em>(a news-regime model, re-run on MIND, §4)</em></p></li>
+<li><p>Wu, C., Wu, F., Ge, S., Qi, T., Huang, Y., &amp; Xie, X. (2019). <em>Neural news recommendation with multi-head self-attention</em> (NRMS). In <em>Proceedings of EMNLP-IJCNLP</em> (pp.&nbsp;6388–6393). https://doi.org/10.18653/v1/D19-1671 <em>(a news-regime model, re-run on MIND, §4)</em></p></li>
 <li><p>Wu, F., Qiao, Y., Chen, J.-H., et al.&nbsp;(2020). <em>MIND: A large-scale dataset for news recommendation</em>. In <em>Proceedings of ACL</em>. https://aclanthology.org/2020.acl-main.331 <em>(the news-recommendation impression-based protocol)</em></p></li>
-<li><p>Wu, J., Wang, X., Feng, F., He, X., Chen, L., Lian, J., &amp; Xie, X. (2021). <em>Self-supervised graph learning for recommendation (SGL)</em>. In <em>Proceedings of SIGIR</em>. arXiv:2010.10783 <em>(adds Alibaba-iFashion to the graph-CF trio)</em></p></li>
-<li><p>Zhao, W. X., et al.&nbsp;(2021). <em>RecBole: Towards a unified, comprehensive and efficient framework for recommendation algorithms</em>. In <em>Proceedings of CIKM</em>. arXiv:2011.01731</p></li>
-<li><p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate prediction (FuxiCTR)</em>. In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(standardized the Criteo / Avazu 8:1:1 split + AUC / LogLoss)</em></p></li>
+<li><p>Wu, J., Wang, X., Feng, F., He, X., Chen, L., Lian, J., &amp; Xie, X. (2021). <em>Self-supervised graph learning for recommendation</em> (SGL). In <em>Proceedings of SIGIR</em>. arXiv:2010.10783 <em>(Yelp2018, Amazon-Book and Alibaba-iFashion — no Gowalla; its much-quoted 7:1:2 is NGCF’s split restated, not a new one, §4)</em></p></li>
+<li><p>Xie, X., Sun, F., Liu, Z., Wu, S., Gao, J., Zhang, J., Ding, B., &amp; Cui, B. (2022). <em>Contrastive learning for sequential recommendation</em> (CL4SRec). In <em>Proceedings of the IEEE International Conference on Data Engineering (ICDE)</em> (pp.&nbsp;1259–1273). https://doi.org/10.1109/ICDE53745.2022.00099 <em>(full ranking over the whole item set; reuses S3-Rec’s preprocessing, §4)</em></p></li>
+<li><p>Yu, J., Yin, H., Xia, X., Chen, T., Cui, L., &amp; Nguyen, Q. V. H. (2022). <em>Are graph augmentations necessary? Simple graph contrastive learning for recommendation</em> (SimGCL). In <em>Proceedings of SIGIR</em> (pp.&nbsp;1294–1303). https://doi.org/10.1145/3477495.3531937 <em>(its own 7:1:2 split and Douban-Book, §4)</em></p></li>
+<li><p>Zhao, W. X., et al.&nbsp;(2021). <em>RecBole: Towards a unified, comprehensive and efficient framework for recommendation algorithms</em>. In <em>Proceedings of CIKM</em>. arXiv:2011.01731 <em>(the unified benchmark framework — §6)</em></p></li>
+<li><p>Zhou, G., Zhu, X., Song, C., Fan, Y., Zhu, H., Ma, X., Yan, Y., Jin, J., Li, H., &amp; Gai, K. (2018). <em>Deep interest network for click-through rate prediction</em> (DIN). In <em>Proceedings of KDD</em> (pp.&nbsp;1059–1068). https://doi.org/10.1145/3219819.3219823 <em>(Amazon Electronics, MovieLens-20M and an Alibaba log, not Criteo or Avazu, §4)</em></p></li>
+<li><p>Zhou, K., Wang, H., Zhao, W. X., Zhu, Y., Wang, S., Zhang, F., Wang, Z., &amp; Wen, J.-R. (2020). <em>S3-Rec: Self-supervised learning for sequential recommendation with mutual information maximization</em>. In <em>Proceedings of the 29th ACM International Conference on Information and Knowledge Management (CIKM)</em> (pp.&nbsp;1893–1902). https://doi.org/10.1145/3340531.3411954 <em>(leave-one-out + <strong>99</strong> sampled negatives — the sampled row, not the full one, §4)</em></p></li>
+<li><p>Zhu, J., Liu, J., Yang, S., Zhang, Q., &amp; He, X. (2021). <em>Open benchmarking for click-through rate prediction</em> (FuxiCTR). In <em>Proceedings of CIKM</em>. arXiv:2009.05794 <em>(standardized the Criteo / Avazu 8:1:1 split + AUC / LogLoss)</em></p></li>
+<li><p>Ziegler, C.-N., McNee, S. M., Konstan, J. A., &amp; Lausen, G. (2005). <em>Improving recommendation lists through topic diversification</em>. In <em>Proceedings of the 14th International Conference on World Wide Web (WWW)</em> (pp.&nbsp;22–32). https://doi.org/10.1145/1060745.1060754 <em>(the paper behind Book-Crossing; the data was crawled 2004)</em></p></li>
 </ul>
-<p><em>Online sources verified June 2026.</em></p>
+<p><em>Online sources and scale figures verified 17 October 2026, except the Yelp Data Agreement wording (shown at download, quoted as read in June 2026) and the Yahoo! Webscope terms, which were not re-read.</em></p>
 
 
 </section>
@@ -1678,12 +1973,12 @@ Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</s
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/implementation-choices.html" class="pagination-link" aria-label="Implementation Choices: A Practitioner's Field Guide">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Implementation Choices: A Practitioner’s Field Guide</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/llm-feature-generation.html" class="pagination-link" aria-label="Generating Features with LLMs">
-        <span class="nav-page-text"><span class="chapter-title">Generating Features with LLMs</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/llm-feature-generation.html" class="pagination-link" aria-label="Generating Features with Large Language Models">
+        <span class="nav-page-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Generating Features with Large Language Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1697,7 +1992,7 @@ Figure&nbsp;B.2: <strong>Choosing — and reading — an evaluation protocol.</s
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952963">Zenodo (DOI 10.5281/zenodo.20952963)</a></p>
+<p><strong>Download &amp; cite</strong> → <a href="https://doi.org/10.5281/zenodo.20952962">Zenodo (DOI 10.5281/zenodo.20952962)</a></p>
 </div>
   </div>
 </footer>

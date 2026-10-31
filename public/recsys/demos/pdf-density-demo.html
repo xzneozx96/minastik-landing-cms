@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF: density vs probability — drag the window</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#5a5a5a; --line:#dcdcd6; --blue:#185FA5; --info:#0c447c; --infobg:#e6f1fb; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+         color: var(--ink); max-width: 760px; margin: 2.5rem auto; padding: 0 1.2rem; line-height: 1.6; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 0.3rem; }
+  p.lead { color: var(--muted); margin: 0 0 1.5rem; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 1rem; }
+  .card { background: #f6f6f2; border-radius: 8px; padding: 0.7rem 0.9rem; }
+  .card.p { background: var(--infobg); }
+  .card .lab { font-size: 12px; color: var(--muted); }
+  .card.p .lab { color: var(--info); }
+  .card .val { font-size: 24px; font-weight: 600; }
+  .card.p .val { color: var(--info); }
+  .card .sub { font-size: 11px; color: #8a8a84; }
+  canvas { width: 100%; height: auto; display: block; }
+  .ctl { display: flex; align-items: center; gap: 12px; margin-top: 0.8rem; }
+  .ctl label { font-size: 14px; color: var(--muted); min-width: 70px; }
+  .ctl input[type=range] { flex: 1; }
+  .ctl .out { font-size: 14px; font-weight: 600; min-width: 42px; }
+  .insight { font-size: 14px; color: var(--muted); margin-top: 1.2rem; border-left: 3px solid var(--line); padding-left: 0.9rem; }
+  footer { margin-top: 2rem; font-size: 12px; color: #9a9a94; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+  code { background: #f0f0ea; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+  <h1>PDF: the height is a <em>density</em>, the area is a <em>probability</em></h1>
+  <p class="lead">Companion demo for <code>math-foundations</code> §1. Drag the <strong>width</strong> slider toward 0:
+     the shaded probability collapses to nothing, while the curve's height barely moves. That gap is the whole
+     PMF-vs-PDF distinction — for a continuous variable you measure an <em>area</em>, never a height.</p>
+
+  <div class="cards">
+    <div class="card"><div class="lab">height = density p(x)</div><div class="val" id="dens">0.242</div><div class="sub">per unit x · stays fixed</div></div>
+    <div class="card"><div class="lab">window width &Delta;x</div><div class="val" id="wid">1.00</div><div class="sub">drag the slider</div></div>
+    <div class="card p"><div class="lab">P = shaded area</div><div class="val" id="prob">0.242</div><div class="sub">&rarr; 0 as &Delta;x &rarr; 0</div></div>
+  </div>
+
+  <canvas id="cv" width="720" height="280" aria-label="A bell density curve with a shaded vertical strip whose area is the probability."></canvas>
+
+  <div class="ctl"><label for="cen">center x</label><input type="range" id="cen" min="-3" max="3" value="1" step="0.1"><span class="out" id="cenOut">1.0</span></div>
+  <div class="ctl"><label for="wdt">width &Delta;x</label><input type="range" id="wdt" min="0.02" max="3" value="1" step="0.02"><span class="out" id="wdtOut">1.00</span></div>
+
+  <p class="insight" id="insight"></p>
+
+  <footer>A single point has width 0, so its probability is exactly 0 — yet its density (height) is positive.
+     Probability for a continuous variable lives on intervals, not points.</footer>
+
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height, padL=36, padR=12, padB=30, padT=14;
+  var xmin=-4, xmax=4, ymax=0.45, plotW=W-padL-padR, plotH=H-padT-padB;
+  function X(x){return padL+(x-xmin)/(xmax-xmin)*plotW;}
+  function Y(y){return padT+(1-y/ymax)*plotH;}
+  function pdf(x){return 0.39894228*Math.exp(-x*x/2);}
+  function area(a,b){var s=0,dx=0.003; for(var x=a;x<b;x+=dx) s+=pdf(x+dx/2)*dx; return s;}
+  function draw(c,w){
+    ctx.clearRect(0,0,W,H);
+    var a=Math.max(c-w/2,xmin), b=Math.min(c+w/2,xmax);
+    ctx.beginPath(); ctx.moveTo(X(a),Y(0));
+    for(var x=a;x<=b;x+=0.02) ctx.lineTo(X(x),Y(pdf(x)));
+    ctx.lineTo(X(b),Y(0)); ctx.closePath();
+    ctx.fillStyle='rgba(216,90,48,0.32)'; ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.35)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(X(xmin),Y(0)); ctx.lineTo(X(xmax),Y(0)); ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.55)'; ctx.font='12px sans-serif'; ctx.textAlign='center';
+    for(var t=-3;t<=3;t++){ ctx.beginPath(); ctx.moveTo(X(t),Y(0)); ctx.lineTo(X(t),Y(0)+4); ctx.stroke(); ctx.fillText(t, X(t), Y(0)+18); }
+    ctx.strokeStyle='#185FA5'; ctx.lineWidth=2.5; ctx.beginPath();
+    var first=true;
+    for(var x2=xmin;x2<=xmax;x2+=0.02){ var px=X(x2),py=Y(pdf(x2)); if(first){ctx.moveTo(px,py);first=false;} else ctx.lineTo(px,py); }
+    ctx.stroke();
+    ctx.strokeStyle='#185FA5'; ctx.setLineDash([4,3]); ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(X(c),Y(0)); ctx.lineTo(X(c),Y(pdf(c))); ctx.stroke(); ctx.setLineDash([]);
+  }
+  function upd(){
+    var c=parseFloat(document.getElementById('cen').value), w=parseFloat(document.getElementById('wdt').value);
+    document.getElementById('cenOut').textContent=c.toFixed(1);
+    document.getElementById('wdtOut').textContent=w.toFixed(2);
+    var d=pdf(c), p=area(c-w/2,c+w/2);
+    document.getElementById('dens').textContent=d.toFixed(3);
+    document.getElementById('wid').textContent=w.toFixed(2);
+    document.getElementById('prob').textContent=p.toFixed(3);
+    var msg;
+    if(w<=0.12) msg='Tiny window: P ≈ '+p.toFixed(3)+', heading to 0 — yet the density (height) is still '+d.toFixed(3)+'. Push Δx all the way to 0 and you get a single point: probability exactly 0, density unchanged.';
+    else msg='P(window) = '+p.toFixed(3)+'  ≈  height × width = '+d.toFixed(3)+' × '+w.toFixed(2)+' = '+(d*w).toFixed(3)+'. Narrow the window and this approximation tightens — and the probability shrinks toward 0.';
+    document.getElementById('insight').textContent=msg;
+    draw(c,w);
+  }
+  document.getElementById('cen').addEventListener('input',upd);
+  document.getElementById('wdt').addEventListener('input',upd);
+  upd();
+})();
+</script>
+</body>
+</html>
