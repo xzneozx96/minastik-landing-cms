@@ -15,6 +15,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { PartnerOrder } from './PartnerOrder/config'
 import { plugins } from './plugins'
 import { getServerSideURL } from './utilities/getURL'
 import { Projects } from './collections/Projects'
@@ -67,7 +68,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, BlogCategories, ProjectCategories, Users, Partners, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, PartnerOrder],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder

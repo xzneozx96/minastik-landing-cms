@@ -51,10 +51,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    partnerOrder: PartnerOrder;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    partnerOrder: PartnerOrderSelect<false> | PartnerOrderSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1537,6 +1539,21 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partnerOrder".
+ */
+export interface PartnerOrder {
+  id: string;
+  order?:
+    | {
+        partner: string | Partner;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1575,6 +1592,21 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partnerOrder_select".
+ */
+export interface PartnerOrderSelect<T extends boolean = true> {
+  order?:
+    | T
+    | {
+        partner?: T;
         id?: T;
       };
   updatedAt?: T;
