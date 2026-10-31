@@ -171,6 +171,32 @@ Core features:
 - Redirects
 - Live preview
 
+### Publishing the RecSys book
+
+The "Recommender Systems from Zero" book is served from `public/recsys/` as a **static Quarto site** — not a CMS collection. `next.config.js` rewrites `/recsys` to `/recsys/index.html`, so the URL works with or without a trailing slash.
+
+Content updates therefore arrive as a **rendered Quarto build** (the output of `quarto render`, i.e. a folder containing `index.html`, `chapters/`, `site_libs/`, `figs/`, `search.json`). A raw render is not publishable as-is, because two patches are applied on top of the Quarto output that Quarto never generates:
+
+1. **`<base href="/recsys/">` in `index.html`** — Quarto emits index.html's asset paths as root-relative (`site_libs/...`). At `/recsys` without a trailing slash the browser would resolve them against the domain root and every stylesheet and script would 404. Chapter pages use `../site_libs/...` and are already correct, so the base tag goes in index.html only.
+2. **The Minastik brand layer** — `site_libs/minastik-brand.css` and `.js`, injected into `<head>` and before `</body>` of every Quarto page. These two files live in git and are restored from `HEAD` on each publish, since the Quarto build never produces them.
+
+Use the publish script to do all of this in one step:
+
+```bash
+# validate a build without touching anything
+python3 scripts/publish-recsys.py /path/to/quarto-output --check
+
+# install into public/recsys/, patch, verify, commit and deploy
+python3 scripts/publish-recsys.py /path/to/quarto-output \
+  --commit "feat(recsys): publish v2.0 build" --push
+```
+
+The script validates the source, replaces `public/recsys/`, restores the brand layer, applies both patches, and then verifies that the base tag and brand layer are present in every page, that all local asset references resolve on disk, and that `search.json` is valid JSON. It refuses to publish a folder that is not a Quarto render.
+
+Files under `public/recsys/` that are **hand-maintained rather than Quarto-generated** are preserved by the build author and should be updated alongside it: `llms.txt`, `sitemap.xml`, `robots.txt`, `minastik_logo.svg`, and `social-card.png`.
+
+> NOTE: `demos/*.html` are standalone interactive widgets with their own hardcoded palette, so the publish script deliberately leaves them unpatched — the brand layer's dark-mode body rules would render them unreadable.
+
 ### Cache
 
 Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).
