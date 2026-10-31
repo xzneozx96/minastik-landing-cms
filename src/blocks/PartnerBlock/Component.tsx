@@ -5,31 +5,25 @@ import { CanvasRevealEffectLogos } from '@/ui/canvase-reveal-logos'
 import RichText from '@/components/RichText'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-
-type PartnerOrderEntry = {
-  partner?: (string | Partner) | null
-}
 
 /**
  * Applies the editor-defined order from the `partnerOrder` global.
  *
- * The order array is allowed to be out of sync with the partners collection:
- * a partner that was never added to the array is shown last, and an entry
- * pointing at a deleted partner is ignored. That way the block always
- * renders every partner exactly once, whatever the editor did.
+ * The order is allowed to be out of sync with the partners collection: a
+ * partner that was never added is shown last, and an entry pointing at a
+ * deleted partner is ignored. That way the block always renders every
+ * partner exactly once, whatever the editor did.
  */
 export const applyPartnerOrder = (
   partners: Partner[],
-  order: PartnerOrderEntry[],
+  order: (string | Partner)[],
 ): Partner[] => {
   const byId = new Map(partners.map((partner) => [String(partner.id), partner]))
   const ordered: Partner[] = []
   const placed = new Set<string>()
 
   for (const entry of order) {
-    const raw = entry?.partner
-    const id = typeof raw === 'object' && raw !== null ? raw.id : raw
+    const id = typeof entry === 'object' && entry !== null ? entry.id : entry
 
     if (!id) continue
 
@@ -64,12 +58,15 @@ export const PartnerBlock: React.FC<PartnerBlockProps> = async ({ richText, popu
         depth: 1,
         limit,
       }),
-      getCachedGlobal('partnerOrder', 1)(),
+      payload.findGlobal({
+        slug: 'partnerOrder',
+        depth: 1,
+      }),
     ])
 
     partners = applyPartnerOrder(
       fetchedPartners.docs,
-      ((partnerOrder as PartnerOrder)?.order as PartnerOrderEntry[]) ?? [],
+      ((partnerOrder as PartnerOrder)?.partners as (string | Partner)[]) ?? [],
     )
   }
 

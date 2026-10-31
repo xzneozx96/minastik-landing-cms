@@ -59,7 +59,7 @@ export const seed = async ({
   await payload.updateGlobal({
     slug: 'partnerOrder',
     data: {
-      order: [],
+      partners: [],
     },
     depth: 0,
     context: {

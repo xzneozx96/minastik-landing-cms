@@ -61,9 +61,7 @@ const { docs: partners } = await payload.find({
   limit: 100,
 })
 
-const order = partners.map((partner) => ({
-  partner: partner.id,
-}))
+const order = partners.map((partner) => partner.id)
 
 console.log(`\nPartners found: ${partners.length}`)
 console.log('Current rendered order:')
@@ -80,7 +78,7 @@ if (dryRun) {
 
 const result = await payload.updateGlobal({
   slug: 'partnerOrder',
-  data: { order },
+  data: { partners: order },
   depth: 0,
   // There is no Next.js request context outside the running app, so the
   // revalidation hook in the global config would throw. The seed script
@@ -90,7 +88,7 @@ const result = await payload.updateGlobal({
   },
 })
 
-const written = result?.order?.length ?? 0
+const written = result?.partners?.length ?? 0
 
 console.log(`\nWrote ${written} entries to the 'partnerOrder' global.`)
 console.log('Open Admin -> Settings -> Partner Order to drag them into a new order.')

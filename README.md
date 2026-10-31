@@ -197,6 +197,25 @@ Files under `public/recsys/` that are **hand-maintained rather than Quarto-gener
 
 > NOTE: `demos/*.html` are standalone interactive widgets with their own hardcoded palette, so the publish script deliberately leaves them unpatched — the brand layer's dark-mode body rules would render them unreadable.
 
+### Ordering the partner logos
+
+The partner logos on the landing page are ordered by the `partnerOrder` global (**Admin → Settings → Partner Order**). Drag the pills to set the order, then Save.
+
+The order is stored as a list of partner IDs on the global. The front-end applies it in `PartnerBlock`, and is deliberately forgiving: a partner that was never added to the list is shown last, and an entry pointing at a deleted partner is ignored — so every partner always renders exactly once.
+
+To reset the order back to the order the partners were created in:
+
+```bash
+npx tsx scripts/backfill-partner-order.ts --dry-run   # preview
+npx tsx scripts/backfill-partner-order.ts --apply     # write
+```
+
+> NOTE: the global uses a `hasMany` relationship rather than an array of
+> relationships on purpose. An array of relationships makes the admin fire one
+> API request per row to resolve each partner's title, which intermittently
+> 500s on serverless deployments under that concurrency; a single `hasMany`
+> relationship resolves all of them in one request.
+
 ### Cache
 
 Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).

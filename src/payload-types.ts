@@ -1543,12 +1543,7 @@ export interface Footer {
  */
 export interface PartnerOrder {
   id: string;
-  order?:
-    | {
-        partner: string | Partner;
-        id?: string | null;
-      }[]
-    | null;
+  partners?: (string | Partner)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1603,12 +1598,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "partnerOrder_select".
  */
 export interface PartnerOrderSelect<T extends boolean = true> {
-  order?:
-    | T
-    | {
-        partner?: T;
-        id?: T;
-      };
+  partners?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

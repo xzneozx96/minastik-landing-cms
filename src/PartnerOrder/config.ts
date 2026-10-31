@@ -9,28 +9,18 @@ export const PartnerOrder: GlobalConfig = {
   },
   admin: {
     description:
-      'Controls the order the partner logos appear in on the website. Drag the rows to reorder.',
+      'Controls the order the partner logos appear in on the website. Drag the pills to reorder.',
   },
   fields: [
     {
-      name: 'order',
-      type: 'array',
+      name: 'partners',
+      type: 'relationship',
+      relationTo: 'partners',
+      hasMany: true,
       admin: {
-        initCollapsed: false,
         description:
           'Partners listed here are shown in this order. A partner that is not listed is shown last, after these.',
       },
-      fields: [
-        {
-          name: 'partner',
-          type: 'relationship',
-          relationTo: 'partners',
-          required: true,
-          admin: {
-            width: '100%',
-          },
-        },
-      ],
     },
   ],
   hooks: {
